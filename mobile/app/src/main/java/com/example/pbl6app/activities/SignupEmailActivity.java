@@ -19,6 +19,7 @@ public class SignupEmailActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         backToLogin();
+        openSignup();
     }
 
     void backToLogin(){

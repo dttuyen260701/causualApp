@@ -317,7 +317,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintVertical_bias="0.97"
         app:layout_constraintWidth_percent="0.85"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -332,7 +332,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98">
+        app:layout_constraintVertical_bias="0.97">
 
         <TextView
             android:id="@+id/tv_login_open"
