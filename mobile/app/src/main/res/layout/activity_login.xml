@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -22,13 +22,12 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="30sp"
-        android:autoSizeMinTextSize="20sp"
+        android:autoSizeMaxTextSize="35sp"
+        android:autoSizeMinTextSize="25sp"
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
         android:text="Login"
         android:textColor="@color/primaryColor"
-        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,1:2"
@@ -43,7 +42,7 @@
         android:id="@+id/layout_user"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/lightPurple"
+        android:background="@color/light_orange"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +52,11 @@
         app:layout_constraintVertical_bias="0.56"
         app:layout_constraintWidth_percent="0.85">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:boxStrokeWidth="0dp">
+
         <EditText
             android:id="@+id/edt_login_user"
             android:layout_width="match_parent"
@@ -60,10 +64,12 @@
             android:autoSizeMaxTextSize="20sp"
             android:autoSizeMinTextSize="15sp"
             android:autoSizeStepGranularity="1sp"
-            android:background="@color/lightPurple"
+            android:background="@color/light_orange"
             android:hint="Email"
             android:paddingHorizontal="20dp"
             android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -71,7 +77,7 @@
         android:id="@+id/layout_pass"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/lightPurple"
+        android:background="@color/light_orange"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +101,7 @@
                 android:autoSizeMinTextSize="15sp"
                 android:autoSizeStepGranularity="1sp"
                 android:autoSizeTextType="uniform"
-                android:background="@color/lightPurple"
+                android:background="@color/light_orange"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:paddingHorizontal="20dp"
