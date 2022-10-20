@@ -198,7 +198,7 @@
             android:autoSizeTextType="uniform"
             android:gravity="center|end"
             android:text="Are you new?"
-            android:textColor="@color/greyPurple"
+            android:textColor="@color/grey"
             android:textStyle="bold"
             app:layout_constraintHeight_percent="0.9"
             app:layout_constraintBottom_toBottomOf="parent"
