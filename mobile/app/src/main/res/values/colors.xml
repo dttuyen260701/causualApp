@@ -8,9 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primaryColor">#E48D41</color>
-    <color name="darkPurple">#39274F</color>
+    <color name="darkOrange">#C16413</color>
     <color name="light_orange">#FDF3EA</color>
-    <color name="greyPurple">#9FA1C2</color>
+    <color name="lightest_orange">#FFFCFA</color>
+    <color name="grey">#8C8B8B</color>
 
 <!--    3a30a3-->
 <!--    6a5f9-->

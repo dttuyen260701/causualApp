@@ -7,37 +7,34 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.pbl6app.databinding.ActivityLoginBinding;
+import com.example.pbl6app.databinding.ActivitySignupEmailBinding;
 
-public class LoginActivity extends AppCompatActivity {
-
-    private ActivityLoginBinding binding;
-
+public class SignupEmailActivity extends AppCompatActivity {
+    private ActivitySignupEmailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivitySignupEmailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        openSignUp();
+        backToLogin();
     }
 
-    void Login(){
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
+    void backToLogin(){
+        binding.imvBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(binding.edtLoginPass.getText().length()==0 && binding.edtLoginUser.getText().length()==0 ){
-                    return;
-                }
+                onBackPressed();
             }
         });
     }
 
-    void openSignUp(){
-        binding.layoutSignup.setOnClickListener(new View.OnClickListener() {
+    void openSignup(){
+        binding.btnSubmitEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignupEmailActivity.class);
+                Intent intent = new Intent(SignupEmailActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
