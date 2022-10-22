@@ -63,7 +63,7 @@
             android:autoSizeMinTextSize="15sp"
             android:autoSizeStepGranularity="1sp"
             android:hint="Name"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -108,7 +108,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Email"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -153,7 +153,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Phone"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -200,7 +200,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Password"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -246,7 +246,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Confirm Password"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -289,8 +289,7 @@
             android:autoSizeMinTextSize="15sp"
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
-            android:hint="dd/mm/yyyy"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
