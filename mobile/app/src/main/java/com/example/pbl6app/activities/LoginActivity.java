@@ -20,16 +20,16 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         openSignUp();
+        Login();
     }
 
     void Login(){
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(binding.edtLoginPass.getText().length()==0 && binding.edtLoginUser.getText().length()==0 ){
-                    return;
-                }
-            }
+        binding.btnLogin.setOnClickListener(view -> {
+//                if(binding.edtLoginPass.getText().length()==0 && binding.edtLoginUser.getText().length()==0 ){
+//                    return;
+//                }
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
         });
     }
 

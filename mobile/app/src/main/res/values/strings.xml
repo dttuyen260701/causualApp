@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">PBL6App</string>
+    <string name="newFeedMenu">New Feed</string>
+    <string name="infoMenu">Information</string>
+    <string name="statusMenu">Status</string>
 </resources>
