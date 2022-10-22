@@ -289,7 +289,7 @@
             android:autoSizeMinTextSize="15sp"
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
-            android:hint="0"
+            android:hint="dd/mm/yyyy"
             android:textColor="@color/white"
             android:inputType="number"/>
 
