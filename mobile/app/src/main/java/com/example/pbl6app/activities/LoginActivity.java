@@ -34,9 +34,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void openSignUp(){
-        binding.layoutSignup.setOnClickListener(view -> {
-//                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-//                startActivity(intent);
+        binding.layoutSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignupEmailActivity.class);
+                startActivity(intent);
+            }
         });
     }
 }
