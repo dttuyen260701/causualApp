@@ -19,26 +19,24 @@ import java.net.URL;
 public class Methods {
     private static Methods Instance;
 
-    private Methods(){
+    private Methods() {
 
     }
 
-    public static Methods getInstance(){
-        if(Instance == null)
+    public static Methods getInstance() {
+        if (Instance == null)
             Instance = new Methods();
         return Instance;
     }
 
 
-    public boolean isNetworkConnected(Context context) {
+    public boolean isNetworkConnectedCheck(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
 
-
-
-//    JSONObject jsonParam = new JSONObject();
+    //    JSONObject jsonParam = new JSONObject();
 //    jsonParam.put("AuditScheduleDetailID", param1);
 //    jsonParam.put("AuditAnswerId", param2);
 //    jsonParam.put("LocalFindingID", param3);
@@ -52,7 +50,8 @@ public class Methods {
         urlConnection.setRequestMethod(method);
         urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
         urlConnection.setRequestProperty("Accept", "application/json");
-        if(!method.equals(HTTPMethod.GET)){
+        urlConnection.setConnectTimeout(10000);
+        if (!method.equals(HTTPMethod.GET)) {
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
 
@@ -62,16 +61,14 @@ public class Methods {
         }
         try {
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
 
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader bin = new BufferedReader(new InputStreamReader(in));
                 data = new JSONObject(bin.readLine());
-            } else {
-
             }
         } catch (IOException e) {
-            data = make_Request(Url, method, js_params);
+            Log.e("TTT", "make_Request: ERROR");
         } finally {
             urlConnection.disconnect();
         }

@@ -37,6 +37,7 @@ public class SignupEmailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SignupEmailActivity.this, SignupActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

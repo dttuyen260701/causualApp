@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         binding.bottomNavigation.setSelectedItemId(R.id.menu_newFeed);
+        Fragment fragment = new NewfeedFragment();
+        addFragment(fragment);
     }
 
     @SuppressLint("NonConstantResourceId")
