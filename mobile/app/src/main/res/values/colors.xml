@@ -13,6 +13,15 @@
     <color name="lightest_orange">#FFFCFA</color>
     <color name="grey">#8C8B8B</color>
     <color name="holoRedDark">#710000</color>
+    <color name="colorNavyBlue">#040268</color>
+    <color name="colorHotMagenta">#ED21D9</color>
+    <color name="colorDarkViolet">#970DD9</color>
+    <color name="colorChineseSilver">#CACACA</color>
+    <color name="colorUnitedNationsBlue">#4C9EEB</color>
+    <color name="colorSilverChalice">#acacac</color>
+    <color name="colorCyanAzure">#4f81bc</color>
+    <color name="colorVenetianRed">#c0504e</color>
+    <color name="colorMiddleGreenYellow">#98bb55</color>
 
 <!--    3a30a3-->
 <!--    6a5f9-->

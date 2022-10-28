@@ -1,17 +1,25 @@
 package com.example.pbl6app.activities;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
 import com.example.pbl6app.Listeners.RequestTaskListener;
-import com.example.pbl6app.databinding.ActivityMainBinding;
+import com.example.pbl6app.R;
 import com.example.pbl6app.databinding.ActivitySignupBinding;
 import com.example.pbl6app.utils.Constant;
 import com.example.pbl6app.utils.Methods;
@@ -19,9 +27,6 @@ import com.example.pbl6app.utils.Methods;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,34 +43,25 @@ public class SignupActivity extends AppCompatActivity {
         initListener();
     }
 
-    private void initView() {
-
-    }
-
     private void initListener() {
 
-        binding.btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.btnSignup.setOnClickListener(view -> {
 
-                if(!onCheckValid()) {
-                    Toast.makeText(SignupActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    JSONObject jsonParam = new JSONObject();
-                    try {
-                        jsonParam.put("email", binding.edtSignupEmail.getText().toString());
-                        jsonParam.put("userName", binding.edtSignupEmail.getText().toString());
-                        jsonParam.put("password", binding.edtSignupPw1.getText().toString());
-                        jsonParam.put("name", binding.edtSignupName.getText().toString());
-                        jsonParam.put("phone", binding.edtSignupPhone.getText().toString());
-                        jsonParam.put("gender", 2);
-                        jsonParam.put("address", "");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    onSubmitData(jsonParam);
+            if (!onCheckValid()) {
+                Toast.makeText(SignupActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
+            } else {
+                JSONObject jsonParam = new JSONObject();
+                try {
+                    jsonParam.put("email", binding.edtSignupEmail.getText().toString());
+                    jsonParam.put("password", binding.edtSignupPw1.getText().toString());
+                    jsonParam.put("name", binding.edtSignupName.getText().toString());
+                    jsonParam.put("phone", binding.edtSignupPhone.getText().toString());
+                    jsonParam.put("gender", 2);
+                    jsonParam.put("address", "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                onSubmitData(jsonParam);
             }
         });
 
@@ -100,9 +96,9 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Pattern pattern = Pattern.compile(Constant.PASSWORD_PATTERN,Pattern.CASE_INSENSITIVE);
+                Pattern pattern = Pattern.compile(Constant.PASSWORD_PATTERN, Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(s);
-                if(matcher.matches()){
+                if (matcher.matches() && checkPass(s.toString())) {
                     binding.tvWarningPass.setVisibility(View.GONE);
                 } else {
                     binding.tvWarningPass.setVisibility(View.VISIBLE);
@@ -123,7 +119,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().equals(binding.edtSignupPw1.getText().toString())){
+                if (s.toString().equals(binding.edtSignupPw1.getText().toString())) {
                     binding.tvWarningConfirm.setVisibility(View.GONE);
                 } else {
                     binding.tvWarningConfirm.setVisibility(View.VISIBLE);
@@ -136,24 +132,28 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        binding.tvLoginOpen.setOnClickListener(v -> finish());
+    }
 
+    private boolean checkPass(String s) {
+        if (s.equals(s.toLowerCase()))
+            return false;
+        return !s.equals(s.toUpperCase());
     }
 
     private boolean onCheckValid() {
-        if(binding.tvWarningConfirm.getVisibility() == View.VISIBLE)
+        if (binding.tvWarningConfirm.getVisibility() == View.VISIBLE)
             return false;
-        if(binding.tvWarningEmail.getVisibility() == View.VISIBLE)
+        if (binding.tvWarningEmail.getVisibility() == View.VISIBLE)
             return false;
-        if(binding.tvWarningPass.getVisibility() == View.VISIBLE)
-            return false;
-        return true;
+        return binding.tvWarningPass.getVisibility() != View.VISIBLE;
     }
 
     private void onSubmitData(JSONObject js_param) {
         RequestTaskAsyncTask requestTaskAsyncTask = new RequestTaskAsyncTask(js_param, false, new RequestTaskListener() {
             @Override
             public void onPre() {
-                if (!Methods.getInstance().isNetworkConnected(SignupActivity.this)) {
+                if (!Methods.getInstance().isNetworkConnectedCheck(SignupActivity.this)) {
                     Toast.makeText(SignupActivity.this, "Please connect Internet", Toast.LENGTH_SHORT).show();
                 }
                 binding.progressBar.setVisibility(View.VISIBLE);
@@ -167,7 +167,9 @@ public class SignupActivity extends AppCompatActivity {
                 if (done) {
                     Log.e("DDD", "onEnd: " + value);
                     if (value) {
-                        Toast.makeText(SignupActivity.this, "Register Success", Toast.LENGTH_SHORT).show();
+                        Constant.email = binding.edtSignupEmail.getText().toString();
+                        Constant.pass = binding.edtSignupPw1.getText().toString();
+                        showDialog();
                     } else {
                         Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
@@ -178,6 +180,31 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         requestTaskAsyncTask.execute(Constant.BASE_URL + "api/app/account/register-as-customer", "POST");
+    }
+
+    private void showDialog() {
+        Dialog dialog = new Dialog(SignupActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.fragment_dialog);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        dialog.setCancelable(true);
+
+        TextView txtContentDialog = dialog.findViewById(R.id.txtContentDialog);
+        txtContentDialog.setText("Trở lại trang đăng nhập.");
+        Button btnCancelDialog = dialog.findViewById(R.id.btnCancelDialog);
+        btnCancelDialog.setOnClickListener(view -> dialog.dismiss());
+
+        Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
+        btnChangeDialog.setOnClickListener(view -> finish());
+        dialog.show();
     }
 
 }
