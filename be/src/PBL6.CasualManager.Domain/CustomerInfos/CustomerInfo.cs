@@ -19,7 +19,7 @@ namespace PBL6.CasualManager.CustomerInfos
         public string Address { get; set; }
 
         [Required]
-        public string AddressPoint { get; set; }    
+        public string AddressPoint { get; set; }
 
         public ICollection<RateOfWorker> RateOfWorkers { get; set; }
 
