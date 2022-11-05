@@ -8,6 +8,7 @@ public class Constant {
     public static final String PASSWORD_PATTERN =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\$@\\$!#%*?&.,])[A-Za-z\\d\\$@\\$!#%*?&.,]{8,}$";
 
+    public static String username = "";
     public static String email = "";
     public static String pass = "";
 }
