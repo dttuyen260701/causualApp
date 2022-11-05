@@ -1,6 +1,7 @@
 package com.example.pbl6app.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -52,7 +53,7 @@ public class SignupActivity extends AppCompatActivity {
             } else {
                 JSONObject jsonParam = new JSONObject();
                 try {
-                    jsonParam.put("email", binding.edtSignupEmail.getText().toString());
+                    jsonParam.put("username", binding.edtSignupUsername.getText().toString());
                     jsonParam.put("password", binding.edtSignupPw1.getText().toString());
                     jsonParam.put("name", binding.edtSignupName.getText().toString());
                     jsonParam.put("phone", binding.edtSignupPhone.getText().toString());
@@ -65,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        binding.edtSignupEmail.addTextChangedListener(new TextWatcher() {
+        binding.edtSignupUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -75,11 +76,11 @@ public class SignupActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Pattern r = Pattern.compile(Constant.EMAIL_PATTERN);
                 Matcher m = r.matcher(s.toString());
-                if (m.find()) {
-                    binding.tvWarningEmail.setVisibility(View.GONE);
-                } else {
-                    binding.tvWarningEmail.setVisibility(View.VISIBLE);
-                }
+//                if (m.find()) {
+//                    binding.tvWarningEmail.setVisibility(View.GONE);
+//                } else {
+//                    binding.tvWarningEmail.setVisibility(View.VISIBLE);
+//                }
             }
 
             @Override
@@ -144,8 +145,8 @@ public class SignupActivity extends AppCompatActivity {
     private boolean onCheckValid() {
         if (binding.tvWarningConfirm.getVisibility() == View.VISIBLE)
             return false;
-        if (binding.tvWarningEmail.getVisibility() == View.VISIBLE)
-            return false;
+//        if (binding.tvWarningEmail.getVisibility() == View.VISIBLE)
+//            return false;
         return binding.tvWarningPass.getVisibility() != View.VISIBLE;
     }
 
@@ -167,9 +168,10 @@ public class SignupActivity extends AppCompatActivity {
                 if (done) {
                     Log.e("DDD", "onEnd: " + value);
                     if (value) {
-                        Constant.email = binding.edtSignupEmail.getText().toString();
+                        Constant.username = binding.edtSignupUsername.getText().toString();
                         Constant.pass = binding.edtSignupPw1.getText().toString();
-                        showDialog();
+                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
@@ -182,29 +184,29 @@ public class SignupActivity extends AppCompatActivity {
         requestTaskAsyncTask.execute(Constant.BASE_URL + "api/app/account/register-as-customer", "POST");
     }
 
-    private void showDialog() {
-        Dialog dialog = new Dialog(SignupActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.fragment_dialog);
-        Window window = dialog.getWindow();
-        if (window == null) {
-            return;
-        }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = Gravity.CENTER;
-        dialog.setCancelable(true);
-
-        TextView txtContentDialog = dialog.findViewById(R.id.txtContentDialog);
-        txtContentDialog.setText("Trở lại trang đăng nhập.");
-        Button btnCancelDialog = dialog.findViewById(R.id.btnCancelDialog);
-        btnCancelDialog.setOnClickListener(view -> dialog.dismiss());
-
-        Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
-        btnChangeDialog.setOnClickListener(view -> finish());
-        dialog.show();
-    }
+//    private void showDialog() {
+//        Dialog dialog = new Dialog(SignupActivity.this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.fragment_dialog);
+//        Window window = dialog.getWindow();
+//        if (window == null) {
+//            return;
+//        }
+//        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+//        windowAttributes.gravity = Gravity.CENTER;
+//        dialog.setCancelable(true);
+//
+//        TextView txtContentDialog = dialog.findViewById(R.id.txtContentDialog);
+//        txtContentDialog.setText("Trở lại trang đăng nhập.");
+//        Button btnCancelDialog = dialog.findViewById(R.id.btnCancelDialog);
+//        btnCancelDialog.setOnClickListener(view -> dialog.dismiss());
+//
+//        Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
+//        btnChangeDialog.setOnClickListener(view -> finish());
+//        dialog.show();
+//    }
 
 }
