@@ -198,7 +198,7 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="bottom"
-            android:text="Name"
+            android:text="Họ và tên"
             android:textStyle="bold"
             android:textColor="@color/primaryColor"
             app:layout_constraintBottom_toTopOf="@+id/edt_name"
@@ -216,7 +216,7 @@
             android:autoSizeMinTextSize="10sp"
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
-            android:hint="Your name"
+            android:hint="Họ và tên"
             android:textColor="@color/black"
             android:paddingHorizontal="20dp"
             android:layout_marginTop="10dp"
@@ -231,59 +231,59 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout2"
-        app:layout_constraintBottom_toTopOf="@+id/constraintlayout4"
-        app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintWidth_percent="0.87">
-
-
-        <TextView
-            android:id="@+id/tv_phone1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintlayout3"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:autoSizeMaxTextSize="18sp"
-            android:autoSizeMinTextSize="10sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="bottom"
-            android:text="Phone"
-            android:textStyle="bold"
-            android:textColor="@color/primaryColor"
-            app:layout_constraintBottom_toTopOf="@+id/edt_phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="0.7" />
-
-        <EditText
-            android:id="@+id/edt_phone"
-            android:layout_width="0dp"
-            android:layout_height="53dp"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeMinTextSize="10sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:hint="Your phone number"
-            android:textColor="@color/black"
-            android:paddingHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintVertical_weight="1"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_phone1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/bg_edt_profile"
-            android:enabled="false"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/constraintlayout2"
+            app:layout_constraintBottom_toTopOf="@+id/constraintlayout4"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintWidth_percent="0.87">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:autoSizeMaxTextSize="18sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="bottom"
+                android:text="Số điện thoại"
+                android:textStyle="bold"
+                android:textColor="@color/primaryColor"
+                app:layout_constraintBottom_toTopOf="@+id/edt_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="0.7" />
+
+            <EditText
+                android:id="@+id/edt_phone"
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:hint="Số điện thoại"
+                android:textColor="@color/black"
+                android:paddingHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintVertical_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_phone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/bg_edt_profile"
+                android:enabled="false"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintlayout4"
@@ -298,6 +298,60 @@
 
 
         <TextView
+            android:id="@+id/tv_gender"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:autoSizeMaxTextSize="18sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="bottom"
+            android:text="Giới tính"
+            android:textStyle="bold"
+            android:textColor="@color/primaryColor"
+            app:layout_constraintBottom_toTopOf="@+id/edt_gender"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="0.7" />
+
+        <EditText
+            android:id="@+id/edt_gender"
+            android:layout_width="0dp"
+            android:layout_height="53dp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:hint="Giới tính"
+            android:textColor="@color/black"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gender"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_edt_profile"
+            android:enabled="false"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintlayout5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout4"
+        app:layout_constraintBottom_toTopOf="@+id/constraintlayout6"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintWidth_percent="0.87">
+
+
+        <TextView
             android:id="@+id/tv_age1"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -306,7 +360,7 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="bottom"
-            android:text="Age"
+            android:text="Ngày sinh"
             android:textStyle="bold"
             android:textColor="@color/primaryColor"
             app:layout_constraintBottom_toTopOf="@+id/edt_age"
@@ -340,13 +394,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout5"
+        android:id="@+id/constraintlayout6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout4"
-        app:layout_constraintBottom_toTopOf="@+id/constraintlayout6"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout5"
+        app:layout_constraintBottom_toTopOf="@+id/constraintlayout7"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.87">
 
@@ -360,7 +414,7 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="bottom"
-            android:text="Province"
+            android:text="Tỉnh/Thành phố"
             android:textStyle="bold"
             android:textColor="@color/primaryColor"
             app:layout_constraintBottom_toTopOf="@+id/spinner_province"
@@ -388,13 +442,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout6"
+        android:id="@+id/constraintlayout7"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout5"
-        app:layout_constraintBottom_toTopOf="@+id/constraintlayout7"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout6"
+        app:layout_constraintBottom_toTopOf="@+id/constraintlayout8"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.87">
 
@@ -408,7 +462,7 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="bottom"
-            android:text="District"
+            android:text="Quận"
             android:textStyle="bold"
             android:textColor="@color/primaryColor"
             app:layout_constraintBottom_toTopOf="@+id/spinner_district"
@@ -436,13 +490,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout7"
+        android:id="@+id/constraintlayout8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout6"
-        app:layout_constraintBottom_toTopOf="@+id/constraintlayout8"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout7"
+        app:layout_constraintBottom_toTopOf="@+id/constraintlayout9"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.87">
 
@@ -455,7 +509,7 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="bottom"
-            android:text="Ward"
+            android:text="Phường"
             android:textStyle="bold"
             android:textColor="@color/primaryColor"
             app:layout_constraintBottom_toTopOf="@+id/spinner_ward"
@@ -484,12 +538,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintlayout8"
+            android:id="@+id/constraintlayout9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintlayout7"
+            app:layout_constraintTop_toBottomOf="@+id/constraintlayout8"
             app:layout_constraintHeight_percent="0.15"
             app:layout_constraintWidth_percent="0.87">
 
@@ -503,7 +557,7 @@
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="bottom"
-                android:text="Address"
+                android:text="Địa chỉ"
                 android:textStyle="bold"
                 android:textColor="@color/primaryColor"
                 app:layout_constraintBottom_toTopOf="@+id/edt_address"
