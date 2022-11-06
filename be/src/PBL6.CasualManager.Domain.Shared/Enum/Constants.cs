@@ -27,4 +27,10 @@ namespace PBL6.CasualManager.Enum
         IsInProcess,
         Complete
     }
+
+    public class Role
+    {
+        public static string WORKER = "Thợ";
+        public static string CUSTOMER = "Khách hàng";
+    }
 }
