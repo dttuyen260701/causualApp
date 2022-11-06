@@ -9,6 +9,7 @@ namespace PBL6.CasualManager.TypeOfJobs
     public class TypeOfJob : FullAuditedAggregateRoot<Guid>
     {
         [Required]
+        [MaxLength(512)]
         public string Name { get; set; }
 
         public string Description { get; set; }

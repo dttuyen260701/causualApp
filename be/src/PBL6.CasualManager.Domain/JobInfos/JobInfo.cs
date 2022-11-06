@@ -12,6 +12,7 @@ namespace PBL6.CasualManager.JobInfos
     public class JobInfo : FullAuditedAggregateRoot<Guid>
     {
         [Required]
+        [MaxLength(512)]
         public string Name { get; set; }
 
         [Required]
