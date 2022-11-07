@@ -1,4 +1,4 @@
-package com.example.pbl6app.utils;
+package com.example.pbl6app.Utils;
 
 public class Constant {
     public static String BASE_URL = "https://45a6-123-19-62-78.ap.ngrok.io/";

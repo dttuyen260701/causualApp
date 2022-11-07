@@ -1,4 +1,4 @@
-package com.example.pbl6app.utils;
+package com.example.pbl6app.Utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

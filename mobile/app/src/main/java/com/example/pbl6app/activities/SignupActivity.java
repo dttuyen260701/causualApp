@@ -1,29 +1,20 @@
 package com.example.pbl6app.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
 import com.example.pbl6app.Listeners.RequestTaskListener;
-import com.example.pbl6app.R;
 import com.example.pbl6app.databinding.ActivitySignupBinding;
-import com.example.pbl6app.utils.Constant;
-import com.example.pbl6app.utils.Methods;
+import com.example.pbl6app.Utils.Constant;
+import com.example.pbl6app.Utils.Methods;
 
 import org.json.JSONException;
 import org.json.JSONObject;
