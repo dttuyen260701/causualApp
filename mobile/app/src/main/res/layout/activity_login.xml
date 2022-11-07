@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".activities.LoginActivity">
 
     <ImageView
@@ -91,14 +90,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:boxStrokeWidth="0dp"
-            app:passwordToggleEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.075"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.66"
-            app:layout_constraintWidth_percent="0.85">
+            app:layout_constraintWidth_percent="0.85"
+            app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/edt_login_pass"
@@ -149,8 +148,8 @@
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/btn_login_bg"
-        android:text="LOGIN"
         android:gravity="center"
+        android:text="LOGIN"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -167,9 +166,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="6:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintDimensionRatio="6:1"
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -188,9 +187,9 @@
             android:text="Sign Up"
             android:textColor="@color/primaryColor"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -208,9 +207,9 @@
             android:text="Are you new?"
             android:textColor="@color/grey"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_signup_open"
+            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

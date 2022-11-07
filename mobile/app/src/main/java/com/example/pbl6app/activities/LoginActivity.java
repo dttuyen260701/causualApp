@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
 import com.example.pbl6app.Listeners.RequestTaskListener;
+import com.example.pbl6app.R;
 import com.example.pbl6app.databinding.ActivityLoginBinding;
-import com.example.pbl6app.Utils.Constant;
-import com.example.pbl6app.Utils.Methods;
+import com.example.pbl6app.fragment.UserHomeFragment;
+import com.example.pbl6app.utils.Constant;
+import com.example.pbl6app.utils.Methods;
 
 import org.json.JSONException;
 import org.json.JSONObject;

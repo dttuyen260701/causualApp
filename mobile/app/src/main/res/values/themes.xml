@@ -22,4 +22,13 @@
         <item name="android:gravity">left|center_vertical</item>
         <item name="layout_goneMarginStart">15dp</item>
     </style>
+
+    <style name="TextTitle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
 </resources>

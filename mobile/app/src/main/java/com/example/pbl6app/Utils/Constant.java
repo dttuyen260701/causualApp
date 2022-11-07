@@ -1,7 +1,7 @@
 package com.example.pbl6app.Utils;
 
 public class Constant {
-    public static String BASE_URL = "https://45a6-123-19-62-78.ap.ngrok.io/";
+    public static String BASE_URL = "https://9a5e-123-19-225-112.ap.ngrok.io/";
 
     public static final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,18}";
 
