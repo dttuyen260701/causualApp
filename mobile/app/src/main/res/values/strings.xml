@@ -3,4 +3,7 @@
     <string name="newFeedMenu">New Feed</string>
     <string name="infoMenu">Information</string>
     <string name="statusMenu">Status</string>
+    <string name="homeMenu">Home</string>
+    <string name="settingMenu">Settings</string>
+    <string name="Workers">Workers in %s</string>
 </resources>

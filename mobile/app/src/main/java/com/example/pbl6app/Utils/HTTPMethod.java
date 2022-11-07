@@ -1,4 +1,4 @@
-package com.example.pbl6app.utils;
+package com.example.pbl6app.Utils;
 /*
  * Created by tuyen.dang on 10/25/2022
  */
