@@ -23,14 +23,17 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.pbl6app.Adapters.SlideShowAdapter;
 import com.example.pbl6app.Adapters.UredServiceAdapter;
+import com.example.pbl6app.Adapters.WorkerLinesAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.SlideItem;
 import com.example.pbl6app.Models.TypeOfJob;
+import com.example.pbl6app.Models.Worker;
+import com.example.pbl6app.R;
 import com.example.pbl6app.databinding.FragmentUserHomeBinding;
 
 import java.util.ArrayList;
 
-public class UserHomeFragment extends Fragment {
+public class UserHomeFragment extends FragmentBase {
     private FragmentUserHomeBinding binding;
     private SlideShowAdapter slideShowAdapter;
     private ArrayList<SlideItem> listSlideItem;
@@ -48,6 +51,8 @@ public class UserHomeFragment extends Fragment {
     };
     private ArrayList<TypeOfJob> listTypeOfJob;
     private UredServiceAdapter uredServiceAdapter;
+    private ArrayList<Worker> listWorker;
+    private WorkerLinesAdapter workerLinesAdapter;
 
 
     @Nullable
@@ -64,7 +69,7 @@ public class UserHomeFragment extends Fragment {
         initListener();
     }
 
-    private void initView() {
+    protected void initView() {
 
         binding.slideShowUserHome.setOffscreenPageLimit(3);//3 item
         binding.slideShowUserHome.setClipToPadding(false);
@@ -117,7 +122,8 @@ public class UserHomeFragment extends Fragment {
         uredServiceAdapter = new UredServiceAdapter(listTypeOfJob, new OnItemCLickListener<TypeOfJob>() {
             @Override
             public void onItemClick(TypeOfJob item) {
-                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
+                ListWorkerFragment fragment = new ListWorkerFragment(item);
+                addFragment(fragment, R.id.ctFragmentUser);
             }
         });
 
@@ -126,9 +132,65 @@ public class UserHomeFragment extends Fragment {
         binding.rclMostUredService.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.HORIZONTAL, false));
         binding.rclMostUredService.setAdapter(uredServiceAdapter);
 
+        listWorker = new ArrayList<>();
+        listWorker.add(new Worker(
+                1,
+                "James Cameron",
+                "https://thegioidienanh.vn/stores/news_dataimages/huonggiang/102017/01/14/3306_140719-ramano-james-cameron-tease_nn0wvp.jpg",
+                1,
+                "Electrical Worker",
+                4.9f,
+                1202
+        ));
+        listWorker.add(new Worker(
+                2,
+                "James Cameron 4",
+                "https://image.thanhnien.vn/w1024/Uploaded/2022/abfluao/2022_09_16/2-2440.jpg",
+                1,
+                "Electrical Worker",
+                4.9f,
+                1203
+        ));
+        listWorker.add(new Worker(
+                3,
+                "James Cameron 3 ",
+                "https://i.imgur.com/dYyNiNQ.jpg",
+                1,
+                "Electrical Worker",
+                4.9f,
+                1210
+        ));
+        listWorker.add(new Worker(
+                4,
+                "James Cameron 2 ",
+                "https://static.tuoitre.vn/tto/i/s626/2011/12/20/GRcMwUpE.jpg",
+                1,
+                "Electrical Worker",
+                4.9f,
+                1120
+        ));
+        listWorker.add(new Worker(
+                5,
+                "James Cameron 1 ",
+                "https://znews-photo.zingcdn.me/w660/Uploaded/aobovhp/2020_09_27/james_cameron_in_atlantis_1.jpg",
+                1,
+                "Electrical Worker",
+                4.9f,
+                2120
+        ));
+        workerLinesAdapter = new WorkerLinesAdapter(listWorker, new OnItemCLickListener<Worker>() {
+            @Override
+            public void onItemClick(Worker item) {
+                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.rclMostWorker.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rclMostWorker.setAdapter(workerLinesAdapter);
+
     }
 
-    private void initListener() {
+    protected void initListener() {
 
     }
 }

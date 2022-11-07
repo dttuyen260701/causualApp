@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutItemWorkerLines"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_worker_item"
+    android:padding="15dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgWorkerLineItem"
+        android:layout_width="88dp"
+        android:layout_height="89dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvNameWorker"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="5dp" />
+
+    <TextView
+        android:id="@+id/tvNameWorker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Dany Walker"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imgFavoWorkerLines"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgWorkerLineItem"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTypeOfJobWorker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="Electrical"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/imgStart"
+        app:layout_constraintEnd_toEndOf="@+id/tvNameWorker"
+        app:layout_constraintStart_toStartOf="@+id/tvNameWorker"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameWorker" />
+
+    <ImageView
+        android:id="@+id/imgStart"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgWorkerLineItem"
+        app:layout_constraintStart_toEndOf="@+id/imgWorkerLineItem"
+        app:srcCompat="@drawable/star" />
+
+    <TextView
+        android:id="@+id/tvCountOfRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="4.9 (120 reviews)"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/imgStart"
+        app:layout_constraintStart_toEndOf="@+id/imgStart"
+        app:layout_constraintTop_toTopOf="@+id/imgStart" />
+
+    <ImageView
+        android:id="@+id/imgFavoWorkerLines"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvNameWorker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_favorite_24"
+        app:tint="@color/ic_favorite_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
