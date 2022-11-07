@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.pbl6app.Listeners.RequestTaskListener;
-import com.example.pbl6app.utils.Methods;
+import com.example.pbl6app.Utils.Methods;
 
 import org.json.JSONObject;
 

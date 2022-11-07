@@ -1,4 +1,4 @@
-package com.example.pbl6app.utils;
+package com.example.pbl6app.Utils;
 
 public class Constant {
     public static String BASE_URL = "https://9a5e-123-19-225-112.ap.ngrok.io/";
@@ -8,6 +8,7 @@ public class Constant {
     public static final String PASSWORD_PATTERN =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\$@\\$!#%*?&.,])[A-Za-z\\d\\$@\\$!#%*?&.,]{8,}$";
 
+    public static String username = "";
     public static String email = "";
     public static String pass = "";
 }

@@ -13,12 +13,15 @@ namespace PBL6.CasualManager.RateOfWorkers
         public Guid CustomerId { get; set; }
 
         [Required]
+        [Range(1, 5)]
         public int AttitudeRate { get; set; }
 
         [Required]
+        [Range(1, 5)]
         public int SkillRate { get; set; }
 
         [Required]
+        [Range(1, 5)]
         public int PleasureRate { get; set; }
 
         public string Comment { get; set; }

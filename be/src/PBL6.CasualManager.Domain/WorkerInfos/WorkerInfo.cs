@@ -15,7 +15,15 @@ namespace PBL6.CasualManager.WorkerInfos
         public Guid UserId { get; set; }
 
         [Required]
+        [MaxLength(12)]
         public string IdentityCard { get; set; }
+
+        [Required]
+        public DateTime IdentityCardDate { get; set; }
+
+        [Required]
+        [MaxLength(256)]
+        public string IdentityCardBy { get; set; }
 
         [Required]
         public Gender Gender { get; set; }
@@ -24,19 +32,34 @@ namespace PBL6.CasualManager.WorkerInfos
         public DateTime DateOfBirth { get; set; }
 
         [Required]
+        public string StartWorkingTime { get; set; }
+
+        [Required]
+        public string EndWorkingTime { get; set; }
+
+        public string ProvinceId { get; set; }
+
+        public string ProvinceName { get; set; }
+
+        public string DistrictId { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string WardId { get; set; }
+
+        public string WardName { get; set; }
+
         public string Address { get; set; }
 
-        [Required]
         public string AddressPoint { get; set; }
-
-        [Required]
-        public string Workingime { get; set; }
 
         public int AverageRate { get; set; }
 
         public WorkerStatus Status { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string Avatar { get; set; }
 
         public ICollection<JobInfoOfWorker> JobInfoOfWorkers { get; set; }
 

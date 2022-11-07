@@ -13,13 +13,30 @@ namespace PBL6.CasualManager.CustomerInfos
     {
         public Guid UserId { get; set; }
 
+        [Required]
         public Gender Gender { get; set; }
 
         [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        public string ProvinceId { get; set; }
+
+        public string ProvinceName { get; set; }
+
+        public string DistrictId { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string WardId { get; set; }
+
+        public string WardName { get; set; }
+
         public string Address { get; set; }
 
         [Required]
         public string AddressPoint { get; set; }
+
+        public string Avatar { get; set; }
 
         public ICollection<RateOfWorker> RateOfWorkers { get; set; }
 
