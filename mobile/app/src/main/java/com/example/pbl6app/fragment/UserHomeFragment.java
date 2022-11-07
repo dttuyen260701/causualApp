@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -22,7 +21,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.pbl6app.Adapters.SlideShowAdapter;
-import com.example.pbl6app.Adapters.UredServiceAdapter;
+import com.example.pbl6app.Adapters.UsedServiceAdapter;
 import com.example.pbl6app.Adapters.WorkerLinesAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.SlideItem;
@@ -50,7 +49,7 @@ public class UserHomeFragment extends FragmentBase {
         }
     };
     private ArrayList<TypeOfJob> listTypeOfJob;
-    private UredServiceAdapter uredServiceAdapter;
+    private UsedServiceAdapter uredServiceAdapter;
     private ArrayList<Worker> listWorker;
     private WorkerLinesAdapter workerLinesAdapter;
 
@@ -119,7 +118,7 @@ public class UserHomeFragment extends FragmentBase {
         listTypeOfJob.add(new TypeOfJob(11, "Fixing 5", "https://cdn-icons-png.flaticon.com/512/2907/2907930.png"));
         listTypeOfJob.add(new TypeOfJob(12, "Cleaning 5", "https://cdn-icons-png.flaticon.com/512/2946/2946701.png"));
 
-        uredServiceAdapter = new UredServiceAdapter(listTypeOfJob, new OnItemCLickListener<TypeOfJob>() {
+        uredServiceAdapter = new UsedServiceAdapter(listTypeOfJob, new OnItemCLickListener<TypeOfJob>() {
             @Override
             public void onItemClick(TypeOfJob item) {
                 ListWorkerFragment fragment = new ListWorkerFragment(item);

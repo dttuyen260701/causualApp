@@ -5,7 +5,7 @@
     android:id="@+id/layoutItemWorkerLines"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_marginVertical="10dp"
     android:background="@drawable/bg_worker_item"
     android:padding="15dp">
 
@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="5dp" />
+        app:riv_corner_radius="20dp" />
 
     <TextView
         android:id="@+id/tvNameWorker"

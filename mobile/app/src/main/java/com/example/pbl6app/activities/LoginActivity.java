@@ -31,8 +31,9 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        initView();
-        initListener();
+        startActivity(new Intent(LoginActivity.this, MainActivityUser.class));
+//        initView();
+//        initListener();
     }
 
     private void initView() {
