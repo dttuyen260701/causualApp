@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
 import com.example.pbl6app.Listeners.RequestTaskListener;
 import com.example.pbl6app.databinding.ActivityLoginBinding;
-import com.example.pbl6app.utils.Constant;
-import com.example.pbl6app.utils.Methods;
+import com.example.pbl6app.Utils.Constant;
+import com.example.pbl6app.Utils.Methods;
 
 import org.json.JSONException;
 import org.json.JSONObject;
