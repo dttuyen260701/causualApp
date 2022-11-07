@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PBL6.CasualManager.Wards;
 using PBL6.CasualManager.CustomerInfos;
-using PBL6.CasualManager.Districts;
 using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.Orders;
 using PBL6.CasualManager.PostOfDemands;
 using PBL6.CasualManager.PrieceDetails;
-using PBL6.CasualManager.Provinces;
 using PBL6.CasualManager.RateOfWorkers;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.WorkerInfos;
@@ -88,11 +85,6 @@ public class CasualManagerDbContext :
 
     public DbSet<RateOfWorker> RateOfWorkers { get; set; }
 
-    public DbSet<Province> Provinces { get; set; }
-
-    public DbSet<District> Districts { get; set; }
-
-    public DbSet<Ward> Wards { get; set; }
     #endregion
 
     public CasualManagerDbContext(DbContextOptions<CasualManagerDbContext> options)
@@ -195,26 +187,6 @@ public class CasualManagerDbContext :
             b.ToTable(CasualManagerConsts.DbTablePrefix + "RateOfWorker", CasualManagerConsts.DbSchema);
             b.HasOne(s => s.WorkerInfo).WithMany(p => p.RateOfWorkers).HasForeignKey(s => s.WorkerId).IsRequired();
             b.HasOne(s => s.CustomerInfo).WithMany(p => p.RateOfWorkers).HasForeignKey(s => s.CustomerId).IsRequired();
-            b.ConfigureByConvention();
-        });
-
-        builder.Entity<Province>(b =>
-        {
-            b.ToTable(CasualManagerConsts.DbTablePrefix + "Province", CasualManagerConsts.DbSchema);
-            b.ConfigureByConvention();
-        });
-
-        builder.Entity<District>(b =>
-        {
-            b.ToTable(CasualManagerConsts.DbTablePrefix + "District", CasualManagerConsts.DbSchema);
-            b.HasOne(s => s.Province).WithMany(p => p.Districts).HasForeignKey(s => s.ProvinceId).IsRequired();
-            b.ConfigureByConvention();
-        });
-
-        builder.Entity<Ward>(b =>
-        {
-            b.ToTable(CasualManagerConsts.DbTablePrefix + "Ward", CasualManagerConsts.DbSchema);
-            b.HasOne(s => s.District).WithMany(p => p.Wards).HasForeignKey(s => s.DistrictId).IsRequired();
             b.ConfigureByConvention();
         });
     }
