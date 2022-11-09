@@ -19,7 +19,7 @@ namespace PBL6.CasualManager.JobInfos
         public string Description { get; set; }
 
         [Required]
-        public float Prices { get; set; }
+        public int Prices { get; set; }
 
         public Guid TypeOfJobId { get; set; }
 

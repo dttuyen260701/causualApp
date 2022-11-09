@@ -6,5 +6,6 @@ public class CasualManagerMenus
     public const string Home = Prefix + ".Home";
 
     //Add your menu items here...
-
+    public const string TypeOfJob = Prefix + ".TypeOfJob";
+    public const string JobInfo = Prefix + ".JobInfo";
 }
