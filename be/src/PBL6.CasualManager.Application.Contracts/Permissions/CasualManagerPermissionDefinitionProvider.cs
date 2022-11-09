@@ -9,8 +9,16 @@ public class CasualManagerPermissionDefinitionProvider : PermissionDefinitionPro
     public override void Define(IPermissionDefinitionContext context)
     {
         var myGroup = context.AddGroup(CasualManagerPermissions.GroupName);
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(CasualManagerPermissions.MyPermission1, L("Permission:MyPermission1"));
+
+        var typesOfCertificatePermission = myGroup.AddPermission(CasualManagerPermissions.TypesOfJob.Default, L("Permission:TypesOfJob"));
+        typesOfCertificatePermission.AddChild(CasualManagerPermissions.TypesOfJob.Create, L("Permission:Create"));
+        typesOfCertificatePermission.AddChild(CasualManagerPermissions.TypesOfJob.Update, L("Permission:Update"));
+        typesOfCertificatePermission.AddChild(CasualManagerPermissions.TypesOfJob.Delete, L("Permission:Delete"));
+
+        var jobInfoPermission = myGroup.AddPermission(CasualManagerPermissions.JobInfo.Default, L("Permission:JobInfo"));
+        jobInfoPermission.AddChild(CasualManagerPermissions.JobInfo.Create, L("Permission:Create"));
+        jobInfoPermission.AddChild(CasualManagerPermissions.JobInfo.Update, L("Permission:Update"));
+        jobInfoPermission.AddChild(CasualManagerPermissions.JobInfo.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

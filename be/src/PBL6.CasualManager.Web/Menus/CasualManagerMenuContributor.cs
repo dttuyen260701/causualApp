@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using PBL6.CasualManager.Localization;
 using PBL6.CasualManager.MultiTenancy;
+using PBL6.CasualManager.Permissions;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -45,5 +47,8 @@ public class CasualManagerMenuContributor : IMenuContributor
 
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
+
+        context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.TypeOfJob, l["Menu:TypeOfJob"], "/TypeOfJobs", icon: "fa fa-bookmark", order: 4).RequirePermissions(CasualManagerPermissions.TypesOfJob.Default));
+        context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.JobInfo, l["Menu:JobInfo"], "/JobInfos", icon: "fa fa-bookmark", order: 5).RequirePermissions(CasualManagerPermissions.JobInfo.Default));
     }
 }

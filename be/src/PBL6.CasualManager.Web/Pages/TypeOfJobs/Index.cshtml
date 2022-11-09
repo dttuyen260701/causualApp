@@ -1,0 +1,55 @@
+﻿@page
+@using PBL6.CasualManager.Web.Menus
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using PBL6.CasualManager.Web.Pages.TypeOfJobs
+@using PBL6.CasualManager.Localization
+@using PBL6.CasualManager.Permissions
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<CasualManagerResource> L
+@inject IAuthorizationService Authorization
+@model PBL6.CasualManager.Web.Pages.TypeOfJobs.IndexModel
+@{
+    PageLayout.Content.Title = L["Menu:TypeOfJob"].Value;
+    PageLayout.Content.MenuItemName = CasualManagerMenus.TypeOfJob;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/TypeOfJobs/index.js" />
+}
+
+<section class="px-3">
+    <abp-row class="py-3">
+        <abp-column size-md="_6">
+            <h3>@L["TypeOfJob"]</h3>
+        </abp-column>
+        <abp-column size-md="_6" class="d-flex flex-row-reverse">
+            @if (await Authorization.IsGrantedAsync(CasualManagerPermissions.TypesOfJob.Create))
+            {
+                <abp-button id="new-type-of-job"
+                            text="@L["TypeOfJob:Create"].Value"
+                            icon="plus"
+                            button-type="Outline_Primary" />
+            }
+        </abp-column>
+    </abp-row>
+
+    <abp-card>
+        <abp-row class="px-3 pt-2">
+            <abp-column size-md="_6">
+                <abp-input asp-for="ViewModel.FilterName"></abp-input>
+            </abp-column>
+            <abp-column size-md="_6" class="pt-3">
+                <abp-button text="@L["Common:Search"].Value" icon="search" button-type="Outline_Primary" id="search"></abp-button>
+            </abp-column>
+        </abp-row>
+    </abp-card>
+
+    <abp-card>
+        <abp-card-body>
+            <abp-table striped-rows="true" class="table-bordered" id="type-of-job-datatable"></abp-table>
+        </abp-card-body>
+    </abp-card>
+</section>

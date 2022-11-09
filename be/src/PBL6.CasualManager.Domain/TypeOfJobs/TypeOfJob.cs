@@ -14,6 +14,8 @@ namespace PBL6.CasualManager.TypeOfJobs
 
         public string Description { get; set; }
 
+        public string Avatar { get; set; }
+
         public ICollection<JobInfo> JobInfos { get; set; }
 
         public TypeOfJob()

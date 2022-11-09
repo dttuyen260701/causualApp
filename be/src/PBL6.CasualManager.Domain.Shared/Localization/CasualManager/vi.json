@@ -3,6 +3,40 @@
   "texts": {
     "Menu:Home": "Trang chủ",
     "Welcome": "Chào mừng bạn",
-    "LongWelcomeMessage": "Chào mừng bạn đến ứng dụng. Đây là một dự án khởi nghiệp dựa trên khung ABP. Để biết thêm thông tin, hãy truy cập abp.io."
+    "LongWelcomeMessage": "Chào mừng bạn đến ứng dụng. Đây là một dự án khởi nghiệp dựa trên khung ABP. Để biết thêm thông tin, hãy truy cập abp.io.",
+    "CasualManager": "Quản lý hệ thống",
+
+    "Permission:Create": "Thêm",
+    "Permission:Update": "Sửa",
+    "Permission:Delete": "Xoá",
+    "Permission:TypesOfJob": "Loại công việc",
+    "Permission:JobInfo": "Thông tin công việc",
+
+    "Menu:TypeOfJob": "Quản lý loại công việc",
+    "Menu:JobInfo": "Quản lý công việc",
+
+    "Common:DeletionConfirmationMessage": "Bạn có chắc muốn xoá {0}?",
+    "Common:SuccessfullyDeleted": "Xoá thành công",
+    "Common:Search": "Tìm kiếm",
+    "Common:All": "Tất cả",
+
+    "TypeOfJob": "Danh sách loại công việc",
+    "TypeOfJob:Create": "Thêm loại việc làm",
+    "TypeOfJob:Edit": "Chỉnh sửa loại việc làm",
+    "TypeOfJob:Name": "Tên loại việc làm",
+    "TypeOfJob:Description": "Mô tả",
+    "TypeOfJob:EnterName": "Nhập tên loại việc làm...",
+    "TypeOfJob:EnterDescription": "Nhập mô tả...",
+
+    "JobInfo": "Danh sách các công việc",
+    "JobInfo:Create": "Thêm công việc",
+    "JobInfo:Edit": "Chỉnh sửa công việc",
+    "JobInfo:Name": "Tên công việc",
+    "JobInfo:Description": "Mô tả công việc",
+    "JobInfo:Prices": "Mức giá",
+    "JobInfo:TypeOfJobName": "Loại công việc",
+    "JobInfo:Key": "Từ khoá",
+    "JobInfo:EnterNameOrTypeOfJobName": "Nhập tên công việc hoặc tên loại công việc...",
+    "JobInfo:FilterTypeOfJob": "Loại công việc"
   }
 }
