@@ -64,7 +64,7 @@
                 android:autoSizeMinTextSize="15sp"
                 android:autoSizeStepGranularity="1sp"
                 android:background="@color/light_orange"
-                android:hint="Email"
+                android:hint="Username"
                 android:paddingHorizontal="20dp"
                 android:textColor="@color/primaryColor" />
 
@@ -243,8 +243,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.412" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -112,7 +112,8 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Số điện thoại"
-            android:inputType="textEmailAddress"
+            android:inputType="phone"
+            android:maxLength="10"
             android:textColor="@color/black"
             tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
@@ -160,8 +161,6 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Username"
-            android:inputType="phone"
-            android:maxLength="10"
             android:textColor="@color/black"
             tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 

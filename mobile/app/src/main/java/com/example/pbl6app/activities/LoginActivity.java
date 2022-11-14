@@ -6,24 +6,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
-import com.example.pbl6app.Listeners.RequestTaskListener;
-import com.example.pbl6app.R;
+import com.example.pbl6app.Models.User;
+import com.example.pbl6app.Retrofit.ApiService;
+import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.databinding.ActivityLoginBinding;
-import com.example.pbl6app.fragment.UserHomeFragment;
-import com.example.pbl6app.utils.Constant;
-import com.example.pbl6app.utils.Methods;
+import com.example.pbl6app.Utils.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        if(!Constant.email.isEmpty()) {
-            binding.edtLoginUser.setText(Constant.email);
+        if(!Constant.username.isEmpty()) {
+            binding.edtLoginUser.setText(Constant.username);
         }
 
         if(!Constant.pass.isEmpty()) {
@@ -53,19 +55,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initListener() {
         binding.btnLogin.setOnClickListener(view -> {
+
+
             if (!onCheckValid()) {
                 Toast.makeText(LoginActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
             } else {
-
-                JSONObject jsonParam = new JSONObject();
-                try {
-                    jsonParam.put("email", binding.edtLoginUser.getText().toString());
-                    jsonParam.put("password", binding.edtLoginPass.getText().toString());
-                    jsonParam.put("rememberme", false);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                onSubmitData(jsonParam);
+                onSubmitData();
             }
         });
 
@@ -82,40 +77,51 @@ public class LoginActivity extends AppCompatActivity {
         return !binding.edtLoginPass.getText().toString().isEmpty();
     }
 
-    private void onSubmitData(JSONObject js_param) {
-        RequestTaskAsyncTask requestTaskAsyncTask = new RequestTaskAsyncTask(js_param, false, new RequestTaskListener() {
-            @Override
-            public void onPre() {
-                if (!Methods.getInstance().isNetworkConnectedCheck(LoginActivity.this)) {
-                    Toast.makeText(LoginActivity.this, "Please connect Internet", Toast.LENGTH_SHORT).show();
-                }
-                binding.progressBar.setVisibility(View.VISIBLE);
-                binding.viewBg.setVisibility(View.VISIBLE);
-                binding.layoutPass.setVisibility(View.GONE);
-                binding.layoutUser.setVisibility(View.GONE);
-            }
+    private void onSubmitData() {
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
+        binding.layoutPass.setVisibility(View.GONE);
+        binding.layoutUser.setVisibility(View.GONE);
+
+        Map<String , String> options = new HashMap<>();
+        options.put("userName", binding.edtLoginUser.getText().toString());
+        options.put("password", binding.edtLoginPass.getText().toString());
+        options.put("rememberMe", "false");
+        options.put("withRole", "0");
+        ApiService.apiService.login(options).enqueue(new Callback<ResponseRetrofit<User>>() {
             @Override
-            public void onEnd(boolean value, boolean done, String message) {
+            public void onResponse(Call<ResponseRetrofit<User>> call, Response<ResponseRetrofit<User>> response) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
                 binding.layoutPass.setVisibility(View.VISIBLE);
                 binding.layoutUser.setVisibility(View.VISIBLE);
-                if (done) {
-                    Log.e("DDD", "onEnd: " + value);
-                    if (value) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                if(response.code() == HttpURLConnection.HTTP_OK) {
+                    if(response.body().isSuccessed()) {
+                        Constant.USER = response.body().getResultObj();
+                        if(Constant.USER.getRole().equalsIgnoreCase("Thợ")) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            startActivity(new Intent(LoginActivity.this, MainActivityUser.class));
+                            finish();
+                        }
                     } else {
-                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
 
-        requestTaskAsyncTask.execute(Constant.BASE_URL + "api/app/login/login", "POST");
+            @Override
+            public void onFailure(Call<ResponseRetrofit<User>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                binding.layoutPass.setVisibility(View.VISIBLE);
+                binding.layoutUser.setVisibility(View.VISIBLE);
+                Log.e("TTT", "onFailure: ", t);
+            }
+        });
     }
 }

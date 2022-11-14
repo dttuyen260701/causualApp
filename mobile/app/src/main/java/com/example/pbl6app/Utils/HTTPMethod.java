@@ -4,9 +4,9 @@ package com.example.pbl6app.Utils;
  */
 
 public class HTTPMethod {
-    public static String GET = "GET";
-    public static String POST = "POST";
-    public static String PUT = "PUT";
-    public static String DELETE = "DELETE";
+    public static final String GET = "GET";
+    public static final String POST = "POST";
+    public static final String PUT = "PUT";
+    public static final String DELETE = "DELETE";
 
 }

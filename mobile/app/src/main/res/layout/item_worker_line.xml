@@ -23,13 +23,15 @@
 
     <TextView
         android:id="@+id/tvNameWorker"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Dany Walker"
         android:textColor="@color/black"
         android:textSize="17sp"
         android:textStyle="bold"
+        android:ellipsize="end"
+        android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@+id/imgFavoWorkerLines"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imgWorkerLineItem"
@@ -43,6 +45,8 @@
         android:text="Electrical"
         android:textColor="@color/black"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/imgStart"
         app:layout_constraintEnd_toEndOf="@+id/tvNameWorker"
         app:layout_constraintStart_toStartOf="@+id/tvNameWorker"
@@ -70,8 +74,8 @@
 
     <ImageView
         android:id="@+id/imgFavoWorkerLines"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"

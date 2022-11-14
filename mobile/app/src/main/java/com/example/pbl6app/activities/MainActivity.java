@@ -7,16 +7,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.pbl6app.R;
+import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ActivityMainBinding;
 import com.example.pbl6app.fragment.NewfeedFragment;
 import com.example.pbl6app.fragment.ProfileFragment;
 import com.example.pbl6app.fragment.StatusFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        Toast.makeText(MainActivity.this, "Chào mừng " + Constant.USER.getName() + " !!!", Toast.LENGTH_SHORT).show();
         binding.bottomNavigation.setSelectedItemId(R.id.menu_newFeed);
         Fragment fragment = new NewfeedFragment();
         addFragment(fragment);
@@ -40,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private void initListener() {
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    clearBackstack();
+                    Thread.currentThread().interrupt();
+                }
+            }).start();
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.menu_Info:

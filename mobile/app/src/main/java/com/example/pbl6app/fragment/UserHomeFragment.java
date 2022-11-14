@@ -4,13 +4,14 @@ package com.example.pbl6app.fragment;
  * Created by tuyen.dang on 11/6/2022
  */
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,11 @@ import com.example.pbl6app.R;
 import com.example.pbl6app.databinding.FragmentUserHomeBinding;
 
 import java.util.ArrayList;
+import com.example.pbl6app.Utils.Constant;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 public class UserHomeFragment extends FragmentBase {
     private FragmentUserHomeBinding binding;
@@ -70,9 +76,27 @@ public class UserHomeFragment extends FragmentBase {
 
     protected void initView() {
 
+        Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(binding.imageView2, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                    }
+                });
+
+        binding.tvNameFragUserHome.setText(Constant.USER.getName());
+
         binding.slideShowUserHome.setOffscreenPageLimit(3);//3 item
         binding.slideShowUserHome.setClipToPadding(false);
         binding.slideShowUserHome.setClipChildren(false);
+
+        binding.tvNameFragUserHome.setText("Welcome");
+        binding.tvDescripFragUserHome.setText(Constant.USER.getName());
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(20));
@@ -177,12 +201,7 @@ public class UserHomeFragment extends FragmentBase {
                 4.9f,
                 2120
         ));
-        workerLinesAdapter = new WorkerLinesAdapter(listWorker, new OnItemCLickListener<Worker>() {
-            @Override
-            public void onItemClick(Worker item) {
-                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        workerLinesAdapter = new WorkerLinesAdapter(listWorker, item -> addFragment(new WorkerDetailFragment(item.getId()), R.id.ctFragmentUser));
 
         binding.rclMostWorker.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rclMostWorker.setAdapter(workerLinesAdapter);
