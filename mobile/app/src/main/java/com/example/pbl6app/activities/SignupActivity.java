@@ -1,5 +1,6 @@
 package com.example.pbl6app.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
 import com.example.pbl6app.Listeners.RequestTaskListener;
+import com.example.pbl6app.Models.User;
+import com.example.pbl6app.Retrofit.ApiService;
+import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.databinding.ActivitySignupBinding;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.Methods;
@@ -19,8 +23,17 @@ import com.example.pbl6app.Utils.Methods;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignupActivity extends AppCompatActivity {
     private ActivitySignupBinding binding;
@@ -42,41 +55,7 @@ public class SignupActivity extends AppCompatActivity {
             if (!onCheckValid()) {
                 Toast.makeText(SignupActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
             } else {
-                JSONObject jsonParam = new JSONObject();
-                try {
-                    jsonParam.put("username", binding.edtSignupUsername.getText().toString());
-                    jsonParam.put("password", binding.edtSignupPw1.getText().toString());
-                    jsonParam.put("name", binding.edtSignupName.getText().toString());
-                    jsonParam.put("phone", binding.edtSignupPhone.getText().toString());
-                    jsonParam.put("gender", 2);
-                    jsonParam.put("address", "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                onSubmitData(jsonParam);
-            }
-        });
-
-        binding.edtSignupUsername.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Pattern r = Pattern.compile(Constant.EMAIL_PATTERN);
-                Matcher m = r.matcher(s.toString());
-//                if (m.find()) {
-//                    binding.tvWarningEmail.setVisibility(View.GONE);
-//                } else {
-//                    binding.tvWarningEmail.setVisibility(View.VISIBLE);
-//                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                onSubmitData();
             }
         });
 
@@ -141,63 +120,46 @@ public class SignupActivity extends AppCompatActivity {
         return binding.tvWarningPass.getVisibility() != View.VISIBLE;
     }
 
-    private void onSubmitData(JSONObject js_param) {
-        RequestTaskAsyncTask requestTaskAsyncTask = new RequestTaskAsyncTask(js_param, false, new RequestTaskListener() {
-            @Override
-            public void onPre() {
-                if (!Methods.getInstance().isNetworkConnectedCheck(SignupActivity.this)) {
-                    Toast.makeText(SignupActivity.this, "Please connect Internet", Toast.LENGTH_SHORT).show();
-                }
-                binding.progressBar.setVisibility(View.VISIBLE);
-                binding.viewBg.setVisibility(View.VISIBLE);
-            }
+    @SuppressLint("SimpleDateFormat")
+    private void onSubmitData() {
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
+
+        Map<String , String> options = new HashMap<>();
+        options.put("email", Constant.email);
+        options.put("password", binding.edtSignupPw1.getText().toString());
+        options.put("userName", binding.edtSignupUsername.getText().toString());
+        options.put("name", binding.edtSignupName.getText().toString());
+        options.put("phone", binding.edtSignupPhone.getText().toString());
+        ApiService.apiService.register(options).enqueue(new Callback<ResponseRetrofit<Object>>() {
             @Override
-            public void onEnd(boolean value, boolean done, String message) {
+            public void onResponse(Call<ResponseRetrofit<Object>> call, Response<ResponseRetrofit<Object>> response) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
-                if (done) {
-                    Log.e("DDD", "onEnd: " + value);
-                    if (value) {
+                if(response.code() == HttpURLConnection.HTTP_OK) {
+                    if(response.body().isSuccessed()) {
                         Constant.username = binding.edtSignupUsername.getText().toString();
                         Constant.pass = binding.edtSignupPw1.getText().toString();
                         Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                         startActivity(intent);
+                        Toast.makeText(SignupActivity.this, "Đăng kí thành công!!!", Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
-                        Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SignupActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onFailure(Call<ResponseRetrofit<Object>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                Log.e("TTT", "onFailure: ", t);
+            }
         });
-
-        requestTaskAsyncTask.execute(Constant.BASE_URL + "api/app/account/register-as-customer", "POST");
     }
-
-//    private void showDialog() {
-//        Dialog dialog = new Dialog(SignupActivity.this);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.fragment_dialog);
-//        Window window = dialog.getWindow();
-//        if (window == null) {
-//            return;
-//        }
-//        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//
-//        WindowManager.LayoutParams windowAttributes = window.getAttributes();
-//        windowAttributes.gravity = Gravity.CENTER;
-//        dialog.setCancelable(true);
-//
-//        TextView txtContentDialog = dialog.findViewById(R.id.txtContentDialog);
-//        txtContentDialog.setText("Trở lại trang đăng nhập.");
-//        Button btnCancelDialog = dialog.findViewById(R.id.btnCancelDialog);
-//        btnCancelDialog.setOnClickListener(view -> dialog.dismiss());
-//
-//        Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
-//        btnChangeDialog.setOnClickListener(view -> finish());
-//        dialog.show();
-//    }
 
 }

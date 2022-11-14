@@ -49,12 +49,7 @@ public class ListWorkerFragment extends FragmentBase{
 
         listWorker = new ArrayList<>();
         initData();
-        workerLinesAdapter = new WorkerLinesAdapter(listWorker, new OnItemCLickListener<Worker>() {
-            @Override
-            public void onItemClick(Worker item) {
-
-            }
-        });
+        workerLinesAdapter = new WorkerLinesAdapter(listWorker, item -> addFragment(new WorkerDetailFragment(item.getId()), R.id.ctFragmentUser));
 
         binding.recyclerWorker.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerWorker.setAdapter(workerLinesAdapter);
