@@ -5,13 +5,11 @@ using System.Text;
 
 namespace PBL6.CasualManager.Accounts
 {
-    public class RegisterCustomerRequest
+    public class LoginRequest
     {
-        public string Email { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
+        public bool RememberMe { get; set; }
+        public WithRole WithRole { get; set; }
     }
-
 }

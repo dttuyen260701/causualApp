@@ -11,5 +11,6 @@ namespace PBL6.CasualManager.WorkerInfos
     public interface IWorkerInfoRepository : IRepository<WorkerInfo, Guid>
     {
         Task<WorkerInfo> GetEntityWorkerInfoHaveUserId(Guid userId);
+        Task<bool> CheckExistIdentityCard(string IdentityCard);
     }
 }

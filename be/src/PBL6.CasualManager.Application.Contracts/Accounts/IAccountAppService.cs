@@ -11,6 +11,8 @@ namespace PBL6.CasualManager.Accounts
         Task<ApiResult<string>> RegisterAsCustomer(RegisterCustomerRequest request);
 
         Task<ApiResult<string>> RegisterAsWorker(RegisterWorkerRequest request);
+
+        Task<ApiResult<UserInfoAllDto>> PostLogin(LoginRequest request);
     }
 
 }

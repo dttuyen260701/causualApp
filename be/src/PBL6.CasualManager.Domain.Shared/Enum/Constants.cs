@@ -4,6 +4,19 @@ namespace PBL6.CasualManager.Enum
 {
     public class Constants
     {
+        public const string LinkToFolderImageWorker = "/upload_images/worker/";
+        public const string LinkToFolderImageCustomer = "/upload_images/customer/";
+        public const string PrefixAvatarWorker = "AvatarWorker-";
+        public const string PrefixAvatarCustomer = "AvatarCustomer-";
+
+    }
+
+    public enum WithRole
+    {
+        WhateverRole,
+        Worker,
+        Customer,
+        Admin
     }
 
     public enum Gender
