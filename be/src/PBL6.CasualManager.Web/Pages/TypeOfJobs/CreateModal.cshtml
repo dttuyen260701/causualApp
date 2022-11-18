@@ -8,12 +8,48 @@
     Layout = null;
 }
 
-<abp-dynamic-form abp-model="ViewModel" data-ajaxForm="true" asp-page="CreateModal">
-    <abp-modal>
+<abp-script src="/Pages/TypeOfJobs/create-update.js"></abp-script>
+<abp-style src="/Pages/TypeOfJobs/create-update.css" />
+
+<form asp-page="/TypeOfJobs/CreateModal">
+    <abp-modal size="Large">
         <abp-modal-header title="@L["TypeOfJob:Create"].Value" class="bg-light"></abp-modal-header>
         <abp-modal-body>
-            <abp-form-content />
+            <abp-row class="type-of-job-create-update-screen">
+                <abp-column size-md="_4" class="icon-container">
+                    <div class="icon-wrapper">
+                        <img class="icon-pic image" src="~/upload_images/type_of_job/iconDefault.png" width="191px" id="iconImage" />
+                    </div>
+                    <div class="upload-icon">
+                        <div class="upload-btn-wrapper">
+                            <div class="btn btn-upload ">
+                                <input type="file" asp-for="@Model.FileIcon" aria-hidden="true"
+                                       class="file-upload hidden" minrate="1.45" maxrate="1.55" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center icon-size">
+                        <label for="FileIcon">
+                            <i class="fa fa-camera" aria-hidden="true" title="@L["Common:UploadFile"]"></i>
+                        </label>
+                        <i class="fa fa-check-square upload-check-cropper" hidden title="@L["Cropper:CheckImage"]"
+                           id="checkImageCrop"></i>
+                        <i class="fa fa-window-close upload-check-cropper avatarWarning-Color" aria-hidden="true"
+                           title="@L["TypeOfJob:FileIcon:Cancel"]" id="CloseImage"></i>
+                    </div>
+                    <label class="icon-label">@L["TypeOfJob:FileIcon"]</label>
+                </abp-column>
+
+                <abp-column size-md="_8">
+                    <abp-input asp-for="ViewModel.Name"></abp-input>
+                    <abp-input asp-for="ViewModel.Description"></abp-input>
+                </abp-column>
+            </abp-row>
         </abp-modal-body>
-        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+        <abp-modal-footer>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span>@L["Common:Cancel"].Value</span></button>
+            <button id="save" type="submit" class="btn btn-primary" data-busy-text="@L["Common:Saving"].Value"> <span>@L["Common:Save"].Value</span></button>
+        </abp-modal-footer>
     </abp-modal>
-</abp-dynamic-form>
+
+</form>

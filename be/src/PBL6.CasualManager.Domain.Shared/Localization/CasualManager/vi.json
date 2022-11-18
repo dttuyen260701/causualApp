@@ -15,10 +15,14 @@
     "Menu:TypeOfJob": "Quản lý loại công việc",
     "Menu:JobInfo": "Quản lý công việc",
 
+    "Common:Cancel": "Huỷ",
+    "Common:Save": "Lưu",
+    "Common:Saving": "Đang lưu",
     "Common:DeletionConfirmationMessage": "Bạn có chắc muốn xoá {0}?",
     "Common:SuccessfullyDeleted": "Xoá thành công",
     "Common:Search": "Tìm kiếm",
     "Common:All": "Tất cả",
+    "Common:UploadFile": "Chọn tệp",
 
     "TypeOfJob": "Danh sách loại công việc",
     "TypeOfJob:Create": "Thêm loại việc làm",
@@ -27,6 +31,8 @@
     "TypeOfJob:Description": "Mô tả",
     "TypeOfJob:EnterName": "Nhập tên loại việc làm...",
     "TypeOfJob:EnterDescription": "Nhập mô tả...",
+    "TypeOfJob:FileIcon": "Icon hiển thị",
+    "TypeOfJob:FileIcon:Cancel": "Huỷ bỏ",
 
     "JobInfo": "Danh sách các công việc",
     "JobInfo:Create": "Thêm công việc",
