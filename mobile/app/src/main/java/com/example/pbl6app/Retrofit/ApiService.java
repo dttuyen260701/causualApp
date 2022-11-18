@@ -1,11 +1,13 @@
 package com.example.pbl6app.Retrofit;
 
+import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.HTTPMethod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -14,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
@@ -67,6 +70,15 @@ public interface ApiService {
             @Part("wardName") RequestBody wardName,
             @Part MultipartBody.Part avatar
     );
+
+    @GET("/api/app/address/provinces")
+    Call<ArrayList<AddressTemp>> getProvince();
+
+    @GET("/api/app/address/{id}/districts")
+    Call<ArrayList<AddressTemp>> getDistrict(@Path("id") String id);
+
+    @GET("/api/app/address/{id}/wards")
+    Call<ArrayList<AddressTemp>> getWard (@Path("id") String id);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 

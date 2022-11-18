@@ -5,8 +5,7 @@
     android:id="@+id/layout_main_choice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_content_choice"
-    android:paddingHorizontal="30dp">
+    android:background="@drawable/bg_content_choice">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout5"
@@ -46,6 +45,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <SearchView
+        android:layout_marginHorizontal="30dp"
         android:id="@+id/searchView_Choice"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -62,6 +62,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcl_choice"
+        android:layout_marginHorizontal="30dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
@@ -70,4 +71,36 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView_Choice" />
+
+
+
+    <ImageView
+        android:id="@+id/viewBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,17 @@ package com.example.pbl6app.Utils;
 import com.example.pbl6app.Models.User;
 
 public class Constant {
-    public static String BASE_URL = "https://9bfd-14-245-64-89.ap.ngrok.io";
+    public static String BASE_URL = "https://6266-2402-800-620e-edca-50f2-5f20-9b2b-ef88.ap.ngrok.io";
 
     public static final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,18}";
 
     public static final String PASSWORD_PATTERN =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\$@\\$!#%*?&.,])[A-Za-z\\d\\$@\\$!#%*?&.,]{8,}$";
+
+    public static final int PROVINCE_DATA = 0;
+    public static final int DISTRICT_DATA = 21;
+    public static final int WARD_DATA = 332;
+    public static final int GENDER_DATA = 111;
 
     public static String username = "";
     public static String email = "";
