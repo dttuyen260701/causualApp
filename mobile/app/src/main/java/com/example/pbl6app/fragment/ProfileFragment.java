@@ -66,9 +66,24 @@ public class ProfileFragment extends FragmentBase {
     private FragmentProfileBinding binding;
     int REQUEST_CODE_CAMERA = 123, REQUEST_CODE_FOLDER = 456;
     private Bitmap bitmap;
-    private ArrayList<AddressTemp> listProvince, listDistrict, listWard, listGender;
-    private String idProvinceChosen = "-1", idDistrictChosen = "-1", idWardChosen = "-1", idGenderChonse = "-1";
+    private static String idProvinceChosen = "-1", idDistrictChosen = "-1", idWardChosen = "-1", idGenderChonse = "-1";
     private ChoiceFragment choiceFragment;
+
+    public static String getIdProvinceChosen() {
+        return idProvinceChosen;
+    }
+
+    public static String getIdDistrictChosen() {
+        return idDistrictChosen;
+    }
+
+    public static String getIdWardChosen() {
+        return idWardChosen;
+    }
+
+    public static String getIdGenderChonse() {
+        return idGenderChonse;
+    }
 
     @Nullable
     @Override
@@ -81,12 +96,6 @@ public class ProfileFragment extends FragmentBase {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listProvince = new ArrayList<>();
-        listDistrict = new ArrayList<>();
-        listWard = new ArrayList<>();
-        listGender = new ArrayList<>();
-
-        onLoadData();
         initView();
         initListener();
     }
@@ -95,9 +104,9 @@ public class ProfileFragment extends FragmentBase {
     @Override
     protected void initView() {
 
-        idDistrictChosen = Constant.USER.getDistrictId();
-        idProvinceChosen = Constant.USER.getProvinceId();
-        idWardChosen = Constant.USER.getWardId();
+        idDistrictChosen = (Constant.USER.getDistrictId() == null) ? "" : Constant.USER.getDistrictId();
+        idProvinceChosen = (Constant.USER.getProvinceId() == null) ? "" : Constant.USER.getProvinceId();
+        idWardChosen = (Constant.USER.getWardId() == null) ? "" : Constant.USER.getWardId();
         idGenderChonse = Constant.USER.getGender() + "";
 
         binding.imvAddAva.setEnabled(false);
@@ -107,7 +116,8 @@ public class ProfileFragment extends FragmentBase {
         binding.edtAge.setText(Constant.USER.getDateOfBirth());
         binding.edtPhone.setText(Constant.USER.getPhoneNumber());
 
-        binding.edtGender.setText(listGender.get(Constant.USER.getGender()).getName());
+        String gender = (Constant.USER.getGender() == 0) ? "Nam" : ((Constant.USER.getGender() == 1) ? "Nữ" : "Không xác định");
+        binding.edtGender.setText(gender);
         binding.tvProvince.setText(Constant.USER.getProvinceName());
         binding.tvDistrict.setText(Constant.USER.getDistrictName());
         binding.tvWard.setText(Constant.USER.getWardName());
@@ -220,9 +230,9 @@ public class ProfileFragment extends FragmentBase {
 
         binding.imvSave.setOnClickListener(view -> {
 
-            if(binding.tvWarningAdress.getVisibility() == View.VISIBLE
-                || binding.tvWarningName.getVisibility() == View.VISIBLE
-                || binding.tvWarningPhone.getVisibility() == View.VISIBLE) {
+            if (binding.tvWarningAdress.getVisibility() == View.VISIBLE
+                    || binding.tvWarningName.getVisibility() == View.VISIBLE
+                    || binding.tvWarningPhone.getVisibility() == View.VISIBLE) {
 
                 Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
 
@@ -252,67 +262,45 @@ public class ProfileFragment extends FragmentBase {
         });
 
         binding.edtGender.setOnClickListener(v -> {
-            onChoiceShow(listGender,
+            onChoiceShow(Constant.GENDER_DATA,
                     "Giới tính",
                     item -> {
                         binding.edtGender.setText(item.getName());
                         idGenderChonse = item.getId();
                         choiceFragment.dismiss();
-                        new Thread(() -> {
-                            for (AddressTemp i : listGender) {
-                                i.setCheck(i.getId().equals(item.getId()));
-                            }
-                            Thread.currentThread().interrupt();
-                        }).start();
-                    });
+                    }, "");
         });
 
         binding.tvProvince.setOnClickListener(view -> {
-            onChoiceShow(listProvince,
+            onChoiceShow(Constant.PROVINCE_DATA,
                     "Tỉnh/ Thành Phố",
                     item -> {
+                        binding.tvDistrict.setEnabled(true);
                         binding.tvProvince.setText(item.getName());
                         idProvinceChosen = item.getId();
                         choiceFragment.dismiss();
-                        new Thread(() -> {
-                            for (AddressTemp i : listProvince) {
-                                i.setCheck(i.getId().equals(item.getId()));
-                            }
-                            Thread.currentThread().interrupt();
-                        }).start();
-                    });
+                    }, "");
         });
 
         binding.tvDistrict.setOnClickListener(view -> {
-            onChoiceShow(listDistrict,
+            onChoiceShow(Constant.DISTRICT_DATA,
                     "Quận/ Huyện",
                     item -> {
+                        binding.tvWard.setEnabled(true);
                         binding.tvDistrict.setText(item.getName());
                         idDistrictChosen = item.getId();
                         choiceFragment.dismiss();
-                        new Thread(() -> {
-                            for (AddressTemp i : listDistrict) {
-                                i.setCheck(i.getId().equals(item.getId()));
-                            }
-                            Thread.currentThread().interrupt();
-                        }).start();
-                    });
+                    }, idProvinceChosen);
         });
 
         binding.tvWard.setOnClickListener(view -> {
-            onChoiceShow(listWard,
+            onChoiceShow(Constant.WARD_DATA,
                     "Phường/ Xã",
                     item -> {
                         binding.tvWard.setText(item.getName());
                         idWardChosen = item.getId();
                         choiceFragment.dismiss();
-                        new Thread(() -> {
-                            for (AddressTemp i : listWard) {
-                                i.setCheck(i.getId().equals(item.getId()));
-                            }
-                            Thread.currentThread().interrupt();
-                        }).start();
-                    });
+                    }, idDistrictChosen);
         });
 
     }
@@ -325,10 +313,11 @@ public class ProfileFragment extends FragmentBase {
     }
 
     private void onChoiceShow(
-            ArrayList<AddressTemp> list_choice,
+            int keyData,
             String title,
-            OnItemCLickListener<AddressTemp> onItemCLickListener) {
-        choiceFragment = new ChoiceFragment(list_choice, title, onItemCLickListener);
+            OnItemCLickListener<AddressTemp> onItemCLickListener,
+            String IdLoad) {
+        choiceFragment = new ChoiceFragment(keyData, title, onItemCLickListener, IdLoad);
         choiceFragment.show(getActivity().getSupportFragmentManager(), choiceFragment.getTag());
     }
 
@@ -371,46 +360,6 @@ public class ProfileFragment extends FragmentBase {
             dialog.dismiss();
         });
         dialog.show();
-    }
-
-    private void onLoadData() {
-        listGender.clear();
-        listWard.clear();
-        listDistrict.clear();
-        listProvince.clear();
-
-        listGender.add(new AddressTemp("0", "Nam"));
-        listGender.add(new AddressTemp("1", "Nữ"));
-        listGender.add(new AddressTemp("2", "Không xác định"));
-
-        listProvince.add(new AddressTemp("0", "Đà Nẵng"));
-        listProvince.add(new AddressTemp("1", "Hà Nội"));
-        listProvince.add(new AddressTemp("2", "TP HCM"));
-
-        listDistrict.add(new AddressTemp("0", "Hải Châu"));
-        listDistrict.add(new AddressTemp("1", "Hòa Vang"));
-        listDistrict.add(new AddressTemp("2", "Liên Chiểu"));
-        listDistrict.add(new AddressTemp("3", "Cẩm Lệ"));
-
-        listWard.add(new AddressTemp("0", "Hòa Cường Bắc"));
-        listWard.add(new AddressTemp("1", "Hòa Cường Nam"));
-
-        new Thread(() -> {
-            for (AddressTemp i : listProvince) {
-                i.setCheck(i.getId().equals(Constant.USER.getProvinceId()));
-            }
-            for (AddressTemp i : listGender) {
-                i.setCheck(i.getId().equals(Constant.USER.getGender() + ""));
-            }
-            for (AddressTemp i : listWard) {
-                i.setCheck(i.getId().equals(Constant.USER.getWardId()));
-            }
-            for (AddressTemp i : listDistrict) {
-                i.setCheck(i.getId().equals(Constant.USER.getDistrictId()));
-            }
-            Thread.currentThread().interrupt();
-        }).start();
-
     }
 
     private void onSubmitData() {
