@@ -97,6 +97,7 @@ public class CasualManagerWebModule : AbpModule
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
         ConfigureAuthorizePages();
+        ConfigureCorsServices(context.Services);
     }
     
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -184,6 +185,14 @@ public class CasualManagerWebModule : AbpModule
             }
         );
     }
+    private void ConfigureCorsServices(IServiceCollection services)
+    {
+        services.AddCors(options => {
+            options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
+                                                        .AllowAnyMethod()
+                                                        .AllowAnyHeader());
+        });
+    }
 
     private void ConfigureAuthorizePages()
     {
@@ -233,6 +242,7 @@ public class CasualManagerWebModule : AbpModule
         });
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
+        app.UseCors("CorsPolicy");
         app.UseConfiguredEndpoints();
     }
 }

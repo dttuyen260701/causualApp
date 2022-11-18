@@ -19,5 +19,14 @@ namespace PBL6.CasualManager.WorkerInfos
         {
             return await FindAsync(x => x.UserId == userId);
         }
+        public async Task<bool> CheckExistIdentityCard(string IdentityCard)
+        {
+            var result = await FindAsync(x => x.IdentityCard == IdentityCard);  
+            if(result != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
