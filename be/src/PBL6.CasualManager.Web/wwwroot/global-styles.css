@@ -8,3 +8,25 @@
 .dataTables_scrollHeadInner, .table {
     width: 100% !important;
 }
+
+.hidden {
+    display: none
+}
+
+.upload-check-cropper {
+    padding-left: 30px;
+    padding-top: 8px;
+    color: rgb(51, 253, 0);
+}
+
+.avatarWarning-Color {
+    color: rgb(255, 0, 0);
+}
+
+.icon-size {
+    font-size: 25px;
+}
+
+.upload-check-cropper-rowPadding {
+    padding-top: 10px;
+}

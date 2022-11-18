@@ -16,5 +16,8 @@ namespace PBL6.CasualManager.Web.Pages.TypeOfJobs.TypeOfJobViewModels
         [Required]
         [Display(Name = "TypeOfJob:Description", Prompt = "TypeOfJob:EnterDescription")]
         public string Description { get; set; }
+
+        [HiddenInput]
+        public string Avatar { get; set; }
     }
 }

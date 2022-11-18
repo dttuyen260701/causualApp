@@ -6,9 +6,10 @@ namespace PBL6.CasualManager.Enum
     {
         public const string LinkToFolderImageWorker = "/upload_images/worker/";
         public const string LinkToFolderImageCustomer = "/upload_images/customer/";
+        public const string LinkToFolderIconTypeOfJob = "/upload_images/type_of_job/";
         public const string PrefixAvatarWorker = "AvatarWorker-";
         public const string PrefixAvatarCustomer = "AvatarCustomer-";
-
+        public const string PrefixIconTypeOfJob = "IconTypeOfJob-";
     }
 
     public enum WithRole

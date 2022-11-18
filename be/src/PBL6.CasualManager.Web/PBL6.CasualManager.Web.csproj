@@ -54,6 +54,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\upload_images\customer\" />
+    <Folder Include="wwwroot\upload_images\type_of_job\" />
   </ItemGroup>
 
 </Project>
