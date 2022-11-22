@@ -3,19 +3,27 @@ package com.example.pbl6app.Models;
  * Created by tuyen.dang on 11/9/2022
  */
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
 public class WorkerDetail extends Worker {
 
+    @SerializedName("address")
     private String address;
+    @SerializedName("phone")
     private String phone;
+    @SerializedName("workingTime")
     private String workingTime;
-    private boolean isActive;
+    @SerializedName("workerStatus")
+    private int workerStatus;
 
-    public WorkerDetail(int id, String name, String linkIMG, int idTypeOfJob, String nameTypeOfJob, float rate, int totalReviews, String address, String phone, String workingTime, boolean isActive) {
-        super(id, name, linkIMG, idTypeOfJob, nameTypeOfJob, rate, totalReviews);
+    public WorkerDetail(String id, String name, String linkIMG, Rate rate, int totalReviews, ArrayList<JobInfo> listJobInfo, String address, String phone, String workingTime, int workerStatus) {
+        super(id, name, linkIMG, rate, totalReviews, listJobInfo);
         this.address = address;
         this.phone = phone;
         this.workingTime = workingTime;
-        this.isActive = isActive;
+        this.workerStatus = workerStatus;
     }
 
     public String getAddress() {
@@ -42,11 +50,11 @@ public class WorkerDetail extends Worker {
         this.workingTime = workingTime;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public int isWorkerStatus() {
+        return workerStatus;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setWorkerStatus(int workerStatus) {
+        this.workerStatus = workerStatus;
     }
 }

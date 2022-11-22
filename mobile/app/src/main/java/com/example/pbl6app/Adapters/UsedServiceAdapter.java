@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.TypeOfJob;
+import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemMostUsedServiceBinding;
 import com.squareup.picasso.Picasso;
 
@@ -55,7 +56,7 @@ public class UsedServiceAdapter extends RecyclerView.Adapter<UsedServiceAdapter.
         public void bindView(int position) {
             binding.tvNameUsedService.setText(listData.get(position).getName());
 
-            Picasso.get().load(listData.get(position).getLinkIMG()).into(binding.imgNameUsedService);
+            Picasso.get().load(Constant.BASE_URL + listData.get(position).getLinkIMG()).into(binding.imgNameUsedService);
 
             binding.layoutUsedServiecItem.setOnClickListener(view -> {
                 listener.onItemClick(listData.get(position));

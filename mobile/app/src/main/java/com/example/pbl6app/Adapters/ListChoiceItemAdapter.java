@@ -74,9 +74,9 @@ public class ListChoiceItemAdapter extends RecyclerView.Adapter<ListChoiceItemAd
                 }
             });
 
-            cb_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            cb_item.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                public void onClick(View v) {
                     itemChoiceListener.onItemClick(list_data.get(position));
                 }
             });

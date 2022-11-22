@@ -1,23 +1,18 @@
 package com.example.pbl6app.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ActivityMainBinding;
 import com.example.pbl6app.fragment.NewfeedFragment;
-import com.example.pbl6app.fragment.ProfileFragment;
+import com.example.pbl6app.fragment.SettingsFragment;
 import com.example.pbl6app.fragment.StatusFragment;
-import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends BaseActivity {
 
@@ -54,7 +49,7 @@ public class MainActivity extends BaseActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.menu_Info:
-                    fragment = new ProfileFragment();
+                    fragment = new SettingsFragment();
                     break;
                 case R.id.menu_status:
                     fragment = new StatusFragment();
@@ -73,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private void addFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.ctFragment, fragment);
+        transaction.replace(R.id.ctFragmentUser, fragment);
         transaction.commit();
     }
 

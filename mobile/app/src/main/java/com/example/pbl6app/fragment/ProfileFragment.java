@@ -158,6 +158,10 @@ public class ProfileFragment extends FragmentBase {
     @Override
     protected void initListener() {
 
+        binding.imvBack.setOnClickListener(view -> {
+            backToPreviousFrag();
+        });
+
         binding.edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -232,7 +236,9 @@ public class ProfileFragment extends FragmentBase {
 
             if (binding.tvWarningAdress.getVisibility() == View.VISIBLE
                     || binding.tvWarningName.getVisibility() == View.VISIBLE
-                    || binding.tvWarningPhone.getVisibility() == View.VISIBLE) {
+                    || binding.tvWarningPhone.getVisibility() == View.VISIBLE
+                    || idDistrictChosen.equals("")
+                    || idWardChosen.equals("")) {
 
                 Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
 
@@ -278,7 +284,11 @@ public class ProfileFragment extends FragmentBase {
                         binding.tvDistrict.setEnabled(true);
                         binding.tvProvince.setText(item.getName());
                         idProvinceChosen = item.getId();
+                        idDistrictChosen = "";
+                        idWardChosen = "";
                         choiceFragment.dismiss();
+                        binding.tvDistrict.setText("Vui lòng chọn quận/huyện");
+                        binding.tvWard.setText("Vui lòng chọn phường/xã");
                     }, "");
         });
 
@@ -289,7 +299,9 @@ public class ProfileFragment extends FragmentBase {
                         binding.tvWard.setEnabled(true);
                         binding.tvDistrict.setText(item.getName());
                         idDistrictChosen = item.getId();
+                        idWardChosen = "";
                         choiceFragment.dismiss();
+                        binding.tvWard.setText("Vui lòng chọn phường/xã");
                     }, idProvinceChosen);
         });
 
@@ -413,10 +425,14 @@ public class ProfileFragment extends FragmentBase {
                         initView();
                         Toast.makeText(getContext(), "Cập nhật thành công!!!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
-                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                    if(getContext() != null) {
+                        Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -425,6 +441,9 @@ public class ProfileFragment extends FragmentBase {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
                 Log.e("TTT", "onFailure: ", t);
+                if(getContext() != null) {
+                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

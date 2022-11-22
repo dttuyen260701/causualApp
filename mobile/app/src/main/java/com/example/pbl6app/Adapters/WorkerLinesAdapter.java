@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.Worker;
+import com.example.pbl6app.Models.WorkerDetail;
+import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemWorkerLineBinding;
 import com.squareup.picasso.Picasso;
 
@@ -16,12 +18,21 @@ import java.util.ArrayList;
 
 public class WorkerLinesAdapter extends RecyclerView.Adapter<WorkerLinesAdapter.WorkerHolder> {
     private ItemWorkerLineBinding binding;
-    private ArrayList<Worker> listData;
-    private OnItemCLickListener<Worker> listener;
+    private ArrayList<WorkerDetail> listData;
+    private OnItemCLickListener<WorkerDetail> listener;
 
-    public WorkerLinesAdapter(ArrayList<Worker> listData, OnItemCLickListener<Worker> listener) {
+    public WorkerLinesAdapter(ArrayList<WorkerDetail> listData, OnItemCLickListener<WorkerDetail> listener) {
         this.listData = listData;
         this.listener = listener;
+    }
+
+    public ArrayList<WorkerDetail> getListData() {
+        return listData;
+    }
+
+    public void setListData(ArrayList<WorkerDetail> listData) {
+        this.listData = listData;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,10 +62,10 @@ public class WorkerLinesAdapter extends RecyclerView.Adapter<WorkerLinesAdapter.
         }
 
         private void bindView(int position) {
-            Picasso.get().load(listData.get(position).getLinkIMG()).into(binding.imgWorkerLineItem);
+            Picasso.get().load(Constant.BASE_URL + listData.get(position).getLinkIMG()).into(binding.imgWorkerLineItem);
             binding.tvNameWorker.setText(listData.get(position).getName());
-            binding.tvTypeOfJobWorker.setText(listData.get(position).getNameTypeOfJob());
-            binding.tvCountOfRate.setText(listData.get(position).getRate() + " (" + listData.get(position).getTotalReviews() + " Reviews)");
+            binding.tvTypeOfJobWorker.setText(listData.get(position).getListJobInfo());
+            binding.tvCountOfRate.setText(listData.get(position).getRate().getRateAverage() + " (" + listData.get(position).getTotalReviews() + " Reviews)");
 
             binding.imgFavoWorkerLines.setOnClickListener(new View.OnClickListener() {
                 @Override

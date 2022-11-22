@@ -50,6 +50,32 @@ public class User {
     @SerializedName("lastModificationTime")
     private String lastModificationTime;
 
+    public User() {
+        this.id = "";
+        this.email = "";
+        this.userName = "";
+        this.phoneNumber = "";
+        this.name = "";
+        this.identityCard = "";
+        this.identityCardDate = "";
+        this.identityCardBy = "";
+        this.gender = -1;
+        this.dateOfBirth = "";
+        this.startWorkingTime = "";
+        this.endWorkingTime = "";
+        this.provinceId = "";
+        this.provinceName = "";
+        this.districtName = "";
+        this.districtId = "";
+        this.wardId = "";
+        this.wardName = "";
+        this.address = "";
+        this.addressPoint = "";
+        this.role = "";
+        this.avatar = "";
+        this.lastModificationTime = "";
+    }
+
     public String getId() {
         return id;
     }
