@@ -11,21 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pbl6app.Asynctasks.RequestTaskAsyncTask;
-import com.example.pbl6app.Listeners.RequestTaskListener;
-import com.example.pbl6app.Models.User;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.databinding.ActivitySignupBinding;
 import com.example.pbl6app.Utils.Constant;
-import com.example.pbl6app.Utils.Methods;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -158,6 +149,7 @@ public class SignupActivity extends AppCompatActivity {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
                 Log.e("TTT", "onFailure: ", t);
+                Toast.makeText(SignupActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -154,7 +154,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            if(getContext() != null) {
+                                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
@@ -162,6 +164,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ArrayList<AddressTemp>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
@@ -179,7 +184,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            if(getContext() != null) {
+                                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
@@ -187,6 +194,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ArrayList<AddressTemp>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
@@ -204,7 +214,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            if(getContext() != null) {
+                                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
@@ -212,6 +224,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ArrayList<AddressTemp>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;

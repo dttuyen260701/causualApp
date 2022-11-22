@@ -1,7 +1,9 @@
 package com.example.pbl6app.Retrofit;
 
 import com.example.pbl6app.Models.AddressTemp;
+import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.Models.User;
+import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.HTTPMethod;
 import com.google.gson.Gson;
@@ -21,9 +23,9 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -52,12 +54,12 @@ public interface ApiService {
 
     @Multipart
 //    @PUT("/api/app/customer-info/{id}")
-    @HTTP(method = HTTPMethod.PUT, path = "/api/app/customer-info/{id}", hasBody = true)
+    @HTTP(method = HTTPMethod.PUT, path = "/api/app/customer-info/{Uid}", hasBody = true)
     Call<ResponseRetrofit<User>> updateCustomer(
-            @Path("id") String id,
+            @Path("Uid") String id,
             @Part("name") RequestBody name,
             @Part("phone") RequestBody phone,
-            @Part("userId") RequestBody userId,
+            @Part("id") RequestBody userId,
             @Part("gender") RequestBody gender,
             @Part("address") RequestBody address,
             @Part("addressPoint") RequestBody addressPoint,
@@ -79,6 +81,16 @@ public interface ApiService {
 
     @GET("/api/app/address/{id}/wards")
     Call<ArrayList<AddressTemp>> getWard (@Path("id") String id);
+
+    @GET("/api/app/type-of-job/type")
+    Call<ResponseRetrofit<ArrayList<TypeOfJob>>> getTypeOfJob();
+
+    @GET("/api/app/worker-info/{id}/worker-vm")
+    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListUserByIDUser(@Path("id") String id);
+
+    @GET("/api/app/worker-info/worker-by-type-of-job/")
+    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListUserByIDTypeOfJob(@Query("idUser") String idUser,
+                                                                             @Query("idTypeOfJob") String idTypeOfJob);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 

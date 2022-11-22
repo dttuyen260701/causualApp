@@ -99,7 +99,7 @@ public class LoginActivity extends BaseActivity {
                 if(response.code() == HttpURLConnection.HTTP_OK) {
                     if(response.body().isSuccessed()) {
                         Constant.USER = response.body().getResultObj();
-                        if(Constant.USER.getRole().equalsIgnoreCase("Thợ")) {
+                        if(Constant.USER.getRole().equals("Thợ")) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity {
                 binding.layoutPass.setVisibility(View.VISIBLE);
                 binding.layoutUser.setVisibility(View.VISIBLE);
                 Log.e("TTT", "onFailure: ", t);
+                Toast.makeText(LoginActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
             }
         });
     }

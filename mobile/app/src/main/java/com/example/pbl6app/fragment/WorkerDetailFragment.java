@@ -10,8 +10,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.pbl6app.Adapters.JobInfoAdapter;
+import com.example.pbl6app.Listeners.OnItemCLickListener;
+import com.example.pbl6app.Models.JobInfo;
 import com.example.pbl6app.Models.WorkerDetail;
+import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.FragmentWorkerDetailBinding;
 import com.squareup.picasso.Picasso;
 
@@ -19,9 +25,10 @@ public class WorkerDetailFragment extends FragmentBase {
 
     private FragmentWorkerDetailBinding binding;
     private WorkerDetail worker;
+    private JobInfoAdapter adapter;
 
-    public WorkerDetailFragment(int ID) {
-
+    public WorkerDetailFragment(WorkerDetail worker) {
+        this.worker = worker;
     }
 
     @Nullable
@@ -34,16 +41,29 @@ public class WorkerDetailFragment extends FragmentBase {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initView();
         initListener();
     }
 
     @Override
     protected void initView() {
-        Picasso.get().load(worker.getLinkIMG()).into(binding.imvAva);
+        Picasso.get().load(Constant.BASE_URL + worker.getLinkIMG()).into(binding.imvAva);
         binding.tvUsername.setText(worker.getName());
         binding.tvAdress.setText(worker.getAddress());
         binding.tvPhone.setText(worker.getPhone());
         binding.tvWorkingTime.setText(worker.getWorkingTime());
+        binding.ratingBarReviewFirstRow.setRating(worker.getRate().getRateAverage());
+        binding.totalReviews.setText("(" + worker.getTotalReviews() + ")");
+
+        adapter = new JobInfoAdapter(worker.getListJobList(), new OnItemCLickListener<JobInfo>() {
+            @Override
+            public void onItemClick(JobInfo item) {
+
+            }
+        });
+
+        binding.rclJobInfo.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
+        binding.rclJobInfo.setAdapter(adapter);
     }
 
     @Override

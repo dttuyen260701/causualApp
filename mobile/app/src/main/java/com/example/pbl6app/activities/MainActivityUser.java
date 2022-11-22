@@ -1,7 +1,6 @@
 package com.example.pbl6app.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ActivityMainUserBinding;
-import com.example.pbl6app.fragment.ProfileFragment;
 import com.example.pbl6app.fragment.SettingsFragment;
 import com.example.pbl6app.fragment.StatusFragment;
 import com.example.pbl6app.fragment.UserHomeFragment;
@@ -53,7 +51,7 @@ public class MainActivityUser extends BaseActivity {
                     fragment = new UserHomeFragment();
                     break;
                 case R.id.menu_Setting:
-                    fragment = new ProfileFragment();
+                    fragment = new SettingsFragment();
                     break;
                 default:
                     return true;
