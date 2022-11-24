@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="1dp"
+    app:cardCornerRadius="8dp">
+
+    <TextView
+        android:id="@+id/tvItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp"
+        android:text="Dọn dẹp nhà cửa"
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+</androidx.cardview.widget.CardView>

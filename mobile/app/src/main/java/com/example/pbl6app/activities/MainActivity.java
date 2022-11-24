@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        Toast.makeText(MainActivity.this, "Chào mừng " + Constant.USER.getName() + " !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "Chào mừng " + Constant.USER.getName() + " !!!", Toast.LENGTH_SHORT).show();
         binding.bottomNavigation.setSelectedItemId(R.id.menu_newFeed);
         Fragment fragment = new NewfeedFragment();
         addFragment(fragment);

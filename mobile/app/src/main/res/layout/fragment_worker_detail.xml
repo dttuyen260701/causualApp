@@ -139,7 +139,7 @@
                     android:layout_weight="0"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:progressTint="#AE9D01"
+                    android:progressTint="#ECD82A"
                     android:rating="2.4"
                     android:secondaryProgress="5"
                     android:secondaryProgressTint="@android:color/transparent"
@@ -292,7 +292,8 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+            app:layout_constraintTop_toBottomOf="@+id/tv2"
+            tools:listitem="@layout/item_jobinfo"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

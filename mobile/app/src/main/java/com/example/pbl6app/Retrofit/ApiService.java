@@ -1,6 +1,7 @@
 package com.example.pbl6app.Retrofit;
 
 import com.example.pbl6app.Models.AddressTemp;
+import com.example.pbl6app.Models.JobInfo;
 import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.Models.WorkerDetail;
@@ -90,7 +91,10 @@ public interface ApiService {
 
     @GET("/api/app/worker-info/worker-by-type-of-job/")
     Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListUserByIDTypeOfJob(@Query("idUser") String idUser,
-                                                                             @Query("idTypeOfJob") String idTypeOfJob);
+                                                                             @Query("idJobInfo") String idJobInfo);
+
+    @GET("/api/app/job-info/{id}/job-info-vm-belong-to-type-of-job")
+    Call<ResponseRetrofit<ArrayList<JobInfo>>> getListJobInfo(@Path("id") String idTypeOfJob);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 
