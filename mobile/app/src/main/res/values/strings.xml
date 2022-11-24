@@ -5,5 +5,6 @@
     <string name="statusMenu">Status</string>
     <string name="homeMenu">Home</string>
     <string name="settingMenu">Settings</string>
-    <string name="Workers">Workers in %s</string>
+    <string name="Workers">Người làm liên quan đến %s</string>
+    <string name="JobInfo">Công việc liên quan đến %s</string>
 </resources>

@@ -27,7 +27,7 @@ public class MainActivityUser extends BaseActivity {
     }
 
     private void initView() {
-        Toast.makeText(MainActivityUser.this, "Chào mừng " + Constant.USER.getName() + " !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivityUser.this, "Chào mừng " + Constant.USER.getName() + " !!!", Toast.LENGTH_SHORT).show();
         binding.bottomNavigationUser.setSelectedItemId(R.id.menu_Home);
         UserHomeFragment fragment = new UserHomeFragment();
         addFragment(fragment, R.id.ctFragmentUser, false);

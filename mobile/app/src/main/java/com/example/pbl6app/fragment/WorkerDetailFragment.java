@@ -53,7 +53,7 @@ public class WorkerDetailFragment extends FragmentBase {
         binding.tvPhone.setText(worker.getPhone());
         binding.tvWorkingTime.setText(worker.getWorkingTime());
         binding.ratingBarReviewFirstRow.setRating(worker.getRate().getRateAverage());
-        binding.totalReviews.setText("(" + worker.getTotalReviews() + ")");
+        binding.totalReviews.setText("(" + worker.getTotalReviews() + " đánh giá)");
 
         adapter = new JobInfoAdapter(worker.getListJobList(), new OnItemCLickListener<JobInfo>() {
             @Override

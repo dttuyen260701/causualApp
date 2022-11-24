@@ -202,7 +202,7 @@ public class UserHomeFragment extends FragmentBase {
         usedServiceAdapter = new UsedServiceAdapter(listTypeOfJob, new OnItemCLickListener<TypeOfJob>() {
             @Override
             public void onItemClick(TypeOfJob item) {
-                ListWorkerFragment fragment = new ListWorkerFragment(item);
+                ListJobInfoFragment fragment = new ListJobInfoFragment(item);
                 addFragment(fragment, R.id.ctFragmentUser);
             }
         });
