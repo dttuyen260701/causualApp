@@ -5,7 +5,7 @@
     android:id="@+id/layout_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/border_color">
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_Accounts_logined_Frag"
@@ -37,7 +37,8 @@
                 android:id="@+id/txt_Tittle_Account_logined_Fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="Cài đặt"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -63,94 +64,150 @@
             android:id="@+id/txtAccount_Frag"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/border_color"
             android:gravity="center|start"
             android:paddingStart="7dp"
             android:text="Account"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="11sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnProfile"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/layout_profile"
             app:layout_constraintDimensionRatio="h,14:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            />
 
-        <TextView
-            android:id="@+id/btnProfile"
+        <LinearLayout
+            android:id="@+id/layout_profile"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/custom_button_account_frag"
-            android:gravity="center|start"
-            android:paddingStart="7dp"
-            android:text="Profile"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btnLogOut"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/layout_logout"
             app:layout_constraintDimensionRatio="h,12:1"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtAccount_Frag"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <TextView
-            android:id="@+id/btnLogOut"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:background="@drawable/custom_button_account_frag"
-            android:gravity="center|start"
-            android:paddingStart="7dp"
-            android:text="Logout"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btnAbout"
+            android:padding="10dp"
+            android:layout_marginVertical="16dp"
+            android:layout_marginHorizontal="10dp"
+            android:elevation="10dp"
+            >
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:riv_corner_radius="100dp"
+                android:src="@color/border_color"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/btnProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:text="Thông tin cá nhân"
+                android:layout_gravity="center_vertical"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/layout_aboutUs"
             app:layout_constraintDimensionRatio="h,12:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnProfile"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_profile"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="10dp"
+            android:elevation="10dp"
+            >
+            <TextView
+                android:id="@+id/btnLogOut"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_button_account_frag"
+                android:gravity="center|start"
+                android:paddingStart="7dp"
+                android:text="Đăng xuất"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck"
+                />
 
-        <TextView
-            android:id="@+id/btnAbout"
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/layout_aboutUs"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/custom_button_account_frag"
-            android:gravity="center|start"
-            android:paddingStart="7dp"
-            android:text="About Us"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btnTemp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/layout_terms"
             app:layout_constraintDimensionRatio="h,12:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLogOut"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_logout"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="10dp"
+            android:elevation="10dp"
+            >
+            <TextView
+                android:id="@+id/btnAbout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_button_account_frag"
+                android:gravity="center|start"
+                android:paddingStart="7dp"
+                android:text="Về chúng tôi"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                 />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/btnTemp"
+
+        <LinearLayout
+            android:id="@+id/layout_terms"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/custom_button_account_frag"
-            android:gravity="center|start"
-            android:paddingStart="7dp"
-            android:text="Terms of use and privacy policy"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="h,12:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAbout"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_aboutUs"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_marginHorizontal="10dp"
+            android:elevation="10dp"
+            >
+            <TextView
+                android:id="@+id/btnTemp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_button_account_frag"
+                android:gravity="center|start"
+                android:paddingStart="7dp"
+                android:text="Điều khoản và điều kiện"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                 />
+        </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
