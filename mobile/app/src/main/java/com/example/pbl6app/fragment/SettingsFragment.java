@@ -35,7 +35,7 @@ public class SettingsFragment extends FragmentBase{
 
     @Override
     protected void initView() {
-        binding.txtAccountFrag.setText(Constant.USER.getName());
+        binding.btnProfile.setText(Constant.USER.getName());
     }
 
     @Override

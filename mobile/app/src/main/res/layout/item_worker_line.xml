@@ -7,19 +7,20 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="10dp"
     android:background="@drawable/bg_worker_item"
-    android:padding="15dp">
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="15dp">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imgWorkerLineItem"
-        android:layout_width="88dp"
-        android:layout_height="89dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvNameWorker"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="20dp" />
+        app:riv_corner_radius="10dp" />
 
     <TextView
         android:id="@+id/tvNameWorker"
@@ -28,7 +29,7 @@
         android:layout_marginStart="10dp"
         android:text="Dany Walker"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:ellipsize="end"
         android:singleLine="true"
@@ -41,7 +42,6 @@
         android:id="@+id/tvTypeOfJobWorker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
@@ -55,8 +55,8 @@
 
     <ImageView
         android:id="@+id/imgStart"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgWorkerLineItem"
         app:layout_constraintStart_toEndOf="@+id/imgWorkerLineItem"

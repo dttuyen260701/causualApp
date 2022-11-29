@@ -34,7 +34,8 @@
                     app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutInfoFragUserHome"
@@ -49,8 +50,8 @@
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/imageView2"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"
                             android:scaleType="centerCrop"
@@ -61,7 +62,8 @@
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:riv_corner_radius="100dp" />
+                            app:riv_corner_radius="100dp"
+                            android:layout_marginRight="10dp"/>
 
                         <TextView
                             android:id="@+id/tvNameFragUserHome"
@@ -71,8 +73,7 @@
                             android:layout_marginTop="5dp"
                             android:text="TextView"
                             android:textColor="@color/white"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
+                            android:textSize="15sp"
                             app:layout_constraintBottom_toTopOf="@+id/tvDescripFragUserHome"
                             app:layout_constraintStart_toEndOf="@+id/imageView2"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +84,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:textColor="@color/white"
-                            android:textSize="12sp"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/tvNameFragUserHome"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -95,7 +97,6 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginEnd="5dp"
-                            android:padding="5dp"
                             app:layout_constraintBottom_toBottomOf="@+id/tvOptionFragUserHome"
                             app:layout_constraintEnd_toStartOf="@+id/tvOptionFragUserHome"
                             app:layout_constraintTop_toTopOf="@+id/tvOptionFragUserHome"
@@ -107,7 +108,6 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginEnd="5dp"
-                            android:padding="5dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
