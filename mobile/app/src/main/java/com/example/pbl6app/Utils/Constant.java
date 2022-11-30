@@ -3,7 +3,7 @@ package com.example.pbl6app.Utils;
 import com.example.pbl6app.Models.User;
 
 public class Constant {
-    public static String BASE_URL = "https://8944-2402-800-620e-a40e-f1f5-2c62-d68b-e26b.ap.ngrok.io";
+    public static String BASE_URL = "https://9617-14-250-217-89.ap.ngrok.io/";
 
     public static final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,18}";
 
