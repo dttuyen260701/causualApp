@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.LookupValues;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -23,5 +25,6 @@ namespace PBL6.CasualManager.TypeOfJobs
         /// <param name="condition">Include FilterName</param>
         /// <returns>List TypeOfJobDtos</returns>
         Task<PagedResultDto<TypeOfJobDto>> GetListByNameAsync(TypeOfJobConditionSearchDto condition);
+        Task<ApiResult<List<TypeOfJobResponse>>> GetAllTypeJobAsync();
     }
 }
