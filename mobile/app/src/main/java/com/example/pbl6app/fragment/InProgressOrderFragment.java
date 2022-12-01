@@ -11,26 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pbl6app.Adapters.JobInfoLinesAdapter;
 import com.example.pbl6app.Adapters.OrderItemLinesAdapter;
-import com.example.pbl6app.Models.JobInfo;
 import com.example.pbl6app.Models.Order;
-import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.R;
 import com.example.pbl6app.activities.LoginActivity;
 import com.example.pbl6app.databinding.FragmentHistoryBinding;
-import com.example.pbl6app.databinding.FragmentListJobinfoBinding;
+import com.example.pbl6app.databinding.FragmentInProgressOrderBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HistoryFragment extends FragmentBase {
+public class InProgressOrderFragment extends FragmentBase {
 
-    private FragmentHistoryBinding binding;
-    private ArrayList<Order> listHistoryOrders;
+    private FragmentInProgressOrderBinding binding;
+    private ArrayList<Order> listOrder;
     private OrderItemLinesAdapter adapter;
+
+    public InProgressOrderFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class HistoryFragment extends FragmentBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentHistoryBinding.inflate(inflater, container, false);
+        binding = FragmentInProgressOrderBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -53,26 +54,28 @@ public class HistoryFragment extends FragmentBase {
 
     @Override
     protected void initView() {
-
-        listHistoryOrders = new ArrayList<>();
+        listOrder = new ArrayList<>();
         loadData();
-        adapter = new OrderItemLinesAdapter(listHistoryOrders, item -> new LoginActivity()); //todo: open detail order screen
+        adapter = new OrderItemLinesAdapter(listOrder, item -> new LoginActivity()); //todo: open detail order screen
 
         binding.recyclerOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerOrder.setAdapter(adapter);
+
     }
 
     @Override
-    protected void initListener() {}
+    protected void initListener() {
+
+    }
 
     void loadData(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         String currentDate = dateFormat.format(date);
-        listHistoryOrders.add(new Order("job 1", currentDate, "Nguyen Van A", "Done"));
-        listHistoryOrders.add(new Order("job 2", currentDate, "Nguyen Van A","Done"));
-        listHistoryOrders.add(new Order("job 3", currentDate, "Nguyen Van A","Done"));
-        listHistoryOrders.add(new Order("job 4", currentDate, "Nguyen Van A","Done"));
-        listHistoryOrders.add(new Order("job 5", currentDate,"Nguyen Van A","Done"));
+        listOrder.add(new Order("job 1", currentDate, "Nguyen Van A", "In Progress"));
+        listOrder.add(new Order("job 2", currentDate, "Nguyen Van A","In Progress"));
+        listOrder.add(new Order("job 3", currentDate, "Nguyen Van A","In Progress"));
+        listOrder.add(new Order("job 4", currentDate, "Nguyen Van A","In Progress"));
+        listOrder.add(new Order("job 5", currentDate,"Nguyen Van A","In Progress"));
     }
 }
