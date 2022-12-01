@@ -23,9 +23,13 @@ public class Order {
     @SerializedName("isPaid")
     private boolean isPaid;
     @SerializedName("status")
-    private int status;
+    private String status;
+    @SerializedName("jobInfoName")
+    private String jobInfoName;
+    @SerializedName("workerName")
+    private String workerName;
 
-    public Order(String id, String jobId, String customerId, String workerId, String note, int jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, int status) {
+    public Order(String id, String jobId, String customerId, String workerId, String note, int jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, String status, String jobInfoName, String workerName) {
         this.id = id;
         this.jobId = jobId;
         this.customerId = customerId;
@@ -36,6 +40,15 @@ public class Order {
         this.userAddress = userAddress;
         this.userPoint = userPoint;
         this.isPaid = isPaid;
+        this.status = status;
+        this.jobInfoName = jobInfoName;
+        this.workerName = workerName;
+    }
+
+    public Order(String jobInfoName, String creationTime, String workerName, String status){
+        this.jobInfoName = jobInfoName;
+        this.creationTime = creationTime;
+        this.workerName = workerName;
         this.status = status;
     }
 
@@ -119,11 +132,26 @@ public class Order {
         isPaid = paid;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getJobInfoName() {
+        return jobInfoName;
+    }
+
+    public void setJobInfoName(String jobInfoName) {
+        this.jobInfoName = jobInfoName;
+    }
+    public String getWorkerName() {
+        return workerName;
+    }
+
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
     }
 }
