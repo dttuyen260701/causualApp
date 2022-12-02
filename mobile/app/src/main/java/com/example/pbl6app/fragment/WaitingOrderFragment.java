@@ -54,7 +54,7 @@ public class WaitingOrderFragment extends FragmentBase {
     protected void initView() {
         listOrder = new ArrayList<>();
         loadData();
-        adapter = new OrderItemLinesAdapter(listOrder, item -> new LoginActivity()); //todo: open detail order screen
+        adapter = new OrderItemLinesAdapter(listOrder, item -> addFragment(new OrderDetailFragment(), R.id.ctFragmentUser));
 
         binding.recyclerOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerOrder.setAdapter(adapter);

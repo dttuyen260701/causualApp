@@ -6,7 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/bg_bottom_exit_dialog.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_cancel_btn_exit_dialog.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_exit_dialog.xml" value="0.245" />
-        <entry key="app/src/main/res/drawable-v24/bg_ext_btn_exit_dialog.xml" value="0.245" />
+        <entry key="app/src/main/res/drawable-v24/bg_ext_btn_exit_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/bg_indicator_3.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_top_exit_dialog.xml" value="0.245" />
         <entry key="app/src/main/res/drawable/bg_avar_worker_detail.xml" value="0.1" />
@@ -36,6 +36,7 @@
         <entry key="app/src/main/res/layout/fragment_list_jobinfo.xml" value="0.18297101449275363" />
         <entry key="app/src/main/res/layout/fragment_list_worker.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_newfeed.xml" value="0.20244565217391305" />
+        <entry key="app/src/main/res/layout/fragment_order_detail.xml" value="0.25355207781218536" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1457717895507813" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25027313232421877" />
         <entry key="app/src/main/res/layout/fragment_status.xml" value="0.194598388671875" />
@@ -43,6 +44,7 @@
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.24764090275418935" />
         <entry key="app/src/main/res/layout/fragment_waiting_order.xml" value="0.23007246376811594" />
         <entry key="app/src/main/res/layout/fragment_worker_detail.xml" value="0.10681753849637679" />
+        <entry key="app/src/main/res/layout/item_job_info_order_detail.xml" value="0.25210266113281254" />
         <entry key="app/src/main/res/layout/item_jobinfo.xml" value="0.4603164672851562" />
         <entry key="app/src/main/res/layout/item_jobinfo_line.xml" value="0.1852355072463768" />
         <entry key="app/src/main/res/layout/item_most_used_service.xml" value="0.5503188202346581" />

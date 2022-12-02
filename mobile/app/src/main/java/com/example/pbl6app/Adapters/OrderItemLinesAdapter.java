@@ -65,7 +65,7 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
         private void bindView(int position) {
 //            Picasso.get().load(Constant.BASE_URL + listData.get(position).getLinkIMG()).into(binding.imgWorkerLineItem); //todo: image of job info
             binding.tvItem.setText(listData.get(position).getJobInfoName());
-            binding.tvItem.setText(listData.get(position).getWorkerName());
+            binding.tvWorker.setText(listData.get(position).getWorkerName());
             binding.tvTime.setText(listData.get(position).getCreationTime());
             binding.layoutOrderItemLine.setOnClickListener(view -> {
                 listener.onItemClick(listData.get(position));

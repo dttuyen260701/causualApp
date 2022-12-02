@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.WaitingOrderFragment"
+    android:background="#FBF7F7"
+
     >
 
     <androidx.recyclerview.widget.RecyclerView
