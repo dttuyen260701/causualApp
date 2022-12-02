@@ -267,7 +267,7 @@ public class UserHomeFragment extends FragmentBase {
             }
         });
 
-        ApiService.apiService.getListUserByIDUser(Constant.USER.getId()).enqueue(new Callback<ResponseRetrofit<ArrayList<WorkerDetail>>>() {
+        ApiService.apiService.getListWorkerByIDUser(Constant.USER.getId()).enqueue(new Callback<ResponseRetrofit<ArrayList<WorkerDetail>>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<ArrayList<WorkerDetail>>> call, Response<ResponseRetrofit<ArrayList<WorkerDetail>>> response) {
                 binding.progressBar.setVisibility(View.GONE);

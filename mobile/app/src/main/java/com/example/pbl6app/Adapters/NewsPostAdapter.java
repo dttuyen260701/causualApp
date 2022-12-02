@@ -3,6 +3,7 @@ package com.example.pbl6app.Adapters;
  * Created by tuyen.dang on 11/24/2022
  */
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
+import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.R;
+import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemNewsPostBinding;
 import com.squareup.picasso.Picasso;
 
@@ -22,15 +25,15 @@ import java.util.Date;
 public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHolder> {
 
     private ItemNewsPostBinding binding;
-    private ArrayList<String> listNewPost;
-    private OnItemCLickListener<String> listener;
+    private ArrayList<PostOfDemand> listNewPost;
+    private OnItemCLickListener<PostOfDemand> listener;
 
-    public NewsPostAdapter(ArrayList<String> listNewPost, OnItemCLickListener<String> listener) {
+    public NewsPostAdapter(ArrayList<PostOfDemand> listNewPost, OnItemCLickListener<PostOfDemand> listener) {
         this.listNewPost = listNewPost;
         this.listener = listener;
     }
 
-    public void setList_data(ArrayList<String> listNewPost) {
+    public void setList_data(ArrayList<PostOfDemand> listNewPost) {
         this.listNewPost = listNewPost;
         notifyDataSetChanged();
     }
@@ -58,18 +61,20 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
             super(binding.getRoot());
         }
 
+        @SuppressLint("SetTextI18n")
         public void bindView(int position) {
             binding.layout.setOnClickListener(view -> {
                 listener.onItemClick(listNewPost.get(position));
             });
 
-            binding.tvNameUser.setText("Name " + (position + 1));
+            binding.tvNameUser.setText(listNewPost.get(position).getCustomerName());
 
-            binding.tvContentPost.setText("Content " + (position + 1));
-            Picasso.get().load(listNewPost.get(position)).into(binding.imgUser);
+            binding.tvContentPost.setText(listNewPost.get(position).getDescription());
+            Picasso.get().load(Constant.BASE_URL + listNewPost.get(position).getCustomerImage()).into(binding.imgUser);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            binding.tvTime.setText(formatter.format(new Date().getTime()));
+            binding.tvTime.setText(listNewPost.get(position).getCreationTime() + "-" + listNewPost.get(position).getEndDateTime());
+
+//            binding.tvTime.setText(formatter.format(new Date().getTime()));
 
 //            binding.btnShowHide.setOnClickListener(view -> {
 //                isShow = !isShow;

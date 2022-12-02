@@ -14,7 +14,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.pbl6app.Adapters.WorkerLinesAdapter;
 import com.example.pbl6app.Models.JobInfo;
-import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
@@ -116,7 +115,7 @@ public class ListWorkerFragment extends FragmentBase{
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
 
-        ApiService.apiService.getListUserByIDTypeOfJob(Constant.USER.getId(), jobInfo.getId()).enqueue(new Callback<ResponseRetrofit<ArrayList<WorkerDetail>>>() {
+        ApiService.apiService.getListWorkerByIDTypeOfJob(Constant.USER.getId(), jobInfo.getId()).enqueue(new Callback<ResponseRetrofit<ArrayList<WorkerDetail>>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<ArrayList<WorkerDetail>>> call, Response<ResponseRetrofit<ArrayList<WorkerDetail>>> response) {
                 binding.progressBar.setVisibility(View.GONE);
