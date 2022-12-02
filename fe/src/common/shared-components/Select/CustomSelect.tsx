@@ -65,7 +65,7 @@ const CustomSelect: React.FC<ISelect> = ({ options, onChange, placeholder, value
 										value={""}
 										onClick={() => {
 											if (onChange) {
-												onChange("");
+												//onChange("");
 											}
 											setIsShowOptions(false);
 										}}
@@ -79,7 +79,7 @@ const CustomSelect: React.FC<ISelect> = ({ options, onChange, placeholder, value
 										value={option.value}
 										onClick={() => {
 											if (onChange) {
-												onChange(option.value);
+												// onChange(option.value);
 											}
 											setIsShowOptions(false);
 										}}

@@ -1,6 +1,6 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
-import { API_URL } from "../../common/utils/config";
+import { API_URL } from "../common/utils/config";
 //import {IErrorResponse} from "./login/loginType";
 
 const handleErrorSessionTimeOut = (): void => {
@@ -17,7 +17,7 @@ const handleErrorSessionTimeOut = (): void => {
 };
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${API_URL}/api/`,
+	baseUrl: `${API_URL}/api/app/`,
 	prepareHeaders: headers => {
 		headers.set("Access-Control-Allow-Origin", "*");
 		headers.set("Content-Type", "application/json");
@@ -44,7 +44,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const baseApi = createApi({
 	baseQuery: baseQueryWithReAuth,
-	tagTypes: ["Login", "Register"],
+	tagTypes: ["Login", "Register","Province",'District', "Ward", 'TypeOfJob'],
 	refetchOnMountOrArgChange: true,
 	endpoints: () => ({})
 });

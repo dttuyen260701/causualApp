@@ -1,4 +1,4 @@
-import { baseApi } from "../baseApi";
+import { baseApi } from "../../baseApi";
 
 import { ILoginResponse, IUserLoginInput } from "./loginType";
 
@@ -7,7 +7,7 @@ export const loginApi = baseApi.injectEndpoints({
 		login: builder.mutation<ILoginResponse, IUserLoginInput>({
 			query: body => {
 				return {
-					url: "app/account/login",
+					url: "account/login",
 					method: "post",
 					headers: {
 						"content-type": "application/json"

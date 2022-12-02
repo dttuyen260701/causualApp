@@ -1,6 +1,6 @@
-import { Box, Flex, VStack, Text, HStack, Link } from "@chakra-ui/react";
+import { Box, Flex, VStack, Text, HStack, Link, Button } from "@chakra-ui/react";
 import { Form, Formik, FormikErrors, FormikHelpers } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
@@ -9,26 +9,32 @@ import { GrCaretNext } from "react-icons/gr";
 
 import InputField from "../../common/shared-components/Input/InputField";
 import { IUserLoginRegister } from "../../app/api/register/registerType";
+import { userLoginInfoEmpty } from "../../common/constants/constants";
 
 interface ILoginInfo {
 	handleNextPage: (page: number) => void;
+	handleGetLoginInfo: (values: IUserLoginRegister) => void;
+	userLoginInfo: IUserLoginRegister;
 }
 
 const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 	const navigate = useNavigate();
+	const [isDisableNext, setIsDisableNext] = useState<boolean>(true);
 
-	const handleTurnPage = () => {
+	useEffect(() => {
+		if (props.userLoginInfo === userLoginInfoEmpty) {
+			setIsDisableNext(true);
+		} else {
+			setIsDisableNext(false);
+		}
+	}, [props.userLoginInfo]);
+
+	const handleSubmit = async (values: IUserLoginRegister, actions: FormikHelpers<IUserLoginRegister>) => {
+		//alert(`Username: ${values.UserName}\nEmail: ${values.Email}\nPassword: ${values.Password}`);
+		props.handleGetLoginInfo(values);
 		props.handleNextPage(2);
 	};
-	const handleSubmit = async (values: IUserLoginRegister, actions: FormikHelpers<IUserLoginRegister>) => {
-		alert(`Username: ${values.UserName}\nEmail: ${values.Email}\nPassword: ${values.Password}`);
-	};
-	const initialValues: IUserLoginRegister = {
-		UserName: "",
-		Password: "",
-		confirmPassword: "",
-		Email: ""
-	};
+	const initialValues: IUserLoginRegister = props.userLoginInfo;
 	return (
 		<Formik
 			initialValues={initialValues}
@@ -40,8 +46,18 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 				if (!values.Password) {
 					error.Password = "Password is required";
 				}
+				if (
+					values.Password &&
+					!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(values.Password.trim())
+				) {
+					error.Password =
+						"Password must contain 8 Characters, one uppercase, one lowercase, one number and one special case character";
+				}
 				if (!values.confirmPassword) {
 					error.confirmPassword = "Password has to be confirmed";
+				}
+				if (values.confirmPassword !== values.Password) {
+					error.confirmPassword = "Password is confirmed incorrectly";
 				}
 				if (!values.Email) {
 					error.Email = "Email is required";
@@ -49,9 +65,15 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 				if (values.Email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.Email.trim())) {
 					error.Email = "Email address is invalid";
 				}
+				if (values.UserName && values.Email && values.Password && values.confirmPassword) {
+					setIsDisableNext(false);
+				} else {
+					setIsDisableNext(true);
+				}
 				return error;
 			}}
 			onSubmit={handleSubmit}
+			validateOnChange={true}
 		>
 			{() => (
 				<Form>
@@ -91,12 +113,12 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 							<Box padding={"20px 0 10px"}>
 								<Text
 									fontFamily={"'Bungee', monospace"}
-									fontWeight="700"
-									fontSize={{ sm: "5.5vw", md: "60px", lg: "70px" }}
+									fontWeight="500"
+									fontSize={{ sm: "5.5vw", md: "40px", lg: "50px" }}
 									bgClip="text"
 									color={"#E48D41"}
 								>
-									Đăng ký
+									Trở thành đối tác
 								</Text>
 							</Box>
 							<HStack spacing={6} width={"100%"}>
@@ -128,7 +150,7 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 									childrenIcon={<HiOutlineMail />}
 								/>
 							</HStack>
-							<HStack spacing={6} width={"100%"} paddingBottom="30px">
+							<HStack spacing={6} width={"100%"} height="auto" paddingBottom="30px">
 								{/* Password */}
 								<InputField
 									name="Password"
@@ -136,10 +158,10 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 									inputProps={{
 										fontSize: "20px",
 										height: "50px",
-										fontWeight: 400,
+										fontWeight: "400",
 										width: "100%",
-										type: "password",
-										color: "rgba(0, 0, 0)"
+										color: "rgba(0, 0, 0)",
+										type: "password"
 									}}
 									childrenIcon={<RiLockPasswordLine />}
 								/>
@@ -152,14 +174,14 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 										height: "50px",
 										fontWeight: 400,
 										width: "100%",
-										type: "password",
-										color: "rgba(0, 0, 0)"
+										color: "rgba(0, 0, 0)",
+										type: "password"
 									}}
 									childrenIcon={<RiLockPasswordFill />}
 								/>
 							</HStack>
 							<HStack justifyContent={"flex-end"} width="100%">
-								<Flex
+								<Button
 									bgColor={"rgba(222, 116, 24)"}
 									width="50px"
 									height="50px"
@@ -171,10 +193,12 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 									_hover={{
 										bgColor: "#E48D41"
 									}}
-									onClick={handleTurnPage}
+									type="submit"
+									isDisabled={isDisableNext}
+									//onClick={handleTurnPage}
 								>
 									<GrCaretNext color="white" width="50px" height="50px" />
-								</Flex>
+								</Button>
 							</HStack>
 						</VStack>
 					</Flex>

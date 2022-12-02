@@ -2,6 +2,7 @@ export interface IUserLoginInput {
 	userName: string;
 	password: string;
 	rememberMe: boolean;
+	withRole: number;
 }
 
 export interface IUserInfo {

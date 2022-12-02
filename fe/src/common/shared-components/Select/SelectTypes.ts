@@ -11,7 +11,7 @@ export interface ISelect {
 	placeholder?: string;
 	name?: string;
 	width?: string;
-	onChange?: (value: string) => void;
+	onChange?: (value: IOption) => void;
 	value?: string;
 	onInputChange?: (value: string) => void;
 	style?: CSSProperties;

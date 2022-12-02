@@ -1,4 +1,4 @@
-import { HStack, useRadioGroup, Text, FormControl } from "@chakra-ui/react";
+import { HStack, useRadioGroup, Text, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { Field, FieldProps, useFormikContext } from "formik";
 import React from "react";
 
@@ -7,7 +7,7 @@ import { CheckBoxCardFied } from "../../common/shared-components/CheckBoxCard/Ch
 import { ICheckBoxGroup } from "./CheckBoxGroupType";
 
 export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
-	const options = ["Nam", "Nữ"];
+	const options = ["Nam", "Nữ", "Khác"];
 
 	const { setFieldValue } = useFormikContext();
 
@@ -17,7 +17,7 @@ export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
 
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name: props.name,
-		defaultValue: "",
+		defaultValue: props.valueProps,
 		onChange: handleChangeCheckBox
 	});
 
@@ -39,11 +39,14 @@ export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
 								);
 							})}
 						</HStack>
-						{form.errors[field.name] && (
+						{field.value === "" && (
 							<Text fontSize={"13px"} color="red" paddingTop={"5px"}>
 								{form.errors[field.name] as string}
 							</Text>
 						)}
+						{/*{field.value === "" && (
+							<FormErrorMessage fontSize={"13px"}>{form.errors[field.name] as string}</FormErrorMessage>
+						)}*/}
 					</FormControl>
 				);
 			}}

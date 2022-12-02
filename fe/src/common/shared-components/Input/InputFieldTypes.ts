@@ -1,5 +1,6 @@
-import { InputProps } from "@chakra-ui/input/dist/declarations/src/input";
+
 import { CSSProperties } from "react";
+import {InputProps} from "@chakra-ui/input";
 
 export interface IInput {
 	label?: string;
