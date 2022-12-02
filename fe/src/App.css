@@ -1,27 +1,37 @@
-.time-picker {
-	width: 100%;
-	font-size: 18px;
-	height: 40px;
-	font-weight: 400;
-	color: rgba(0, 0, 0);
+@import url('https://fonts.googleapis.com/css2?family=Days+One&family=Libre+Franklin:wght@100;200;300;500;600;700&display=swap');
+/* Card flipping */
+.card-container {
 	/*position: relative;*/
-}
-.react-time-picker span{
-	/*position: absolute;*/
-	display: none;
-}
-
-.react-time-picker__wrapper {
-	border-radius: 15px;
-	border: 1px solid;
+	z-index: 1;
+	perspective: 1000px;
+	width: 100%;
+	height: 100%;
 }
 
-.time-picker:focus {
-	border-color: "#E48D41";
-	border-width: "2px";
+.card-body {
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	transition: all .7s linear;
 }
-.time-picker:hover {
-	box-shadow: "md";
-	border-color: "#E48D41";
-	box-shadow: "0px 0px 13px -3px #FDB493";
+
+.card-container:hover .card-body {
+	transform: rotateY(180deg);
 }
+
+.card-container:hover > .card-body > .side-front {
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease-in, visibility .75s linear;
+}
+
+.card-side{
+	backface-visibility: hidden;
+	position: absolute;
+}
+
+.side-back {
+	z-index: 2;
+	text-align: center;
+	transform: rotateY(180deg);
+  }

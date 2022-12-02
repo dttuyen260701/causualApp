@@ -28,7 +28,7 @@ export const CheckBoxCardFied: React.FC<ICheckBoxCard> = props => {
 				_focus={{
 					boxShadow: "#a35817"
 				}}
-				px={10}
+				px={5}
 				py={1}
 			>
 				{props.children}

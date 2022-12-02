@@ -1,6 +1,6 @@
 import { Field, FieldProps } from "formik";
 import React from "react";
-import { Box, FormControl, FormErrorMessage, FormLabel, HStack, VStack } from "@chakra-ui/react";
+import { Box, FormControl, FormErrorMessage, FormLabel, VStack } from "@chakra-ui/react";
 import Select from "react-select";
 
 import useInputSelectStyle from "../../utils/useInputSelectStyle";
@@ -19,6 +19,7 @@ const SelectInputField: React.FC<ISelect> = props => {
 			{({ field, form }: FieldProps) => {
 				const currentOption =
 					field.value && field.value.value ? field.value : props.options.find(option => option.value === field.value);
+				//console.log("currentOption: ", currentOption);
 
 				return (
 					<FormControl
@@ -87,10 +88,10 @@ const SelectInputField: React.FC<ISelect> = props => {
 									}}
 									onChange={e => {
 										if (props.onChange) {
-											props.onChange(e.value);
+											props.onChange(e);
 										}
 										if (name != null) {
-											form.setFieldValue(name, e.value);
+											form.setFieldValue(name, e);
 										}
 									}}
 									onInputChange={e => {

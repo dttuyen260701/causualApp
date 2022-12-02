@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, FormErrorMessage, Text, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, Input, Text, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { Field, FieldProps } from "formik";
 
 import { IInput } from "./InputFieldTypes";
@@ -8,6 +8,7 @@ const InputField: React.FC<IInput> = props => {
 	return (
 		<Field name={props.name}>
 			{({ field, form }: FieldProps) => {
+				//console.log(`${field.name}: ${field.value}`);
 				return (
 					<FormControl isInvalid={!!form.errors[field.name] && !!form.touched[field.name]}>
 						<Text paddingBottom={"5px"} lineHeight={"20px"}>

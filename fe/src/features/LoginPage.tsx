@@ -37,7 +37,12 @@ const LoginPage: React.FC = () => {
 	};
 
 	const handleSubmit = async (values: IUserLoginInput, actions: FormikHelpers<IUserLoginInput>) => {
-		loginWorker({ userName: values.userName.trim(), password: values.password, rememberMe: values.rememberMe })
+		loginWorker({
+			userName: values.userName.trim(),
+			password: values.password,
+			rememberMe: values.rememberMe,
+			withRole: values.withRole
+		})
 			.unwrap()
 			.then(res => {
 				console.log(JSON.stringify(res));
@@ -45,7 +50,7 @@ const LoginPage: React.FC = () => {
 				// dispatch(setCurrentUser(res.userInfo));
 			})
 			.then(() => {
-				navigate("/register");
+				navigate("/public");
 				//if (currentHref) {
 				//	navigate(currentHref);
 				//} else {
@@ -54,7 +59,7 @@ const LoginPage: React.FC = () => {
 			})
 			.catch(error => {
 				console.log("error: ", error);
-				actions.resetForm({ values: { userName: values.userName, password: "", rememberMe: true } });
+				actions.resetForm({ values: { userName: values.userName, password: "", rememberMe: true, withRole: 1 } });
 				setErrorState(true);
 			});
 		// alert(`Email: ${values.email}\nPassword: ${values.password}`);
@@ -63,7 +68,8 @@ const LoginPage: React.FC = () => {
 	const initialValues: IUserLoginInput = {
 		userName: "",
 		password: "",
-		rememberMe: true
+		rememberMe: true,
+		withRole: 1
 	};
 
 	return (
@@ -74,9 +80,6 @@ const LoginPage: React.FC = () => {
 				if (!values.userName) {
 					error.userName = "Email address is required";
 				}
-				//if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
-				//	error.email = "Email address is invalid";
-				//}
 				if (!values.password) {
 					error.password = "Password is required";
 				}
@@ -95,10 +98,10 @@ const LoginPage: React.FC = () => {
 						flexDirection="column"
 						width="100wh"
 						height="100vh"
-						//backgroundColor="#e6cdbe"
-						backgroundImage="url('./images/bgLogin3.png')"
-						backgroundSize="cover"
-						bgRepeat="no-repeat"
+						backgroundColor="#faf2e5"
+						//backgroundImage="url('./images/bgLogin3.png')"
+						//backgroundSize="cover"
+						//bgRepeat="no-repeat"
 						justifyContent="center"
 						alignItems="center"
 						position="relative"
