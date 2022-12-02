@@ -20,7 +20,7 @@
 
     $('#CloseImage').on('click', function () {
         document.getElementById('FileIcon').value = null;
-        image.src = "/images/icon/iconDefault.png";
+        image.src = "/upload_images/type_of_job/iconDefault.png";
         if (cropper) {
             cropper.destroy();
         }
