@@ -65,5 +65,20 @@ namespace PBL6.CasualManager.Addresses
             }
             return wardsDto;
         }
+
+        public async Task<ProvinceDto> GetProvinceByIdAsync(Guid provinceId)
+        {
+            return ObjectMapper.Map<Province, ProvinceDto>(await _provinceRepository.GetAsync(provinceId));
+        }
+
+        public async Task<DistrictDto> GetDistrictByIdAsync(Guid districtId)
+        {
+            return ObjectMapper.Map<District, DistrictDto>(await _districtRepository.GetAsync(districtId));
+        }
+
+        public async Task<WardDto> GetWardByIdAsync(Guid wardId)
+        {
+            return ObjectMapper.Map<Ward, WardDto>(await _wardRepository.GetAsync(wardId));
+        }
     }
 }

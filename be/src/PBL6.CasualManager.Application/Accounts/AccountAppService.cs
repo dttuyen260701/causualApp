@@ -3,21 +3,13 @@ using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.WorkerInfos;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 using Volo.Abp.Identity;
-using Volo.Abp.Validation;
 using Microsoft.AspNetCore.Hosting;
 using PBL6.CasualManager.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using static Volo.Abp.Identity.Settings.IdentitySettingNames;
-using static Volo.Abp.Identity.IdentityPermissions;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Internal;
 using System.Globalization;
 
 namespace PBL6.CasualManager.Accounts
@@ -280,6 +272,159 @@ namespace PBL6.CasualManager.Accounts
                 await _identityUserRepository.DeleteAsync(identityUser);
                 return new ApiErrorResult<string>("Đăng ký không thành công");
             }
+        }
+
+        [HttpPut]
+        [Route("/api/app/account/edit-customer-info/{id}")]
+        public async Task<ApiResult<CustomerInfoAllResponse>> EditCustomerInfoAsync(Guid id, [FromForm] CustomerInfoUpdateRequest request)
+        {
+            if (id != request.Id)
+            {
+                return new ApiErrorResult<CustomerInfoAllResponse>("Có lỗi trong quá trình xử lý");
+            }
+            IdentityUser identityUser = null;
+            try
+            {
+                identityUser = await _identityUserRepository.GetAsync(id).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<CustomerInfoAllResponse>("Không tìm thấy đối tượng. Vui lòng kiểm tra lại.");
+            }
+            if (identityUser == null)
+            {
+                return new ApiErrorResult<CustomerInfoAllResponse>("Không tìm thấy đối tượng. Vui lòng kiểm tra lại.");
+            }
+
+            var customerInfo = await _customerInfoRepository.GetEntityCustomerInfoHaveUserId(request.Id);
+            if (customerInfo != null)
+            {
+                try
+                {
+                    identityUser.Name = request.Name;
+                    identityUser.SetPhoneNumber(request.Phone, true);
+                    await _identityUserManager.UpdateAsync(identityUser);
+                    customerInfo.Gender = request.Gender;
+                    customerInfo.Address = request.Address;
+                    customerInfo.AddressPoint = string.Empty;
+                    customerInfo.DistrictId = request.DistrictId;
+                    customerInfo.DistrictName = request.DistrictName;
+                    customerInfo.WardId = request.WardId;
+                    customerInfo.WardName = request.WardName;
+                    customerInfo.ProvinceId = request.ProvinceId;
+                    customerInfo.ProvinceName = request.ProvinceName;
+                    customerInfo.DateOfBirth = DateTime.ParseExact(request.DateOfBirth, "dd-MM-yyyy", CultureInfo.GetCultureInfo("tr-TR"));
+                    customerInfo.Avatar = await SaveImageAsync(request.Avatar, customerInfo.UserId) ?? customerInfo.Avatar;
+
+                    await _customerInfoRepository.UpdateAsync(customerInfo, true);
+                    var identityUserAfterUpdate = await _identityUserManager.GetByIdAsync(id);
+                    var infoCustomerAfterUpdate = await _customerInfoRepository.GetAsync(customerInfo.Id);
+
+                    var customerInfoAllDto = new CustomerInfoAllResponse()
+                    {
+                        Email = identityUserAfterUpdate.Email,
+                        Id = identityUserAfterUpdate.Id,
+                        UserName = identityUserAfterUpdate.UserName,
+                        Name = identityUserAfterUpdate.Name,
+                        Phone = identityUserAfterUpdate.PhoneNumber,
+                        Gender = infoCustomerAfterUpdate.Gender,
+                        Address = infoCustomerAfterUpdate.Address,
+                        AddressPoint = infoCustomerAfterUpdate.AddressPoint,
+                        DateOfBirth = infoCustomerAfterUpdate.DateOfBirth.ToString("dd-MM-yyyy"),
+                        ProvinceId = infoCustomerAfterUpdate.ProvinceId,
+                        ProvinceName = infoCustomerAfterUpdate.ProvinceName,
+                        WardId = infoCustomerAfterUpdate.WardId,
+                        WardName = infoCustomerAfterUpdate.WardName,
+                        DistrictId = infoCustomerAfterUpdate.DistrictId,
+                        DistrictName = infoCustomerAfterUpdate.DistrictName,
+                        Avatar = infoCustomerAfterUpdate.Avatar,
+                        Role = Role.CUSTOMER
+                    };
+                    return new ApiSuccessResult<CustomerInfoAllResponse>(customerInfoAllDto);
+                }
+                catch (Exception)
+                {
+                    return new ApiErrorResult<CustomerInfoAllResponse>("Có lỗi trong quá trình xử lý");
+                }
+            }
+            return new ApiErrorResult<CustomerInfoAllResponse>("Không tìm thấy đối tượng. Vui lòng kiểm tra lại.");
+        }
+
+        [HttpPut]
+        [Route("/api/app/account/edit-worker-info/{id}")]
+        public async Task<ApiResult<WorkerInfoAllResponse>> EditWorkerInfoAsync(Guid id, [FromForm] WorkerInfoUpdateRequest request)
+        {
+            if (id != request.Id)
+            {
+                return new ApiErrorResult<WorkerInfoAllResponse>("Có lỗi trong quá trình xử lý");
+            }
+            var identityUser = await _identityUserManager.GetByIdAsync(id);
+            if (identityUser == null)
+            {
+                return new ApiErrorResult<WorkerInfoAllResponse>("Không tìm thấy đối tượng");
+            }
+            var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(request.Id);
+            if (workerInfo != null)
+            {
+                try
+                {
+                    identityUser.Name = request.Name;
+                    identityUser.SetPhoneNumber(request.Phone, true);
+                    await _identityUserManager.UpdateAsync(identityUser);
+                    workerInfo.Gender = request.Gender;
+                    workerInfo.Address = request.Address;
+                    workerInfo.AddressPoint = string.Empty;
+                    workerInfo.DistrictId = request.DistrictId;
+                    workerInfo.DistrictName = request.DistrictName;
+                    workerInfo.WardId = request.WardId;
+                    workerInfo.WardName = request.WardName;
+                    workerInfo.ProvinceId = request.ProvinceId;
+                    workerInfo.ProvinceName = request.ProvinceName;
+                    workerInfo.DateOfBirth = DateTime.ParseExact(request.DateOfBirth, "dd-MM-yyyy", CultureInfo.GetCultureInfo("tr-TR"));
+                    workerInfo.Avatar = await SaveImageAsync(request.Avatar, workerInfo.UserId) ?? workerInfo.Avatar;
+                    workerInfo.IdentityCard = request.IdentityCard;
+                    workerInfo.IdentityCardBy = request.IdentityCardBy;
+                    workerInfo.IdentityCardDate = DateTime.ParseExact(request.IdentityCardDate, "dd-MM-yyyy", CultureInfo.GetCultureInfo("tr-TR"));
+                    workerInfo.StartWorkingTime = request.StartWorkingTime;
+                    workerInfo.EndWorkingTime = request.EndWorkingTime;
+
+                    await _workerInfoRepository.UpdateAsync(workerInfo);
+
+                    var identityUserAfterUpdate = await _identityUserManager.GetByIdAsync(id);
+                    var infoWorkerAfterUpdate = await _workerInfoRepository.GetAsync(workerInfo.Id);
+
+                    var workerInfoAllDto = new WorkerInfoAllResponse()
+                    {
+                        Email = identityUserAfterUpdate.Email,
+                        Id = identityUserAfterUpdate.Id,
+                        Username = identityUserAfterUpdate.UserName,
+                        Name = identityUserAfterUpdate.Name,
+                        Phone = identityUserAfterUpdate.PhoneNumber,
+                        Gender = infoWorkerAfterUpdate.Gender,
+                        Address = infoWorkerAfterUpdate.Address,
+                        AddressPoint = infoWorkerAfterUpdate.AddressPoint,
+                        IdentityCard = infoWorkerAfterUpdate.IdentityCard,
+                        DateOfBirth = infoWorkerAfterUpdate.DateOfBirth.ToString("dd-MM-yyyy"),
+                        ProvinceId = infoWorkerAfterUpdate.ProvinceId,
+                        ProvinceName = infoWorkerAfterUpdate.ProvinceName,
+                        WardId = infoWorkerAfterUpdate.WardId,
+                        WardName = infoWorkerAfterUpdate.WardName,
+                        DistrictId = infoWorkerAfterUpdate.DistrictId,
+                        DistrictName = infoWorkerAfterUpdate.DistrictName,
+                        Avatar = infoWorkerAfterUpdate.Avatar,
+                        IdentityCardDate = infoWorkerAfterUpdate.IdentityCardDate.ToString("dd-MM-yyyy"),
+                        IdentityCardBy = infoWorkerAfterUpdate.IdentityCardBy,
+                        Role = Role.WORKER,
+                    };
+                    return new ApiSuccessResult<WorkerInfoAllResponse>(resultObj: workerInfoAllDto);
+                }
+                catch (Exception)
+                {
+
+                    return new ApiErrorResult<WorkerInfoAllResponse>("Có lỗi trong quá trình xử lý");
+                }
+            }
+            return new ApiErrorResult<WorkerInfoAllResponse>("Không tìm thấy đối tượng");
         }
 
         private async Task<string> SaveImageAsync(IFormFile image, Guid idUser)

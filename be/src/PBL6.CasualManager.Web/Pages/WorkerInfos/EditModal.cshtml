@@ -1,0 +1,121 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
+@using PBL6.CasualManager.Localization
+@inject IHtmlLocalizer<CasualManagerResource> L
+@model PBL6.CasualManager.Web.Pages.WorkerInfos.EditModalModel
+@{
+    Layout = null;
+}
+
+<abp-script src="/Pages/CustomerInfos/create-update.js"></abp-script>
+
+<form asp-page="/WorkerInfos/EditModal">
+    <abp-modal size="ExtraLarge">
+        <abp-modal-header title="@L["Worker:Edit"].Value" class="bg-light"></abp-modal-header>
+        <abp-modal-body>
+            <abp-row>
+                <abp-column size-md="_3">
+                    <abp-row>
+                        <img class="image" src="~/upload_images/customer/profile.png" />
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_12" class='worker-name'>
+                            <div>
+                                <h4><b>@Model.ViewModel.Name</b></h4>
+                            </div>
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                if (i <= Model.ViewModel.AverageRate)
+                                {
+                                    <span class="fa fa-star fa-2xl checked"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-column>
+                <abp-column size-md="_9">
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.Name"></abp-input>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.UserName" readonly="true"></abp-input>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.IdentityCard" readonly="true"></abp-input>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-row>
+                                <abp-column size-md="_6">
+                                    <abp-input asp-for="ViewModel.IdentityCardDate"></abp-input>
+                                </abp-column>
+                                <abp-column size-md="_6">
+                                    <abp-input asp-for="ViewModel.IdentityCardBy"></abp-input>
+                                </abp-column>
+                            </abp-row>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.StartWorkingTime"></abp-input>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.EndWorkingTime"></abp-input>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-select asp-for="ViewModel.Gender" asp-items="@Model.ListGenders"></abp-select>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.DateOfBirth"></abp-input>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.Phone"></abp-input>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.Email" readonly="true"></abp-input>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-select asp-for="ViewModel.ProvinceId" asp-items="@Model.ListProvinces"></abp-select>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-select asp-for="ViewModel.DistrictId" asp-items="@Model.ListDistricts"></abp-select>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-select asp-for="ViewModel.WardId" asp-items="@Model.ListWards"></abp-select>
+                        </abp-column>
+                        <abp-column size-md="_6">
+                            <abp-input asp-for="ViewModel.Address"></abp-input>
+                        </abp-column>
+                    </abp-row>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-select asp-for="ViewModel.Status" asp-items="@Model.ListStatus"></abp-select>
+                        </abp-column>
+                        <abp-column size-md="_6" class="pt-3">
+                            <abp-input asp-for="ViewModel.IsActive"></abp-input>
+                        </abp-column>
+                    </abp-row>
+                </abp-column>
+            </abp-row>
+        </abp-modal-body>
+        <abp-modal-footer>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span>@L["Common:Cancel"].Value</span></button>
+            <button id="save" type="submit" class="btn btn-primary" data-busy-text="@L["Common:Saving"].Value"> <span>@L["Common:Save"].Value</span></button>
+        </abp-modal-footer>
+    </abp-modal>
+</form>

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PBL6.CasualManager.Accounts
 {
-    public class WorkerInfoAllDto
+    public class WorkerInfoAllResponse
     {
         public string Email { get; set; }
 

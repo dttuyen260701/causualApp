@@ -1,16 +1,18 @@
 ﻿using PBL6.CasualManager.Enum;
 using System;
-using Volo.Abp.Application.Dtos;
+using System.ComponentModel.DataAnnotations;
 
 namespace PBL6.CasualManager.WorkerInfos
 {
-    public class WorkerInfoDto : FullAuditedEntityDto<Guid>
+    public class WorkerInfoCreateUpdateDto
     {
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
         public string UserName { get; set; }
+
+        public string Password { get; set; }
 
         public string Phone { get; set; }
 
@@ -18,13 +20,9 @@ namespace PBL6.CasualManager.WorkerInfos
 
         public Gender Gender { get; set; }
 
-        public string GenderName { get; set; }
-
         public DateTime DateOfBirth { get; set; }
 
         public string Address { get; set; }
-
-        public string AddressDetail { get; set; }
 
         public string ProvinceId { get; set; }
 
@@ -50,12 +48,10 @@ namespace PBL6.CasualManager.WorkerInfos
 
         public string EndWorkingTime { get; set; }
 
-        public int AverageRate { get; set; }
+        public int AverageRate { get; set; } = 0;
 
-        public WorkerStatus Status { get; set; }
+        public WorkerStatus Status { get; set; } = WorkerStatus.Free;
 
-        public bool IsActive { get; set; }
-
+        public bool IsActive { get; set; } = true;
     }
-
 }

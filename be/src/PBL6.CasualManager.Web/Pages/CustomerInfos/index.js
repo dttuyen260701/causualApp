@@ -1,11 +1,11 @@
 ﻿$(function () {
     const l = abp.localization.getResource('CasualManager');
 
-    const service = pBL6.casualManager.typeOfJobs.typeOfJob;
-    const createModal = new abp.ModalManager(abp.appPath + 'TypeOfJobs/CreateModal');
-    const editModal = new abp.ModalManager(abp.appPath + 'TypeOfJobs/EditModal');
+    const service = pBL6.casualManager.customerInfos.customerInfo;
+    const createModal = new abp.ModalManager(abp.appPath + 'CustomerInfos/CreateModal');
+    const editModal = new abp.ModalManager(abp.appPath + 'CustomerInfos/EditModal');
 
-    const dataTable = $('#type-of-job-datatable').DataTable(abp.libs.datatables.normalizeConfiguration({
+    const dataTable = $('#customer-datatable').DataTable(abp.libs.datatables.normalizeConfiguration({
         processing: true,
         responsive: true,
         serverSide: true,
@@ -16,36 +16,45 @@
         fixedHeader: true,
         bLengthChange: true,
         scrollCollapse: true,
-        ajax: abp.libs.datatables.createAjax(service.getListByName, GetValueSearch),
+        ordering: false,
+        ajax: abp.libs.datatables.createAjax(service.getListCustomerAllInfo, GetValueSearch),
         columnDefs: [
             {
-                title: l('STT'),
-                render: function (data, type, full, meta) {
-                    const info = dataTable.page.info();
-                    return info.page * dataTable.page.len() + meta.row + 1;
-                },
-                className: "text-center",
-                width: "5%"
-            },
-            {
-                title: l('TypeOfJob:Name'),
+                title: l('Customer:Name'),
                 data: "name",
-                width: "20%"
             },
             {
-                title: l('TypeOfJob:Description'),
-                data: "description",
+                title: l('Common:Username'),
+                data: "userName",
             },
             {
-                title: l('TypeOfJob:Icon'),
-                data: "avatar",
-                render: function (avatar) {
-                    if (avatar != null) {
-                        return `<img class = "avatar" src = "${avatar}">`;
-                    }
-                    return avatar;
+                title: l('Common:Phone'),
+                data: "phone",
+            },
+            {
+                title: l('Common:Email'),
+                data: "email",
+            },
+            {
+                title: l('Common:Gender'),
+                data: function (data) {
+                    return l(data.genderName)
                 },
-                width: "5%"
+            },
+            {
+                title: l('Common:DateOfBirth'),
+                data: "dateOfBirth",
+                render: function (data) {
+                    return luxon
+                        .DateTime
+                        .fromISO(data, {
+                            locale: abp.localization.currentCulture.name
+                        }).toFormat('dd/MM/yyyy');
+                },
+            },
+            {
+                title: l('Common:Address'),
+                data: "addressDetail",
             },
             {
                 title: l('Actions'),
@@ -54,7 +63,7 @@
                         [
                             {
                                 text: l('Edit'),
-                                visible: abp.auth.isGranted('CasualManager.TypesOfJob.Update'),
+                                visible: abp.auth.isGranted('CasualManager.CustomerInfo.Update'),
                                 action: function (data) {
                                     editModal.open({ id: data.record.id });
                                 },
@@ -62,12 +71,12 @@
                             },
                             {
                                 text: l('Delete'),
-                                visible: abp.auth.isGranted('CasualManager.TypesOfJob.Delete'),
+                                visible: abp.auth.isGranted('CasualManager.CustomerInfo.Delete'),
                                 confirmMessage: function (data) {
                                     return l('Common:DeletionConfirmationMessage', data.record.name);
                                 },
                                 action: function (data) {
-                                    service.delete(data.record.id)
+                                    service.deleteCustomerInfo(data.record.id)
                                         .then(function () {
                                             abp.notify.info(l('Common:SuccessfullyDeleted'));
                                             dataTable.ajax.reload();
@@ -77,7 +86,7 @@
                             }
                         ]
                 },
-                width: "20%",
+                width: "15%",
                 class: "text-center"
             }
         ],
@@ -101,11 +110,11 @@
 
     function GetValueSearch() {
         return {
-            'filterName': $("#ViewModel_FilterName").val(),
+            'keyword': $("#ViewModel_FilterName").val()
         };
     }
 
-    $('#new-type-of-job').click(function (e) {
+    $('#new-customer').click(function (e) {
         e.preventDefault();
         createModal.open();
     });
@@ -115,7 +124,7 @@
         abp.notify.success(l('Common:SuccessfullyCreated'));
     });
 
-    editModal.onClose(function () {
+    editModal.onResult(function () {
         dataTable.ajax.reload();
         abp.notify.success(l('Common:SuccessfullyEdited'));
     });

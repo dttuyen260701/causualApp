@@ -8,4 +8,6 @@ public class CasualManagerMenus
     //Add your menu items here...
     public const string TypeOfJob = Prefix + ".TypeOfJob";
     public const string JobInfo = Prefix + ".JobInfo";
+    public const string WorkerInfo = Prefix + ".WorkerInfo";
+    public const string CustomerInfo = Prefix + ".CustomerInfo";
 }

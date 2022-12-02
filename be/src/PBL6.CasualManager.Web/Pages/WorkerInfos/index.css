@@ -1,0 +1,23 @@
+﻿.checked {
+    color: orange;
+}
+
+.fa-check-circle {
+    color: green;
+}
+
+.fa-times-circle {
+    color: red;
+}
+
+.free {
+    color: green;
+}
+
+.busy {
+    color: red;
+}
+
+.worker-name {
+    text-align: center;
+}

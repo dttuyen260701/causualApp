@@ -1,143 +1,170 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using PBL6.CasualManager.Accounts;
-using PBL6.CasualManager.ApiResults;
-using PBL6.CasualManager.CustomerInfos;
+﻿using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Enum;
+using PBL6.CasualManager.FileStorages;
 using System;
-using System.Globalization;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Volo.Abp.Domain.Entities;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
 using Volo.Abp.Identity;
-using Volo.Abp.Validation;
+using static PBL6.CasualManager.WorkerInfos.WorkerInfoBusinessException;
 
 namespace PBL6.CasualManager.WorkerInfos
 {
-    public class WorkerInfoAppService : CasualManagerAppService, IWorkerInfoAppService
+    public class WorkerInfoAppService :
+        CrudAppService<
+            WorkerInfo,
+            WorkerInfoDto,
+            Guid,
+            WorkerInfoConditionSearchDto,
+            WorkerInfoCreateUpdateDto>
+        , IWorkerInfoAppService
     {
         private readonly IdentityUserManager _identityUserManager;
+        private readonly IFileStorageAppService _fileStorageAppService;
         private readonly IWorkerInfoRepository _workerInfoRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IIdentityUserRepository _identityUserRepository;
-        public WorkerInfoAppService(IIdentityUserRepository identityUserRepository, IHostingEnvironment hostingEnvironment, IWorkerInfoRepository workerInfoRepository, IdentityUserManager identityUserManager)
+        public WorkerInfoAppService(
+            IFileStorageAppService fileStorageAppService,
+            IIdentityUserRepository identityUserRepository,
+            IWorkerInfoRepository workerInfoRepository,
+            IdentityUserManager identityUserManager) : base(workerInfoRepository)
         {
+            _fileStorageAppService = fileStorageAppService;
             _workerInfoRepository = workerInfoRepository;
             _identityUserManager = identityUserManager;
-            _hostingEnvironment = hostingEnvironment;
             _identityUserRepository = identityUserRepository;
         }
 
-        public async Task<bool> AddAsync(WorkerInfoDto workerInfosDto)
+        public async Task<PagedResultDto<WorkerInfoDto>> GetListWorkerAllInfoAsync(WorkerInfoConditionSearchDto condition)
         {
-            var workerInfo = ObjectMapper.Map<WorkerInfoDto, WorkerInfo>(workerInfosDto);
+            var listWorkerInfoDto = await _workerInfoRepository.GetListAsync();
+            var listWorkerInfoAllDto = new List<WorkerInfoDto>();
+            foreach (var worker in listWorkerInfoDto)
+            {
+                var workerIdentity = await _identityUserRepository.GetAsync(worker.UserId);
+                var workerInfoAllDto = ObjectMapper.Map<WorkerInfo, WorkerInfoDto>(worker);
+                workerInfoAllDto.Name = workerIdentity.Name;
+                workerInfoAllDto.Email = workerIdentity.Email;
+                workerInfoAllDto.Phone = workerIdentity.PhoneNumber;
+                workerInfoAllDto.UserName = workerIdentity.UserName;
+                listWorkerInfoAllDto.Add(workerInfoAllDto);
+            }
+            listWorkerInfoAllDto = listWorkerInfoAllDto
+                .WhereIf(!condition.Keyword.IsNullOrWhiteSpace(),
+                    x => x.Name.ToLower().Contains(condition.Keyword.ToLower())).ToList();
+            return new PagedResultDto<WorkerInfoDto> { Items = listWorkerInfoAllDto, TotalCount = listWorkerInfoAllDto.Count };
+        }
+
+        public async Task<WorkerInfoDto> GetWorkerInfoAsync(Guid id)
+        {
+            var workerInfo = await _workerInfoRepository.GetAsync(id);
+            var workerIdentity = await _identityUserRepository.GetAsync(workerInfo.UserId);
+            var result = ObjectMapper.Map<WorkerInfo, WorkerInfoDto>(workerInfo);
+            result.Name = workerIdentity.Name;
+            result.Email = workerIdentity.Email;
+            result.Phone = workerIdentity.PhoneNumber;
+            result.UserName = workerIdentity.UserName;
+            return result;
+        }
+
+        public async Task CreateWorkerInfoAsync(WorkerInfoCreateUpdateDto workerInfoCreateUpdateDto)
+        {
+            if (await _identityUserManager.FindByEmailAsync(workerInfoCreateUpdateDto.Email) != null)
+            {
+                throw new EmailExistException(workerInfoCreateUpdateDto.Email);
+            }
+            if (await _identityUserManager.FindByNameAsync(workerInfoCreateUpdateDto.UserName) != null)
+            {
+                throw new UserNameExistException(workerInfoCreateUpdateDto.UserName);
+            }
+            if (await _identityUserRepository.GetCountAsync(phoneNumber: workerInfoCreateUpdateDto.Phone) > 0)
+            {
+                throw new PhoneExistException(workerInfoCreateUpdateDto.Phone);
+            }
+            if (await _workerInfoRepository.CheckExistIdentityCard(workerInfoCreateUpdateDto.IdentityCard))
+            {
+                throw new IdentityCardExistException(workerInfoCreateUpdateDto.IdentityCard);
+            }
+
+            var identityUserCreate = new IdentityUser(Guid.NewGuid(), workerInfoCreateUpdateDto.UserName, workerInfoCreateUpdateDto.Email);
+            identityUserCreate.SetPhoneNumber(workerInfoCreateUpdateDto.Phone, true);
+            identityUserCreate.Name = workerInfoCreateUpdateDto.Name;
+
             try
             {
-                await _workerInfoRepository.InsertAsync(workerInfo, true);
-                return true;
+                var result = await _identityUserManager.CreateAsync(identityUserCreate, workerInfoCreateUpdateDto.Password);
+                if (!result.Succeeded)
+                {
+                    throw new InfoWrongException();
+                }
+                var resultAddRole = await _identityUserManager.AddToRoleAsync(identityUserCreate, Role.WORKER);
+                if (!resultAddRole.Succeeded)
+                {
+                    await _identityUserManager.DeleteAsync(identityUserCreate);
+                    throw new SetUpRoleException();
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                await _identityUserManager.DeleteAsync(identityUserCreate);
+                throw ex;
             }
+
+            var workerInfoCreate = ObjectMapper.Map<WorkerInfoCreateUpdateDto, WorkerInfo>(workerInfoCreateUpdateDto);
+            workerInfoCreate.UserId = identityUserCreate.Id;
+            workerInfoCreate.AddressPoint = "";
+            await _workerInfoRepository.InsertAsync(workerInfoCreate);
         }
 
-        public async Task<ApiResult<WorkerInfoAllDto>> UpdateAsync(Guid id, [FromForm] WorkerInfoUpdateRequest request)
+        public async Task UpdateWorkerInfoAsync(Guid id, WorkerInfoCreateUpdateDto workerInfoCreateUpdateDto)
         {
-            if (id != request.Id)
+            var workerInfo = await _workerInfoRepository.GetAsync(id);
+            var workerIdentity = await _identityUserRepository.GetAsync(workerInfo.UserId).ConfigureAwait(false);
+            if ((await _identityUserRepository.GetCountAsync(phoneNumber: workerInfoCreateUpdateDto.Phone) > 0) && workerInfoCreateUpdateDto.Phone != workerIdentity.PhoneNumber)
             {
-                return new ApiErrorResult<WorkerInfoAllDto>("Có lỗi trong quá trình xử lý");
+                throw new PhoneExistException(workerInfoCreateUpdateDto.Phone);
             }
-            var identityUser = await _identityUserManager.GetByIdAsync(id);
-            if (identityUser == null)
-            {
-                return new ApiErrorResult<WorkerInfoAllDto>("Không tìm thấy đối tượng");
-            }
-            var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(request.Id);
-            if (workerInfo != null)
-            {
-                try
-                {
-                    identityUser.Name = request.Name;
-                    identityUser.SetPhoneNumber(request.Phone, true);
-                    await _identityUserManager.UpdateAsync(identityUser);
-                    workerInfo.Gender = request.Gender;
-                    workerInfo.Address = request.Address;
-                    workerInfo.AddressPoint = string.Empty;
-                    workerInfo.DistrictId = request.DistrictId;
-                    workerInfo.DistrictName = request.DistrictName;
-                    workerInfo.WardId = request.WardId;
-                    workerInfo.WardName = request.WardName;
-                    workerInfo.ProvinceId = request.ProvinceId;
-                    workerInfo.ProvinceName = request.ProvinceName;
-                    workerInfo.DateOfBirth = DateTime.ParseExact(request.DateOfBirth, "dd-MM-yyyy", CultureInfo.GetCultureInfo("tr-TR"));
-                    workerInfo.Avatar = await SaveImageAsync(request.Avatar, workerInfo.UserId) ?? workerInfo.Avatar;
-                    workerInfo.IdentityCard = request.IdentityCard;
-                    workerInfo.IdentityCardBy = request.IdentityCardBy;
-                    workerInfo.IdentityCardDate = DateTime.ParseExact(request.IdentityCardDate, "dd-MM-yyyy", CultureInfo.GetCultureInfo("tr-TR"));
-                    workerInfo.StartWorkingTime = request.StartWorkingTime;
-                    workerInfo.EndWorkingTime = request.EndWorkingTime;
-                    
-                    await _workerInfoRepository.UpdateAsync(workerInfo);
+            workerInfo.Gender = workerInfoCreateUpdateDto.Gender;
+            workerInfo.Address = workerInfoCreateUpdateDto.Address;
+            workerInfo.AddressPoint = string.Empty;
+            workerInfo.DistrictId = workerInfoCreateUpdateDto.DistrictId;
+            workerInfo.DistrictName = workerInfoCreateUpdateDto.DistrictName;
+            workerInfo.WardId = workerInfoCreateUpdateDto.WardId;
+            workerInfo.WardName = workerInfoCreateUpdateDto.WardName;
+            workerInfo.ProvinceId = workerInfoCreateUpdateDto.ProvinceId;
+            workerInfo.ProvinceName = workerInfoCreateUpdateDto.ProvinceName;
+            workerInfo.DateOfBirth = workerInfoCreateUpdateDto.DateOfBirth;
+            workerInfo.Avatar = workerInfoCreateUpdateDto.Avatar;
+            workerInfo.StartWorkingTime = workerInfoCreateUpdateDto.StartWorkingTime;
+            workerInfo.EndWorkingTime = workerInfoCreateUpdateDto.EndWorkingTime;
+            workerInfo.Status = workerInfoCreateUpdateDto.Status;
+            workerInfo.IsActive = workerInfoCreateUpdateDto.IsActive;
+            workerInfo.IdentityCard = workerInfoCreateUpdateDto.IdentityCard;
+            workerInfo.IdentityCardDate = workerInfoCreateUpdateDto.IdentityCardDate;
+            workerInfo.IdentityCardBy = workerInfoCreateUpdateDto.IdentityCardBy;
+            await _workerInfoRepository.UpdateAsync(workerInfo);
 
-                    var identityUserAfterUpdate = await _identityUserManager.GetByIdAsync(id);
-                    var infoWorkerAfterUpdate = await _workerInfoRepository.GetAsync(workerInfo.Id);
-                    
-                    var workerInfoAllDto = new WorkerInfoAllDto()
-                    {
-                        Email = identityUserAfterUpdate.Email,
-                        Id = identityUserAfterUpdate.Id,
-                        Username = identityUserAfterUpdate.UserName,
-                        Name = identityUserAfterUpdate.Name,
-                        Phone = identityUserAfterUpdate.PhoneNumber,
-                        Gender = infoWorkerAfterUpdate.Gender,
-                        Address = infoWorkerAfterUpdate.Address,
-                        AddressPoint = infoWorkerAfterUpdate.AddressPoint,
-                        IdentityCard = infoWorkerAfterUpdate.IdentityCard,
-                        DateOfBirth = infoWorkerAfterUpdate.DateOfBirth.ToString("dd-MM-yyyy"),
-                        ProvinceId = infoWorkerAfterUpdate.ProvinceId,
-                        ProvinceName = infoWorkerAfterUpdate.ProvinceName,
-                        WardId = infoWorkerAfterUpdate.WardId,
-                        WardName = infoWorkerAfterUpdate.WardName,
-                        DistrictId = infoWorkerAfterUpdate.DistrictId,
-                        DistrictName = infoWorkerAfterUpdate.DistrictName,
-                        Avatar = infoWorkerAfterUpdate.Avatar,
-                        IdentityCardDate = infoWorkerAfterUpdate.IdentityCardDate.ToString("dd-MM-yyyy"),
-                        IdentityCardBy = infoWorkerAfterUpdate.IdentityCardBy,
-                        Role = Role.WORKER,
-                    };
-                    return new ApiSuccessResult<WorkerInfoAllDto>(resultObj: workerInfoAllDto);
-                }
-                catch (Exception)
-                {
-
-                    return new ApiErrorResult<WorkerInfoAllDto>("Có lỗi trong quá trình xử lý");
-                }
-            }
-            return new ApiErrorResult<WorkerInfoAllDto>("Không tìm thấy đối tượng");
+            workerIdentity.Name = workerInfoCreateUpdateDto.Name;
+            workerIdentity.SetPhoneNumber(workerInfoCreateUpdateDto.Phone, true);
+            await _identityUserManager.UpdateAsync(workerIdentity);
         }
-        private async Task<string> SaveImageAsync(IFormFile image, Guid idUser)
+
+        public async Task DeleteWorkerInfoAsync(Guid id)
         {
-            if (image == null)
+            var workerInfo = await _workerInfoRepository.GetAsync(id);
+            var workerIdentity = await _identityUserRepository.GetAsync(workerInfo.UserId).ConfigureAwait(false);
+            var deleteIdentity = await _identityUserManager.DeleteAsync(workerIdentity);
+            if (deleteIdentity.Succeeded)
             {
-                return null;
+                await _workerInfoRepository.DeleteAsync(workerInfo);
             }
-            try
+            if (workerInfo.Avatar != null)
             {
-                string nameFile = Constants.PrefixAvatarWorker + idUser.ToString();
-                string newPathFile = Constants.LinkToFolderImageWorker + nameFile + ".png";
-                using (FileStream fileStream = System.IO.File.Create(_hostingEnvironment.WebRootPath + "/" + newPathFile))
-                {
-                    await image.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
-                }
-                return newPathFile;
-            }
-            catch (Exception)
-            {
-                return null;
+                _fileStorageAppService.DeleteImageAsync(workerInfo.Avatar);
             }
         }
+
     }
 }

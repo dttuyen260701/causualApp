@@ -1,24 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
-using PBL6.CasualManager.Enum;
+﻿using PBL6.CasualManager.Enum;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PBL6.CasualManager.CustomerInfos
 {
-    public class CustomerInfoUpdateRequest
+    public class CustomerInfoCreateUpdateDto
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string Phone { get; set; }
 
-        public Guid Id { get; set; }
+        public string Email { get; set; }
 
         public Gender Gender { get; set; }
 
         public string Address { get; set; }
 
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public string ProvinceId { get; set; }
 
@@ -32,8 +31,10 @@ namespace PBL6.CasualManager.CustomerInfos
 
         public string WardName { get; set; }
 
-        public IFormFile Avatar{ get; set; }
+        public string UserName { get; set; }
 
+        public string Password { get; set; }
+
+        public string Avatar { get; set; }
     }
-
 }

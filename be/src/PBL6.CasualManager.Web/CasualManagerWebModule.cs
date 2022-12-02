@@ -202,6 +202,8 @@ public class CasualManagerWebModule : AbpModule
 
             options.Conventions.AuthorizePage("/TypeOfJobs/Index", CasualManagerPermissions.TypesOfJob.Default);
             options.Conventions.AuthorizePage("/JobInfos/Index", CasualManagerPermissions.JobInfo.Default);
+            options.Conventions.AuthorizePage("/CustomerInfos/Index", CasualManagerPermissions.CustomerInfo.Default);
+            options.Conventions.AuthorizePage("/WorkerInfos/Index", CasualManagerPermissions.WorkerInfo.Default);
         });
     }
 
