@@ -2,6 +2,7 @@ package com.example.pbl6app.Retrofit;
 
 import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.JobInfo;
+import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.Models.WorkerDetail;
@@ -83,18 +84,21 @@ public interface ApiService {
     @GET("/api/app/address/{id}/wards")
     Call<ArrayList<AddressTemp>> getWard (@Path("id") String id);
 
-    @GET("/api/app/type-of-job/type")
+    @GET("/api/app/type-of-job/type-job")
     Call<ResponseRetrofit<ArrayList<TypeOfJob>>> getTypeOfJob();
 
     @GET("/api/app/worker-info/{id}/worker-vm")
-    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListUserByIDUser(@Path("id") String id);
+    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListWorkerByIDUser(@Path("id") String id);
 
     @GET("/api/app/worker-info/worker-by-type-of-job/")
-    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListUserByIDTypeOfJob(@Query("idUser") String idUser,
-                                                                             @Query("idJobInfo") String idJobInfo);
+    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListWorkerByIDTypeOfJob(@Query("idUser") String idUser,
+                                                                               @Query("idJobInfo") String idJobInfo);
 
     @GET("/api/app/job-info/{id}/job-info-vm-belong-to-type-of-job")
     Call<ResponseRetrofit<ArrayList<JobInfo>>> getListJobInfo(@Path("id") String idTypeOfJob);
+
+    @GET("/api/app/post-of-demand/{id}")
+    Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemand(@Path("id") String idUser);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 
