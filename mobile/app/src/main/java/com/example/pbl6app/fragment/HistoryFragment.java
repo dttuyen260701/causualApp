@@ -56,7 +56,7 @@ public class HistoryFragment extends FragmentBase {
 
         listHistoryOrders = new ArrayList<>();
         loadData();
-        adapter = new OrderItemLinesAdapter(listHistoryOrders, item -> new LoginActivity()); //todo: open detail order screen
+        adapter = new OrderItemLinesAdapter(listHistoryOrders, item -> addFragment(new OrderDetailFragment(), R.id.ctFragmentUser));
 
         binding.recyclerOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerOrder.setAdapter(adapter);
