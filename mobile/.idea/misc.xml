@@ -30,6 +30,7 @@
         <entry key="app/src/main/res/layout/activity_worker_detail.xml" value="0.21779329955285864" />
         <entry key="app/src/main/res/layout/activity_worker_detail_screen.xml" value="0.4752548217773438" />
         <entry key="app/src/main/res/layout/feature_list_item.xml" value="0.24499036263728485" />
+        <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.27238057454427084" />
         <entry key="app/src/main/res/layout/fragment_dialog.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.23007246376811594" />
         <entry key="app/src/main/res/layout/fragment_in_progress_order.xml" value="0.23007246376811594" />
@@ -37,7 +38,7 @@
         <entry key="app/src/main/res/layout/fragment_list_worker.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_newfeed.xml" value="0.20244565217391305" />
         <entry key="app/src/main/res/layout/fragment_order_detail.xml" value="0.25355207781218536" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1457717895507813" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.4753846153846154" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25027313232421877" />
         <entry key="app/src/main/res/layout/fragment_status.xml" value="0.194598388671875" />
         <entry key="app/src/main/res/layout/fragment_status_order.xml" value="0.17083333333333334" />
