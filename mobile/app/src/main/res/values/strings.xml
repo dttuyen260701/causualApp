@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">PBL6App</string>
-    <string name="newFeedMenu">New Feed</string>
-    <string name="infoMenu">Information</string>
-    <string name="statusMenu">Status</string>
-    <string name="homeMenu">Home</string>
-    <string name="settingMenu">Settings</string>
+    <string name="newFeedMenu">Bài đăng</string>
+    <string name="infoMenu">Thông tin</string>
+    <string name="statusMenu">Trạng thái</string>
+    <string name="homeMenu">Trang chủ</string>
+    <string name="settingMenu">Cài đặt</string>
     <string name="Workers">%s</string>
     <string name="JobInfo">%s</string>
     <!-- TODO: Remove or change this placeholder text -->

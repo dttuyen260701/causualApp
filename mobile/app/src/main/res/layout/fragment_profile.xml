@@ -172,7 +172,7 @@
                     android:textSize="16dp"
                     android:background="@drawable/bg_edt_profile"
                     android:enabled="false"
-                    android:hint="Your email"
+                    android:hint="Email"
                     android:paddingHorizontal="15dp"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -154,6 +154,7 @@
         android:background="@drawable/btn_login_bg"
         android:gravity="center"
         android:text="LOGIN"
+        android:enabled="false"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold"
