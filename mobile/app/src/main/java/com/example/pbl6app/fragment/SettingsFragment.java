@@ -63,6 +63,11 @@ public class SettingsFragment extends FragmentBase{
         binding.btnHistory.setOnClickListener(view -> {
             addFragment(new HistoryFragment(), R.id.ctFragmentUser);
         });
+
+        binding.btnChangePass.setOnClickListener(view -> {
+            addFragment(new ChangePasswordFragment(), R.id.ctFragmentUser);
+
+        });
     }
 
     private void showDialog() {
