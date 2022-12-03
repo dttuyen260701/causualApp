@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.databinding.ActivitySignupBinding;
@@ -40,13 +42,62 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-
         binding.btnSignup.setOnClickListener(view -> {
+            checkEnable();
+             if (!onCheckValid()) {
+                 Toast.makeText(SignupActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
+             } else {
+                 onSubmitData();
+             }
+        });
 
-            if (!onCheckValid()) {
-                Toast.makeText(SignupActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
-            } else {
-                onSubmitData();
+        binding.edtSignupName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.edtSignupUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.edtSignupPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -65,6 +116,7 @@ public class SignupActivity extends AppCompatActivity {
                 } else {
                     binding.tvWarningPass.setVisibility(View.VISIBLE);
                 }
+                checkEnable();
             }
 
             @Override
@@ -86,6 +138,7 @@ public class SignupActivity extends AppCompatActivity {
                 } else {
                     binding.tvWarningConfirm.setVisibility(View.VISIBLE);
                 }
+                checkEnable();
             }
 
             @Override
@@ -106,9 +159,23 @@ public class SignupActivity extends AppCompatActivity {
     private boolean onCheckValid() {
         if (binding.tvWarningConfirm.getVisibility() == View.VISIBLE)
             return false;
-//        if (binding.tvWarningEmail.getVisibility() == View.VISIBLE)
-//            return false;
+        if (binding.tvWarningPass.getVisibility() == View.VISIBLE)
+            return false;
         return binding.tvWarningPass.getVisibility() != View.VISIBLE;
+    }
+
+    void checkEnable(){
+        if(binding.edtSignupUsername.getText().toString().isEmpty()
+                || binding.edtSignupPhone.getText().toString().isEmpty()
+                || binding.edtSignupPw1.getText().toString().isEmpty()
+                || binding.edtSignupPw2.getText().toString().isEmpty()
+                || binding.edtSignupName.getText().toString().isEmpty()
+        ){
+            binding.btnSignup.setEnabled(false);
+        }
+        else{
+            binding.btnSignup.setEnabled(true);
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -153,5 +220,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

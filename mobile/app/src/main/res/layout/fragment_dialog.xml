@@ -51,8 +51,9 @@
             android:layout_weight="1"
             android:background="@drawable/bg_cancel_btn_exit_dialog"
             android:text="Huỷ"
+            android:textStyle="bold"
             android:textAllCaps="false"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnChangeDialog"
@@ -63,8 +64,9 @@
             android:layout_weight="1"
             android:background="@drawable/bg_ext_btn_exit_dialog"
             android:text="Đăng nhập"
+            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

@@ -68,7 +68,7 @@
         android:layout_marginTop="10dp"
         android:paddingEnd="5dp"
         android:iconifiedByDefault="false"
-        app:defaultQueryHint="Search"
+        app:defaultQueryHint="Tìm kiếm"
         app:iconifiedByDefault="false"
         app:layout_constraintBottom_toTopOf="@+id/swipeRefresh_Worker_Frag"
         app:layout_constraintEnd_toEndOf="parent"

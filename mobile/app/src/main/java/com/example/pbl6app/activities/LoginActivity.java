@@ -2,6 +2,8 @@ package com.example.pbl6app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -55,8 +57,6 @@ public class LoginActivity extends BaseActivity {
 
     private void initListener() {
         binding.btnLogin.setOnClickListener(view -> {
-
-
             if (!onCheckValid()) {
                 Toast.makeText(LoginActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
             } else {
@@ -69,12 +69,56 @@ public class LoginActivity extends BaseActivity {
             Intent intent = new Intent(LoginActivity.this, SignupEmailActivity.class);
             startActivity(intent);
         });
+
+        binding.edtLoginUser.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.edtLoginPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private boolean onCheckValid() {
         if (binding.edtLoginUser.getText().toString().isEmpty())
             return false;
         return !binding.edtLoginPass.getText().toString().isEmpty();
+    }
+
+    void checkEnable(){
+        if(binding.edtLoginUser.getText().toString().isEmpty() || binding.edtLoginPass.getText().toString().isEmpty()
+        ){
+            binding.btnLogin.setEnabled(false);
+        }
+        else{
+            binding.btnLogin.setEnabled(true);
+        }
     }
 
     private void onSubmitData() {
