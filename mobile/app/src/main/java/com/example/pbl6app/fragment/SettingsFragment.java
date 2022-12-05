@@ -26,6 +26,7 @@ import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.activities.LoginActivity;
 import com.example.pbl6app.databinding.FragmentSettingsBinding;
+import com.squareup.picasso.Picasso;
 
 public class SettingsFragment extends FragmentBase{
 
@@ -47,7 +48,9 @@ public class SettingsFragment extends FragmentBase{
 
     @Override
     protected void initView() {
+
         binding.btnProfile.setText(Constant.USER.getName());
+        Picasso.get().load(Constant.USER.getAvatar());
     }
 
     @Override
