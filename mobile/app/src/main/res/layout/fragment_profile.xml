@@ -46,7 +46,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/primaryColor" />
+                    app:tint="@color/primaryColor"
+                    />
 
                 <ImageView
                     android:id="@+id/imv_save"
@@ -81,8 +82,8 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/imv_user"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_nouser_setting"
                 app:layout_constraintBottom_toTopOf="@id/constraintlayout1"
@@ -149,7 +150,7 @@
                 <TextView
                     android:id="@+id/tv_email"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -167,7 +168,7 @@
                 <EditText
                     android:id="@+id/edt_email"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:textSize="16dp"
                     android:background="@drawable/bg_edt_profile"
@@ -199,7 +200,7 @@
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -218,14 +219,14 @@
                 <EditText
                     android:id="@+id/edt_name"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:textSize="16dp"
                     android:autoSizeTextType="uniform"
                     android:background="@drawable/bg_edt_profile"
                     android:enabled="false"
                     android:hint="Họ và tên"
-                    android:paddingHorizontal="20dp"
+                    android:paddingHorizontal="15dp"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -250,7 +251,7 @@
                 <TextView
                     android:id="@+id/tv_phone"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -271,16 +272,12 @@
                     android:layout_width="0dp"
                     android:layout_height="53dp"
                     android:layout_marginTop="10dp"
-                    android:autoSizeMaxTextSize="20sp"
-                    android:autoSizeMinTextSize="10sp"
-                    android:autoSizeStepGranularity="2sp"
-                    android:autoSizeTextType="uniform"
                     android:background="@drawable/bg_edt_profile"
                     android:enabled="false"
                     android:hint="Số điện thoại"
                     android:inputType="number"
                     android:maxLength="10"
-                    android:paddingHorizontal="20dp"
+                    android:paddingHorizontal="15dp"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -306,7 +303,7 @@
                 <TextView
                     android:id="@+id/tv_gender"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -325,7 +322,7 @@
                 <TextView
                     android:id="@+id/edt_gender"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:textSize="16dp"
                     android:background="@drawable/bg_edt_profile"
@@ -357,7 +354,7 @@
                 <TextView
                     android:id="@+id/tv_age1"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -376,7 +373,7 @@
                 <TextView
                     android:id="@+id/edt_age"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:textSize="16dp"
                     android:background="@drawable/bg_edt_profile"
@@ -389,6 +386,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_age1"
                     app:layout_constraintVertical_weight="1" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_age"
+                    app:tint="@color/primaryColor"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/edt_age"
+                    app:layout_constraintTop_toTopOf="@+id/edt_age"
+                    app:layout_constraintBottom_toBottomOf="@+id/edt_age"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -408,7 +415,7 @@
                 <TextView
                     android:id="@+id/tv_province1"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -427,7 +434,7 @@
                 <TextView
                     android:id="@+id/tvProvince"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_edt_profile"
                     android:paddingHorizontal="20dp"
@@ -439,6 +446,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_province1" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_down"
+                    app:tint="@color/primaryColor"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvProvince"
+                    app:layout_constraintTop_toTopOf="@+id/tvProvince"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvProvince"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -457,7 +475,7 @@
                 <TextView
                     android:id="@+id/tv_district1"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -476,7 +494,7 @@
                 <TextView
                     android:id="@+id/tvDistrict"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_edt_profile"
                     android:paddingHorizontal="20dp"
@@ -488,6 +506,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_district1" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_down"
+                    app:tint="@color/primaryColor"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvDistrict"
+                    app:layout_constraintTop_toTopOf="@+id/tvDistrict"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvDistrict"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -504,8 +532,8 @@
 
                 <TextView
                     android:id="@+id/tv_ward1"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -515,7 +543,6 @@
                     android:textColor="@color/primaryColor"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/tvWard"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -524,7 +551,7 @@
                 <TextView
                     android:id="@+id/tvWard"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:textSize="16dp"
                     android:background="@drawable/bg_edt_profile"
@@ -536,6 +563,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_ward1" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_down"
+                    app:tint="@color/primaryColor"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvWard"
+                    app:layout_constraintTop_toTopOf="@+id/tvWard"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvWard"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -556,7 +593,7 @@
                 <TextView
                     android:id="@+id/tv_address"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeStepGranularity="2sp"
@@ -575,7 +612,7 @@
                 <EditText
                     android:id="@+id/edt_address"
                     android:layout_width="0dp"
-                    android:layout_height="53dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:autoSizeTextType="uniform"
                     android:background="@drawable/bg_edt_profile"
@@ -653,7 +690,7 @@
                 style="@style/TextWarning"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="2dp"
-                android:text="Số điện thoại phải đủ 10 số !!!"
+                android:text="Số điện thoại phải đủ 10 số"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/constraintlayout3"
                 app:layout_constraintStart_toStartOf="@+id/constraintlayout3"
