@@ -3,11 +3,11 @@
 
     <item android:title="@string/statusMenu"
         android:id="@+id/menu_status"
-        android:icon="@drawable/ic_status"/>
+        android:icon="@drawable/ic_newfeed"/>
 
     <item android:title="@string/newFeedMenu"
         android:id="@+id/menu_newFeed"
-        android:icon="@drawable/ic_newfeed"/>
+        android:icon="@drawable/ic_status"/>
 
     <item android:title="@string/infoMenu"
         android:id="@+id/menu_Info"

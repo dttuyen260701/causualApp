@@ -15,128 +15,109 @@
         android:id="@+id/imgUser"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="100dp" />
+        app:riv_corner_radius="100dp"
+        android:src="@drawable/default_avatar"/>
 
     <TextView
         android:id="@+id/tvNameUser"
+        android:text="Name User"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:gravity="center|start"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/imgUser"
         app:layout_constraintTop_toTopOf="@+id/imgUser" />
 
     <TextView
         android:id="@+id/tvAccount"
+        android:text="Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
         android:gravity="center|start"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imgUser"
         app:layout_constraintStart_toEndOf="@+id/imgUser"
         app:layout_constraintTop_toBottomOf="@+id/tvNameUser"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/btnShowHide"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="30/10/2022 13:05"
+        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgUser"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgUser"
-        app:srcCompat="@drawable/ic_up"
-        app:tint="@color/colorChineseSilver"
-        tools:ignore="ContentDescription,ImageContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvContentPost"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:text="abcbahsadasgdaydgaygdaydgyadgaywdgyawgdyadgayusdgyasdgaydgayuydgaydgayuwdgaywdgaydwuawydgayuwdgayduayudgawyudgaduyadyugwdayudwayudwayudhayudwyuwdayuwdawudgawuddawu"
+        android:maxLength="255"
+        android:maxLines="10"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center|start"
         android:textColor=" #141619"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgUser" />
+        app:layout_constraintTop_toBottomOf="@+id/imgUser"
+        app:layout_constraintBottom_toTopOf="@+id/border_post"/>
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContentPost" />
-
-    <TextView
-        android:id="@+id/tvLinkTweet"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:text=" Chi tiết"
-        android:textColor="@color/colorUnitedNationsBlue"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTime"
-        app:layout_constraintStart_toEndOf="@+id/tvTime"
-        app:layout_constraintTop_toTopOf="@+id/tvTime"
-        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/border_post"
         android:layout_width="0dp"
         android:layout_height="0.33dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="10dp"
         android:background="#BDC5CD"
+        app:layout_constraintBottom_toTopOf="@+id/btnOpenListWorker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+        app:layout_constraintTop_toBottomOf="@+id/tvContentPost" />
 
     <ImageView
         android:id="@+id/btnFavorite"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="Avar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/border_post"
         app:srcCompat="@drawable/ic_add_ava"
-        tools:ignore="ImageContrastCheck" />
+        tools:ignore="ImageContrastCheck"
+        android:layout_marginBottom="10dp"/>
 
-    <TextView
-        android:id="@+id/tvTotalLlike"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/btnFavorite"
-        app:layout_constraintStart_toEndOf="@+id/btnFavorite"
-        app:layout_constraintTop_toTopOf="@+id/btnFavorite" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTotalLlike"/>
+        <TextView
+            android:id="@+id/btnOpenListWorker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="Xem danh sách thợ"
+            android:textColor="@color/colorUnitedNationsBlue"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/border_post"
+            app:layout_constraintStart_toEndOf="@+id/btnFavorite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="TextContrastCheck"
+            android:layout_marginLeft="10dp"
+            />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

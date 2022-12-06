@@ -54,11 +54,12 @@
 
     <ImageView
         android:id="@+id/ic_wallet"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         app:layout_constraintStart_toEndOf="@+id/ava_worker"
         app:layout_constraintTop_toBottomOf="@+id/tvWorkerRate"
-        android:src="@drawable/wallet"
+        android:src="@drawable/ic_call"
+        app:tint="@color/primaryColor"
         android:layout_marginStart="15dp"
         android:layout_marginTop="6dp"
         />
@@ -69,7 +70,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/ic_star"
         app:layout_constraintTop_toBottomOf="@+id/tvWorkerRate"
-        android:text="450000 VND"
+        android:text="27327827383"
         android:textSize="14dp"
         android:textColor="@color/black"
         android:layout_marginStart="8dp"
