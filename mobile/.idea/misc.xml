@@ -16,12 +16,15 @@
         <entry key="app/src/main/res/drawable/bg_content_choice.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/bg_edt_profile.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/bg_header_frag_user_home.xml" value="0.156" />
+        <entry key="app/src/main/res/drawable/bg_search_edt.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/bg_search_view.xml" value="0.156" />
+        <entry key="app/src/main/res/drawable/bg_type_of_job_btn.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/bg_worker_item.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/btn_login_bg.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/cancel_icon.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/custom_button_account_frag.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/ic_check_circle.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.179" />
         <entry key="app/src/main/res/drawable/ic_more_vert.xml" value="0.1765" />
@@ -48,8 +51,8 @@
         <entry key="app/src/main/res/layout/fragment_list_worker.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_list_worker_of_post.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_newfeed.xml" value="0.24619265954276018" />
-        <entry key="app/src/main/res/layout/fragment_order_detail.xml" value="0.25355207781218536" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.20997314453125" />
+        <entry key="app/src/main/res/layout/fragment_order_detail.xml" value="0.20398101806640628" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.21943969726562496" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25027313232421877" />
         <entry key="app/src/main/res/layout/fragment_status.xml" value="0.194598388671875" />
         <entry key="app/src/main/res/layout/fragment_status_order.xml" value="0.17083333333333334" />

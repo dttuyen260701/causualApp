@@ -109,7 +109,6 @@ public class ProfileFragment extends FragmentBase {
         idWardChosen = (Constant.USER.getWardId() == null) ? "" : Constant.USER.getWardId();
         idGenderChonse = Constant.USER.getGender() + "";
 
-        binding.imvAddAva.setEnabled(false);
         binding.tvUsername.setText(Constant.USER.getUserName());
         binding.edtEmail.setText(Constant.USER.getEmail());
         binding.edtName.setText(Constant.USER.getName());
@@ -217,20 +216,20 @@ public class ProfileFragment extends FragmentBase {
             showDatePickerDialog();
         });
 
-        binding.imvEdit.setOnClickListener(view -> {
-            binding.imvEdit.setVisibility(View.GONE);
-            binding.imvSave.setVisibility(View.VISIBLE);
-            binding.edtAddress.setEnabled(true);
-            binding.edtAge.setEnabled(true);
-            binding.edtName.setEnabled(true);
-            binding.edtPhone.setEnabled(true);
-            binding.imvAddAva.setEnabled(true);
-            binding.edtGender.setEnabled(true);
-            binding.tvProvince.setEnabled(true);
-            binding.tvDistrict.setEnabled(true);
-            binding.edtAddress.setEnabled(true);
-            binding.tvWard.setEnabled(true);
-        });
+//        binding.imvEdit.setOnClickListener(view -> {
+//            binding.imvEdit.setVisibility(View.GONE);
+//            binding.imvSave.setVisibility(View.VISIBLE);
+//            binding.edtAddress.setEnabled(true);
+//            binding.edtAge.setEnabled(true);
+//            binding.edtName.setEnabled(true);
+//            binding.edtPhone.setEnabled(true);
+//            binding.imvAddAva.setEnabled(true);
+//            binding.edtGender.setEnabled(true);
+//            binding.tvProvince.setEnabled(true);
+//            binding.tvDistrict.setEnabled(true);
+//            binding.edtAddress.setEnabled(true);
+//            binding.tvWard.setEnabled(true);
+//        });
 
         binding.imvSave.setOnClickListener(view -> {
 
@@ -246,19 +245,19 @@ public class ProfileFragment extends FragmentBase {
 
                 onSubmitData();
 
-                binding.imvEdit.setVisibility(View.VISIBLE);
-                binding.imvSave.setVisibility(View.GONE);
-                binding.edtAddress.setEnabled(false);
-                binding.edtAge.setEnabled(false);
-                binding.edtName.setEnabled(false);
-                binding.edtPhone.setEnabled(false);
-                binding.imvAddAva.setEnabled(false);
-                binding.edtGender.setEnabled(false);
-                binding.tvProvince.setEnabled(false);
-                binding.tvDistrict.setEnabled(false);
-                binding.tvWard.setEnabled(false);
-                binding.edtAddress.setEnabled(false);
-                binding.tvWard.setEnabled(false);
+//                binding.imvEdit.setVisibility(View.VISIBLE);
+//                binding.imvSave.setVisibility(View.GONE);
+//                binding.edtAddress.setEnabled(false);
+//                binding.edtAge.setEnabled(false);
+//                binding.edtName.setEnabled(false);
+//                binding.edtPhone.setEnabled(false);
+//                binding.imvAddAva.setEnabled(false);
+//                binding.edtGender.setEnabled(false);
+//                binding.tvProvince.setEnabled(false);
+//                binding.tvDistrict.setEnabled(false);
+//                binding.tvWard.setEnabled(false);
+//                binding.edtAddress.setEnabled(false);
+//                binding.tvWard.setEnabled(false);
 
             }
         });
