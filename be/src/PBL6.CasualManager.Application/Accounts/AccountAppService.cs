@@ -427,6 +427,34 @@ namespace PBL6.CasualManager.Accounts
             return new ApiErrorResult<WorkerInfoAllResponse>("Không tìm thấy đối tượng");
         }
 
+        [HttpPost]
+        [Route("api/app/account/change-password/{userId}")]
+        public async Task<ApiResult<string>> ChangePasswordAsync(Guid userId, ChangePasswordRequest request)
+        {
+            try
+            {
+                var userIdentity = await _identityUserRepository.GetAsync(userId);
+                var signInResult = await _signInManager.CheckPasswordSignInAsync(
+                    userIdentity,
+                    request.OldPassword,
+                    false
+                );
+                if (signInResult.Succeeded)
+                {
+                    var resultChangePassword = await _identityUserManager.ChangePasswordAsync(userIdentity, request.OldPassword, request.NewPassword);
+                    if (resultChangePassword.Succeeded)
+                    {
+                        return new ApiSuccessResult<string>();
+                    }
+                    return new ApiErrorResult<string>(message: "Đổi mật khẩu không thành công!");
+                }
+                return new ApiErrorResult<string>(message: "Mật khẩu cũ không đúng!");
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<string>(message: "Đã xảy ra lỗi trong quá trình đổi mật khẩu!");
+            }
+        }
         private async Task<string> SaveImageAsync(IFormFile image, Guid idUser)
         {
             if(image == null)
