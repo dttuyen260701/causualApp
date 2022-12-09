@@ -10,6 +10,7 @@ namespace PBL6.CasualManager.Enum
         public const string PrefixAvatarWorker = "AvatarWorker-";
         public const string PrefixAvatarCustomer = "AvatarCustomer-";
         public const string PrefixIconTypeOfJob = "IconTypeOfJob-";
+        public const string ImageDefaultWorker = "/upload_images/worker/default.png";
     }
 
     public enum WithRole

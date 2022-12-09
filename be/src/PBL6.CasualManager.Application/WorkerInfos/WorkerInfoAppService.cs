@@ -1,6 +1,12 @@
-﻿using PBL6.CasualManager.CustomerInfos;
+﻿using Microsoft.AspNetCore.Mvc;
+using PBL6.CasualManager.ApiResults;
+using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.FileStorages;
+using PBL6.CasualManager.JobInfoOfWorkers;
+using PBL6.CasualManager.JobInfos;
+using PBL6.CasualManager.RateOfWorkers;
+using PBL6.CasualManager.TypeOfJobs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,16 +31,32 @@ namespace PBL6.CasualManager.WorkerInfos
         private readonly IFileStorageAppService _fileStorageAppService;
         private readonly IWorkerInfoRepository _workerInfoRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
+        private readonly ICustomerInfoRepository _customerInfoRepository;
+        private readonly IJobInfoRepository _jobInfoRepository;
+        private readonly IJobInfoOfWorkerRepository _jobInfoOfWorkerRepository;
+        private readonly ITypeOfJobRepository _typeOfJobRepository;
+        private readonly IRateOfWorkerRepository _rateOfWorkerRepository;
+
         public WorkerInfoAppService(
             IFileStorageAppService fileStorageAppService,
             IIdentityUserRepository identityUserRepository,
             IWorkerInfoRepository workerInfoRepository,
-            IdentityUserManager identityUserManager) : base(workerInfoRepository)
+            IdentityUserManager identityUserManager,
+            ICustomerInfoRepository customerInfoRepository,
+            IJobInfoRepository jobInfoRepository,
+            IJobInfoOfWorkerRepository jobInfoOfWorkerRepository,
+            ITypeOfJobRepository typeOfJobRepository,
+            IRateOfWorkerRepository rateOfWorkerRepository) : base(workerInfoRepository)
         {
             _fileStorageAppService = fileStorageAppService;
             _workerInfoRepository = workerInfoRepository;
             _identityUserManager = identityUserManager;
             _identityUserRepository = identityUserRepository;
+            _jobInfoRepository = jobInfoRepository;
+            _jobInfoOfWorkerRepository = jobInfoOfWorkerRepository;
+            _rateOfWorkerRepository = rateOfWorkerRepository;
+            _typeOfJobRepository = typeOfJobRepository;
+            _customerInfoRepository = customerInfoRepository;
         }
 
         public async Task<PagedResultDto<WorkerInfoDto>> GetListWorkerAllInfoAsync(WorkerInfoConditionSearchDto condition)
@@ -166,5 +188,97 @@ namespace PBL6.CasualManager.WorkerInfos
             }
         }
 
+        //get list worker top 10 rate and in specific province
+        [HttpGet]
+        [Route("api/app/worker-info/get-list-worker-info-for-mobile/{customerId}")]
+        public async Task<ApiResult<List<WorkerInfoResponse>>> GetListWokerToShowInHomePage(Guid customerId)
+        {
+            try
+            {
+                var listCustomerInfo = await _customerInfoRepository.GetListAsync();
+                var userInfo = listCustomerInfo.FirstOrDefault(x => x.UserId == customerId) ?? new CustomerInfo() { WardId = "", DistrictId = "", ProvinceId = "" };
+                var listWorkerInfo = await _workerInfoRepository.GetListAsync();
+                var listIdentityUser = await _identityUserRepository.GetListAsync();
+                var listJobInfo = await _jobInfoRepository.GetListAsync();
+                var listJobInfoOfWorker = await _jobInfoOfWorkerRepository.GetListAsync();
+                var listRateOfWorker = await _rateOfWorkerRepository.GetListAsync();
+                var listTypeOfJob = await _typeOfJobRepository.GetListAsync();
+                var result = (from workerInfo in listWorkerInfo
+                              join user in listIdentityUser on workerInfo.UserId equals user.Id
+                              select new WorkerInfoResponse()
+                              {
+                                  Id = workerInfo.UserId,
+                                  DistrictId = workerInfo.DistrictId,
+                                  ProvinceId = workerInfo.ProvinceId,
+                                  WardId = workerInfo.WardId,
+                                  Address = workerInfo.Address,
+                                  LinkIMG = String.IsNullOrEmpty(workerInfo.Avatar) ? Constants.ImageDefaultWorker : workerInfo.Avatar,
+                                  WorkerStatus = workerInfo.Status,
+                                  WorkingTime = workerInfo.StartWorkingTime + " - " + workerInfo.EndWorkingTime,
+                                  Phone = user.PhoneNumber,
+                                  Name = user.Name,
+                                  TotalReviews = (from rateOfWorker in listRateOfWorker
+                                                  where rateOfWorker.WorkerId == workerInfo.Id
+                                                  select rateOfWorker).Count(),
+                                  ListJobInfo = ((from jobInfoOfWoker in listJobInfoOfWorker
+                                                  join jobInfo in listJobInfo on jobInfoOfWoker.JobInfoId equals jobInfo.Id
+                                                  join typeOfJob in listTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                                                  where jobInfoOfWoker.WorkerId == workerInfo.Id
+                                                  select new JobInfoResponse()
+                                                  {
+                                                      Id = jobInfo.Id,
+                                                      Name = jobInfo.Name,
+                                                      Price = jobInfo.Prices,
+                                                      Description = jobInfo.Description,
+                                                      TypeOfJobId = typeOfJob.Id,
+                                                      TypeOfJobName = typeOfJob.Name,
+                                                      Image = typeOfJob.Avatar
+                                                  }).ToList()),
+                                  RateDetail = CreateRateOfWorkerDetailFrom((from rateOfWorker
+                                                                             in listRateOfWorker
+                                  where rateOfWorker.WorkerId == workerInfo.Id
+                                                                             select rateOfWorker).ToList()) ?? new RateOfWorkerResponse()
+                                                                             {
+                                                                                 RateAverage = 0,
+                                                                                 AttitudeRateAverage = 0,
+                                                                                 PleasureRateAverage = 0,
+                                                                                 SkillRateAverage = 0
+                                                                             },
+                              }).OrderByDescending(x => (x.WardId.Contains(userInfo.WardId) || x.DistrictId.Contains(userInfo.DistrictId)) ? 0 : 1)
+                              .ThenByDescending(x => x.TotalReviews)
+                              .Take(10).ToList();
+
+                return new ApiSuccessResult<List<WorkerInfoResponse>>(resultObj: result);
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<List<WorkerInfoResponse>>(message: "Đã xảy ra lỗi khi lấy dữ liệu!");
+            }
+        }
+
+        private RateOfWorkerResponse CreateRateOfWorkerDetailFrom(List<RateOfWorker> rateOfWorkers)
+        {
+            int len = rateOfWorkers.Count();
+            if (rateOfWorkers is null || len == 0)
+            {
+                return null;
+            }
+            int rateAttitude = 0;
+            int rateSkill = 0;
+            int ratePleasure = 0;
+            foreach (var rateOfWorker in rateOfWorkers)
+            {
+                rateAttitude += rateOfWorker.AttitudeRate;
+                rateSkill += rateOfWorker.SkillRate;
+                ratePleasure += rateOfWorker.PleasureRate;
+            }
+            return new RateOfWorkerResponse()
+            {
+                AttitudeRateAverage = (float)rateAttitude / len,
+                PleasureRateAverage = (float)ratePleasure / len,
+                SkillRateAverage = (float)rateSkill / len,
+                RateAverage = (rateAttitude + ratePleasure + rateSkill) / (3 * len)
+            };
+        }
     }
 }
