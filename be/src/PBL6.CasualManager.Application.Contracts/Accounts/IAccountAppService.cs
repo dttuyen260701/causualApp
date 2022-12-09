@@ -17,6 +17,8 @@ namespace PBL6.CasualManager.Accounts
         Task<ApiResult<WorkerInfoAllResponse>> EditWorkerInfoAsync(Guid id, WorkerInfoUpdateRequest request);
 
         Task<ApiResult<UserInfoAllDto>> PostLogin(LoginRequest request);
+
+        Task<ApiResult<string>> ChangePasswordAsync(Guid userId, ChangePasswordRequest request);
     }
 
 }
