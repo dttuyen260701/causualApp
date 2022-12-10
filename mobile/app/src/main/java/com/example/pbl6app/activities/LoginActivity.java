@@ -164,7 +164,7 @@ public class LoginActivity extends BaseActivity {
                 binding.viewBg.setVisibility(View.GONE);
                 binding.layoutPass.setVisibility(View.VISIBLE);
                 binding.layoutUser.setVisibility(View.VISIBLE);
-                Log.e("TTT", "onFailure: ", t);
+                Log.e("LOGIN", "onFailure: ", t);
                 Toast.makeText(LoginActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
             }
         });
