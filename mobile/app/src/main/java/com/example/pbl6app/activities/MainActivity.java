@@ -7,9 +7,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.pbl6app.Listeners.Listener_for_PickAddress;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ActivityMainBinding;
+import com.example.pbl6app.fragment.MapFragment_Parent;
 import com.example.pbl6app.fragment.NewfeedFragment;
 import com.example.pbl6app.fragment.SettingsFragment;
 import com.example.pbl6app.fragment.StatusFragment;
@@ -34,6 +36,12 @@ public class MainActivity extends BaseActivity {
         binding.bottomNavigation.setSelectedItemId(R.id.menu_newFeed);
         Fragment fragment = new NewfeedFragment();
         addFragment(fragment);
+        addFragment(new MapFragment_Parent(new Listener_for_PickAddress() {
+            @Override
+            public void onClick_pick(String address, float distance) {
+
+            }
+        }));
     }
 
     @SuppressLint("NonConstantResourceId")
