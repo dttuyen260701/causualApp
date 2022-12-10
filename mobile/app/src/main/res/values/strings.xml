@@ -7,7 +7,6 @@
     <string name="settingMenu">Cài đặt</string>
     <string name="Workers">%s</string>
     <string name="JobInfo">%s</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="changePass">Thay đổi mật khẩu</string>
@@ -18,5 +17,6 @@
     <string name="passNotMatch">Mật khẩu không trùng khớp</string>
     <string name="passCondition">Mật khẩu phải bao gồm chữ hoa, chữ thường và ký tự đặc biệt</string>
     <string name="passNotCorrect">Mật khẩu không đúng</string>
+    <string name="map_api_key">AIzaSyBTwhzVXvilswU_TYmTfxY3tLf2tojpfSE</string>
 
 </resources>
