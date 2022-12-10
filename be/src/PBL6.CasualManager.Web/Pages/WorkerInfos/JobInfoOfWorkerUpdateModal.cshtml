@@ -1,0 +1,23 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
+@using PBL6.CasualManager.Localization
+@inject IHtmlLocalizer<CasualManagerResource> L
+@model PBL6.CasualManager.Web.Pages.WorkerInfos.JobInfoOfWorkerUpdateModalModel
+@{
+    Layout = null;
+}
+
+<abp-script src="/Pages/WorkerInfos/create-job-info-of-worker.js"></abp-script>
+
+<abp-dynamic-form abp-model="ViewModel" data-ajaxForm="true" asp-page="/WorkerInfos/JobInfoOfWorkerUpdateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["JobInfoOfWorker:UpdateJobInfoOfWorker"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-input asp-for="ViewModel.Id"></abp-input>
+            <abp-input asp-for="ViewModel.WorkerId"></abp-input>
+            <abp-form-content />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</abp-dynamic-form>

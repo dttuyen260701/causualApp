@@ -1,11 +1,11 @@
 ﻿$(function () {
     const l = abp.localization.getResource('CasualManager');
 
-    const service = pBL6.casualManager.jobInfos.jobInfo;
-    const createModal = new abp.ModalManager(abp.appPath + 'JobInfos/CreateModal');
-    const editModal = new abp.ModalManager(abp.appPath + 'JobInfos/EditModal');
+    const service = pBL6.casualManager.jobInfoOfWorkers.jobInfoOfWorker;
+    const createModal = new abp.ModalManager(abp.appPath + 'WorkerInfos/JobInfoOfWorkerCreateModal');
+    const editModal = new abp.ModalManager(abp.appPath + 'WorkerInfos/JobInfoOfWorkerUpdateModal');
 
-    const dataTable = $('#job-info-datatable').DataTable(abp.libs.datatables.normalizeConfiguration({
+    const dataTable = $('#jobinfo-of-worker-datatable').DataTable(abp.libs.datatables.normalizeConfiguration({
         processing: true,
         responsive: true,
         serverSide: true,
@@ -20,23 +20,12 @@
         ajax: abp.libs.datatables.createAjax(service.getListSearch, GetValueSearch),
         columnDefs: [
             {
-                title: l('STT'),
-                render: function (data, type, full, meta) {
-                    const info = dataTable.page.info();
-                    return info.page * dataTable.page.len() + meta.row + 1;
-                },
-                className: "text-center",
-                width: "5%"
-            },
-            {
                 title: l('JobInfo:Name'),
-                data: "name",
-                width: "20%"
+                data: "jobName",
             },
             {
-                title: l('JobInfo:Description'),
-                data: "description",
-                width: "40%"
+                title: l('TypeOfJob:Name'),
+                data: "typeOfJobName",
             },
             {
                 title: l('JobInfo:Prices'),
@@ -46,12 +35,8 @@
                 width: "10%"
             },
             {
-                title: l('JobInfo:TypeOfJobName'),
-                data: {},
-                render: function(data){
-                    return `<img class="icon" src = "${data.typeOfJobIcon}"> ${data.typeOfJobName}`;
-                },
-                width: "10%"
+                title: l('JobInfoOfWorker:Note'),
+                data: "note",
             },
             {
                 title: l('Actions'),
@@ -60,17 +45,17 @@
                         [
                             {
                                 text: l('Edit'),
-                                visible: abp.auth.isGranted('CasualManager.JobInfo.Update'),
+                                visible: abp.auth.isGranted('CasualManager.WorkerInfo.Update'),
                                 action: function (data) {
-                                    editModal.open({ id: data.record.id });
+                                    editModal.open({ jobInfoOfWorkerId: data.record.id });
                                 },
                                 displayNameHtml: true,
                             },
                             {
                                 text: l('Delete'),
-                                visible: abp.auth.isGranted('CasualManager.JobInfo.Delete'),
+                                visible: abp.auth.isGranted('CasualManager.JobInfoOfWorker.Delete'),
                                 confirmMessage: function (data) {
-                                    return l('Common:DeletionConfirmationMessage', data.record.name);
+                                    return l('JobInfoOfWorker:DeletionConfirmationMessage', data.record.jobName, $("#ViewModel_Name").val());
                                 },
                                 action: function (data) {
                                     service.delete(data.record.id)
@@ -94,21 +79,13 @@
         Search();
     });
 
-    $('#ViewModel_FilterName').keypress(function (event) {
-        let keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-            Search();
-        }
-    });
-
     function Search() {
         dataTable.ajax.reload();
     }
 
     function GetValueSearch() {
         return {
-            'filterName': $("#ViewModel_FilterName").val(),
-            'filterTypeOfJob': $("#ViewModel_FilterTypeOfJob").val(),
+            'filterWorker': $("#ViewModel_WorkerId").val()
         };
     }
 
@@ -116,9 +93,9 @@
         Search();
     });
 
-    $('#new-type-of-job').click(function (e) {
+    $('#new-job-info-of-worker').click(function (e) {
         e.preventDefault();
-        createModal.open();
+        createModal.open({ workerId: $("#ViewModel_WorkerId").val() });
     });
 
     createModal.onResult(function () {

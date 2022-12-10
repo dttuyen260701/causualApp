@@ -102,6 +102,15 @@
                                 displayNameHtml: true,
                             },
                             {
+                                text: l('Detail'),
+                                visible: abp.auth.isGranted('CasualManager.WorkerInfo.Detail'),
+                                action: function (data) {
+                                    window.location.href = `/WorkerInfos/WorkerInfoDetail/${data.record.id}`;
+                                    abp.ui.unblock();
+                                },
+                                displayNameHtml: true,
+                            },
+                            {
                                 text: l('Delete'),
                                 visible: abp.auth.isGranted('CasualManager.WorkerInfo.Delete'),
                                 confirmMessage: function (data) {

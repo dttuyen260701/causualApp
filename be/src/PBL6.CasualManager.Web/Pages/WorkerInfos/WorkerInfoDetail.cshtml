@@ -1,0 +1,121 @@
+﻿@page "{id?}"
+@using PBL6.CasualManager.Web.Menus
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using PBL6.CasualManager.Web.Pages.TypeOfJobs
+@using PBL6.CasualManager.Localization
+@using PBL6.CasualManager.Permissions
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<CasualManagerResource> L
+@inject IAuthorizationService Authorization
+@model PBL6.CasualManager.Web.Pages.WorkerInfos.WorkerInfoDetailModel
+@{
+    PageLayout.Content.Title = L["WorkerInfoDetail"].Value;
+    PageLayout.Content.MenuItemName = CasualManagerMenus.WorkerInfo;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/WorkerInfos/worker-info-detail.js" />
+}
+
+@section styles
+{
+    <abp-style src="/Pages/WorkerInfos/index.css" />
+}
+
+<section class="px-3">
+    <abp-row class="py-3">
+        <abp-column size-md="_6">
+            <h3>@L["WorkerInfoDetail"]</h3>
+        </abp-column>
+        <abp-input asp-for="@Model.ViewModel.WorkerId" type="Hidden"></abp-input>
+        <abp-input asp-for="@Model.ViewModel.Name" type="Hidden"></abp-input>
+    </abp-row>
+
+    <abp-card>
+        <abp-card-header class="bg-info pt-3">
+            <abp-card-title><h4 style="color:white">@L["WorkerInfoDetail:Profile"]</h4></abp-card-title>
+        </abp-card-header>
+        <abp-card-body>
+            <abp-row class="mb-2">
+                <abp-column size-md="_4">
+                    <b>@L["Worker:Name"]: </b><span>&nbsp;@Model.ViewModel.Name</span>
+                </abp-column>
+                <abp-column size-md="_4">
+                    <b>@L["Worker:IdentityCard"]: </b><span>&nbsp;@Model.ViewModel.IdentityCard</span>
+                </abp-column>
+                <abp-column size-md="_4">
+                    <b>@L["Common:Email"]: </b><span>&nbsp;@Model.ViewModel.Email</span>
+                </abp-column>
+            </abp-row>
+            <abp-row class="mb-2">
+                <abp-column size-md="_4">
+                    <b>@L["Common:Gender"]: </b><span>&nbsp;@L[Model.ViewModel.GenderName]</span>
+                </abp-column>
+                <abp-column size-md="_4">
+                    <b>@L["Worker:IdentityCardDate"]: </b><span>&nbsp;@Model.ViewModel.IdentityCardDate</span>
+                </abp-column>
+                <abp-column size-md="_4">
+                    <b>@L["Common:Phone"]: </b><span>&nbsp;@Model.ViewModel.Phone</span>
+                </abp-column>
+            </abp-row>
+            <abp-row class="mb-2">
+                <abp-column size-md="_4">
+                    <b>@L["Common:DateOfBirth"]: </b><span>&nbsp;@Model.ViewModel.DateOfBirth</span>
+                </abp-column>
+                <abp-column size-md="_4">
+                    <b>@L["Worker:IdentityCardBy"]: </b><span>&nbsp;@Model.ViewModel.IdentityCardBy</span>
+                </abp-column>
+            </abp-row>
+        </abp-card-body>
+    </abp-card>
+
+    <abp-card>
+        <abp-card-header class="bg-info">
+            <abp-card-title><h4 style="color:white">Thông tin việc làm</h4></abp-card-title>
+        </abp-card-header>
+        <abp-card-body>
+            <abp-row class="mb-2">
+                <abp-column size-md="_3" class="mt-2">
+                    <b>@L["Worker:WorkingTime"]: </b><span>&nbsp;@Model.ViewModel.WorkingTime</span>
+                </abp-column>
+                <abp-column size-md="_3" class="mt-2">
+                    <b>@L["Worker:AverageRate"]: </b>
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        if (i <= Model.ViewModel.AverageRate)
+                        {
+                            <span class="fa fa-star fa-2xl checked"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    }
+                </abp-column>
+                <abp-column size-md="_3" class="mt-2">
+                    <b>@L["Worker:IsActive"]: </b>
+                    @if (Model.ViewModel.IsActive){
+                        <span class="fa fa-check-circle"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-times-circle"></span>
+                    }
+                </abp-column>
+                <abp-column size-md="_3">
+                    @if (await Authorization.IsGrantedAsync(CasualManagerPermissions.JobInfoOfWorker.Create))
+                    {
+                        <abp-button id="new-job-info-of-worker" style="float: right;"
+                            text="@L["JobInfoOfWorker:Create"].Value"
+                            icon="plus"
+                            button-type="Outline_Primary" />
+                    }
+                </abp-column>
+            </abp-row>
+            <abp-table striped-rows="true" class="table-bordered" id="jobinfo-of-worker-datatable"></abp-table>
+        </abp-card-body>
+    </abp-card>
+</section>

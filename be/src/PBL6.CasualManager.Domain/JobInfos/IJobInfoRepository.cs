@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
@@ -13,5 +14,7 @@ namespace PBL6.CasualManager.JobInfos
             string sorting,
             string filterName,
             Guid? filterTypeOfJob);
+
+        Task<List<JobInfo>> GetListByTypeOfJobAsync(Guid typeOfJobId);
     }
 }

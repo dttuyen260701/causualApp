@@ -1,12 +1,10 @@
 ﻿using PBL6.CasualManager.ApiResults;
-using PBL6.CasualManager.TypeOfJobs;
+using PBL6.CasualManager.LookupValues;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using static PBL6.CasualManager.Permissions.CasualManagerPermissions;
 
 namespace PBL6.CasualManager.JobInfos
 {
@@ -15,7 +13,8 @@ namespace PBL6.CasualManager.JobInfos
             JobInfoDto,
             Guid,
             JobInfoConditionSearchDto,
-            JobInfoCreateUpdateDto>
+            JobInfoCreateUpdateDto>,
+        ILookupValueService
     {
         /// <summary>
         /// Get all JobInfoDtos filter by Job name, TypeOfJob name and TypeOfJobId
@@ -25,7 +24,11 @@ namespace PBL6.CasualManager.JobInfos
         /// <param name="condition">Include FilterName and FilterTypeOfJob</param>
         /// <returns>List JobInfoDto</returns>
         Task<PagedResultDto<JobInfoDto>> GetListSearchAsync(JobInfoConditionSearchDto condition);
+
         Task<ApiResult<List<JobInfoResponse>>> GetAllJobInfoResponseAsync();
+
         Task<ApiResult<List<JobInfoResponse>>> GetListJobInfoResponseBelongToTypeOfJobAsync(Guid id);
+
+        Task<List<JobInfoDto>> GetListByTypeOfJobAsync(Guid typeOfJobId);
     }
 }

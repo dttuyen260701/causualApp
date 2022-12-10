@@ -1,4 +1,5 @@
 ﻿using PBL6.CasualManager.ApiResults;
+using PBL6.CasualManager.LookupValues;
 using PBL6.CasualManager.TypeOfJobs;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using static PBL6.CasualManager.Permissions.CasualManagerPermissions;
 
 namespace PBL6.CasualManager.JobInfos
 {
@@ -89,6 +89,18 @@ namespace PBL6.CasualManager.JobInfos
             {
                 return new ApiErrorResult<List<JobInfoResponse>>(message: "Có lỗi trong quá trình lấy dữ liệu!");
             }
+        }
+
+        public async Task<List<JobInfoDto>> GetListByTypeOfJobAsync(Guid typeOfJobId)
+        {
+            var result = await _jobInfoRepository.GetListByTypeOfJobAsync(typeOfJobId);
+            return ObjectMapper.Map<List<JobInfo>, List<JobInfoDto>>(result);
+        }
+
+        public async Task<List<LookupValueDto>> GetLookupValuesAsync()
+        {
+            var jobInfos = await _jobInfoRepository.GetListAsync();
+            return ObjectMapper.Map<List<JobInfo>, List<LookupValueDto>>(jobInfos);
         }
     }
 }
