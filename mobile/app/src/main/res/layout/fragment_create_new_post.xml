@@ -205,7 +205,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thời gian"
+            android:text="Ngày"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:background="@drawable/bg_edt_profile"
+            android:paddingHorizontal="10dp"
+            android:hint="Ngày hôm "
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:gravity="center|left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số giờ "
             android:textSize="16dp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -222,7 +248,7 @@
                 android:layout_height="53dp"
                 android:background="@drawable/bg_edt_profile"
                 android:paddingHorizontal="10dp"
-                android:hint="Hãy chọn thời gian"
+                android:hint="Hãy chọn số giờ làm"
                 android:textSize="16dp"
                 android:textColor="@color/black"
                 android:gravity="center|left"
@@ -242,7 +268,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvTime"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <TextView
             android:id="@+id/tvRequired4"
             android:layout_width="match_parent"

@@ -54,7 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="30/10/2022 13:05"
+        android:text="30/10/2022"
+        android:textColor="@color/primaryColor"
+        android:textStyle="bold"
         android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgUser"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,16 +77,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgUser"
-        app:layout_constraintBottom_toTopOf="@+id/tvEndTime"/>
+        app:layout_constraintBottom_toTopOf="@+id/tvCountTime"/>
 
     <TextView
-        android:id="@+id/tvEndTime"
+        android:id="@+id/tvCountTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="6dp"
         android:gravity="center|start"
-        android:text="Hạn cuối: 30/11/2022"
+        android:text="Số giờ làm:"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/tvTypeOfJob"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +105,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEndTime"
+        app:layout_constraintTop_toBottomOf="@+id/tvCountTime"
         app:layout_constraintBottom_toTopOf="@+id/tvJobInfo"/>
 
 

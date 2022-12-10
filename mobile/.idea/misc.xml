@@ -42,6 +42,7 @@
         <entry key="app/src/main/res/layout/activity_worker_detail.xml" value="0.21779329955285864" />
         <entry key="app/src/main/res/layout/activity_worker_detail_screen.xml" value="0.4752548217773438" />
         <entry key="app/src/main/res/layout/feature_list_item.xml" value="0.24499036263728485" />
+        <entry key="app/src/main/res/layout/fragment_booking_order_screen.xml" value="0.19651184082031242" />
         <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.23026784261067706" />
         <entry key="app/src/main/res/layout/fragment_create_new_post.xml" value="0.24098739975608444" />
         <entry key="app/src/main/res/layout/fragment_dialog.xml" value="0.19816029866536458" />
