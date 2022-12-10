@@ -14,5 +14,7 @@ namespace PBL6.CasualManager.JobInfos
         public Guid TypeOfJobId { get; set; }
 
         public string TypeOfJobName { get; set; }
+
+        public string TypeOfJobIcon { get; set; }
     }
 }

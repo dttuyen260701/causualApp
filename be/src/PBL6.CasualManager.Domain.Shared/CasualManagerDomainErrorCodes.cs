@@ -10,4 +10,5 @@ public static class CasualManagerDomainErrorCodes
     public const string InfoWrongException = "CasualManager:00004";
     public const string SetUpRoleException = "CasualManager:00005";
     public const string IdentityCardExistException = "CasualManager:00006";
+    public const string IsExistWorkerWithJobInfoException = "CasualManager:00007";
 }

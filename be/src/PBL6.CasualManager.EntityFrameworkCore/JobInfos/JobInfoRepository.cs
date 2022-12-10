@@ -2,6 +2,7 @@
 using PBL6.CasualManager.EntityFrameworkCore;
 using PBL6.CasualManager.TypeOfJobs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -16,6 +17,14 @@ namespace PBL6.CasualManager.JobInfos
     {
         public JobInfoRepository(IDbContextProvider<CasualManagerDbContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+
+        public async Task<List<JobInfo>> GetListByTypeOfJobAsync(Guid typeOfJobId)
+        {
+            var dbSet = await GetDbSetAsync();
+            return await dbSet
+                .Where(x => x.TypeOfJobId.Equals(typeOfJobId))
+                .ToListAsync();
         }
 
         public async Task<PagedResultDto<JobInfo>> GetListSearchAsync(

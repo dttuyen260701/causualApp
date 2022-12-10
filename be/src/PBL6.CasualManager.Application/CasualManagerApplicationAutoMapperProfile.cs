@@ -4,6 +4,7 @@ using PBL6.CasualManager.Addresses;
 using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Districts;
 using PBL6.CasualManager.Extensions;
+using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.LookupValues;
 using PBL6.CasualManager.Provinces;
@@ -27,9 +28,12 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
         CreateMap<JobInfoDto, JobInfo>();
         CreateMap<JobInfo, JobInfoDto>()
             .ForMember(des => des.TypeOfJobName,
-                act => act.MapFrom(src => src.TypeOfJob.Name));
+                act => act.MapFrom(src => src.TypeOfJob.Name))
+            .ForMember(des => des.TypeOfJobIcon,
+                act => act.MapFrom(src => src.TypeOfJob.Avatar));
         CreateMap<PagedResultDto<JobInfo>, PagedResultDto<JobInfoDto>>();
         CreateMap<JobInfoCreateUpdateDto, JobInfo>();
+        CreateMap<TypeOfJob, LookupValueDto>();
 
         CreateMap<CustomerInfo, CustomerInfoDto>()
             .ForMember(des => des.GenderName,
@@ -44,6 +48,17 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
             .ForMember(des => des.AddressDetail,
                 act => act.MapFrom(src => $"{src.Address}, {src.WardName}, {src.DistrictName}, {src.ProvinceName}"));
         CreateMap<WorkerInfoCreateUpdateDto, WorkerInfo>();
+
+        CreateMap<JobInfoOfWorker, JobInfoOfWorkerDto>()
+            .ForMember(des => des.JobName,
+                act => act.MapFrom(src => src.JobInfo.Name))
+            .ForMember(des => des.TypeOfJobName,
+                act => act.MapFrom(src => src.JobInfo.TypeOfJob.Name))
+            .ForMember(des => des.Prices,
+                act => act.MapFrom(src => src.JobInfo.Prices))
+            .ForMember(des => des.TypeOfJobId,
+                act => act.MapFrom(src => src.JobInfo.TypeOfJobId));
+        CreateMap<JobInfoOfWorkerCreateUpdateDto, JobInfoOfWorker>();
 
         CreateMap<Province, ProvinceDto>();
         CreateMap<District, DistrictDto>();

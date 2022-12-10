@@ -21,6 +21,7 @@ public class CasualManagerPermissionDefinitionProvider : PermissionDefinitionPro
         jobInfoPermission.AddChild(CasualManagerPermissions.JobInfo.Delete, L("Permission:Delete"));
 
         var workerInfoPermission = myGroup.AddPermission(CasualManagerPermissions.WorkerInfo.Default, L("Permission:WorkerInfo"));
+        workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Detail, L("Permission:Detail"));
         workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Create, L("Permission:Create"));
         workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Update, L("Permission:Update"));
         workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Delete, L("Permission:Delete"));
@@ -29,6 +30,11 @@ public class CasualManagerPermissionDefinitionProvider : PermissionDefinitionPro
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Create, L("Permission:Create"));
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Update, L("Permission:Update"));
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Delete, L("Permission:Delete"));
+
+        var jobInfoOfWorkerPermission = myGroup.AddPermission(CasualManagerPermissions.JobInfoOfWorker.Default, L("Permission:JobInfoOfWorker"));
+        jobInfoOfWorkerPermission.AddChild(CasualManagerPermissions.JobInfoOfWorker.Create, L("Permission:Create"));
+        jobInfoOfWorkerPermission.AddChild(CasualManagerPermissions.JobInfoOfWorker.Update, L("Permission:Update"));
+        jobInfoOfWorkerPermission.AddChild(CasualManagerPermissions.JobInfoOfWorker.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

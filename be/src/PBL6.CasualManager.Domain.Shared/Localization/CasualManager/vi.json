@@ -7,6 +7,7 @@
     "CasualManager:00004": "Thông tin sai.",
     "CasualManager:00005": "Xảy ra lỗi khi phân quyền",
     "CasualManager:00006": "Chứng minh thư {identityCard} đã tồn tại.",
+    "CasualManager:00007": "Thợ {workerName} đã đăng ký công việc {jobName} trước đó.",
 
     "Menu:Home": "Trang chủ",
     "Welcome": "Chào mừng bạn",
@@ -20,12 +21,15 @@
     "Permission:JobInfo": "Thông tin công việc",
     "Permission:WorkerInfo": "Thông tin thợ",
     "Permission:CustomerInfo": "Thông tin khách hàng",
+    "Permission:Detail": "Chi tiết",
+    "Permission:JobInfoOfWorker": "Thông tin việc làm của thợ",
 
     "Menu:TypeOfJob": "Quản lý loại công việc",
     "Menu:JobInfo": "Quản lý công việc",
     "Menu:CustomerInfo": "Quản lý khách hàng",
     "Menu:WorkerInfo": "Quản lý thợ",
 
+    "Detail": "Chi tiết",
     "Common:Cancel": "Huỷ",
     "Common:Save": "Lưu",
     "Common:Saving": "Đang lưu",
@@ -96,7 +100,18 @@
     "Worker:EndWorkingTime": "Đến",
     "Worker:Status": "Trạng thái",
     "Worker:Status:Free": "Rảnh",
-    "Worker:Status:Busy": "Bận"
+    "Worker:Status:Busy": "Bận",
+
+    "WorkerInfoDetail": "Thông tin chi tiết thợ",
+    "WorkerInfoDetail:Profile": "Thông tin cá nhân",
+
+    "JobInfoOfWorker:Note": "Ghi chú",
+    "JobInfoOfWorker:Create": "Thêm việc làm",
+    "JobInfoOfWorker:DeletionConfirmationMessage": "Bạn có chắc muốn xoá công việc {0} của thợ {1} ?",
+    "JobInfoOfWorker:CreateJobInfoOfWorker": "Thêm việc làm cho thợ",
+    "JobInfoOfWorker:UpdateJobInfoOfWorker": "Chỉnh sửa việc làm cho thợ",
+    "JobInfoOfWorker:TypeOfJob": "Chọn loại việc làm",
+    "JobInfoOfWorker:JobInfo": "Chọn việc làm"
 
   }
 }
