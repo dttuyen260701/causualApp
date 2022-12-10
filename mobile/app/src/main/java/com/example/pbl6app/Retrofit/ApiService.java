@@ -99,6 +99,9 @@ public interface ApiService {
 
     @GET("/api/app/post-of-demand/{id}")
     Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemand(@Path("id") String idUser);
+
+    @POST("/api/app/account/change-password/{userId}")
+    Call<ResponseRetrofit<User>> changePassword(@Body Map<String, String> options, @Path("userId") String idUser);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 
