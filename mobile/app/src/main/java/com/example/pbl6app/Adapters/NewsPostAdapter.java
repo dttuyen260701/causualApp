@@ -16,6 +16,8 @@ import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemNewsPostBinding;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -63,16 +65,31 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
 
         @SuppressLint("SetTextI18n")
         public void bindView(int position) {
+            if(Constant.USER.getRole().equals("Thợ")){
+                Picasso.get().load(Constant.BASE_URL + listNewPost.get(position).getCustomerImage()).into(binding.imgUser);
+                binding.tvNameUser.setText(listNewPost.get(position).getCustomerName());
+            }
+            else{
+                Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).into(binding.imgUser);
+                binding.tvNameUser.setText(Constant.USER.getName());
+            }
+
+
             binding.layout.setOnClickListener(view -> {
                 listener.onItemClick(listNewPost.get(position));
             });
 
-            binding.tvNameUser.setText(listNewPost.get(position).getCustomerName());
-
             binding.tvContentPost.setText(listNewPost.get(position).getDescription());
-            Picasso.get().load(Constant.BASE_URL + listNewPost.get(position).getCustomerImage()).into(binding.imgUser);
 
-            binding.tvTime.setText(listNewPost.get(position).getCreationTime() + "-" + listNewPost.get(position).getEndDateTime());
+            binding.tvTime.setText(listNewPost.get(position).getCreationTime());
+
+            binding.tvJobInfo.setText("Tên công việc: "+listNewPost.get(position).getJobInfoName());
+            binding.tvAddress.setText("Địa chỉ"+listNewPost.get(position).getAddress()
+                    +" , "+listNewPost.get(position).getWard()
+                    +" , "+listNewPost.get(position).getDistrict()
+                    +" , "+listNewPost.get(position).getProvince()
+            );
+
 
 //            binding.tvTime.setText(formatter.format(new Date().getTime()));
 

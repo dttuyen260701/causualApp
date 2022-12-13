@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.pbl6app.Adapters.NewsPostAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.PostOfDemand;
+import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
@@ -50,13 +51,23 @@ public class NewfeedFragment extends FragmentBase {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadData();
         initView();
         initListener();
+
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initView();
+            }
+        });
+
+
     }
 
-    @Override
-    protected void initView() {
+
+    void initWorker(){
+        binding.layoutHeaderFragUserHome.setVisibility(View.VISIBLE);
+        binding.appbar.setVisibility(View.GONE);
         Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).networkPolicy(NetworkPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(binding.imageView2, new com.squareup.picasso.Callback() {
@@ -71,6 +82,29 @@ public class NewfeedFragment extends FragmentBase {
                 });
 
         binding.tvNameFragUserHome.setText(Constant.USER.getName());
+    }
+
+    void initCustomer(){
+        binding.layoutHeaderFragUserHome.setVisibility(View.GONE);
+        binding.appbar.setVisibility(View.VISIBLE);
+        binding.btnOpenCreatePostScreen.setVisibility(View.VISIBLE);
+        binding.btnOpenCreatePostScreen.setOnClickListener(v -> {
+            addFragment(new CreateNewPostFragment(), R.id.ctFragmentUser);
+            binding.btnOpenCreatePostScreen.setVisibility(View.GONE);
+        });
+    }
+
+    @Override
+    protected void initView() {
+        if(Constant.USER.getRole().equals("Thợ")){
+            loadDataWorker();
+            initWorker();
+        }
+        else
+        {
+            loadDataCustomer();
+            initCustomer();
+        }
 
         adapter = new NewsPostAdapter(listData, new OnItemCLickListener<PostOfDemand>() {
             @Override
@@ -86,10 +120,13 @@ public class NewfeedFragment extends FragmentBase {
 
     @Override
     protected void initListener() {
-        binding.refreshLayout.setOnRefreshListener(this::loadData);
+        if(Constant.USER.getRole().equals("Thợ")){
+            binding.refreshLayout.setOnRefreshListener(this::loadDataWorker);
+        }
+        else binding.refreshLayout.setOnRefreshListener(this::loadDataCustomer);
     }
 
-    private void loadData() {
+    private void loadDataWorker() {
         listData = new ArrayList<>();
 
         binding.refreshLayout.setEnabled(false);
@@ -130,7 +167,48 @@ public class NewfeedFragment extends FragmentBase {
                 }
             }
         });
+    }
 
+    private void loadDataCustomer(){
+        listData = new ArrayList<>();
 
+        binding.refreshLayout.setEnabled(false);
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
+
+        ApiService.apiService.getListPostOfDemandCustomer(Constant.USER.getId()).enqueue(new Callback<ResponseRetrofit<ArrayList<PostOfDemand>>>() {
+            @Override
+            public void onResponse(Call<ResponseRetrofit<ArrayList<PostOfDemand>>> call, Response<ResponseRetrofit<ArrayList<PostOfDemand>>> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                binding.refreshLayout.setEnabled(true);
+                binding.refreshLayout.setRefreshing(false);
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    if (response.body().isSuccessed()) {
+                        listData.clear();
+                        listData.addAll(response.body().getResultObj());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    if(getContext() != null) {
+                        Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRetrofit<ArrayList<PostOfDemand>>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                Log.e("TTT", "onFailure: ",t );
+                if(getContext() != null) {
+                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

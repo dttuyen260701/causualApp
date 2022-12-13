@@ -1,12 +1,20 @@
 package com.example.pbl6app.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -199,10 +207,7 @@ public class SignupActivity extends AppCompatActivity {
                     if(response.body().isSuccessed()) {
                         Constant.username = binding.edtSignupUsername.getText().toString();
                         Constant.pass = binding.edtSignupPw1.getText().toString();
-                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(SignupActivity.this, "Đăng kí thành công!!!", Toast.LENGTH_SHORT).show();
-                        finish();
+                        showSuccessDialog();
                     } else {
                         Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -219,6 +224,35 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(SignupActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showSuccessDialog() {
+        Dialog dialog = new Dialog(SignupActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.fragment_dialog_arrive);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        dialog.setCancelable(true);
+
+        TextView txtTitleDialog = dialog.findViewById(R.id.txtTitleDialog);
+        txtTitleDialog.setText("Đăng ký tài khoản thành công");
+
+        Button btnOK = dialog.findViewById(R.id.btnOk);
+        btnOK.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        dialog.show();
     }
 
 
