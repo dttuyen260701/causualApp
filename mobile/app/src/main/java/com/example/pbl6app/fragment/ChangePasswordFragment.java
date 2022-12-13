@@ -71,6 +71,10 @@ public class ChangePasswordFragment extends FragmentBase {
 
     @Override
     protected void initView() {
+        binding.btnBack.setOnClickListener(view -> {
+            backToPreviousFrag();
+        });
+
         binding.edtOldPass.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -198,7 +202,7 @@ public class ChangePasswordFragment extends FragmentBase {
     private void showSuccessDialog() {
         Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.fragment_dialog);
+        dialog.setContentView(R.layout.fragment_dialog_arrive);
         Window window = dialog.getWindow();
         if (window == null) {
             return;
@@ -210,24 +214,11 @@ public class ChangePasswordFragment extends FragmentBase {
         windowAttributes.gravity = Gravity.CENTER;
         dialog.setCancelable(true);
 
-        ImageView imageView = dialog.findViewById(R.id.imageDialog);
-        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.sad_dialog));
-
-        TextView txtContentDialog = dialog.findViewById(R.id.txtContentDialog);
-        txtContentDialog.setText("Bạn có chắc chắn muốn đăng xuất?");
-
         TextView txtTitleDialog = dialog.findViewById(R.id.txtTitleDialog);
-        txtTitleDialog.setText("Đăng Xuất");
+        txtTitleDialog.setText("Đổi mật khẩu thành công");
 
-        Button btnCancelDialog = dialog.findViewById(R.id.btnCancelDialog);
-        btnCancelDialog.setOnClickListener(view -> dialog.dismiss());
-
-        Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
-        btnChangeDialog.setOnClickListener(view -> {
-            Constant.USER = new User();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
-        });
+        Button btnOK = dialog.findViewById(R.id.btnOk);
+        btnOK.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
     }

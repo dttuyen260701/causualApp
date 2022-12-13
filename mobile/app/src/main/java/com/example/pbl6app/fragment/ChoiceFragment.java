@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.pbl6app.Adapters.ListChoiceItemAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.AddressTemp;
+import com.example.pbl6app.Models.JobInfo;
+import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
+import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.LayoutListChoiceBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -26,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +40,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
     private BottomSheetBehavior mBehavior;
     private LayoutListChoiceBinding binding;
     private ArrayList<AddressTemp> list_data;
+    private ArrayList<TypeOfJob> list_type_of_job;
     private OnItemCLickListener<AddressTemp> listener;
     private ListChoiceItemAdapter adapter;
     private String title;
@@ -48,6 +53,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
         this.title = title;
         this.list_data = new ArrayList<>();
         this.ID_Load = ID_Load;
+        this.list_type_of_job = new ArrayList<>();
     }
 
     @Nullable
@@ -124,7 +130,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
         }
         if (list_search.isEmpty()) {
             if (text.length() > 0)
-                Toast.makeText(getActivity(), "Không tìm thấy dữ liệu!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Không tìm thấy dữ liệu", Toast.LENGTH_SHORT).show();
         } else {
             adapter.setList_data(list_search);
         }
@@ -241,7 +247,90 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                 }
                 adapter.notifyDataSetChanged();
                 break;
-            default:
+            case Constant.TYPE_OF_JOB_DATA:
+                ApiService.apiService.getAllTypeOfJob().enqueue(new Callback<ResponseRetrofit<ArrayList<TypeOfJob>>>() {
+                    @Override
+                    public void onResponse(Call<ResponseRetrofit<ArrayList<TypeOfJob>>> call, Response<ResponseRetrofit<ArrayList<TypeOfJob>>> response) {
+                        binding.viewBg.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                        if(response.code() == HttpURLConnection.HTTP_OK) {
+                            ArrayList<TypeOfJob> typeOfJobList = response.body().getResultObj();
+                            for (TypeOfJob type : typeOfJobList){
+                                list_data.add(new AddressTemp(type.getId(), type.getName()));
+                            }
+
+                            for (AddressTemp i : list_data) {
+                                i.setCheck(i.getId().equals(CreateNewPostFragment.getIdTypeOfJobChosen()));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            if(getContext() != null) {
+                                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseRetrofit<ArrayList<TypeOfJob>>> call, Throwable t) {
+                        binding.viewBg.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                break;
+                case Constant.JOB_INFO_DATA:
+                    ApiService.apiService.getListJobInfo(ID_Load).enqueue(new Callback<ResponseRetrofit<ArrayList<JobInfo>>>() {
+                        @Override
+                        public void onResponse(Call<ResponseRetrofit<ArrayList<JobInfo>>> call, Response<ResponseRetrofit<ArrayList<JobInfo>>> response) {
+                            binding.viewBg.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
+                            if(response.code() == HttpURLConnection.HTTP_OK) {
+                                ArrayList<JobInfo> listJob = response.body().getResultObj();
+                                for (JobInfo job : listJob){
+                                    list_data.add(new AddressTemp(job.getId(), job.getName()));
+                                }
+
+                                for (AddressTemp i : list_data) {
+                                    i.setCheck(i.getId().equals(CreateNewPostFragment.getIdJobInfoChosen()));
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                if(getContext() != null) {
+                                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseRetrofit<ArrayList<JobInfo>>> call, Throwable t) {
+                            binding.viewBg.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
+                            if(getContext() != null) {
+                                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    break;
+            case Constant.NUMBER_HOUR_DATA:
+                binding.viewBg.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
+                list_data.add(new AddressTemp("0", "1"));
+                list_data.add(new AddressTemp("1", "2"));
+                list_data.add(new AddressTemp("2", "3"));
+                list_data.add(new AddressTemp("3", "4"));
+                list_data.add(new AddressTemp("4", "5"));
+                list_data.add(new AddressTemp("5", "6"));
+                list_data.add(new AddressTemp("6", "7"));
+                list_data.add(new AddressTemp("7", "8"));
+
+                for (AddressTemp i : list_data) {
+                    i.setCheck(i.getId().equals(CreateNewPostFragment.getIdNumberHourChosen()));
+                }
+                adapter.notifyDataSetChanged();
+                break;
+                default:
                 break;
         }
     }

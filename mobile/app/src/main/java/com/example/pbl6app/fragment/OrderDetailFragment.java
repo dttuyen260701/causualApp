@@ -25,8 +25,7 @@ import java.util.ArrayList;
 public class OrderDetailFragment extends FragmentBase {
     private FragmentOrderDetailBinding binding;
     private Order order;
-    private ArrayList<JobInfo> listJobInfo;
-    private JobInfoOrderDetailAdapter adapter;
+    private JobInfo jobInfo;
 
     public OrderDetailFragment() {}
 
@@ -51,12 +50,10 @@ public class OrderDetailFragment extends FragmentBase {
 
     @Override
     protected void initView() {
-        listJobInfo = new ArrayList<>();
+        binding.btnBack.setOnClickListener(view -> {
+            backToPreviousFrag();
+        });
         loadData();
-        adapter = new JobInfoOrderDetailAdapter(listJobInfo);
-
-        binding.recyclerJobInfo.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.recyclerJobInfo.setAdapter(adapter);
     }
 
     @Override
@@ -65,10 +62,5 @@ public class OrderDetailFragment extends FragmentBase {
     }
 
     void loadData(){
-        listJobInfo.add(new JobInfo("", "Giặt đồ", "200000", "", "","",""));
-        listJobInfo.add(new JobInfo("", "Lau nhà", "300000", "", "","",""));
-        listJobInfo.add(new JobInfo("", "Quét nhà", "100000", "", "","",""));
-        listJobInfo.add(new JobInfo("", "Rửa sân", "50000", "", "","",""));
-
     }
 }

@@ -71,7 +71,7 @@ public class MapFragment_Parent extends Fragment {
         list_result_Map_Frag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mapFragment.searchAddress(list_result.get(i));
+                //mapFragment.searchAddress(list_result.get(i));
             }
         });
 
@@ -82,7 +82,7 @@ public class MapFragment_Parent extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 list_result.clear();
-                mapFragment.search_result(query, list_result);
+                //mapFragment.search_result(query, list_result);
                 arrayAdapter.notifyDataSetChanged();
                 list_result_Map_Frag.setBackgroundColor(getResources().getColor(R.color.white));
                 return false;
@@ -103,14 +103,14 @@ public class MapFragment_Parent extends Fragment {
         btnSave_Location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener_for_pickAddress.onClick_pick(mapFragment.getAddress_line(),
-                        (float) mapFragment.CalculationByDistance());
+//                listener_for_pickAddress.onClick_pick(mapFragment.getAddress_line(),
+//                        (float) mapFragment.CalculationByDistance());
             }
         });
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         //add để trạng thái trước được lưu
-        transaction.add(R.id.layout_MapFragment, mapFragment);
+        //transaction.add(R.id.layout_MapFragment, mapFragment);
         transaction.commit();
     }
 }

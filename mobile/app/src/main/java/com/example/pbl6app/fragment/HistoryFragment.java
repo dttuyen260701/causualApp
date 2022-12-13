@@ -53,6 +53,9 @@ public class HistoryFragment extends FragmentBase {
 
     @Override
     protected void initView() {
+        binding.btnBack.setOnClickListener(view -> {
+            backToPreviousFrag();
+        });
 
         listHistoryOrders = new ArrayList<>();
         loadData();

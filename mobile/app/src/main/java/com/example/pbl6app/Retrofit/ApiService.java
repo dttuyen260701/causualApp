@@ -87,6 +87,9 @@ public interface ApiService {
     @GET("/api/app/type-of-job/type-job")
     Call<ResponseRetrofit<ArrayList<TypeOfJob>>> getTypeOfJob();
 
+    @GET("/api/app/type-of-job/all-type")
+    Call<ResponseRetrofit<ArrayList<TypeOfJob>>> getAllTypeOfJob();
+
     @GET("/api/app/worker-info/{id}/worker-vm")
     Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListWorkerByIDUser(@Path("id") String id);
 
@@ -102,6 +105,12 @@ public interface ApiService {
 
     @POST("/api/app/account/change-password/{userId}")
     Call<ResponseRetrofit<User>> changePassword(@Body Map<String, String> options, @Path("userId") String idUser);
+
+    @POST("/api/app/post-of-demand/{userId}/create")
+    Call<ResponseRetrofit<PostOfDemand>> createNewPost(@Body Map<String, String> options,@Path("userId") String idUser);
+
+    @GET("/api/app/{id}/post-of-demand")
+    Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemandCustomer(@Path("id") String idUser);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 

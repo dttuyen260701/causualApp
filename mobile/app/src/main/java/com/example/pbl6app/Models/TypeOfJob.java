@@ -12,6 +12,8 @@ public class TypeOfJob {
     private String name;
     @SerializedName("image")
     private String linkIMG;
+    @SerializedName("description")
+    private String description;
 
     public TypeOfJob(String id, String name, String linkIMG) {
         this.id = id;
@@ -42,4 +44,13 @@ public class TypeOfJob {
     public void setLinkIMG(String linkIMG) {
         this.linkIMG = linkIMG;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

@@ -125,8 +125,6 @@ public class LoginActivity extends BaseActivity {
 
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
-        binding.layoutPass.setVisibility(View.GONE);
-        binding.layoutUser.setVisibility(View.GONE);
 
         Map<String , String> options = new HashMap<>();
         options.put("userName", binding.edtLoginUser.getText().toString());
@@ -138,8 +136,7 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(Call<ResponseRetrofit<User>> call, Response<ResponseRetrofit<User>> response) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
-                binding.layoutPass.setVisibility(View.VISIBLE);
-                binding.layoutUser.setVisibility(View.VISIBLE);
+
                 if(response.code() == HttpURLConnection.HTTP_OK) {
                     if(response.body().isSuccessed()) {
                         Constant.USER = response.body().getResultObj();
@@ -162,8 +159,6 @@ public class LoginActivity extends BaseActivity {
             public void onFailure(Call<ResponseRetrofit<User>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
-                binding.layoutPass.setVisibility(View.VISIBLE);
-                binding.layoutUser.setVisibility(View.VISIBLE);
                 Log.e("LOGIN", "onFailure: ", t);
                 Toast.makeText(LoginActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
             }

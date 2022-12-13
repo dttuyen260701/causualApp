@@ -39,6 +39,16 @@ public class PostOfDemand {
     private String district;
     @SerializedName("ward")
     private String ward;
+    @SerializedName("address")
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getId() {
         return id;
