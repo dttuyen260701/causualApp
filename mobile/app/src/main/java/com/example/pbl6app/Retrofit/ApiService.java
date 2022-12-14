@@ -75,6 +75,27 @@ public interface ApiService {
             @Part MultipartBody.Part avatar
     );
 
+    @Multipart
+//    @PUT("/api/app/customer-info/{id}")
+    @HTTP(method = HTTPMethod.PUT, path = "/api/app/worker-info/{Uid}/from-mobile", hasBody = true)
+    Call<ResponseRetrofit<User>> updateWorker(
+            @Path("Uid") String id,
+            @Part("name") RequestBody name,
+            @Part("phone") RequestBody phone,
+            @Part("id") RequestBody userId,
+            @Part("gender") RequestBody gender,
+            @Part("address") RequestBody address,
+            @Part("addressPoint") RequestBody addressPoint,
+            @Part("dateOfBirth") RequestBody dateOfBirth,
+            @Part("provinceId") RequestBody provinceId,
+            @Part("provinceName") RequestBody provinceName,
+            @Part("districtId") RequestBody districtId,
+            @Part("districtName") RequestBody districtName,
+            @Part("wardId") RequestBody wardId,
+            @Part("wardName") RequestBody wardName,
+            @Part MultipartBody.Part avatar
+    );
+
     @GET("/api/app/address/provinces")
     Call<ArrayList<AddressTemp>> getProvince();
 
@@ -84,7 +105,7 @@ public interface ApiService {
     @GET("/api/app/address/{id}/wards")
     Call<ArrayList<AddressTemp>> getWard (@Path("id") String id);
 
-    @GET("/api/app/type-of-job/type-job")
+    @GET("api/app/type-of-job/all-type")
     Call<ResponseRetrofit<ArrayList<TypeOfJob>>> getTypeOfJob();
 
     @GET("/api/app/type-of-job/all-type")
@@ -111,6 +132,9 @@ public interface ApiService {
 
     @GET("/api/app/{id}/post-of-demand")
     Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemandCustomer(@Path("id") String idUser);
+
+    @GET("/api/app/worker-info/{id}/detail")
+    Call<ResponseRetrofit<WorkerDetail>> getWorkerDetail(@Path("id") String id);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 

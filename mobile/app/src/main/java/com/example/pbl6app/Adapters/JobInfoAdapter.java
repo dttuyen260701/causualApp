@@ -1,9 +1,11 @@
 package com.example.pbl6app.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
@@ -29,7 +31,7 @@ public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolde
     @Override
     public JobHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = ItemJobinfoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new JobHolder(binding);
+        return new JobHolder(binding, parent.getContext());
     }
 
     @Override
@@ -43,11 +45,20 @@ public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolde
     }
 
     public class JobHolder extends RecyclerView.ViewHolder {
-        public JobHolder(@NonNull ItemJobinfoBinding binding) {
+        private Context context;
+
+        public JobHolder(@NonNull ItemJobinfoBinding binding, Context context) {
             super(binding.getRoot());
+            this.context = context;
         }
 
         public void bindView(int position) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                    context.getResources().getDisplayMetrics().widthPixels * 4 / 10,
+                    context.getResources().getDisplayMetrics().widthPixels * 4 / 10 / 6 * 3
+                );
+
+            binding.layout.setLayoutParams(layoutParams);
             binding.layout.setOnClickListener(view -> {
                 listener.onItemClick(listJobInfo.get(position));
             });

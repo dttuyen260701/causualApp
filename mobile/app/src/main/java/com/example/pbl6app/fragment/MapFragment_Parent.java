@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pbl6app.Listeners.Listener_for_PickAddress;
@@ -20,7 +19,7 @@ import com.example.pbl6app.R;
 
 import java.util.ArrayList;
 
-public class MapFragment_Parent extends Fragment {
+public class MapFragment_Parent extends FragmentBase {
     private ImageView img_Back_Map_Frag;
     private ConstraintLayout layout_MapFragment;
     private static Button btnSave_Location;
@@ -52,7 +51,7 @@ public class MapFragment_Parent extends Fragment {
         img_Back_Map_Frag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                backToPreviousFrag();
             }
         });
         layout_MapFragment = (ConstraintLayout) view.findViewById(R.id.layout_MapFragment);
@@ -71,7 +70,7 @@ public class MapFragment_Parent extends Fragment {
         list_result_Map_Frag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //mapFragment.searchAddress(list_result.get(i));
+                mapFragment.searchAddress(list_result.get(i));
             }
         });
 
@@ -82,7 +81,7 @@ public class MapFragment_Parent extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 list_result.clear();
-                //mapFragment.search_result(query, list_result);
+                mapFragment.search_result(query, list_result);
                 arrayAdapter.notifyDataSetChanged();
                 list_result_Map_Frag.setBackgroundColor(getResources().getColor(R.color.white));
                 return false;
@@ -103,14 +102,23 @@ public class MapFragment_Parent extends Fragment {
         btnSave_Location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                listener_for_pickAddress.onClick_pick(mapFragment.getAddress_line(),
-//                        (float) mapFragment.CalculationByDistance());
+                listener_for_pickAddress.onClick_pick(mapFragment.getAddress_line(), mapFragment.getPoint());
             }
         });
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         //add để trạng thái trước được lưu
-        //transaction.add(R.id.layout_MapFragment, mapFragment);
+        transaction.add(R.id.layout_MapFragment, mapFragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initListener() {
+
     }
 }

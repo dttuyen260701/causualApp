@@ -29,12 +29,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
 public class ChoiceFragment extends BottomSheetDialogFragment {
     private BottomSheetBehavior mBehavior;
@@ -152,7 +150,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onResponse(Call<ArrayList<AddressTemp>> call, Response<ArrayList<AddressTemp>> response) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
                             list_data.addAll(response.body());
 
                             for (AddressTemp i : list_data) {
@@ -160,7 +158,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            if(getContext() != null) {
+                            if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -170,7 +168,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ArrayList<AddressTemp>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(getContext() != null) {
+                        if (getContext() != null) {
                             Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -182,7 +180,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onResponse(Call<ArrayList<AddressTemp>> call, Response<ArrayList<AddressTemp>> response) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
                             list_data.addAll(response.body());
 
                             for (AddressTemp i : list_data) {
@@ -190,7 +188,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            if(getContext() != null) {
+                            if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -200,7 +198,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ArrayList<AddressTemp>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(getContext() != null) {
+                        if (getContext() != null) {
                             Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -212,7 +210,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onResponse(Call<ArrayList<AddressTemp>> call, Response<ArrayList<AddressTemp>> response) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
                             list_data.addAll(response.body());
 
                             for (AddressTemp i : list_data) {
@@ -220,7 +218,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            if(getContext() != null) {
+                            if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -230,11 +228,22 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ArrayList<AddressTemp>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(getContext() != null) {
+                        if (getContext() != null) {
                             Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+                break;
+            case Constant.JOB_INFO_DATA_DETAIL:
+                binding.viewBg.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
+                AddressTemp temp;
+                for (JobInfo i : BookingOrderScreenFragment.getListJobInfo()) {
+                    temp = new AddressTemp(i.getId(), i.getName());
+                    temp.setCheck(i.getId().equals(BookingOrderScreenFragment.getIdJobInfo().getId()));
+                    list_data.add(temp);
+                }
+                adapter.notifyDataSetChanged();
                 break;
             case Constant.GENDER_DATA:
                 binding.viewBg.setVisibility(View.GONE);
@@ -253,9 +262,9 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onResponse(Call<ResponseRetrofit<ArrayList<TypeOfJob>>> call, Response<ResponseRetrofit<ArrayList<TypeOfJob>>> response) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
                             ArrayList<TypeOfJob> typeOfJobList = response.body().getResultObj();
-                            for (TypeOfJob type : typeOfJobList){
+                            for (TypeOfJob type : typeOfJobList) {
                                 list_data.add(new AddressTemp(type.getId(), type.getName()));
                             }
 
@@ -264,7 +273,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            if(getContext() != null) {
+                            if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -274,45 +283,45 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                     public void onFailure(Call<ResponseRetrofit<ArrayList<TypeOfJob>>> call, Throwable t) {
                         binding.viewBg.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
-                        if(getContext() != null) {
+                        if (getContext() != null) {
                             Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 break;
-                case Constant.JOB_INFO_DATA:
-                    ApiService.apiService.getListJobInfo(ID_Load).enqueue(new Callback<ResponseRetrofit<ArrayList<JobInfo>>>() {
-                        @Override
-                        public void onResponse(Call<ResponseRetrofit<ArrayList<JobInfo>>> call, Response<ResponseRetrofit<ArrayList<JobInfo>>> response) {
-                            binding.viewBg.setVisibility(View.GONE);
-                            binding.progressBar.setVisibility(View.GONE);
-                            if(response.code() == HttpURLConnection.HTTP_OK) {
-                                ArrayList<JobInfo> listJob = response.body().getResultObj();
-                                for (JobInfo job : listJob){
-                                    list_data.add(new AddressTemp(job.getId(), job.getName()));
-                                }
-
-                                for (AddressTemp i : list_data) {
-                                    i.setCheck(i.getId().equals(CreateNewPostFragment.getIdJobInfoChosen()));
-                                }
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                if(getContext() != null) {
-                                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
-                                }
+            case Constant.JOB_INFO_DATA:
+                ApiService.apiService.getListJobInfo(ID_Load).enqueue(new Callback<ResponseRetrofit<ArrayList<JobInfo>>>() {
+                    @Override
+                    public void onResponse(Call<ResponseRetrofit<ArrayList<JobInfo>>> call, Response<ResponseRetrofit<ArrayList<JobInfo>>> response) {
+                        binding.viewBg.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
+                            ArrayList<JobInfo> listJob = response.body().getResultObj();
+                            for (JobInfo job : listJob) {
+                                list_data.add(new AddressTemp(job.getId(), job.getName()));
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<ResponseRetrofit<ArrayList<JobInfo>>> call, Throwable t) {
-                            binding.viewBg.setVisibility(View.GONE);
-                            binding.progressBar.setVisibility(View.GONE);
-                            if(getContext() != null) {
+                            for (AddressTemp i : list_data) {
+                                i.setCheck(i.getId().equals(CreateNewPostFragment.getIdJobInfoChosen()));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
-                    break;
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseRetrofit<ArrayList<JobInfo>>> call, Throwable t) {
+                        binding.viewBg.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                break;
             case Constant.NUMBER_HOUR_DATA:
                 binding.viewBg.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
@@ -330,7 +339,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                 }
                 adapter.notifyDataSetChanged();
                 break;
-                default:
+            default:
                 break;
         }
     }

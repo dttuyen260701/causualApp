@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,6 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.User;
@@ -53,6 +56,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -123,6 +128,7 @@ public class ProfileFragment extends FragmentBase {
         binding.edtAddress.setText(Constant.USER.getAddress());
 
         binding.progressBar2.setVisibility(View.VISIBLE);
+        bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
         Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).networkPolicy(NetworkPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(binding.imvUser, new com.squareup.picasso.Callback() {
@@ -373,9 +379,27 @@ public class ProfileFragment extends FragmentBase {
         dialog.show();
     }
 
+    public String searchAddress(String query_address) {
+        Geocoder coder = new Geocoder(getContext(), Locale.getDefault());
+        ArrayList<Address> list_address;
+        String result = "";
+        try {
+            // May throw an IOException
+            list_address = (ArrayList<Address>) coder.getFromLocationName(query_address, 1);
+            Address address = list_address.get(0);
+            result = address.getLatitude() + "-" + address.getLongitude();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+
     private void onSubmitData() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
+
+        String addressPoint = searchAddress(binding.edtAddress.getText().toString().trim() + ", " + binding.tvProvince.getText().toString().trim());
 
         File file = new File(getContext().getCacheDir(), "Test");
         try {
@@ -395,56 +419,110 @@ public class ProfileFragment extends FragmentBase {
             e.printStackTrace();
         }
 
-        ApiService.apiService.updateCustomer(
-                Constant.USER.getId(),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtName.getText().toString().trim()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtPhone.getText().toString().trim()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), Constant.USER.getId()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), idGenderChonse),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtAddress.getText().toString().trim()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), "125- 220"),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtAge.getText().toString().trim()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), idProvinceChosen),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvProvince.getText().toString()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), idDistrictChosen),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvDistrict.getText().toString()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), idWardChosen),
-                RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvWard.getText().toString()),
-                MultipartBody.Part.createFormData("avatar", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
-        ).enqueue(new Callback<ResponseRetrofit<User>>() {
-            @Override
-            public void onResponse(Call<ResponseRetrofit<User>> call, Response<ResponseRetrofit<User>> response) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.viewBg.setVisibility(View.GONE);
-                if (response.code() == HttpURLConnection.HTTP_OK) {
-                    if (response.body().isSuccessed()) {
-                        String id = Constant.USER.getId();
-                        Constant.USER = response.body().getResultObj();
-                        Constant.USER.setId(id);
-                        initView();
-                        Toast.makeText(getContext(), "Cập nhật thành công!!!", Toast.LENGTH_SHORT).show();
+        if(Constant.USER.getRole().equals("Thợ")) {
+            ApiService.apiService.updateWorker(
+                    Constant.USER.getId(),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtName.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtPhone.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), Constant.USER.getId()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idGenderChonse),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtAddress.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), addressPoint),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtAge.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idProvinceChosen),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvProvince.getText().toString()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idDistrictChosen),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvDistrict.getText().toString()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idWardChosen),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvWard.getText().toString()),
+                    MultipartBody.Part.createFormData("avatar", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
+            ).enqueue(new Callback<ResponseRetrofit<User>>() {
+                @Override
+                public void onResponse(Call<ResponseRetrofit<User>> call, Response<ResponseRetrofit<User>> response) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.viewBg.setVisibility(View.GONE);
+                    if (response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.body().isSuccessed()) {
+                            String id = Constant.USER.getId();
+                            Constant.USER = response.body().getResultObj();
+                            Constant.USER.setId(id);
+                            initView();
+                            Toast.makeText(getContext(), "Cập nhật thành công!!!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     } else {
-                        if(getContext() != null) {
-                            Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else {
-                    if(getContext() != null) {
+                }
+
+                @Override
+                public void onFailure(Call<ResponseRetrofit<User>> call, Throwable t) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.viewBg.setVisibility(View.GONE);
+                    Log.e("TTT", "onFailure: ", t);
+                    if (getContext() != null) {
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseRetrofit<User>> call, Throwable t) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.viewBg.setVisibility(View.GONE);
-                Log.e("TTT", "onFailure: ", t);
-                if(getContext() != null) {
-                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            ApiService.apiService.updateCustomer(
+                    Constant.USER.getId(),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtName.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtPhone.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), Constant.USER.getId()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idGenderChonse),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtAddress.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), addressPoint),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtAge.getText().toString().trim()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idProvinceChosen),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvProvince.getText().toString()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idDistrictChosen),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvDistrict.getText().toString()),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), idWardChosen),
+                    RequestBody.create(MediaType.parse("multipart/form-data"), binding.tvWard.getText().toString()),
+                    MultipartBody.Part.createFormData("avatar", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
+            ).enqueue(new Callback<ResponseRetrofit<User>>() {
+                @Override
+                public void onResponse(Call<ResponseRetrofit<User>> call, Response<ResponseRetrofit<User>> response) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.viewBg.setVisibility(View.GONE);
+                    if (response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.body().isSuccessed()) {
+                            String id = Constant.USER.getId();
+                            Constant.USER = response.body().getResultObj();
+                            Constant.USER.setId(id);
+                            initView();
+                            Toast.makeText(getContext(), "Cập nhật thành công!!!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(Call<ResponseRetrofit<User>> call, Throwable t) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.viewBg.setVisibility(View.GONE);
+                    Log.e("TTT", "onFailure: ", t);
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
     }
 
     @Override

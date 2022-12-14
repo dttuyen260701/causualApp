@@ -55,7 +55,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_login_pass"
+                            android:src="@drawable/user"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/tvOptionFragUserHome"
                             app:layout_constraintHorizontal_bias="0.5"

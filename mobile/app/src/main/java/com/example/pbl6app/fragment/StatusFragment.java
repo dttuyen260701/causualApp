@@ -34,7 +34,13 @@ public class StatusFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         StatusFragmentAdapter adapter = new StatusFragmentAdapter(getActivity().getSupportFragmentManager(), getLifecycle());
         binding.viewPager.setAdapter(adapter);
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText("Page" + (position + 1))).attach();
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
+            if(position == 0){
+                tab.setText("Đang thực hiện");
+            } else {
+                tab.setText("Đang chờ");
+            }
+        }).attach();
         binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
         });
     }

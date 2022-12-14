@@ -72,10 +72,10 @@ public class InProgressOrderFragment extends FragmentBase {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         String currentDate = dateFormat.format(date);
-        listOrder.add(new Order("job 1", currentDate, "Nguyen Van A", "In Progress"));
-        listOrder.add(new Order("job 2", currentDate, "Nguyen Van A","In Progress"));
-        listOrder.add(new Order("job 3", currentDate, "Nguyen Van A","In Progress"));
-        listOrder.add(new Order("job 4", currentDate, "Nguyen Van A","In Progress"));
-        listOrder.add(new Order("job 5", currentDate,"Nguyen Van A","In Progress"));
+//        listOrder.add(new Order("job 1", currentDate, "Nguyen Van A", "In Progress"));
+//        listOrder.add(new Order("job 2", currentDate, "Nguyen Van A","In Progress"));
+//        listOrder.add(new Order("job 3", currentDate, "Nguyen Van A","In Progress"));
+//        listOrder.add(new Order("job 4", currentDate, "Nguyen Van A","In Progress"));
+//        listOrder.add(new Order("job 5", currentDate,"Nguyen Van A","In Progress"));
     }
 }
