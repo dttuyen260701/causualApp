@@ -94,17 +94,19 @@
             android:elevation="10dp"
             >
             <LinearLayout
+                android:id="@+id/btnProfileUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imgUser"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:riv_corner_radius="100dp"
-                    android:src="@color/border_color"
                     android:layout_marginRight="10dp"
-                    />
+                    android:src="@color/border_color"
+                    app:riv_corner_radius="100dp"
+                    android:scaleType="centerCrop"/>
 
                 <TextView
                     android:id="@+id/btnProfile"

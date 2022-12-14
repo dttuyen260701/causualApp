@@ -1,7 +1,8 @@
-package com.example.pbl6app.Models;
+package com.example.pbl6app.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -19,9 +20,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.pbl6app.Models.ObjectTracking;
 import com.example.pbl6app.databinding.FragmentTrackingBinding;
+import com.example.pbl6app.services.TrackingService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -32,7 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TrackingFragment extends Fragment {
     private FragmentTrackingBinding binding;
@@ -40,8 +41,6 @@ public class TrackingFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
     private int id = 0;
-    private Location currentLocation;
-    private List<Location> savedLocations;
 
     DatabaseReference usersRef;
 
@@ -81,7 +80,6 @@ public class TrackingFragment extends Fragment {
                 DatabaseReference usersRef = myRef.child("Tracking").child("Id1");
                 for (Location location : locationResult.getLocations()) {
                     updateUIValue(location);
-                    currentLocation = location;
                     Geocoder geocoder = new Geocoder(getActivity());
                     ArrayList<Address> list_address = new ArrayList<>();
                     try {
@@ -143,26 +141,25 @@ public class TrackingFragment extends Fragment {
         });
 
         binding.btnShowMap.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), TrackingService.class);
+            intent.putExtra("UserPoint", "15.9935033-108.2066692");
+            getActivity().startService(intent);
+        });
 
+        binding.btnStop.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), TrackingService.class);
+            getActivity().stopService(intent);
         });
     }
 
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
-        binding.tvUpdates.setText("Location is being tracked");
         updateGPS();
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
     private void stopLocationUpdates() {
-        binding.tvUpdates.setText("Location is NOT being tracked");
-        binding.tvLat.setText("Location is being tracked");
-        binding.tvLon.setText("Location is being tracked");
-        binding.tvSpeed.setText("Location is being tracked");
-        binding.tvAddress.setText("Location is being tracked");
-        binding.tvAccuracy.setText("Location is being tracked");
-        binding.tvAltitude.setText("Location is being tracked");
-        binding.tvSensor.setText("Location is being tracked");
+
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
@@ -197,22 +194,20 @@ public class TrackingFragment extends Fragment {
 
         binding.tvSpeed.setText((location.hasSpeed()) ? String.valueOf(location.getSpeed()) : "Not available");
 
-        Geocoder geocoder = new Geocoder(getActivity());
-        ArrayList<Address> list_address;
-        try {
-            list_address = (ArrayList<Address>) geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            binding.tvAddress.setText(list_address.get(0).getAddressLine(0));
-        } catch (Exception e) {
-            binding.tvAddress.setText("Unable to get street address");
+        if (getActivity() != null) {
+            Geocoder geocoder = new Geocoder(getActivity());
+            ArrayList<Address> list_address;
+            try {
+                list_address = (ArrayList<Address>) geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                binding.tvAddress.setText(list_address.get(0).getAddressLine(0));
+            } catch (Exception e) {
+                binding.tvAddress.setText("Unable to get street address");
+            }
         }
     }
 
     @Override
     public void onStop() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("data");
-        DatabaseReference usersRef = myRef.child("Tracking").child("Id1");
-        usersRef.setValue("");
         super.onStop();
     }
 

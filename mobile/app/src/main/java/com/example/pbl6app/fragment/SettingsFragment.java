@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 public class SettingsFragment extends FragmentBase{
 
     private FragmentSettingsBinding binding;
+    private Dialog dialog;
 
     @Nullable
     @Override
@@ -50,12 +51,12 @@ public class SettingsFragment extends FragmentBase{
     protected void initView() {
 
         binding.btnProfile.setText(Constant.USER.getName());
-        Picasso.get().load(Constant.USER.getAvatar());
+        Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).into(binding.imgUser);
     }
 
     @Override
     protected void initListener() {
-        binding.btnProfile.setOnClickListener(view -> {
+        binding.btnProfileUser.setOnClickListener(view -> {
             addFragment(new ProfileFragment(), R.id.ctFragmentUser);
         });
 
@@ -74,7 +75,7 @@ public class SettingsFragment extends FragmentBase{
     }
 
     private void showDialog() {
-        Dialog dialog = new Dialog(getContext());
+        dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_dialog);
         Window window = dialog.getWindow();
@@ -102,14 +103,22 @@ public class SettingsFragment extends FragmentBase{
 
         Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
         btnChangeDialog.setOnClickListener(view -> {
-            Constant.USER = new User();
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
         });
 
+        btnChangeDialog.setText("Đăng xuất");
+
         dialog.show();
     }
 
+    @Override
+    public void onStop() {
+        if(dialog != null) {
+            dialog.dismiss();
+        }
+        super.onStop();
+    }
 }
 
 

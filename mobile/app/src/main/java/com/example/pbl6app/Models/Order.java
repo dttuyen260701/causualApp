@@ -13,7 +13,7 @@ public class Order {
     @SerializedName("note")
     private String note;
     @SerializedName("jobPrices")
-    private int jobPrices;
+    private String jobPrices;
     @SerializedName("creationTime")
     private String creationTime;
     @SerializedName("userAddress")
@@ -26,10 +26,21 @@ public class Order {
     private String status;
     @SerializedName("jobInfoName")
     private String jobInfoName;
+    @SerializedName("jobInfoImage")
+    private String jobInfoImage;
+    @SerializedName("customerName")
+    private String customerName;
+    @SerializedName("customerImage")
+    private String customerImage;
     @SerializedName("workerName")
     private String workerName;
+    @SerializedName("workerImage")
+    private String workerImage;
 
-    public Order(String id, String jobId, String customerId, String workerId, String note, int jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, String status, String jobInfoName, String workerName) {
+    public Order() {
+    }
+
+    public Order(String id, String jobId, String customerId, String workerId, String note, String jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, String status, String jobInfoName, String jobInfoImage, String customerName, String customerImage, String workerName, String workerImage) {
         this.id = id;
         this.jobId = jobId;
         this.customerId = customerId;
@@ -42,7 +53,11 @@ public class Order {
         this.isPaid = isPaid;
         this.status = status;
         this.jobInfoName = jobInfoName;
+        this.jobInfoImage = jobInfoImage;
+        this.customerName = customerName;
+        this.customerImage = customerImage;
         this.workerName = workerName;
+        this.workerImage = workerImage;
     }
 
     public Order(String jobInfoName, String creationTime, String workerName, String status){
@@ -92,11 +107,11 @@ public class Order {
         this.note = note;
     }
 
-    public int getJobPrices() {
+    public String getJobPrices() {
         return jobPrices;
     }
 
-    public void setJobPrices(int jobPrices) {
+    public void setJobPrices(String jobPrices) {
         this.jobPrices = jobPrices;
     }
 
@@ -147,11 +162,44 @@ public class Order {
     public void setJobInfoName(String jobInfoName) {
         this.jobInfoName = jobInfoName;
     }
+
+    public String getJobInfoImage() {
+        return jobInfoImage;
+    }
+
+    public void setJobInfoImage(String jobInfoImage) {
+        this.jobInfoImage = jobInfoImage;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerImage() {
+        return customerImage;
+    }
+
+    public void setCustomerImage(String customerImage) {
+        this.customerImage = customerImage;
+    }
+
     public String getWorkerName() {
         return workerName;
     }
 
     public void setWorkerName(String workerName) {
         this.workerName = workerName;
+    }
+
+    public String getWorkerImage() {
+        return workerImage;
+    }
+
+    public void setWorkerImage(String workerImage) {
+        this.workerImage = workerImage;
     }
 }

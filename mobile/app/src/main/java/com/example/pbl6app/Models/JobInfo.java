@@ -21,6 +21,13 @@ public class JobInfo {
     @SerializedName("image")
     private String linkIMG;
 
+    public JobInfo() {
+    }
+
+    public JobInfo(String id) {
+        this.id = id;
+    }
+
     public JobInfo(String id, String name, String price, String description, String typeOfJobId, String typeOfJobName, String linkIMG) {
         this.id = id;
         this.name = name;

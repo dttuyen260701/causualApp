@@ -198,9 +198,18 @@
         android:id="@+id/btnShowMap"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Show On Map"
+        android:text="Create Service"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNewWaypoint" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Stop Serrvice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnShowMap" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
