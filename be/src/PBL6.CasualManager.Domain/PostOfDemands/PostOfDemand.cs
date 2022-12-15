@@ -22,6 +22,12 @@ namespace PBL6.CasualManager.PostOfDemands
         public bool IsActive { get; set; } = true;
 
         [Required]
+        public string CustomerAddress { get; set; }
+
+        [Required]
+        public string CustomerAddressPoint { get; set; }
+
+        [Required]
         public DateTime EndTime { get; set; }
 
         public virtual CustomerInfo CustomerInfo { get; set; }
