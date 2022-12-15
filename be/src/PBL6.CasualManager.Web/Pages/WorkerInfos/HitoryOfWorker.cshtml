@@ -1,0 +1,72 @@
+﻿@page "{id?}"
+@using PBL6.CasualManager.Web.Menus
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using PBL6.CasualManager.Web.Pages.TypeOfJobs
+@using PBL6.CasualManager.Localization
+@using PBL6.CasualManager.Permissions
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<CasualManagerResource> L
+@inject IAuthorizationService Authorization
+@model PBL6.CasualManager.Web.Pages.WorkerInfos.HitoryOfWorkerModel
+@{
+    PageLayout.Content.Title = L["Worker:History"].Value;
+    PageLayout.Content.MenuItemName = CasualManagerMenus.WorkerInfo;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/WorkerInfos/history-of-worker.js" />
+}
+
+@section styles
+{
+    <abp-style src="/Pages/WorkerInfos/history-of-worker.css" />
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<section class="px-3">
+
+    <abp-row class="pl-0">
+        <abp-column size-md="_6" class="pl-0">
+            <abp-card>
+                <abp-card-header class="bg-info pt-1">
+                    <abp-card-title><h3 style="color:white">@L["Worker:RevenueStatisic"]</h3></abp-card-title>
+                </abp-card-header>
+                <abp-card-body>
+                    <canvas id="revenue-statisic-chart"></canvas>
+                        <h4 id="error-not-revenue" class="hidden">@L["Worker:ThereAreNoRevenueInSixMonthNearest"]</h4>
+                </abp-card-body>
+            </abp-card>
+        </abp-column>
+        <abp-column size-md="_6" class="pl-0">
+            <abp-card>
+                <abp-card-header class="bg-info pt-1">
+                    <abp-card-title><h3 style="color:white">@L["Worker:OrderStatisic"]</h3></abp-card-title>
+                </abp-card-header>
+                <abp-card-body>
+                    <canvas id="order-statisic-chart"></canvas>
+                        <h4 id="error-not-order" class="hidden">@L["Worker:ThereAreNoOrderInSixMonthNearest"]</h4>
+                </abp-card-body>
+            </abp-card>
+        </abp-column>
+    </abp-row>
+
+    <abp-row class="pl-0">
+        <abp-column size-md="_12" class="pl-0 mt-3">
+            <abp-card class="mt-3" style="margin-left:0px;">
+                <abp-card-header class="bg-info pt-1">
+                    <abp-card-title><h3 style="color:white">@L["Worker:History:Detail"]</h3></abp-card-title>
+                </abp-card-header>
+                <abp-card-body>
+                    <abp-input type="Hidden" asp-for="ViewModel.WorkerId"></abp-input>
+                    <abp-table striped-rows="true" class="table-bordered" id="history-datatable"></abp-table>
+                </abp-card-body>
+            </abp-card>
+        </abp-column>
+    </abp-row>
+    
+</section>

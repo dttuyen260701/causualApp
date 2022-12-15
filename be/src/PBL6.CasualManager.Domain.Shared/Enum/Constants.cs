@@ -39,8 +39,12 @@ namespace PBL6.CasualManager.Enum
 
     public enum OrderStatus
     {
+        [Display(Name = "Common:OrderStatus:IsInProcess")]
         IsInProcess,
-        Complete
+        [Display(Name = "Common:OrderStatus:IsCancel")]
+        IsCancel,
+        [Display(Name = "Common:OrderStatus:IsComplete")]
+        IsComplete
     }
 
     public class Role
