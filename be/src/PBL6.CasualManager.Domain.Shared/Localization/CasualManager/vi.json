@@ -23,6 +23,7 @@
     "Permission:CustomerInfo": "Thông tin khách hàng",
     "Permission:Detail": "Chi tiết",
     "Permission:JobInfoOfWorker": "Thông tin việc làm của thợ",
+    "Permission:History": "Xem lịch sử đơn",
 
     "Menu:TypeOfJob": "Quản lý loại công việc",
     "Menu:JobInfo": "Quản lý công việc",
@@ -54,6 +55,10 @@
     "Common:Ward": "Xã/Phường",
     "Common:Password": "Mật khẩu",
     "Common:ComfirmPassword": "Xác nhận mật khẩu",
+    "Common:OrderStatus:IsInProcess": "Đang thực hiện",
+    "Common:OrderStatus:IsCancel": "Đã huỷ",
+    "Common:OrderStatus:IsComplete": "Đã hoàn thành",
+    "Common:Revenue": "Doanh thu",
 
     "TypeOfJob": "Danh sách loại công việc",
     "TypeOfJob:Create": "Thêm loại việc làm",
@@ -101,6 +106,16 @@
     "Worker:Status": "Trạng thái",
     "Worker:Status:Free": "Rảnh",
     "Worker:Status:Busy": "Bận",
+    "Worker:History": "Lịch sử đơn",
+    "Worker:History:Detail": "Thông tin lịch sử các đơn",
+    "Worker:RevenueStatisic": "Thống kê doanh thu",
+    "Worker:OrderStatisic": "Thống kê đơn đặt",
+    "Worker:RevenueInMonths": "Doanh thu {0} tháng gần đây (VND)",
+    "Worker:OrderInMonths:Complete": "Đơn hoàn thành",
+    "Worker:OrderInMonths:Cancel": "Đơn đã huỷ",
+    "Worker:OrderInMonths": "Chênh lệnh giữa các đơn trong {0} tháng gần đây",
+    "Worker:ThereAreNoOrderInSixMonthNearest": "Hiện tại không có đơn được đặt trong 6 tháng gần nhất",
+    "Worker:ThereAreNoRevenueInSixMonthNearest": "Hiện tại không có doanh thu trong 6 tháng gần nhất",
 
     "WorkerInfoDetail": "Thông tin chi tiết thợ",
     "WorkerInfoDetail:Profile": "Thông tin cá nhân",
@@ -111,7 +126,12 @@
     "JobInfoOfWorker:CreateJobInfoOfWorker": "Thêm việc làm cho thợ",
     "JobInfoOfWorker:UpdateJobInfoOfWorker": "Chỉnh sửa việc làm cho thợ",
     "JobInfoOfWorker:TypeOfJob": "Chọn loại việc làm",
-    "JobInfoOfWorker:JobInfo": "Chọn việc làm"
+    "JobInfoOfWorker:JobInfo": "Chọn việc làm",
+
+    "Order:Status": "Trạng thái",
+    "Order:FeeForWorker": "Tiền thợ nhận",
+    "Order:IsPaid": "Đã thanh toán",
+    "Order:Date": "Ngày thực hiện"
 
   }
 }

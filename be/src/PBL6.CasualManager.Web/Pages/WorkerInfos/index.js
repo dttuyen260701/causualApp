@@ -59,7 +59,7 @@
                     let star = "";
                     for (let i = 1; i <= 5; i++) {
                         if (i <= data) {
-                            star += `<span class="fa fa-star checked"></span>`
+                            star += `<span class="fa fa-star check-star"></span>`
                         } else {
                             star += `<span class="fa fa-star"></span>`
                         }
@@ -72,7 +72,7 @@
                 title: l('Worker:Status'),
                 data: "status",
                 render: function (data) {
-                    return data == 0 ? `<label class="free">${l('Worker:Status:Free')}</label>` : `<label class="busy">${l('Worker:Status:Busy')}</label>`
+                    return data == 0 ? `<label class="worker-status-free">${l('Worker:Status:Free')}</label>` : `<label class="worker-status-busy">${l('Worker:Status:Busy')}</label>`
                 },
                 class: "text-center"
             },
@@ -80,7 +80,7 @@
                 title: l('Worker:IsActive'),
                 data: "isActive",
                 render: function (data) {
-                    return data ? `<span class="fa fa-check-circle"></span>` : `<span class="fa fa-times-circle"></span>`
+                    return data ? `<span class="fa fa-check-circle is-checked"></span>` : `<span class="fa fa-times-circle isnt-checked"></span>`
                 },
                 class: "text-center"
             },
@@ -111,6 +111,15 @@
                                 displayNameHtml: true,
                             },
                             {
+                                text: l('Worker:History'),
+                                visible: abp.auth.isGranted('CasualManager.WorkerInfo.History'),
+                                action: function (data) {
+                                    window.location.href = `/WorkerInfos/HitoryOfWorker/${data.record.id}`;
+                                    abp.ui.unblock();
+                                },
+                                displayNameHtml: true,
+                            },
+                            {
                                 text: l('Delete'),
                                 visible: abp.auth.isGranted('CasualManager.WorkerInfo.Delete'),
                                 confirmMessage: function (data) {
@@ -124,7 +133,7 @@
                                         });
                                 },
                                 displayNameHtml: true,
-                            }
+                            },
                         ]
                 },
                 width: "15%",

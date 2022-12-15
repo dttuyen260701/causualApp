@@ -7,6 +7,8 @@ using PBL6.CasualManager.Extensions;
 using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.LookupValues;
+using PBL6.CasualManager.Oders;
+using PBL6.CasualManager.Orders;
 using PBL6.CasualManager.Provinces;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.Wards;
@@ -59,6 +61,18 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
             .ForMember(des => des.TypeOfJobId,
                 act => act.MapFrom(src => src.JobInfo.TypeOfJobId));
         CreateMap<JobInfoOfWorkerCreateUpdateDto, JobInfoOfWorker>();
+
+        CreateMap<Order, OrderDto>()
+            .ForMember(des => des.JobName,
+                act => act.MapFrom(src => src.JobInfo.Name))
+            .ForMember(des => des.FeeForWorker,
+                act => act.MapFrom(src => src.PrieceDetail.FeeForWorker))
+            .ForMember(des => des.OrderDate,
+                act => act.MapFrom(src => src.CreationTime))
+            .ForMember(des => des.IconTypeOfJob,
+                act => act.MapFrom(src => src.JobInfo.TypeOfJob.Avatar))
+            .ForMember(des => des.StatusStr,
+                act => act.MapFrom(src => EnumExtensions.GetDisplayName(src.Status)));
 
         CreateMap<Province, ProvinceDto>();
         CreateMap<District, DistrictDto>();

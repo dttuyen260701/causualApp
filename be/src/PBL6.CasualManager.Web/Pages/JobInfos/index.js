@@ -40,8 +40,9 @@
             },
             {
                 title: l('JobInfo:Prices'),
-                data: function (data) {
-                    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.prices);
+                data: 'prices',
+                render: function (data) {
+                    return `<p class="price">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data)}</p>`
                 },
                 width: "10%"
             },
@@ -49,7 +50,7 @@
                 title: l('JobInfo:TypeOfJobName'),
                 data: {},
                 render: function(data){
-                    return `<img class="icon" src = "${data.typeOfJobIcon}"> ${data.typeOfJobName}`;
+                    return `<img class="icon-type-of-job" src = "${data.typeOfJobIcon}"> ${data.typeOfJobName}`;
                 },
                 width: "10%"
             },

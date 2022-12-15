@@ -25,6 +25,7 @@ public class CasualManagerPermissionDefinitionProvider : PermissionDefinitionPro
         workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Create, L("Permission:Create"));
         workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Update, L("Permission:Update"));
         workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.Delete, L("Permission:Delete"));
+        workerInfoPermission.AddChild(CasualManagerPermissions.WorkerInfo.History, L("Permission:History"));
 
         var customerInfoPermission = myGroup.AddPermission(CasualManagerPermissions.CustomerInfo.Default, L("Permission:CustomerInfo"));
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Create, L("Permission:Create"));

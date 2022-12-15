@@ -30,3 +30,62 @@
 .upload-check-cropper-rowPadding {
     padding-top: 10px;
 }
+
+.check-star {
+    color: orange;
+}
+
+.is-checked {
+    color: green;
+}
+
+.isnt-checked {
+    color: red;
+}
+
+.worker-status-free {
+    color: green;
+}
+
+.worker-status-busy {
+    color: red;
+}
+
+.order-status-is-in-process {
+    padding: 5px 10px;
+    color: orange;
+    border-style: solid;
+    border-width: thin;
+    border-color: orange;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.order-status-is-cancel {
+    padding: 5px 10px;
+    color: red;
+    border-style: solid;
+    border-width: thin;
+    border-color: red;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.order-status-is-complete {
+    padding: 5px 10px;
+    color: green;
+    border-style: solid;
+    border-width: thin;
+    border-color: green;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.icon-type-of-job {
+    height: 30px;
+}
+
+.price {
+    font-weight: bold;
+}
+
