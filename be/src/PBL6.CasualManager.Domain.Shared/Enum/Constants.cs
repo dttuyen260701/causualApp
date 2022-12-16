@@ -11,6 +11,8 @@ namespace PBL6.CasualManager.Enum
         public const string PrefixAvatarCustomer = "AvatarCustomer-";
         public const string PrefixIconTypeOfJob = "IconTypeOfJob-";
         public const string ImageDefaultWorker = "/upload_images/worker/default.png";
+        public const string ImageDefaultCustomer = "/upload_images/customer/default.png";
+
     }
 
     public enum WithRole
@@ -44,7 +46,9 @@ namespace PBL6.CasualManager.Enum
         [Display(Name = "Common:OrderStatus:IsCancel")]
         IsCancel,
         [Display(Name = "Common:OrderStatus:IsComplete")]
-        IsComplete
+        IsComplete,
+        IsWaiting,
+        IsRejected
     }
 
     public class Role

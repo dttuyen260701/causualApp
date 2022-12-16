@@ -46,6 +46,6 @@ namespace PBL6.CasualManager.Accounts
 
         public string Avatar { get; set; }
 
-        public string Role { get; set; }
+        public int Role { get; set; }
     }
 }

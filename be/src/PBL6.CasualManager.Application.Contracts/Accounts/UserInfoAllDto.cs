@@ -26,7 +26,7 @@ namespace PBL6.CasualManager.Accounts
         public string WardName { get; set; }
         public string Address { get; set; }
         public string AddressPoint { get; set; }
-        public string Role { get; set; }
+        public int Role { get; set; }
         public string Avatar { get; set; }
         public DateTime? LastModificationTime { get; set; }
     }

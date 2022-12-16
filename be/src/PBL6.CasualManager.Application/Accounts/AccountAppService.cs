@@ -86,7 +86,7 @@ namespace PBL6.CasualManager.Accounts
                         userInfoAllDto.Avatar = customerInfo.Avatar;
                         userInfoAllDto.Address = customerInfo.Address;
                         userInfoAllDto.AddressPoint = customerInfo.AddressPoint;
-                        userInfoAllDto.Role = Role.CUSTOMER;
+                        userInfoAllDto.Role = 0;// 0 is customer
                         userInfoAllDto.LastModificationTime = customerInfo.LastModificationTime;
                     }
                     else
@@ -116,7 +116,7 @@ namespace PBL6.CasualManager.Accounts
                         userInfoAllDto.StartWorkingTime = workerInfo.StartWorkingTime;
                         userInfoAllDto.EndWorkingTime = workerInfo.EndWorkingTime;
                         userInfoAllDto.LastModificationTime = workerInfo.LastModificationTime;
-                        userInfoAllDto.Role = Role.WORKER;
+                        userInfoAllDto.Role = 1;//1 is worker
                     }
                     else
                     {
@@ -338,7 +338,7 @@ namespace PBL6.CasualManager.Accounts
                         DistrictId = infoCustomerAfterUpdate.DistrictId,
                         DistrictName = infoCustomerAfterUpdate.DistrictName,
                         Avatar = infoCustomerAfterUpdate.Avatar,
-                        Role = Role.CUSTOMER
+                        Role = 0
                     };
                     return new ApiSuccessResult<CustomerInfoAllResponse>(customerInfoAllDto);
                 }
@@ -414,7 +414,7 @@ namespace PBL6.CasualManager.Accounts
                         Avatar = infoWorkerAfterUpdate.Avatar,
                         IdentityCardDate = infoWorkerAfterUpdate.IdentityCardDate.ToString("dd-MM-yyyy"),
                         IdentityCardBy = infoWorkerAfterUpdate.IdentityCardBy,
-                        Role = Role.WORKER,
+                        Role = 1,
                     };
                     return new ApiSuccessResult<WorkerInfoAllResponse>(resultObj: workerInfoAllDto);
                 }
