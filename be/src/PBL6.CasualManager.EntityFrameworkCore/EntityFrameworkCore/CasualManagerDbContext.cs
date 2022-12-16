@@ -187,7 +187,7 @@ public class CasualManagerDbContext :
         {
             b.ToTable(CasualManagerConsts.DbTablePrefix + "WorkerResponse", CasualManagerConsts.DbSchema);
             b.HasOne(s => s.WorkerInfo).WithMany(p => p.WorkerResponses).HasForeignKey(s => s.WorkerId).IsRequired();
-            b.HasOne(s => s.PostOfDemand).WithMany(p => p.WorkerResponses).HasForeignKey(s => s.WorkerId).IsRequired();
+            b.HasOne(s => s.PostOfDemand).WithMany(p => p.WorkerResponses).HasForeignKey(s => s.PostOfDemandId).IsRequired();
             b.ConfigureByConvention();
         });
 
