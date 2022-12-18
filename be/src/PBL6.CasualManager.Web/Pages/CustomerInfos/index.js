@@ -70,6 +70,15 @@
                                 displayNameHtml: true,
                             },
                             {
+                                text: l('Common:History'),
+                                visible: abp.auth.isGranted('CasualManager.CustomerInfo.History'),
+                                action: function (data) {
+                                    window.location.href = `/CustomerInfos/HistoryOfCustomer/${data.record.id}`;
+                                    abp.ui.unblock();
+                                },
+                                displayNameHtml: true,
+                            },
+                            {
                                 text: l('Delete'),
                                 visible: abp.auth.isGranted('CasualManager.CustomerInfo.Delete'),
                                 confirmMessage: function (data) {

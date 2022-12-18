@@ -31,11 +31,17 @@ public class CasualManagerPermissionDefinitionProvider : PermissionDefinitionPro
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Create, L("Permission:Create"));
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Update, L("Permission:Update"));
         customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.Delete, L("Permission:Delete"));
+        customerInfoPermission.AddChild(CasualManagerPermissions.CustomerInfo.History, L("Permission:History"));
 
         var jobInfoOfWorkerPermission = myGroup.AddPermission(CasualManagerPermissions.JobInfoOfWorker.Default, L("Permission:JobInfoOfWorker"));
         jobInfoOfWorkerPermission.AddChild(CasualManagerPermissions.JobInfoOfWorker.Create, L("Permission:Create"));
         jobInfoOfWorkerPermission.AddChild(CasualManagerPermissions.JobInfoOfWorker.Update, L("Permission:Update"));
         jobInfoOfWorkerPermission.AddChild(CasualManagerPermissions.JobInfoOfWorker.Delete, L("Permission:Delete"));
+
+        var orderPermission = myGroup.AddPermission(CasualManagerPermissions.Order.Default, L("Permission:Order"));
+        orderPermission.AddChild(CasualManagerPermissions.Order.Create, L("Permission:Create"));
+        orderPermission.AddChild(CasualManagerPermissions.Order.Update, L("Permission:Update"));
+        orderPermission.AddChild(CasualManagerPermissions.Order.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

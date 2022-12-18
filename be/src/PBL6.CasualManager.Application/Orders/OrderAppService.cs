@@ -49,7 +49,7 @@ namespace PBL6.CasualManager.Orders
             _typeOfJobRepository = typeOfJobRepository;
         }
 
-        public async Task<PagedResultDto<OrderDto>> GetListByUserAsync(OrderConditionSearchDto condition)
+        public async Task<PagedResultDto<OrderDto>> GetListByWorkerAsync(OrderConditionSearchDto condition)
         {
             var result = await _orderRepository.GetListByUserAsync(
                 condition.SkipCount,
@@ -63,6 +63,25 @@ namespace PBL6.CasualManager.Orders
                 var orderDto = ObjectMapper.Map<Order, OrderDto>(item);
                 var identityUser = await _identityUserRepository.GetAsync(item.CustomerInfo.UserId);
                 orderDto.CustomerName = identityUser.Name;
+                listOrderDto.Add(orderDto);
+            }
+            return new PagedResultDto<OrderDto> { Items = listOrderDto, TotalCount = result.TotalCount };
+        }
+
+        public async Task<PagedResultDto<OrderDto>> GetListByCustomerAsync(OrderConditionSearchDto condition)
+        {
+            var result = await _orderRepository.GetListByUserAsync(
+                condition.SkipCount,
+                condition.MaxResultCount,
+                condition.Sorting,
+                condition.CustomerId,
+                condition.WorkerId);
+            var listOrderDto = new List<OrderDto>();
+            foreach (var item in result.Items)
+            {
+                var orderDto = ObjectMapper.Map<Order, OrderDto>(item);
+                var identityUser = await _identityUserRepository.GetAsync(item.WorkerInfo.UserId);
+                orderDto.WorkerName = identityUser.Name;
                 listOrderDto.Add(orderDto);
             }
             return new PagedResultDto<OrderDto> { Items = listOrderDto, TotalCount = result.TotalCount };

@@ -102,7 +102,7 @@
                                 displayNameHtml: true,
                             },
                             {
-                                text: l('Detail'),
+                                text: l('Worker:JobDetail'),
                                 visible: abp.auth.isGranted('CasualManager.WorkerInfo.Detail'),
                                 action: function (data) {
                                     window.location.href = `/WorkerInfos/WorkerInfoDetail/${data.record.id}`;
@@ -111,7 +111,7 @@
                                 displayNameHtml: true,
                             },
                             {
-                                text: l('Worker:History'),
+                                text: l('Common:History'),
                                 visible: abp.auth.isGranted('CasualManager.WorkerInfo.History'),
                                 action: function (data) {
                                     window.location.href = `/WorkerInfos/HitoryOfWorker/${data.record.id}`;
