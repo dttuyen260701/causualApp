@@ -15,7 +15,7 @@
         bLengthChange: true,
         scrollCollapse: true,
         ordering: false,
-        ajax: abp.libs.datatables.createAjax(service.getListByUser, GetValueSearch),
+        ajax: abp.libs.datatables.createAjax(service.getListByWorker, GetValueSearch),
         columnDefs: [
             {
                 title: l('JobInfo:Name'),
@@ -82,7 +82,29 @@
                 },
                 width: "10%",
                 class: "text-center"
-            }
+            },
+            {
+                title: l('Delete'),
+                rowAction: {
+                    items: [{
+                        text: '<i class="fa fa-trash-o danger"></i>',
+                        visible: abp.auth.isGranted('CasualManager.Order.Delete'),
+                        confirmMessage: function (data) {
+                            return l('Common:DeletionConfirmationMessage');
+                        },
+                        action: function (data) {
+                            service.delete(data.record.id)
+                                .then(function () {
+                                    abp.notify.info(l('Common:SuccessfullyDeleted'));
+                                    dataTable.ajax.reload();
+                                });
+                        },
+                        displayNameHtml: true,
+                    }]
+                },
+                width: "5%",
+                class: "text-center"
+            },
         ],
     })
     );

@@ -16,7 +16,9 @@ namespace PBL6.CasualManager.Oders
             OrderConditionSearchDto,
             OrderCreateUpdateDto>
     {
-        Task<PagedResultDto<OrderDto>> GetListByUserAsync(OrderConditionSearchDto condition);
+        Task<PagedResultDto<OrderDto>> GetListByWorkerAsync(OrderConditionSearchDto condition);
+
+        Task<PagedResultDto<OrderDto>> GetListByCustomerAsync(OrderConditionSearchDto condition);
 
         Task<Dictionary<string, string>> GetListRevenueOfMonthsOfWorkerAsync(Guid workerId, int month);
 

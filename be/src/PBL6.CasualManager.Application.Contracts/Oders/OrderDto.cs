@@ -12,6 +12,8 @@ namespace PBL6.CasualManager.Oders
 
         public string CustomerAddress { get; set; }
 
+        public string WorkerName { get; set; }
+
         public string JobName { get; set; }
 
         public string IconTypeOfJob { get; set; }
