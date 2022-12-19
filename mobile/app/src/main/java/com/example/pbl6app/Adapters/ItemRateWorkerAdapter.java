@@ -51,7 +51,7 @@ public class ItemRateWorkerAdapter extends RecyclerView.Adapter<ItemRateWorkerAd
         }
 
         public void bindView(int position) {
-            binding.tvAverageRate.setText(String.valueOf(listRate.get(position).getRateAverage()));
+            binding.tvAverageRate.setText(String.valueOf((int)listRate.get(position).getRateAverage()));
             binding.tvComment.setText(String.valueOf(listRate.get(position).getComment()));
             binding.tvCustomerName.setText(listRate.get(position).getCustomerName());
             Picasso.get().load(Constant.BASE_URL + listRate.get(position).getCustomerImage()).into(binding.customerAva);

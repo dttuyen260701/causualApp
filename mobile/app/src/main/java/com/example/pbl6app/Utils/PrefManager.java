@@ -62,5 +62,32 @@ public class PrefManager {
         return sharedPreferences.getString("password","");
     }
 
+    public void rememberLoginDetails(String username, String password, boolean isRemembered) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DATA_LOGIN, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userNameRemember", username);
+        editor.putString("passwordRemember", password);
+        editor.putBoolean("isRemembered", isRemembered);
+
+        editor.commit();
+    }
+
+    public boolean isUserRemembered() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DATA_LOGIN, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("isRemembered", false);
+    }
+
+    public String getRememberedEmail(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DATA_LOGIN, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("userNameRemember","");
+    }
+
+    public String getRememberedPassword(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DATA_LOGIN, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("passwordRemember","");
+    }
+
+
+
 
 }

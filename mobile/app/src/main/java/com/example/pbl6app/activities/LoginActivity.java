@@ -31,6 +31,7 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
+    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +39,16 @@ public class LoginActivity extends BaseActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        prefManager = new PrefManager(LoginActivity.this);
         initView();
         initListener();
     }
 
     private void initView() {
-        if(!Constant.username.isEmpty()) {
-            binding.edtLoginUser.setText(Constant.username);
-        }
-
-        if(!Constant.pass.isEmpty()) {
-            binding.edtLoginPass.setText(Constant.pass);
+        if(prefManager.isUserRemembered()){
+            binding.edtLoginUser.setText(prefManager.getRememberedEmail());
+            binding.edtLoginPass.setText(prefManager.getRememberedPassword());
+            binding.checkRemember.setChecked(true);
         }
     }
 
@@ -142,7 +142,11 @@ public class LoginActivity extends BaseActivity {
 
                 if(response.code() == HttpURLConnection.HTTP_OK) {
                     if(response.body().isSuccessed()) {
-                        new PrefManager(LoginActivity.this).saveLoginDetails( binding.edtLoginUser.getText().toString(),binding.edtLoginPass.getText().toString());
+                        prefManager.saveLoginDetails(binding.edtLoginUser.getText().toString(),binding.edtLoginPass.getText().toString());
+                        if(binding.checkRemember.isChecked()){
+                            prefManager.rememberLoginDetails(binding.edtLoginUser.getText().toString(),binding.edtLoginPass.getText().toString(), true);
+                        }
+                        else prefManager.rememberLoginDetails("","", false);
                         Constant.USER = response.body().getResultObj();
                         if(Constant.USER.getRole().equals("Thợ")) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
