@@ -1,13 +1,12 @@
 package com.example.pbl6app.activities;
 
-import static com.example.pbl6app.Utils.Methods.toStringNumber;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -20,18 +19,19 @@ import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.Utils.Methods;
 import com.example.pbl6app.databinding.ActivityMainBinding;
 import com.example.pbl6app.fragment.NewfeedFragment;
-import com.example.pbl6app.fragment.OrderInQueueFragment;
 import com.example.pbl6app.fragment.SettingsFragment;
 import com.example.pbl6app.fragment.StatusFragment;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
     private static boolean isChecking = false;
-    private static ChildEventListener childEventListener;
+    private static ValueEventListener valueEventListener;
 
     @Override
     public void onBackPressed() {
@@ -54,6 +54,8 @@ public class MainActivity extends BaseActivity {
         initView();
 
         initListener();
+
+        onNewIntent(getIntent());
     }
 
     private void initView() {
@@ -68,51 +70,58 @@ public class MainActivity extends BaseActivity {
 //            }
 //        }));
 
-        childEventListener = new ChildEventListener() {
+        valueEventListener = new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Order order = snapshot.getValue(Order.class);
-                assert order != null;
-                Methods.showDialog(
-                        R.drawable.sad_dialog,
-                        "Bạn có đơn hàng mới!!!",
-                        "Công việc " +
-                                order.getJobInfoName() +
-                                " với giá " +
-                                toStringNumber(Integer.parseInt(order.getJobPrices())) +
-                                " đ được yêu cầu từ " + order.getCustomerName() + " !!!",
-                        "Xem sau",
-                        "Xem chi tiết",
-                        new ListenerDialog() {
-                            @Override
-                            public void onNoClick(Dialog dialog) {
-                                dialog.dismiss();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Order> listData = new ArrayList<>();
+
+                for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
+                    try {
+                        listData.add(orderSnapshot.getValue(Order.class));
+                    } catch (Exception e) {
+                        Log.e("PARSE_ORDER_WORKER", "onChildAdded: ", e);
+                    }
+
+                }
+
+                if (listData.size() > 0) {
+                    Methods.showDialog(
+                            R.drawable.smile_dialog,
+                            "Bạn có " + listData.size() + " yêu cầu công việc mới!!!",
+                            ((listData.size() > 1) ? "Bao gồm yêu cầu " : "Yêu cầu") +
+                                    listData.get(0).getJobInfoName() +
+                                    " được yêu cầu từ " + listData.get(0).getCustomerName() +
+                                    ((listData.size() > 1) ? "và những yêu cầu khác" : ""),
+                            "Xem sau",
+                            "Xem chi tiết",
+                            new ListenerDialog() {
+
+                                @Override
+                                public void onDismiss() {
+                                    FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeValue();
+                                }
+
+                                @Override
+                                public void onNoClick(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onYesClick(Dialog dialog) {
+                                    binding.bottomNavigation.setSelectedItemId(R.id.menu_status);
+                                    dialog.dismiss();
+                                }
                             }
+                    );
 
-                            @Override
-                            public void onYesClick(Dialog dialog) {
-                                addFragment(new OrderInQueueFragment(order), R.id.layoutMain, true);
-                                dialog.dismiss();
-                            }
-                        }
-                );
-
-//                FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).child(order.getCustomerId()).removeValue();
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    Methods.sendNotification(
+                            "Bạn có " + listData.size() + " yêu cầu công việc mới!!!",
+                            ((listData.size() > 1) ? "Bao gồm yêu cầu " : "Yêu cầu") +
+                                    listData.get(0).getJobInfoName() +
+                                    " được yêu cầu từ " + listData.get(0).getCustomerName() +
+                                    ((listData.size() > 1) ? " và những yêu cầu khác" : ""),
+                            R.drawable.smile_dialog);
+                }
 
             }
 
@@ -122,7 +131,7 @@ public class MainActivity extends BaseActivity {
             }
         };
 
-        FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).addChildEventListener(childEventListener);
+        FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).addValueEventListener(valueEventListener);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -152,6 +161,18 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if(intent != null){
+            int result = intent.getIntExtra("KEY_SETTING_FRAG", 0);
+            if(result == 1) {
+                FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeValue();
+                binding.bottomNavigation.setSelectedItemId(R.id.menu_status);
+            }
+        }
+        super.onNewIntent(intent);
+    }
+
     private void addFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.ctFragmentUser, fragment);
@@ -159,9 +180,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeEventListener(childEventListener);
+    protected void onDestroy() {
+        FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeEventListener(valueEventListener);
         Constant.USER = new User();
-        super.onStop();
+        super.onDestroy();
     }
 }

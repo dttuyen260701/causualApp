@@ -5,6 +5,7 @@ import static com.example.pbl6app.Utils.Methods.toStringNumber;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +15,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.pbl6app.Listeners.ListenerDialog;
-import com.example.pbl6app.Listeners.Listener_for_PickAddress;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.JobInfo;
 import com.example.pbl6app.Models.Order;
 import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.R;
+import com.example.pbl6app.Retrofit.ApiService;
+import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.Utils.Methods;
+import com.example.pbl6app.activities.MainActivityUser;
 import com.example.pbl6app.databinding.FragmentBookingOrderScreenBinding;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingOrderScreenFragment extends FragmentBase {
     private FragmentBookingOrderScreenBinding binding;
@@ -85,6 +93,9 @@ public class BookingOrderScreenFragment extends FragmentBase {
         binding.tvTypeOfJobWorker.setText(workerDetail.getListJobInfo());
         binding.tvPhone.setText(workerDetail.getPhone());
         binding.tvAddressWorker.setText(workerDetail.getAddress());
+        userAddress = Constant.USER.getAddress();
+        userPoint = Constant.USER.getAddressPoint();
+        binding.tvAdressPicker.setText(userAddress);
     }
 
     @Override
@@ -111,76 +122,89 @@ public class BookingOrderScreenFragment extends FragmentBase {
         });
 
         binding.btnPickAddress.setOnClickListener(view -> {
-            addFragment(new MapFragment_Parent(new Listener_for_PickAddress() {
-                @Override
-                public void onClick_pick(String address, String point) {
-                    binding.tvAdressPicker.setText(address);
-                    userAddress = address;
-                    userPoint = point;
-                    backToPreviousFrag();
-                }
+            addFragment(new MapFragment_Parent((address, point) -> {
+                binding.tvAdressPicker.setText(address);
+                userAddress = address;
+                userPoint = point;
+                backToPreviousFrag();
             }), R.id.ctFragmentUser);
         });
 
         binding.btnConfirmJob.setOnClickListener(view -> {
             if (idJobInfo.getId().equals("")) {
-
+                Methods.makeToast("Vui lòng chọn công việc!");
             } else {
-                @SuppressLint("SimpleDateFormat")
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Order order = new Order(
-                        "",
-                        idJobInfo.getId(),
-                        Constant.USER.getId(),
-                        workerDetail.getId(),
-                        binding.edtNote.getText().toString(),
-                        idJobInfo.getPrice(),
-                        formatter.format(new Date().getTime()),
-                        userAddress,
-                        userPoint,
-                        false,
-                        Constant.ACCEPT_STATUS,
-                        idJobInfo.getName(),
-                        idJobInfo.getLinkIMG(),
-                        Constant.USER.getName(),
-                        Constant.USER.getAvatar(),
-                        workerDetail.getName(),
-                        workerDetail.getLinkIMG()
-                );
-
-                FirebaseRepository.
-                        PickWorkerChild.
-                        child(workerDetail.getId()).
-                        child(Constant.USER.getId()).
-                        setValue(order).
-                        addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Methods.showDialog(
-                                        R.drawable.smile_dialog,
-                                        "Tuyệt vời !!!",
-                                        "Yêu cầu của bạn đã được gửi đến thợ !!!",
-                                        "Trở về",
-                                        "Đơn đã yêu cầu",
-                                        new ListenerDialog() {
-                                            @Override
-                                            public void onNoClick(Dialog dialog) {
-                                                dialog.dismiss();
-                                                backToPreviousFrag();
-                                            }
-
-                                            @Override
-                                            public void onYesClick(Dialog dialog) {
-
-                                            }
-                                        });
-                            } else {
-                                if (getContext() != null) {
-                                    Toast.makeText(getActivity(), "Lỗi", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                submitData();
             }
         });
+    }
+
+    private void submitData() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
+        Map<String, String> options = new HashMap<>();
+        options.put("workerId", workerDetail.getId());
+        options.put("jobInfoId", idJobInfo.getId());
+        options.put("note", binding.edtNote.getText().toString());
+        options.put("addressPoint", userPoint);
+        options.put("address", userAddress);
+
+        ApiService.apiService.createOrder(Constant.USER.getId(), options).enqueue(new Callback<ResponseRetrofit<Order>>() {
+            @Override
+            public void onResponse(Call<ResponseRetrofit<Order>> call, Response<ResponseRetrofit<Order>> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    if (response.body().isSuccessed()) {
+                        FirebaseRepository.
+                                PickWorkerChild.
+                                child(workerDetail.getId()).
+                                child(response.body().getResultObj().getId()).
+                                setValue(response.body().getResultObj());
+
+                        Methods.showDialog(
+                                R.drawable.smile_dialog,
+                                "Tuyệt vời !!!",
+                                "Yêu cầu của bạn đã được gửi đến thợ !!!",
+                                "Trở về",
+                                "Đơn đã yêu cầu",
+                                new ListenerDialog() {
+                                    @Override
+                                    public void onDismiss() {
+
+                                    }
+
+                                    @Override
+                                    public void onNoClick(Dialog dialog) {
+                                        dialog.dismiss();
+                                        backToPreviousFrag();
+                                    }
+
+                                    @Override
+                                    public void onYesClick(Dialog dialog) {
+                                        StatusFragment.setOrderId(response.body().getResultObj().getId());
+                                        StatusFragment.setForWaiting(true);
+                                        MainActivityUser.setIdNavigate(R.id.menu_status);
+                                        dialog.dismiss();
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRetrofit<Order>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                Log.e("CHANGE_PASS", "onFailure: ", t);
+                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void onChoiceShow(

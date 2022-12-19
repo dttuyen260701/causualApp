@@ -54,6 +54,7 @@ public class CreateNewPostFragment extends FragmentBase {
     private FragmentCreateNewPostBinding binding;
     private ChoiceFragment choiceFragment;
     private static String idTypeOfJobChosen = "-1", idNumberHourChosen="-1", idJobInfoChosen="-1";
+    private String userAddress = "", userPoint = "";
 
     public static String getIdTypeOfJobChosen() {
         return idTypeOfJobChosen;
@@ -94,6 +95,9 @@ public class CreateNewPostFragment extends FragmentBase {
         binding.tvDate.setText(dateFormat.format(date));
         binding.tvDate.setEnabled(false);
         binding.tvJobInfo.setEnabled(false);
+        userAddress = Constant.USER.getAddress();
+        userPoint = Constant.USER.getAddressPoint();
+        binding.tvAdressCreatePost.setText(userAddress);
     }
 
     @Override
@@ -136,6 +140,15 @@ public class CreateNewPostFragment extends FragmentBase {
             }
         });
 
+        binding.btnPickAdressPost.setOnClickListener(view -> {
+            addFragment(new MapFragment_Parent((address, point) -> {
+                binding.tvAdressCreatePost.setText(address);
+                userAddress = address;
+                userPoint = point;
+                backToPreviousFrag();
+            }), R.id.ctFragmentUser);
+        });
+
         binding.tvTypeOfJob.setOnClickListener(view -> {
             onChoiceShow(
                     Constant.TYPE_OF_JOB_DATA,
@@ -160,14 +173,6 @@ public class CreateNewPostFragment extends FragmentBase {
                     }
                     ,idTypeOfJobChosen);
         });
-
-        binding.tvTime.setOnClickListener(view -> {
-            onChoiceShow(Constant.NUMBER_HOUR_DATA,"Số giờ làm",item -> {
-                binding.tvTime.setText(item.getName()+" giờ");
-                idNumberHourChosen = item.getName();
-                choiceFragment.dismiss();
-            },"");
-        });
     }
 
     private void onSubmitData(){
@@ -180,6 +185,8 @@ public class CreateNewPostFragment extends FragmentBase {
         options.put("description", binding.edtDescription.getText().toString());
         options.put("note", "null");
         options.put("endTime", binding.tvDate.getText().toString());
+        options.put("address", userAddress);
+        options.put("addressPoint", userPoint);
 
         ApiService.apiService.createNewPost(options, Constant.USER.getId()
         ).enqueue(new Callback<ResponseRetrofit<PostOfDemand>>() {
@@ -189,7 +196,6 @@ public class CreateNewPostFragment extends FragmentBase {
                 binding.viewBg.setVisibility(View.GONE);
                 if(response.code() == HttpURLConnection.HTTP_OK) {
                     if(response.body().isSuccessed()) {
-                        //todo: go to list post of demand of user
                         showSuccessDialog();
                     } else {
                         Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();

@@ -1,12 +1,13 @@
 package com.example.pbl6app;
 
+import static com.example.pbl6app.Utils.Constant.CHANNEL_ID;
+
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 
 public class MyApplication extends Application {
-    private static final String CHANNEL_ID = "CHANNEL";
 
     @Override
     public void onCreate() {

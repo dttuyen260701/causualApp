@@ -63,10 +63,12 @@
                 android:autoSizeStepGranularity="1sp"
                 android:background="@color/light_orange"
                 android:hint="Tài khoản"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingHorizontal="20dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,10 +114,11 @@
                 android:background="@color/light_orange"
                 android:hint="Mật khẩu"
                 android:inputType="textPassword"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
+                android:maxLines="1"
                 android:paddingHorizontal="20dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

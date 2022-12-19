@@ -96,7 +96,7 @@ public class NewfeedFragment extends FragmentBase {
 
     @Override
     protected void initView() {
-        if(Constant.USER.getRole().equals("Thợ")){
+        if(Constant.USER.getRole() == Constant.ROLE_WORKER){
             loadDataWorker();
             initWorker();
         }
@@ -120,7 +120,7 @@ public class NewfeedFragment extends FragmentBase {
 
     @Override
     protected void initListener() {
-        if(Constant.USER.getRole().equals("Thợ")){
+        if(Constant.USER.getRole() == Constant.ROLE_WORKER){
             binding.refreshLayout.setOnRefreshListener(this::loadDataWorker);
         }
         else binding.refreshLayout.setOnRefreshListener(this::loadDataCustomer);

@@ -9,12 +9,12 @@ public class PostOfDemand {
     private String id;
     @SerializedName("customerId")
     private String customerId;
-    @SerializedName("imageUser")
-    private String customerImage;
     @SerializedName("customerName")
     private String customerName;
     @SerializedName("endDateTime")
     private String endDateTime;
+    @SerializedName("imageUser")
+    private String customerImage;
     @SerializedName("endDateTimeString")
     private String endDateTimeString;
     @SerializedName("creationTime")
@@ -27,20 +27,10 @@ public class PostOfDemand {
     private String jobInfoId;
     @SerializedName("jobInfoName")
     private String jobInfoName;
-    @SerializedName("provinceId")
-    private String provinceId;
-    @SerializedName("districtId")
-    private String districtId;
-    @SerializedName("wardId")
-    private String wardId;
-    @SerializedName("province")
-    private String province;
-    @SerializedName("district")
-    private String district;
-    @SerializedName("ward")
-    private String ward;
     @SerializedName("address")
     private String address;
+    @SerializedName("addressPoint")
+    private String addressPoint;
 
     public String getAddress() {
         return address;
@@ -138,51 +128,11 @@ public class PostOfDemand {
         this.jobInfoName = jobInfoName;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public String getAddressPoint() {
+        return addressPoint;
     }
 
-    public void setProvinceId(String provinceId) {
-        this.provinceId = provinceId;
-    }
-
-    public String getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(String districtId) {
-        this.districtId = districtId;
-    }
-
-    public String getWardId() {
-        return wardId;
-    }
-
-    public void setWardId(String wardId) {
-        this.wardId = wardId;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
+    public void setAddressPoint(String addressPoint) {
+        this.addressPoint = addressPoint;
     }
 }
