@@ -148,10 +148,10 @@ public class LoginActivity extends BaseActivity {
                         }
                         else prefManager.rememberLoginDetails("","", false);
                         Constant.USER = response.body().getResultObj();
-                        if(Constant.USER.getRole().equals("Thợ")) {
+                        if(Constant.USER.getRole() == Constant.ROLE_WORKER) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
-                        } else {
+                            } else {
                             startActivity(new Intent(LoginActivity.this, MainActivityUser.class));
                             finish();
                         }

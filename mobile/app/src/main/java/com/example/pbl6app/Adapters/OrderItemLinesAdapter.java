@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
@@ -54,7 +52,7 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
     }
 
     public class OrderHolder extends RecyclerView.ViewHolder {
-        private ItemOrderLineBinding binding;
+        private final ItemOrderLineBinding binding;
 
         public OrderHolder(ItemOrderLineBinding binding) {
             super(binding.getRoot());
@@ -63,25 +61,36 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
         }
 
         private void bindView(int position) {
-//            Picasso.get().load(Constant.BASE_URL + listData.get(position).getLinkIMG()).into(binding.imgWorkerLineItem); //todo: image of job info
+            Order order = listData.get(position);
+            String status;
+            switch (order.getStatus()) {
+                case Constant.ACCEPT_STATUS:
+                    status = "Đã nhận";
+                    break;
+                case Constant.REJECT_STATUS:
+                    status = "Từ chối";
+                    break;
+                case Constant.WAITING_STATUS:
+                    status = "Đang chờ phản hồi";
+                    break;
+                case Constant.CANCEL_STATUS:
+                    status = "Đã hủy";
+                    break;
+                case Constant.COMPLETED_STATUS:
+                    status = "Đã hoàn thành";
+                    break;
+                default:
+                    status = "Đang thực hiện";
+                    break;
+            }
+            Picasso.get().load(Constant.BASE_URL + ((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerImage() : order.getWorkerImage())).into(binding.imgItem);
             binding.tvItem.setText(listData.get(position).getJobInfoName());
-            binding.tvWorker.setText(listData.get(position).getWorkerName());
+            binding.tvWorker.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerName() : order.getWorkerName());
             binding.tvTime.setText(listData.get(position).getCreationTime());
-            binding.layoutOrderItemLine.setOnClickListener(view -> {
+            binding.tvStatus.setText(status);
+            binding.layoutOrderItemLine.setOnClickListener((View view) -> {
                 listener.onItemClick(listData.get(position));
             });
-            switch (listData.get(position).getStatus()){
-                case "In Progress":
-                    binding.tvStatus.setText("Đang thực hiện");
-                    break;
-                case "Done":
-                    binding.tvStatus.setText("Đã xong");
-                    break;
-                case "Waiting":
-                    binding.tvStatus.setText("Chờ phản hồi");
-                    break;
-
-            }
         }
     }
 

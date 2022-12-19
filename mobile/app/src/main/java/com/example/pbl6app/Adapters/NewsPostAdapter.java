@@ -5,7 +5,6 @@ package com.example.pbl6app.Adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,16 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.PostOfDemand;
-import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemNewsPostBinding;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHolder> {
 
@@ -59,17 +53,17 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
 
     public class PostHolder extends RecyclerView.ViewHolder {
         private boolean isShow = true;
+
         public PostHolder(@NonNull ItemNewsPostBinding binding) {
             super(binding.getRoot());
         }
 
         @SuppressLint("SetTextI18n")
         public void bindView(int position) {
-            if(Constant.USER.getRole().equals("Thợ")){
+            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
                 Picasso.get().load(Constant.BASE_URL + listNewPost.get(position).getCustomerImage()).into(binding.imgUser);
                 binding.tvNameUser.setText(listNewPost.get(position).getCustomerName());
-            }
-            else{
+            } else {
                 Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).into(binding.imgUser);
                 binding.tvNameUser.setText(Constant.USER.getName());
             }
@@ -83,12 +77,8 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
 
             binding.tvTime.setText(listNewPost.get(position).getCreationTime());
 
-            binding.tvJobInfo.setText("Tên công việc: "+listNewPost.get(position).getJobInfoName());
-            binding.tvAddress.setText("Địa chỉ"+listNewPost.get(position).getAddress()
-                    +" , "+listNewPost.get(position).getWard()
-                    +" , "+listNewPost.get(position).getDistrict()
-                    +" , "+listNewPost.get(position).getProvince()
-            );
+            binding.tvJobInfo.setText("Tên công việc: " + listNewPost.get(position).getJobInfoName());
+            binding.tvAddress.setText("Địa chỉ" + listNewPost.get(position).getAddress());
 
 
 //            binding.tvTime.setText(formatter.format(new Date().getTime()));

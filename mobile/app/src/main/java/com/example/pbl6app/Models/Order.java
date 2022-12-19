@@ -1,6 +1,7 @@
 package com.example.pbl6app.Models;
 
 import com.google.gson.annotations.SerializedName;
+
 public class Order {
     @SerializedName("id")
     private String id;
@@ -23,7 +24,7 @@ public class Order {
     @SerializedName("isPaid")
     private boolean isPaid;
     @SerializedName("status")
-    private String status;
+    private int status;
     @SerializedName("jobInfoName")
     private String jobInfoName;
     @SerializedName("jobInfoImage")
@@ -32,15 +33,19 @@ public class Order {
     private String customerName;
     @SerializedName("customerImage")
     private String customerImage;
+    @SerializedName("customerPhone")
+    private String customerPhone;
     @SerializedName("workerName")
     private String workerName;
     @SerializedName("workerImage")
     private String workerImage;
+    @SerializedName("workerPhone")
+    private String workerPhone;
 
     public Order() {
     }
 
-    public Order(String id, String jobId, String customerId, String workerId, String note, String jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, String status, String jobInfoName, String jobInfoImage, String customerName, String customerImage, String workerName, String workerImage) {
+    public Order(String id, String jobId, String customerId, String workerId, String note, String jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, int status, String jobInfoName, String jobInfoImage, String customerName, String customerImage, String customerPhone, String workerName, String workerImage, String workerPhone) {
         this.id = id;
         this.jobId = jobId;
         this.customerId = customerId;
@@ -56,15 +61,18 @@ public class Order {
         this.jobInfoImage = jobInfoImage;
         this.customerName = customerName;
         this.customerImage = customerImage;
+        this.customerPhone = customerPhone;
         this.workerName = workerName;
         this.workerImage = workerImage;
+        this.workerPhone = workerPhone;
     }
 
     public Order(String jobInfoName, String creationTime, String workerName, String status){
+        this.id = "";
         this.jobInfoName = jobInfoName;
         this.creationTime = creationTime;
         this.workerName = workerName;
-        this.status = status;
+        this.status = Integer.parseInt(status);
     }
 
     public String getId() {
@@ -147,11 +155,11 @@ public class Order {
         isPaid = paid;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -201,5 +209,21 @@ public class Order {
 
     public void setWorkerImage(String workerImage) {
         this.workerImage = workerImage;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getWorkerPhone() {
+        return workerPhone;
+    }
+
+    public void setWorkerPhone(String workerPhone) {
+        this.workerPhone = workerPhone;
     }
 }

@@ -44,7 +44,7 @@ public class User {
     @SerializedName("addressPoint")
     private String addressPoint;
     @SerializedName("role")
-    private String role;
+    private int role;
     @SerializedName("avatar")
     private String avatar;
     @SerializedName("lastModificationTime")
@@ -71,7 +71,7 @@ public class User {
         this.wardName = "";
         this.address = "";
         this.addressPoint = "";
-        this.role = "";
+        this.role = 0;
         this.avatar = "";
         this.lastModificationTime = "";
     }
@@ -232,11 +232,11 @@ public class User {
         this.addressPoint = addressPoint;
     }
 
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 

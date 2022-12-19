@@ -10,7 +10,7 @@
         android:id="@+id/appbar_Map"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/layout_MapFragment"
+        app:layout_constraintBottom_toTopOf="@+id/tvDistanceTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,8 +32,9 @@
 
             <ImageView
                 android:id="@+id/img_Back_Map_Frag"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:padding="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,7 @@
                 android:id="@+id/txt_Tittle_Map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chọn vị trí của bạn"
+                android:text="Xem vị trí của thợ"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -58,15 +59,46 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/tvDistanceTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Thợ còn cách bạn: "
+        android:textColor="@color/primaryColor"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/layout_MapFragment"
+        app:layout_constraintEnd_toStartOf="@+id/tvDistance"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_Map"
+        app:layout_constraintVertical_weight="1" />
+
+    <TextView
+        android:id="@+id/tvDistance"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center|start"
+        android:paddingStart="20dp"
+        android:text="TextView"
+        android:textColor="@color/primaryColor"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDistanceTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvDistanceTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvDistanceTitle" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_MapFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar_Map"
+        app:layout_constraintTop_toBottomOf="@+id/tvDistanceTitle"
         app:layout_constraintVertical_weight="12">
 
         <Button
@@ -78,6 +110,7 @@
             android:textStyle="bold"
             android:textSize="17sp"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,5:1"
             app:layout_constraintEnd_toEndOf="parent"

@@ -31,6 +31,13 @@ public class SettingsFragment extends FragmentBase{
 
     private FragmentSettingsBinding binding;
     private Dialog dialog;
+    private String linkImg = "";
+
+    private static boolean forHistory = false;
+
+    public static void setForHistory(boolean forHistory) {
+        SettingsFragment.forHistory = forHistory;
+    }
 
     @Nullable
     @Override
@@ -48,8 +55,15 @@ public class SettingsFragment extends FragmentBase{
 
     @Override
     protected void initView() {
+        if(!linkImg.equals(Constant.USER.getAvatar())) {
+            Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).into(binding.imgUser);
+            linkImg = Constant.USER.getAvatar();
+        }
         binding.btnProfile.setText(Constant.USER.getName());
-        Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).into(binding.imgUser);
+
+        if (forHistory) {
+            addFragment(new HistoryFragment(), R.id.ctFragmentUser);
+        }
     }
 
     @Override
@@ -116,6 +130,7 @@ public class SettingsFragment extends FragmentBase{
         if(dialog != null) {
             dialog.dismiss();
         }
+        forHistory = false;
         super.onStop();
     }
 }

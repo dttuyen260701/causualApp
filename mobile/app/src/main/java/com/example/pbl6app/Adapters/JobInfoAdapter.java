@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
@@ -53,10 +53,12 @@ public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolde
         }
 
         public void bindView(int position) {
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                    context.getResources().getDisplayMetrics().widthPixels * 4 / 10,
-                    context.getResources().getDisplayMetrics().widthPixels * 4 / 10 / 6 * 3
-                );
+            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
+                    context.getResources().getDisplayMetrics().widthPixels * 45 / 100,
+                    context.getResources().getDisplayMetrics().widthPixels * 45 / 100 / 6 * 4
+            );
+
+            layoutParams.setMargins(1, 1, 1, 1);
 
             binding.layout.setLayoutParams(layoutParams);
             binding.layout.setOnClickListener(view -> {

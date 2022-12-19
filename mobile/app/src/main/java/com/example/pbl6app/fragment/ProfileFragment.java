@@ -419,7 +419,7 @@ public class ProfileFragment extends FragmentBase {
             e.printStackTrace();
         }
 
-        if(Constant.USER.getRole().equals("Thợ")) {
+        if(Constant.USER.getRole() == Constant.ROLE_WORKER) {
             ApiService.apiService.updateWorker(
                     Constant.USER.getId(),
                     RequestBody.create(MediaType.parse("multipart/form-data"), binding.edtName.getText().toString().trim()),

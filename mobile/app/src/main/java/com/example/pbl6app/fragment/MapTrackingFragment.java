@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 
 public class MapTrackingFragment extends SupportMapFragment implements
         OnMapReadyCallback,
@@ -46,41 +46,22 @@ public class MapTrackingFragment extends SupportMapFragment implements
         LocationListener {
 
     GoogleMap mGoogleMap;
-    SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    private static DatabaseReference usersRef;
 
-    private boolean for_search;
     private String address_line;
     private LatLng EndP;
     private MapTrackingFragmentParent parent;
     private String idWorker;
     private LatLng value;
 
-    public String getAddress_line() {
-        return address_line;
-    }
+    private ChildEventListener childEventListener;
 
-    public void setAddress_line(String address_line) {
-        this.address_line = address_line;
-    }
-
-    public MapTrackingFragment(MapTrackingFragmentParent parent, String idWorker) {
+    public MapTrackingFragment(MapTrackingFragmentParent parent, String idWorker, String userPoint) {
         this.idWorker = idWorker;
         this.parent = parent;
-        this.for_search = false;
+        EndP = new LatLng(Float.parseFloat(userPoint.split("-")[0]), Float.parseFloat(userPoint.split("-")[1]));
         address_line = "";
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getMapAsync(this);
-
     }
 
     @Override
@@ -138,6 +119,68 @@ public class MapTrackingFragment extends SupportMapFragment implements
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
+
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                ObjectTracking objectTracking = snapshot.getValue(ObjectTracking.class);
+
+                if (value == null || value.latitude != Float.valueOf(objectTracking.getLatitude())
+                        && value.longitude != Float.valueOf(objectTracking.getLongitude())) {
+                    value = new LatLng(Float.valueOf(objectTracking.getLatitude()), Float.valueOf(objectTracking.getLongitude()));
+
+                    parent.setTextDistance(objectTracking.getDistance());
+
+                    mGoogleMap.clear();
+
+                    Bitmap workerBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.food_delivery);
+                    Bitmap workerMarker = Bitmap.createScaledBitmap(workerBitMap, 50, 50, false);
+
+                    Bitmap userBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
+                    Bitmap userMarker = Bitmap.createScaledBitmap(userBitMap, 50, 50, false);
+
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(value);
+                    if (EndP != null) {
+                        builder.include(EndP);
+                    }
+                    mGoogleMap.addMarker(new MarkerOptions()
+                                    .position(EndP)
+                                    .title("You"))
+                            .setIcon(BitmapDescriptorFactory.fromBitmap(userMarker));
+                    LatLngBounds bounds = builder.build();
+                    int padding = 100; // offset from edges of the map in pixels
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                    mGoogleMap.addMarker(new MarkerOptions()
+                                    .position(value)
+                                    .title("Worker"))
+                            .setIcon(BitmapDescriptorFactory.fromBitmap(workerMarker));
+                    mGoogleMap.moveCamera(cu);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        FirebaseRepository.TrackingChild.child(idWorker).addChildEventListener(childEventListener);
     }
 
     @Override
@@ -149,7 +192,7 @@ public class MapTrackingFragment extends SupportMapFragment implements
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
     }
 
@@ -163,89 +206,7 @@ public class MapTrackingFragment extends SupportMapFragment implements
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
-        LatLng lng = null;
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        } else if (!for_search) {
-            //Place current location marker
-            lng = new LatLng(location.getLatitude(), location.getLongitude());
 
-            if (parent != null)
-                parent.setVisible();
-            EndP = lng;
-            usersRef = FirebaseRepository.TrackingChild.child(idWorker);
-
-            usersRef.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    ObjectTracking objectTracking = snapshot.getValue(ObjectTracking.class);
-
-                    if (value == null || value.latitude != Float.valueOf(objectTracking.getLatitude())
-                            && value.longitude != Float.valueOf(objectTracking.getLongitude())) {
-                        value = new LatLng(Float.valueOf(objectTracking.getLatitude()), Float.valueOf(objectTracking.getLongitude()));
-
-                        mGoogleMap.clear();
-
-                        Bitmap workerBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.food_delivery);
-                        Bitmap workerMarker = Bitmap.createScaledBitmap(workerBitMap, 50, 50, false);
-
-                        Bitmap userBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
-                        Bitmap userMarker = Bitmap.createScaledBitmap(userBitMap, 50, 50, false);
-
-                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                        builder.include(value);
-                        if (EndP != null) {
-                            builder.include(EndP);
-                        }
-                        mGoogleMap.addMarker(new MarkerOptions()
-                                        .position(EndP)
-                                        .title("You"))
-                                .setIcon(BitmapDescriptorFactory.fromBitmap(userMarker));
-                        LatLngBounds bounds = builder.build();
-                        int padding = 100; // offset from edges of the map in pixels
-                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-                        mGoogleMap.addMarker(new MarkerOptions()
-                                        .position(value)
-                                        .title("Worker"))
-                                .setIcon(BitmapDescriptorFactory.fromBitmap(workerMarker));
-                        mGoogleMap.moveCamera(cu);
-                    }
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-    }
-
-    private void onTracking() {
-
-    }
-
-    private float calculateDistance(float latitude, float longitude) {
-        float[] results = new float[1];
-        Location.distanceBetween(EndP.latitude, EndP.longitude,
-                latitude, longitude,
-                results);
-        return results[0];
     }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -284,6 +245,12 @@ public class MapTrackingFragment extends SupportMapFragment implements
                         MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        FirebaseRepository.TrackingChild.child(idWorker).removeEventListener(childEventListener);
+        super.onDestroy();
     }
 
     @Override

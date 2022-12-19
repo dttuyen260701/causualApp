@@ -2,6 +2,7 @@ package com.example.pbl6app.Retrofit;
 
 import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.JobInfo;
+import com.example.pbl6app.Models.Order;
 import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.Models.Rate;
 import com.example.pbl6app.Models.TypeOfJob;
@@ -26,6 +27,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -136,6 +138,18 @@ public interface ApiService {
 
     @GET("/api/app/worker-info/{id}/detail")
     Call<ResponseRetrofit<WorkerDetail>> getWorkerDetail(@Path("id") String id);
+
+    @POST("/api/app/order/{idCustomer}")
+    Call<ResponseRetrofit<Order>> createOrder(@Path("idCustomer") String idCustomer, @Body Map<String, String> options);
+
+    @GET("/api/app/order/detail/{idOrder}")
+    Call<ResponseRetrofit<Order>> getOrderByID(@Path("idOrder") String idOrder);
+
+    @PUT("/api/app/order/{idOrder}/update-status")
+    Call<ResponseRetrofit<Order>> updateStatusOrder(@Path("idOrder") String idOrder, @Query("status") int OrderStatus);
+
+    @GET("/api/app/order/{userId}/list-order-by-status")
+    Call<ResponseRetrofit<ArrayList<Order>>> getOrderByStatus(@Path("userId") String userId, @Query("status") int OrderStatus);
 
     @POST("/api/app/rate-of-worker/{customerId}/create-rate")
     Call<ResponseRetrofit<PostOfDemand>> createNewRate(@Body Map<String, String> options,@Path("customerId") String customerId);

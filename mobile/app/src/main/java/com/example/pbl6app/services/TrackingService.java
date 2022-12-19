@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.pbl6app.Models.ObjectTracking;
 import com.example.pbl6app.R;
+import com.example.pbl6app.Utils.Constant;
+import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.activities.MainActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -33,13 +36,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class TrackingService extends Service {
 
-    private static final String CHANNEL_ID = "CHANNEL";
     private static final int NOTIFICATION_ID = 111;
     private static FusedLocationProviderClient fusedLocationProviderClient;
     private static LocationCallback locationCallback;
     private static LatLng start, end;
     private static int id = 0;
     private static LocationRequest locationRequest;
+    private static String workerId = "";
 
     @Nullable
     @Override
@@ -57,6 +60,7 @@ public class TrackingService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         String data = intent.getStringExtra("UserPoint");
+        workerId = intent.getStringExtra("WorkerId");
         end = new LatLng(Float.parseFloat(data.split("-")[0]), Float.parseFloat(data.split("-")[1]));
         startTracking();
         return START_NOT_STICKY;
@@ -66,7 +70,7 @@ public class TrackingService extends Service {
     private void startTracking() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
-        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
                 .setWaitForAccurateLocation(false)
                 .setMinUpdateIntervalMillis(1000)
                 .setMaxUpdateDelayMillis(1000)
@@ -75,15 +79,9 @@ public class TrackingService extends Service {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("data");
-                DatabaseReference usersRef = myRef.child("Tracking").child("Id1");
                 for (Location location : locationResult.getLocations()) {
                     start = new LatLng(location.getLatitude(), location.getLongitude());
-                    usersRef.child(id++ + "").setValue(
+                    FirebaseRepository.TrackingChild.child(workerId).child(id++ + "").setValue(
                             new ObjectTracking(
                                     location.getLongitude() + "",
                                     location.getLatitude() + "",
@@ -100,7 +98,7 @@ public class TrackingService extends Service {
     private void createNotification() {
         check_SDK_Notification();
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), Constant.CHANNEL_ID);
         Intent intent = new Intent(this, MainActivity.class);
         //set quay lại màn hình chính dùng set Action + add  Category
         intent.setAction(Intent.ACTION_MAIN);
@@ -143,10 +141,7 @@ public class TrackingService extends Service {
     @Override
     public void onDestroy() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("data");
-        DatabaseReference usersRef = myRef.child("Tracking").child("Id1");
-        usersRef.setValue("");
+        FirebaseRepository.TrackingChild.child(workerId).setValue("");
         super.onDestroy();
     }
 }

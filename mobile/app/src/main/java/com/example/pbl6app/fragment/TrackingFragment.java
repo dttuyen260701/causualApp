@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.pbl6app.Models.ObjectTracking;
+import com.example.pbl6app.Models.Order;
+import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.databinding.FragmentTrackingBinding;
 import com.example.pbl6app.services.TrackingService;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,8 +43,13 @@ public class TrackingFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
     private int id = 0;
+    private Order order;
 
     DatabaseReference usersRef;
+
+    public TrackingFragment(Order order) {
+        this.order = order;
+    }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -75,9 +82,7 @@ public class TrackingFragment extends Fragment {
                 if (locationResult == null) {
                     return;
                 }
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("data");
-                DatabaseReference usersRef = myRef.child("Tracking").child("Id1");
+                DatabaseReference usersRef = FirebaseRepository.TrackingChild.child(order.getWorkerId());
                 for (Location location : locationResult.getLocations()) {
                     updateUIValue(location);
                     Geocoder geocoder = new Geocoder(getActivity());
@@ -142,7 +147,8 @@ public class TrackingFragment extends Fragment {
 
         binding.btnShowMap.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), TrackingService.class);
-            intent.putExtra("UserPoint", "15.9935033-108.2066692");
+            intent.putExtra("UserPoint", order.getUserPoint());
+            intent.putExtra("WorkerId", order.getWorkerId());
             getActivity().startService(intent);
         });
 
