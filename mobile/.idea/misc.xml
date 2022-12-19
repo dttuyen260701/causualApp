@@ -6,10 +6,12 @@
         <entry key="../../../../../../layout/custom_preview.xml" value="0.12239583333333333" />
         <entry key="app/src/main/res/drawable-v24/bg_bottom_exit_dialog.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_cancel_btn_exit_dialog.xml" value="0.156" />
+        <entry key="app/src/main/res/drawable-v24/bg_content_choice.xml" value="0.1195" />
         <entry key="app/src/main/res/drawable-v24/bg_exit_dialog.xml" value="0.245" />
         <entry key="app/src/main/res/drawable-v24/bg_ext_btn_exit_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/bg_indicator_3.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_top_exit_dialog.xml" value="0.245" />
+        <entry key="app/src/main/res/drawable-v24/btn_login_bg.xml" value="0.1195" />
         <entry key="app/src/main/res/drawable-v24/ic_down.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable-v24/ic_up.xml" value="0.1765" />
@@ -34,7 +36,7 @@
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/worker_status_view.xml" value="0.244" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.21492462158203135" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.22977881847080847" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main_user.xml" value="0.1852355072463768" />
         <entry key="app/src/main/res/layout/activity_manage_account.xml" value="0.1033434650455927" />
