@@ -132,7 +132,7 @@ public class MainActivityUser extends BaseActivity {
             }
         };
 
-        FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).addChildEventListener(childEventListener);
+        //FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).addChildEventListener(childEventListener);
     }
 
     @SuppressLint("NonConstantResourceId")

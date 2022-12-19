@@ -32,24 +32,24 @@
 
             <ImageView
                 android:id="@+id/img_Back_Map_Frag"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back"
-                tools:ignore="ContentDescription"
                 app:tint="@color/white"
-                android:padding="10dp"/>
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/txt_Tittle_Map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pick You Address"
+                android:text="Chọn vị trí của bạn"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -74,15 +74,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_cancel_btn_exit_dialog"
-            android:text="Pick Address"
+            android:text="Chọn"
+            android:textStyle="bold"
+            android:textSize="17sp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,5:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.958"
+            app:layout_constraintVertical_bias="0.95"
             tools:ignore="TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

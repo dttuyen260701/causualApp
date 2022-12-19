@@ -203,8 +203,9 @@ public class CreateNewPostFragment extends FragmentBase {
             public void onFailure(Call<ResponseRetrofit<PostOfDemand>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
-                Log.e("CHANGE_PASS", "onFailure: ", t);
-                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();            }
+                Log.e("NEW_POST", "onFailure: ", t);
+                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

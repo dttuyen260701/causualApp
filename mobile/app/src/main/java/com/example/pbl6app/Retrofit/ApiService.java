@@ -3,6 +3,7 @@ package com.example.pbl6app.Retrofit;
 import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.JobInfo;
 import com.example.pbl6app.Models.PostOfDemand;
+import com.example.pbl6app.Models.Rate;
 import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.Models.WorkerDetail;
@@ -135,6 +136,15 @@ public interface ApiService {
 
     @GET("/api/app/worker-info/{id}/detail")
     Call<ResponseRetrofit<WorkerDetail>> getWorkerDetail(@Path("id") String id);
+
+    @POST("/api/app/rate-of-worker/{customerId}/create-rate")
+    Call<ResponseRetrofit<PostOfDemand>> createNewRate(@Body Map<String, String> options,@Path("customerId") String customerId);
+
+    @GET("/api/app/rate-of-worker/{workerId}/list-rate/detail")
+    Call<ResponseRetrofit<ArrayList<Rate>>> getListRateOfWorker(@Path("workerId") String workerId);
+
+    @GET("/api/app/rate-of-worker/{workerId}/detail")
+    Call<ResponseRetrofit<Rate>> getRateOfWorker(@Path("workerId") String workerId);
 //    @POST("matrix/insertMatrix.php")
 //    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 

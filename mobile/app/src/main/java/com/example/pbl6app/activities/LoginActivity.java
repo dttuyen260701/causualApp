@@ -1,6 +1,8 @@
 package com.example.pbl6app.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
+import com.example.pbl6app.Utils.PrefManager;
 import com.example.pbl6app.databinding.ActivityLoginBinding;
 import com.example.pbl6app.Utils.Constant;
 
@@ -139,6 +142,7 @@ public class LoginActivity extends BaseActivity {
 
                 if(response.code() == HttpURLConnection.HTTP_OK) {
                     if(response.body().isSuccessed()) {
+                        new PrefManager(LoginActivity.this).saveLoginDetails( binding.edtLoginUser.getText().toString(),binding.edtLoginPass.getText().toString());
                         Constant.USER = response.body().getResultObj();
                         if(Constant.USER.getRole().equals("Thợ")) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));

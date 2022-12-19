@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.12239583333333333" />
         <entry key="app/src/main/res/drawable-v24/bg_bottom_exit_dialog.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_cancel_btn_exit_dialog.xml" value="0.156" />
         <entry key="app/src/main/res/drawable-v24/bg_exit_dialog.xml" value="0.245" />
@@ -50,6 +51,7 @@
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.23007246376811594" />
         <entry key="app/src/main/res/layout/fragment_in_progress_order.xml" value="0.23007246376811594" />
         <entry key="app/src/main/res/layout/fragment_list_jobinfo.xml" value="0.18297101449275363" />
+        <entry key="app/src/main/res/layout/fragment_list_rate_worker.xml" value="0.20076265196869336" />
         <entry key="app/src/main/res/layout/fragment_list_worker.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_list_worker_of_post.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.20833333333333334" />
@@ -57,19 +59,22 @@
         <entry key="app/src/main/res/layout/fragment_noti_dialog.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/fragment_order_detail.xml" value="0.20302429199218736" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.21943969726562496" />
+        <entry key="app/src/main/res/layout/fragment_rate_worker.xml" value="0.4582015991210938" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.24517059326171875" />
         <entry key="app/src/main/res/layout/fragment_status.xml" value="0.194598388671875" />
         <entry key="app/src/main/res/layout/fragment_status_order.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/fragment_tracking_map.xml" value="0.15670289855072464" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.24764090275418935" />
         <entry key="app/src/main/res/layout/fragment_waiting_order.xml" value="0.23007246376811594" />
-        <entry key="app/src/main/res/layout/fragment_worker_detail.xml" value="0.10681753849637679" />
+        <entry key="app/src/main/res/layout/fragment_worker_detail.xml" value="0.4252898285354393" />
         <entry key="app/src/main/res/layout/item_job_info_order_detail.xml" value="0.25210266113281254" />
         <entry key="app/src/main/res/layout/item_jobinfo.xml" value="0.4603164672851562" />
         <entry key="app/src/main/res/layout/item_jobinfo_line.xml" value="0.1852355072463768" />
         <entry key="app/src/main/res/layout/item_most_used_service.xml" value="0.5503188202346581" />
         <entry key="app/src/main/res/layout/item_news_post.xml" value="0.3231857299804688" />
         <entry key="app/src/main/res/layout/item_order_line.xml" value="0.31284637451171876" />
+        <entry key="app/src/main/res/layout/item_rate_worker.xml" value="0.7957959161288497" />
         <entry key="app/src/main/res/layout/item_slide_show.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_spinner.xml" value="0.3467010498046876" />
         <entry key="app/src/main/res/layout/item_worker_line.xml" value="0.2094696044921875" />
