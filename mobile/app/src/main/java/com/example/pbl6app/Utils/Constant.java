@@ -3,7 +3,7 @@ package com.example.pbl6app.Utils;
 import com.example.pbl6app.Models.User;
 
 public class Constant {
-    public static String BASE_URL = "https://c6be-2405-4803-d2f6-e8b0-ddef-4ece-63c1-ba24.ap.ngrok.io";
+    public static String BASE_URL = "\n" + "https://f427-14-250-209-246.ap.ngrok.io";
 
     public static final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,18}";
 
@@ -22,7 +22,7 @@ public class Constant {
     public static final int NUMBER_HOUR_DATA = 333;
     public static final int JOB_INFO_DATA = 444;
 
-
+    public static final String DATA_LOGIN = "DATA_LOGIN";
 
     public static String username = "";
     public static String email = "";

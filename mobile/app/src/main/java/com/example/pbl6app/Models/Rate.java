@@ -11,6 +11,13 @@ public class Rate {
     private float pleasureRateAverage;
     @SerializedName("rateAverage")
     private float rateAverage;
+    @SerializedName("comment")
+    private String comment;
+    @SerializedName("customerImage")
+    private String customerImage;
+    @SerializedName("customerName")
+    private String customerName;
+
 
     public Rate(float attitudeRateAverage, float skillRateAverage, float pleasureRateAverage, float rateAverage) {
         this.attitudeRateAverage = attitudeRateAverage;
@@ -49,5 +56,30 @@ public class Rate {
 
     public void setRateAverage(float rateAverage) {
         this.rateAverage = rateAverage;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+
+    public String getCustomerImage() {
+        return customerImage;
+    }
+
+    public void setCustomerImage(String customerImage) {
+        this.customerImage = customerImage;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }

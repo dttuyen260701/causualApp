@@ -87,6 +87,16 @@ public class WorkerDetailFragment extends FragmentBase {
         binding.btnOrder.setOnClickListener(view -> {
             addFragment(new BookingOrderScreenFragment(worker), R.id.ctFragmentUser);
         });
+
+        binding.totalReviews.setOnClickListener(view->{
+            addFragment(new ListRateWorkerFragment(worker), R.id.ctFragmentUser);
+
+        });
+
+        binding.imvAva.setOnClickListener(v -> {
+            addFragment(new RateWorkerFragment(worker), R.id.ctFragmentUser);
+        });
+
     }
 
     private void loadData() {

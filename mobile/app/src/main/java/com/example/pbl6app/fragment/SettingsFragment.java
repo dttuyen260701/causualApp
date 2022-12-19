@@ -1,11 +1,9 @@
 package com.example.pbl6app.fragment;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
+import com.example.pbl6app.Utils.PrefManager;
 import com.example.pbl6app.activities.LoginActivity;
 import com.example.pbl6app.databinding.FragmentSettingsBinding;
 import com.squareup.picasso.Picasso;
@@ -49,7 +48,6 @@ public class SettingsFragment extends FragmentBase{
 
     @Override
     protected void initView() {
-
         binding.btnProfile.setText(Constant.USER.getName());
         Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).into(binding.imgUser);
     }
@@ -70,7 +68,6 @@ public class SettingsFragment extends FragmentBase{
 
         binding.btnChangePass.setOnClickListener(view -> {
             addFragment(new ChangePasswordFragment(), R.id.ctFragmentUser);
-
         });
     }
 
@@ -103,6 +100,8 @@ public class SettingsFragment extends FragmentBase{
 
         Button btnChangeDialog = dialog.findViewById(R.id.btnChangeDialog);
         btnChangeDialog.setOnClickListener(view -> {
+            new PrefManager(getContext()).logout();
+            Constant.USER = new User();
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
         });
