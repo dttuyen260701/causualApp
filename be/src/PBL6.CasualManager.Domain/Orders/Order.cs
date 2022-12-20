@@ -32,6 +32,8 @@ namespace PBL6.CasualManager.Orders
 
         public bool IsPaid { get; set; } = false;
 
+        public bool IsRead { get; set; } = false;
+
         public OrderStatus Status { get; set; }
 
         public virtual JobInfo JobInfo { get; set; }
