@@ -1,5 +1,6 @@
 package com.example.pbl6app.Adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.Order;
+import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemOrderLineBinding;
 import com.squareup.picasso.Picasso;
@@ -82,6 +84,9 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
                 default:
                     status = "Đang thực hiện";
                     break;
+            }
+            if(!order.isRead()) {
+                binding.layoutOrderItemLine.setBackgroundColor(Color.parseColor("#98bb55"));
             }
             Picasso.get().load(Constant.BASE_URL + ((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerImage() : order.getWorkerImage())).into(binding.imgItem);
             binding.tvItem.setText(listData.get(position).getJobInfoName());

@@ -71,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
                     if(response.body().isSuccessed()) {
                         new PrefManager(SplashActivity.this).saveLoginDetails(userName, password);
                         Constant.USER = response.body().getResultObj();
-                        if(Constant.USER.getRole().equals("Thợ")) {
+                        if(Constant.USER.getRole() == Constant.ROLE_WORKER) {
                             startActivity(new Intent(SplashActivity.this, MainActivity.class));
                             finish();
                         } else {

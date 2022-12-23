@@ -205,7 +205,7 @@ public class OrderInQueueFragment extends FragmentBase {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
 
-        ApiService.apiService.getOrderByID(orderId).enqueue(new Callback<ResponseRetrofit<Order>>() {
+        ApiService.apiService.getOrderByID(orderId, Constant.USER.getId()).enqueue(new Callback<ResponseRetrofit<Order>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<Order>> call, Response<ResponseRetrofit<Order>> response) {
                 binding.progressBar.setVisibility(View.GONE);

@@ -18,6 +18,7 @@ public class Constant {
     public final static int WAITING_STATUS = 3;
     public final static int REJECT_STATUS = 4;
     public final static int ACCEPT_STATUS = 5;
+    public final static int TRACKING_STATUS = 6;
 
     public static final int PROVINCE_DATA = 0;
     public static final int DISTRICT_DATA = 21;

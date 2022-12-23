@@ -33,7 +33,12 @@ public class HistoryFragment extends FragmentBase {
     private ArrayList<Order> listHistoryOrders;
     private OrderItemLinesAdapter adapter;
 
+    private static boolean forCompletedOrder = false;
     private static String orderId = "";
+
+    public static void setForCompletedOrder(boolean forCompletedOrder) {
+        HistoryFragment.forCompletedOrder = forCompletedOrder;
+    }
 
     public static void setOrderId(String orderId) {
         HistoryFragment.orderId = orderId;
@@ -89,9 +94,11 @@ public class HistoryFragment extends FragmentBase {
     @Override
     protected void initListener() {
         if (!orderId.equals("")) {
-            addFragment(new OrderInQueueFragment(orderId, item -> {
+            addFragment(forCompletedOrder ?
+                    new OrderDetailFragment(orderId) :
+                    new OrderInQueueFragment(orderId, item -> {
 
-            }), R.id.ctFragmentUser);
+                    }), R.id.ctFragmentUser);
         }
 
         binding.swipeRefreshHistoryFrag.setOnRefreshListener(this::loadData);
@@ -142,6 +149,7 @@ public class HistoryFragment extends FragmentBase {
     @Override
     public void onStop() {
         orderId = "";
+        forCompletedOrder = false;
         super.onStop();
     }
 }

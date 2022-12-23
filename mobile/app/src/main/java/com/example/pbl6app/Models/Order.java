@@ -41,11 +41,13 @@ public class Order {
     private String workerImage;
     @SerializedName("workerPhone")
     private String workerPhone;
+    @SerializedName("isRead")
+    private boolean isRead;
 
     public Order() {
     }
 
-    public Order(String id, String jobId, String customerId, String workerId, String note, String jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, int status, String jobInfoName, String jobInfoImage, String customerName, String customerImage, String customerPhone, String workerName, String workerImage, String workerPhone) {
+    public Order(String id, String jobId, String customerId, String workerId, String note, String jobPrices, String creationTime, String userAddress, String userPoint, boolean isPaid, int status, String jobInfoName, String jobInfoImage, String customerName, String customerImage, String customerPhone, String workerName, String workerImage, String workerPhone, boolean isRead) {
         this.id = id;
         this.jobId = jobId;
         this.customerId = customerId;
@@ -65,6 +67,7 @@ public class Order {
         this.workerName = workerName;
         this.workerImage = workerImage;
         this.workerPhone = workerPhone;
+        this.isRead = isRead;
     }
 
     public Order(String jobInfoName, String creationTime, String workerName, String status){
@@ -225,5 +228,13 @@ public class Order {
 
     public void setWorkerPhone(String workerPhone) {
         this.workerPhone = workerPhone;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }
