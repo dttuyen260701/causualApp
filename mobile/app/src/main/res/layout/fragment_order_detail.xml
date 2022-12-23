@@ -122,12 +122,6 @@
                         android:text="Đang di chuyển"
                         android:textColor="@color/color_selected" />
 
-                    <TextView
-                        android:id="@+id/tvTimeBooked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="12:30" />
                 </LinearLayout>
 
 
@@ -166,13 +160,6 @@
                         android:layout_marginTop="5dp"
                         android:text="Đang thực hiện"
                         android:textColor="@color/color_selected" />
-
-                    <TextView
-                        android:id="@+id/tvTimeDoing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="12:30" />
 
                 </LinearLayout>
 
@@ -214,13 +201,6 @@
                         android:text="Đã xong"
                         android:textColor="@color/color_selected" />
 
-                    <TextView
-                        android:id="@+id/tvTimeDone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="12:30" />
-
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -228,6 +208,7 @@
                 android:id="@+id/gifStatus"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginTop="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/gif_coming"
                 app:layout_constraintBottom_toTopOf="@+id/cardView"

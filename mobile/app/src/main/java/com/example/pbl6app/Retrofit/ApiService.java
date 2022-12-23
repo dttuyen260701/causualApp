@@ -152,44 +152,15 @@ public interface ApiService {
     Call<ResponseRetrofit<ArrayList<Order>>> getOrderByStatus(@Path("userId") String userId, @Query("status") int OrderStatus);
 
     @POST("/api/app/rate-of-worker/{customerId}/create-rate")
-    Call<ResponseRetrofit<PostOfDemand>> createNewRate(@Body Map<String, String> options,@Path("customerId") String customerId);
+    Call<ResponseRetrofit<Rate>> createNewRate(@Body Map<String, String> options,@Path("customerId") String customerId);
 
     @GET("/api/app/rate-of-worker/{workerId}/list-rate/detail")
     Call<ResponseRetrofit<ArrayList<Rate>>> getListRateOfWorker(@Path("workerId") String workerId);
 
     @GET("/api/app/rate-of-worker/{workerId}/detail")
     Call<ResponseRetrofit<Rate>> getRateOfWorker(@Path("workerId") String workerId);
-//    @POST("matrix/insertMatrix.php")
-//    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 
-//    @Headers({
-//            "Accept: application/json",
-//            "Content-Type: application/json; charset=utf-8"
-//    })
-////    @GET("matrix/getAll.php")
-//    @HTTP(method = "GET", path = "matrix/getAll.php")
-//    Call<Respone_Retrofit<ArrayList<Matrix>>> getData_Options(@QueryMap Map<String, String> options);
-//
-//    @GET("feature/getAll.php")
-//    Call<Respone_Retrofit> getData(@Query("page") int page,
-//                                   @Query("step") int step,
-//                                   @Query("search_txt") String  search_txt);
-//
-//    //feature/getAll.php/1/USER
-//    @GET("feature/getAll.php/{id}/USER")// 1 dấu "/" nếu đường dẫn k cso path
-//    Call<Respone_Retrofit> getData_Path(@Path("id") int id);
-//
-//    //feature/getAll.php/1/USER?text= ???
-//    @GET("feature/getAll.php/{id}/USER")
-//    Call<Respone_Retrofit> getData_Path_Params(@Path("id") int id,
-//                                               @Query("search_txt") String  search_txt);
-//
-//    @POST("matrix/insertMatrix.php")
-//    Call<Respone_Retrofit<Retrofit_Respone_Post<Integer>>> insert_Matrix(@Body Matrix matrix);
-//
-//    @PUT("matrix/updateMatrix.php")
-//    Call<Respone_Retrofit<Retrofit_Respone_Post<Boolean>>> update(@Body Matrix matrix);
-//
-//    @HTTP(method = temp, path = "matrix/deleteMatrix.php", hasBody = true)
-//    Call<Respone_Retrofit<Retrofit_Respone_Post<Boolean>>> delete(@Body Map<String, String> options);
+    @GET("/api/app/rate-of-worker/rate-worker-of-order/{orderId}")
+    Call<ResponseRetrofit<Rate>> getRateByOrderId(@Path("orderId") String orderId);
+
 }

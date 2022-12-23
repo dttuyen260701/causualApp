@@ -21,6 +21,8 @@ import androidx.core.app.ActivityCompat;
 import com.example.pbl6app.Listeners.ListenerDialog;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.Order;
+import com.example.pbl6app.Models.Rate;
+import com.example.pbl6app.Models.Worker;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
@@ -389,6 +391,9 @@ public class OrderDetailFragment extends FragmentBase {
                                     }
                             );
                         }
+                        break;
+                    case Constant.COMPLETED_STATUS:
+                        addFragment(new RateWorkerFragment(order), R.id.ctFragmentUser);
                         break;
                     default:
                         break;
