@@ -41,7 +41,7 @@
                         android:id="@+id/toolbar_Accounts_logined_Fragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/primaryColor"
+                        android:background="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -58,14 +58,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_back"
-                        app:tint="@color/white" />
+                        app:tint="@color/black" />
 
                     <TextView
                         android:id="@+id/tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Đơn đang chờ phản hồi"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Đang chờ"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/colorMiddleGreenYellow"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -122,8 +122,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_login_user"
-                    app:tint="@color/primaryColor" />
+                    android:src="@drawable/ic_useer_bold"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:id="@+id/tvWorkerName"
@@ -152,7 +152,7 @@
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/ic_call"
-                    app:tint="@color/primaryColor" />
+                    app:tint="@color/black" />
 
                 <TextView
                     android:id="@+id/tvWorkerPhone"
@@ -210,7 +210,9 @@
                     android:id="@+id/iv_to"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_location_to" />
+                    android:src="@drawable/ic_location"
+                    app:tint="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/tvAddressCus"
@@ -322,6 +324,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginBottom="15dp"
                 android:src="@drawable/paid"
+                app:tint="@color/colorVenetianRed"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotal"

@@ -62,13 +62,12 @@
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/imageView2"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"
                             android:scaleType="centerCrop"
-
-                            android:src="@drawable/ic_login_pass"
+                            android:src="@drawable/default_avatar"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/tvOptionFragUserHome"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -81,11 +80,11 @@
                             android:id="@+id/tvNameFragUserHome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="5dp"
                             android:text="TextView"
-                            android:textColor="@color/white"
-                            android:textSize="13sp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/tvDescripFragUserHome"
                             app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -96,8 +95,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
+                            android:textColor="@color/black"
+                            android:textSize="13sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/tvNameFragUserHome"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -109,26 +108,26 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginEnd="5dp"
-                            android:padding="5dp"
+                            android:padding="0dp"
                             app:layout_constraintBottom_toBottomOf="@+id/tvOptionFragUserHome"
                             app:layout_constraintEnd_toStartOf="@+id/tvOptionFragUserHome"
                             app:layout_constraintTop_toTopOf="@+id/tvOptionFragUserHome"
                             app:srcCompat="@drawable/ic_notifications"
-                            app:tint="@color/white" />
+                            app:tint="@color/black" />
 
                         <ImageView
                             android:id="@+id/tvOptionFragUserHome"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginEnd="5dp"
-                            android:padding="5dp"
+                            android:padding="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/imageView2"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_more_vert"
-                            app:tint="@color/white" />
+                            app:tint="@color/black" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <EditText
@@ -136,7 +135,7 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/bg_search_edt"
                         android:ems="10"

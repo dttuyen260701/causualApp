@@ -4,29 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
        >
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                app:tabGravity="fill"
-                app:tabMode="fixed"
-                android:background="@color/primaryColor"
-                app:tabTextColor="@color/white"
-                app:tabSelectedTextColor="@color/white"
-                app:tabIndicatorColor="@color/white"
+                android:background="@color/white"
+                app:tabTextColor="@color/black"
+                app:tabSelectedTextColor="@color/black"
+                app:tabIndicatorColor="@color/black"
                 />
-        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

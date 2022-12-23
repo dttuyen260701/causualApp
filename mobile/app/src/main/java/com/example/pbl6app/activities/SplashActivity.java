@@ -80,9 +80,13 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(SplashActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        finish();
                     }
                 } else {
                     Toast.makeText(SplashActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
                 }
             }
 
@@ -90,6 +94,8 @@ public class SplashActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseRetrofit<User>> call, Throwable t) {
                 Log.e("LOGIN", "onFailure: ", t);
                 Toast.makeText(SplashActivity.this, "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }

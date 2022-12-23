@@ -7,10 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#C86A18</color>
+    <color name="primaryColor">#FFCD17</color>
     <color name="darkOrange">#C16413</color>
-    <color name="light_orange">#FDF3EA</color>
-    <color name="lightest_orange">#FFFCFA</color>
+    <color name="light_orange">#FAF6EB</color>
+    <color name="lightest_orange">#FBFBF8</color>
     <color name="grey">#8C8B8B</color>
     <color name="border_color">#CACACA</color>
     <color name="holoRedDark">#710000</color>

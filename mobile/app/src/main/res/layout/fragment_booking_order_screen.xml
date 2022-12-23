@@ -38,7 +38,7 @@
                     android:id="@+id/toolbarListWorkerFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/primaryColor"
+                    android:background="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yêu cầu làm việc"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +70,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_back"
-                    app:tint="@color/white" />
+                    app:tint="@color/black" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -216,7 +216,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/tvJobInfo"
                             app:layout_constraintEnd_toEndOf="@+id/tvJobInfo"
                             app:layout_constraintTop_toTopOf="@+id/tvJobInfo"
-                            app:tint="@color/primaryColor" />
+                            app:tint="@color/black" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -304,7 +304,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/tvAdressPicker"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/tvAdressPicker"
-                            app:tint="@color/primaryColor" />
+                            app:tint="@color/black" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -382,7 +382,7 @@
                         android:layout_marginTop="30dp"
                         android:background="@drawable/btn_login_bg"
                         android:text="Xác nhận"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold" />
                 </LinearLayout>

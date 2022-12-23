@@ -27,14 +27,14 @@
         android:text="Nguyễn Văn A"
         android:layout_marginTop="10dp"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/txtContentDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Có người mới nhận việc. Hãy kiểm tra"
+        android:text="Có người mới nhận việc. Hãy kiểm tra!"
         android:gravity="center"
         android:padding="10dp"
         android:textColor="@color/black"
@@ -59,7 +59,6 @@
             android:background="@drawable/bg_cancel_btn_exit_dialog"
             android:text="Huỷ"
             android:textStyle="bold"
-            android:textAllCaps="false"
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -69,11 +68,11 @@
             android:layout_marginHorizontal="30dp"
             android:paddingHorizontal="4dp"
             android:layout_weight="1"
+            android:layout_marginVertical="10dp"
             android:background="@drawable/bg_ext_btn_exit_dialog"
-            android:text="Xem danh sách"
+            android:text="Xem"
             android:textStyle="bold"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>
