@@ -64,6 +64,11 @@ public class NewfeedFragment extends FragmentBase {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
+    }
 
     void initWorker(){
         binding.layoutHeaderFragUserHome.setVisibility(View.VISIBLE);

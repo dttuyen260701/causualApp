@@ -24,7 +24,7 @@
                 android:id="@+id/toolbar_Map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/primaryColor"
+                android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,15 +40,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back"
-                app:tint="@color/white" />
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/txt_Tittle_Map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pick You Address"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/black"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -89,7 +90,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_account_frag"
             android:text="Pick Address"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,5:1"
             app:layout_constraintEnd_toEndOf="parent"

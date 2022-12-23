@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -249,6 +251,7 @@ public class CreateNewPostFragment extends FragmentBase {
         Button btnOK = dialog.findViewById(R.id.btnOk);
         btnOK.setOnClickListener(view -> {
             dialog.dismiss();
+            backToPreviousFrag();
         });
 
         dialog.show();

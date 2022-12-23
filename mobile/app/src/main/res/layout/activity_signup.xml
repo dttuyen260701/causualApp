@@ -37,7 +37,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_name"
-        app:tint="@color/primaryColor" />
+        app:tint="@color/black" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_name"
@@ -84,7 +84,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_email"
-        app:tint="@color/primaryColor" />
+        app:tint="@color/black" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_email"
@@ -132,7 +132,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_phone"
-        app:tint="@color/primaryColor" />
+        app:tint="@color/black" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -179,7 +179,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_pw1"
-        app:tint="@color/primaryColor" />
+        app:tint="@color/black" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_pw1"
@@ -235,7 +235,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_pw2"
-        app:tint="@color/primaryColor" />
+        app:tint="@color/black" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_pw2"
@@ -315,7 +315,7 @@
             android:gravity="center"
             android:layout_marginLeft="5dp"
             android:text="Đăng nhập"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

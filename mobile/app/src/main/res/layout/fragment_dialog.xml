@@ -8,10 +8,11 @@
 
     <ImageView
         android:id="@+id/imageDialog"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/smile_dialog"
         android:scaleType="fitCenter"
+        android:layout_gravity="center"
         />
 
     <TextView
@@ -53,7 +54,7 @@
             android:text="Huỷ"
             android:textStyle="bold"
             android:textAllCaps="false"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnChangeDialog"
@@ -66,7 +67,7 @@
             android:text="Đăng nhập"
             android:textStyle="bold"
             android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

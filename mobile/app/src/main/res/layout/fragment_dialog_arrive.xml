@@ -25,33 +25,24 @@
         android:gravity="center"
         android:textStyle="bold"
         android:text="Thợ của bạn đã đến nơi"
-        android:layout_marginVertical="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        />
 
-
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnOk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_bottom_exit_dialog"
-        android:orientation="horizontal">
+        android:layout_marginHorizontal="30dp"
+        android:paddingHorizontal="4dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_ext_btn_exit_dialog"
+        android:text="OK"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:layout_marginBottom="20dp"/>
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnOk"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:paddingHorizontal="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_ext_btn_exit_dialog"
-            android:text="OK"
-            android:textStyle="bold"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:layout_marginBottom="10dp"/>
-    </LinearLayout>
 </LinearLayout>

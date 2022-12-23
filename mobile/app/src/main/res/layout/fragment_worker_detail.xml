@@ -67,7 +67,7 @@
                 android:layout_marginTop="100dp"
                 android:background="@drawable/bg_exit_dialog"
                 android:text="ĐẶT ĐƠN"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="17dp"
                 android:textStyle="bold"
                 android:translationZ="90dp"
@@ -147,8 +147,8 @@
                         android:layout_weight="0"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:progressTint="#ECD82A"
-                        android:rating="2.4"
+                        android:progressTint="@color/primaryColor"
+                        android:rating="0"
                         android:secondaryProgress="5"
                         android:secondaryProgressTint="@android:color/transparent"
                         android:stepSize="0.1" />
@@ -174,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Thông tin"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +198,8 @@
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_location" />
+                    android:src="@drawable/ic_location"
+                    app:tint="@color/black"/>
 
                 <TextView
                     android:id="@+id/tvAdress"
@@ -230,7 +231,7 @@
                     android:layout_height="25dp"
                     android:layout_marginRight="11dp"
                     android:src="@drawable/ic_call"
-                    app:tint="@color/primaryColor" />
+                    app:tint="@color/black" />
 
                 <TextView
                     android:id="@+id/tvPhone"
@@ -282,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Dịch vụ"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
