@@ -3,12 +3,12 @@ package com.example.pbl6app.Models;
 import com.google.gson.annotations.SerializedName;
 
 public class Rate {
-    @SerializedName("attitudeRateAverage")
-    private float attitudeRateAverage;
-    @SerializedName("skillRateAverage")
-    private float skillRateAverage;
-    @SerializedName("pleasureRateAverage")
-    private float pleasureRateAverage;
+    @SerializedName("attitudeRate")
+    private int attitudeRateAverage;
+    @SerializedName("skillRate")
+    private int skillRateAverage;
+    @SerializedName("pleasureRate")
+    private int pleasureRateAverage;
     @SerializedName("rateAverage")
     private float rateAverage;
     @SerializedName("comment")
@@ -17,36 +17,43 @@ public class Rate {
     private String customerImage;
     @SerializedName("customerName")
     private String customerName;
+    @SerializedName("orderId")
+    private String orderId;
+    @SerializedName("creationTime")
+    private String creationTime;
 
-
-    public Rate(float attitudeRateAverage, float skillRateAverage, float pleasureRateAverage, float rateAverage) {
+    public Rate(int attitudeRateAverage, int skillRateAverage, int pleasureRateAverage, float rateAverage, String comment, String customerImage, String customerName, String orderId) {
         this.attitudeRateAverage = attitudeRateAverage;
         this.skillRateAverage = skillRateAverage;
         this.pleasureRateAverage = pleasureRateAverage;
         this.rateAverage = rateAverage;
+        this.comment = comment;
+        this.customerImage = customerImage;
+        this.customerName = customerName;
+        this.orderId = orderId;
     }
 
     public float getAttitudeRateAverage() {
         return attitudeRateAverage;
     }
 
-    public void setAttitudeRateAverage(float attitudeRateAverage) {
+    public void setAttitudeRateAverage(int attitudeRateAverage) {
         this.attitudeRateAverage = attitudeRateAverage;
     }
 
-    public float getSkillRateAverage() {
+    public int getSkillRateAverage() {
         return skillRateAverage;
     }
 
-    public void setSkillRateAverage(float skillRateAverage) {
+    public void setSkillRateAverage(int skillRateAverage) {
         this.skillRateAverage = skillRateAverage;
     }
 
-    public float getPleasureRateAverage() {
+    public int getPleasureRateAverage() {
         return pleasureRateAverage;
     }
 
-    public void setPleasureRateAverage(float pleasureRateAverage) {
+    public void setPleasureRateAverage(int pleasureRateAverage) {
         this.pleasureRateAverage = pleasureRateAverage;
     }
 
@@ -81,5 +88,21 @@ public class Rate {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
     }
 }

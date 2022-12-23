@@ -101,7 +101,7 @@ public class WorkerDetailFragment extends FragmentBase {
         });
 
         binding.imvAva.setOnClickListener(v -> {
-            addFragment(new RateWorkerFragment(worker), R.id.ctFragmentUser);
+//            addFragment(new RateWorkerFragment(worker), R.id.ctFragmentUser);
         });
 
         binding.btnCallWorker.setOnClickListener(new View.OnClickListener() {

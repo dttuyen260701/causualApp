@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +65,7 @@ public class ListRateWorkerFragment extends FragmentBase {
         super.onViewCreated(view, savedInstanceState);
         initView();
         initListener();
+        loadData();
     }
 
     @Override
@@ -81,11 +83,16 @@ public class ListRateWorkerFragment extends FragmentBase {
         });
 
         listRate = new ArrayList<>();
-        loadData();
         adapter = new ItemRateWorkerAdapter(listRate);
 
         binding.rclListRate.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rclListRate.setAdapter(adapter);
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
     }
 
