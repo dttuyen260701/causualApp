@@ -4,17 +4,19 @@ package com.example.pbl6app.Models;/*
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class PostOfDemand {
     @SerializedName("id")
     private String id;
     @SerializedName("customerId")
     private String customerId;
+    @SerializedName("imageUser")
+    private String customerImage;
     @SerializedName("customerName")
     private String customerName;
     @SerializedName("endDateTime")
     private String endDateTime;
-    @SerializedName("imageUser")
-    private String customerImage;
     @SerializedName("endDateTimeString")
     private String endDateTimeString;
     @SerializedName("creationTime")
@@ -31,13 +33,15 @@ public class PostOfDemand {
     private String address;
     @SerializedName("addressPoint")
     private String addressPoint;
+    @SerializedName("listWorkerRequestInPostOfDemandResponse")
+    private ArrayList<Worker> listWorkerRequestInPostOfDemandResponse;
 
-    public String getAddress() {
-        return address;
+    public ArrayList<Worker> getListWorkerRequestInPostOfDemandResponse() {
+        return listWorkerRequestInPostOfDemandResponse;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setListWorkerRequestInPostOfDemandResponse(ArrayList<Worker> listWorkerRequestInPostOfDemandResponse) {
+        this.listWorkerRequestInPostOfDemandResponse = listWorkerRequestInPostOfDemandResponse;
     }
 
     public String getId() {
@@ -126,6 +130,14 @@ public class PostOfDemand {
 
     public void setJobInfoName(String jobInfoName) {
         this.jobInfoName = jobInfoName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAddressPoint() {

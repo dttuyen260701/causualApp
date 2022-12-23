@@ -90,7 +90,7 @@ public class BookingOrderScreenFragment extends FragmentBase {
     protected void initView() {
         Picasso.get().load(Constant.BASE_URL + workerDetail.getLinkIMG()).into(binding.imgWorkerLineItem);
         binding.tvNameWorker.setText(workerDetail.getName());
-        binding.tvTypeOfJobWorker.setText(workerDetail.getListJobInfo());
+        binding.tvTypeOfJobWorker.setText(workerDetail.getListJobInfoString());
         binding.tvPhone.setText(workerDetail.getPhone());
         binding.tvAddressWorker.setText(workerDetail.getAddress());
         userAddress = Constant.USER.getAddress();

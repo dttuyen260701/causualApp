@@ -1,5 +1,8 @@
 package com.example.pbl6app.Models;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ public class Worker {
     private int totalReviews;
     @SerializedName("listJobInfo")
     private ArrayList<JobInfo> listJobInfo;
+
+    public Worker(){}
 
     public Worker(String id, String name, String linkIMG, Rate rate, int totalReviews, ArrayList<JobInfo> listJobInfo) {
         this.id = id;
@@ -71,15 +76,38 @@ public class Worker {
         return this.listJobInfo;
     }
 
-    public String getListJobInfo() {
-        String temp = "";
-        for (int i = 0; i < this.listJobInfo.size(); ++i) {
-            temp += ((i == 0) ? "" : " ") + listJobInfo.get(i).getName() + ((i == this.listJobInfo.size() - 1) ? "." : ",");
+    public String getListJobInfoString() {
+
+        String temp = "Chưa có dữ liệu";
+
+
+        if(this.listJobInfo != null){
+
+            if(!this.listJobInfo.isEmpty()){
+                temp = "";
+
+                for (int i = 0; i < this.listJobInfo.size(); ++i) {
+                    temp += ((i == 0) ? "" : " ") + listJobInfo.get(i).getName() + ((i == this.listJobInfo.size() - 1) ? "." : ",");
+                }
+            }
         }
+
         return temp;
     }
 
     public void setListJobInfo(ArrayList<JobInfo> listJobInfo) {
         this.listJobInfo = listJobInfo;
     }
+
+    public static final DiffUtil.ItemCallback<Worker> DIFF_CALLBACK = new DiffUtil.ItemCallback<Worker>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Worker oldItem, @NonNull Worker newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Worker oldItem, @NonNull Worker newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
+    };
 }

@@ -7,6 +7,7 @@ import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.Models.Rate;
 import com.example.pbl6app.Models.TypeOfJob;
 import com.example.pbl6app.Models.User;
+import com.example.pbl6app.Models.Worker;
 import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.HTTPMethod;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -27,6 +29,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -124,8 +127,11 @@ public interface ApiService {
     @GET("/api/app/job-info/{id}/job-info-vm-belong-to-type-of-job")
     Call<ResponseRetrofit<ArrayList<JobInfo>>> getListJobInfo(@Path("id") String idTypeOfJob);
 
-    @GET("/api/app/post-of-demand/{id}")
+    @GET("/api/app/post-of-demand/{id}/get-post-for-worker/")
     Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemand(@Path("id") String idUser);
+
+    @GET("api/app/post-of-demand/{id}/detail")
+    Call<ResponseRetrofit<PostOfDemand>> getPostOfDemandById(@Path("id") String podID);
 
     @POST("/api/app/account/change-password/{userId}")
     Call<ResponseRetrofit<User>> changePassword(@Body Map<String, String> options, @Path("userId") String idUser);
@@ -159,6 +165,16 @@ public interface ApiService {
 
     @GET("/api/app/rate-of-worker/{workerId}/detail")
     Call<ResponseRetrofit<Rate>> getRateOfWorker(@Path("workerId") String workerId);
+
+    @POST("api/app/post-of-demand/create-worker-response")
+    Call<ResponseRetrofit<Worker>> requestPostOfDemandForWorker(@Body Map<String, String> body);
+
+    @GET("api/app/post-of-demand/{workerId}/delete-response/{postOfDemandId}")
+    Call<ResponseRetrofit<Object>> deleteWorkerResponsePostOfDemand(@Path("workerId") String workerId, @Path("postOfDemandId") String postId);
+
+
+//    @POST("matrix/insertMatrix.php")
+//    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 
     @GET("/api/app/rate-of-worker/rate-worker-of-order/{orderId}")
     Call<ResponseRetrofit<Rate>> getRateByOrderId(@Path("orderId") String orderId);

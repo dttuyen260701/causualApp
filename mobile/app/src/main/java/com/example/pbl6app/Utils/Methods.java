@@ -31,7 +31,10 @@ import com.example.pbl6app.activities.LoginActivity;
 import com.example.pbl6app.activities.MainActivity;
 import com.example.pbl6app.activities.MainActivityUser;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Methods {
     @SuppressLint("StaticFieldLeak")
@@ -160,6 +163,45 @@ public class Methods {
         NotificationManagerCompat.from(context).notify((forNewChannel) ?
                 Integer.parseInt(String.valueOf(Calendar.getInstance().getTimeInMillis()).substring(4)) :
                 123, builder.build());
+    }
+
+    public static String getPastTimeString(String dateString) {
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH-mm");
+            Date postDate = sdf.parse(dateString);
+            Date currentDate = new Date();
+            long diffInTime = currentDate.getTime() - postDate.getTime();
+            long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInTime);
+            long diffInHour = TimeUnit.MILLISECONDS.toHours(diffInTime);
+            long diffInYear = TimeUnit.MILLISECONDS.toDays(diffInTime) / 365l;
+            long diffInMonth = TimeUnit.MILLISECONDS.toDays(diffInTime) / 30l;
+            long diffInDay = TimeUnit.MILLISECONDS.toDays(diffInTime);
+
+            if (diffInYear < 1) {
+                if (diffInMonth < 1) {
+                    if (diffInDay < 1) {
+                        if (diffInHour < 1) {
+                            if (diffInMinutes < 1) {
+                                return "vài giây";
+                            } else {
+                                return diffInMinutes + " phút";
+                            }
+                        } else {
+                            return diffInHour + " giờ";
+                        }
+                    } else {
+                        return diffInDay + " ngày";
+                    }
+                } else {
+                    return diffInMonth + " tháng";
+                }
+            } else {
+                return diffInYear + " năm";
+            }
+        }catch (Exception e){
+            return "";
+        }
     }
 
 }

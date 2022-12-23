@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
-import com.example.pbl6app.Models.Worker;
 import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemWorkerLineBinding;
@@ -64,7 +63,7 @@ public class WorkerLinesAdapter extends RecyclerView.Adapter<WorkerLinesAdapter.
         private void bindView(int position) {
             Picasso.get().load(Constant.BASE_URL + listData.get(position).getLinkIMG()).into(binding.imgWorkerLineItem);
             binding.tvNameWorker.setText(listData.get(position).getName());
-            binding.tvTypeOfJobWorker.setText(listData.get(position).getListJobInfo());
+            binding.tvTypeOfJobWorker.setText(listData.get(position).getListJobInfoString());
             binding.tvCountOfRate.setText(listData.get(position).getRate().getRateAverage() + " (" + listData.get(position).getTotalReviews() + " Reviews)");
 
             binding.imgFavoWorkerLines.setOnClickListener(new View.OnClickListener() {
