@@ -36,10 +36,9 @@
 
                 <ImageView
                     android:id="@+id/imv_back"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_marginLeft="7dp"
-                    android:padding="1dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="2dp"
                     android:src="@drawable/ic_back"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -375,8 +374,8 @@
                     app:layout_constraintVertical_weight="1" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/icon_age"
                     app:tint="@color/black"
                     android:layout_marginEnd="10dp"
