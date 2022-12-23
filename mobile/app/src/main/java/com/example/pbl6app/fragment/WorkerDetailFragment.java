@@ -3,6 +3,11 @@ package com.example.pbl6app.fragment;
  * Created by tuyen.dang on 11/9/2022
  */
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -34,6 +40,7 @@ import retrofit2.Response;
 
 public class WorkerDetailFragment extends FragmentBase {
 
+    private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 112;
     private FragmentWorkerDetailBinding binding;
     private WorkerDetail worker;
     private JobInfoAdapter adapter;
@@ -97,6 +104,13 @@ public class WorkerDetailFragment extends FragmentBase {
             addFragment(new RateWorkerFragment(worker), R.id.ctFragmentUser);
         });
 
+        binding.btnCallWorker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askPermissionAndCall(worker.getPhone());
+            }
+        });
+
     }
 
     private void loadData() {
@@ -136,5 +150,35 @@ public class WorkerDetailFragment extends FragmentBase {
                 }
             }
         });
+    }
+
+    private void askPermissionAndCall(String phoneNB) {
+
+        // With Android Level >= 23, you have to ask the user
+        // for permission to Call.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) { // 23
+
+            // Check if we have Call permission
+            int sendSmsPermisson = ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.CALL_PHONE);
+
+            if (sendSmsPermisson != PackageManager.PERMISSION_GRANTED) {
+                // If don't have permission so prompt the user.
+                this.requestPermissions(
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        MY_PERMISSION_REQUEST_CODE_CALL_PHONE
+                );
+                return;
+            }
+        }
+        callNow(phoneNB);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void callNow(String phoneNB) {
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phoneNB));
+        startActivity(callIntent);
     }
 }

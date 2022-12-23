@@ -47,16 +47,20 @@
         </activity>
         <activity
             android:name=".activities.MainActivityUser"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
 
-        <service android:name=".services.TrackingService" />
+        <service android:name=".services.TrackingService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="location|camera"
+            android:stopWithTask="false"/>
     </application>
 
 </manifest>

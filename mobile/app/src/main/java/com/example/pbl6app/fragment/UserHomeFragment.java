@@ -180,10 +180,10 @@ public class UserHomeFragment extends FragmentBase {
         });
 
         listSlideItem = new ArrayList<>();
-        listSlideItem.add(new SlideItem("https://demoda.vn/wp-content/uploads/2021/12/hinh-nen-phong-canh-dep-nhat-the-gioi-800x491.jpg"));
-        listSlideItem.add(new SlideItem("https://toigingiuvedep.vn/wp-content/uploads/2021/04/hinh-nen-slide-dep-chu-de-lich-su.jpg"));
-        listSlideItem.add(new SlideItem("https://data.webnhiepanh.com/wp-content/uploads/2020/11/21105453/phong-canh-1.jpg"));
-        listSlideItem.add(new SlideItem("https://phunugioi.com/wp-content/uploads/2020/02/hinh-anh-dep-thien-nhien.jpg"));
+        listSlideItem.add(new SlideItem("https://lockhi.vn/wp-content/uploads/2015/02/shop-page-header1.jpg"));
+        listSlideItem.add(new SlideItem("https://ichef.bbci.co.uk/news/976/cpsprodpb/BA32/production/_127566674_qatarworkers2.png"));
+        listSlideItem.add(new SlideItem("https://www.skilledlabourservices.co.uk/wp-content/uploads/2018/07/building-in-the-sun.jpg"));
+        listSlideItem.add(new SlideItem("https://i.insider.com/5c1e182ee04d62635d3dd5f3?width=700"));
 
         binding.slideShowUserHome.setPageTransformer(compositePageTransformer);
         slideShowAdapter = new SlideShowAdapter(listSlideItem);

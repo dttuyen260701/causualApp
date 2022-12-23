@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.pbl6app.Adapters.StatusFragmentAdapter;
+import com.example.pbl6app.Listeners.OnItemCLickListener;
+import com.example.pbl6app.Models.Order;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.Methods;
@@ -89,7 +91,12 @@ public class StatusFragment extends FragmentBase {
 
     private void initRoute() {
         if (forWaiting) {
+            addFragment(new OrderInQueueFragment(orderId, new OnItemCLickListener<Order>() {
+                @Override
+                public void onItemClick(Order item) {
 
+                }
+            }), R.id.ctFragmentUser);
         } else if (!orderId.equals("")) {
             addFragment(new OrderDetailFragment(orderId), R.id.ctFragmentUser);
         }

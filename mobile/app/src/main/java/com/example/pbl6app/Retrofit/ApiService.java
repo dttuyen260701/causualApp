@@ -142,8 +142,8 @@ public interface ApiService {
     @POST("/api/app/order/{idCustomer}")
     Call<ResponseRetrofit<Order>> createOrder(@Path("idCustomer") String idCustomer, @Body Map<String, String> options);
 
-    @GET("/api/app/order/detail/{idOrder}")
-    Call<ResponseRetrofit<Order>> getOrderByID(@Path("idOrder") String idOrder);
+    @GET("/api/app/order/detail/{idOrder}/by/{userId}")
+    Call<ResponseRetrofit<Order>> getOrderByID(@Path("idOrder") String idOrder, @Path("userId") String userId);
 
     @PUT("/api/app/order/{idOrder}/update-status")
     Call<ResponseRetrofit<Order>> updateStatusOrder(@Path("idOrder") String idOrder, @Query("status") int OrderStatus);

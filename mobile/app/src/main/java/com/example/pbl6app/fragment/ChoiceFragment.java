@@ -143,6 +143,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
     private void loadData() {
         binding.viewBg.setVisibility(View.VISIBLE);
         binding.progressBar.setVisibility(View.VISIBLE);
+        final int[] index = {0};
         switch (KEY_DATA) {
             case Constant.PROVINCE_DATA:
                 ApiService.apiService.getProvince().enqueue(new Callback<ArrayList<AddressTemp>>() {
@@ -155,8 +156,12 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
 
                             for (AddressTemp i : list_data) {
                                 i.setCheck(i.getId().equals(ProfileFragment.getIdProvinceChosen()));
+                                if (i.getId().equals(ProfileFragment.getIdProvinceChosen())) {
+                                   index[0] = list_data.indexOf(i);
+                                }
                             }
                             adapter.notifyDataSetChanged();
+                            binding.rclChoice.smoothScrollToPosition(index[0]);
                         } else {
                             if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -185,8 +190,15 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
 
                             for (AddressTemp i : list_data) {
                                 i.setCheck(i.getId().equals(ProfileFragment.getIdDistrictChosen()));
+                                if (i.getId().equals(ProfileFragment.getIdProvinceChosen())) {
+                                    index[0] = list_data.indexOf(i);
+                                    if (i.getId().equals(ProfileFragment.getIdProvinceChosen())) {
+                                        index[0] = list_data.indexOf(i);
+                                    }
+                                }
                             }
                             adapter.notifyDataSetChanged();
+                            binding.rclChoice.smoothScrollToPosition(index[0]);
                         } else {
                             if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -215,8 +227,12 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
 
                             for (AddressTemp i : list_data) {
                                 i.setCheck(i.getId().equals(ProfileFragment.getIdWardChosen()));
+                                if (i.getId().equals(ProfileFragment.getIdProvinceChosen())) {
+                                    index[0] = list_data.indexOf(i);
+                                }
                             }
                             adapter.notifyDataSetChanged();
+                            binding.rclChoice.smoothScrollToPosition(index[0]);
                         } else {
                             if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -272,6 +288,7 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                                 i.setCheck(i.getId().equals(CreateNewPostFragment.getIdTypeOfJobChosen()));
                             }
                             adapter.notifyDataSetChanged();
+
                         } else {
                             if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -300,11 +317,14 @@ public class ChoiceFragment extends BottomSheetDialogFragment {
                             for (JobInfo job : listJob) {
                                 list_data.add(new AddressTemp(job.getId(), job.getName()));
                             }
-
                             for (AddressTemp i : list_data) {
                                 i.setCheck(i.getId().equals(CreateNewPostFragment.getIdJobInfoChosen()));
+                                if (i.getId().equals(ProfileFragment.getIdProvinceChosen())) {
+                                    index[0] = list_data.indexOf(i);
+                                }
                             }
                             adapter.notifyDataSetChanged();
+                            binding.rclChoice.smoothScrollToPosition(index[0]);
                         } else {
                             if (getContext() != null) {
                                 Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();

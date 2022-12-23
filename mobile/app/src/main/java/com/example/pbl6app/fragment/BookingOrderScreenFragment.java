@@ -134,7 +134,34 @@ public class BookingOrderScreenFragment extends FragmentBase {
             if (idJobInfo.getId().equals("")) {
                 Methods.makeToast("Vui lòng chọn công việc!");
             } else {
-                submitData();
+                if(Constant.USER.getLastModificationTime() == null) {
+                    Methods.showDialog(
+                           R.drawable.smile_dialog,
+                            "Thông báo",
+                            "Bạn vui lòng cập nhật thông tin để sử dụng dịch vụ của chúng tôi.",
+                            "Để sau",
+                            "Cập nhật",
+                            new ListenerDialog() {
+                                @Override
+                                public void onDismiss() {
+                                    FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeValue();
+                                }
+
+                                @Override
+                                public void onNoClick(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onYesClick(Dialog dialog) {
+                                    addFragment(new ProfileFragment(), R.id.ctFragmentUser);
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+                } else {
+                    submitData();
+                }
             }
         });
     }

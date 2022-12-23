@@ -123,7 +123,12 @@ public class MapTrackingFragment extends SupportMapFragment implements
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                ObjectTracking objectTracking = snapshot.getValue(ObjectTracking.class);
+                ObjectTracking objectTracking = null;
+                try {
+                    objectTracking = snapshot.getValue(ObjectTracking.class);
+                } catch (Exception e) {
+                    return;
+                }
 
                 if (value == null || value.latitude != Float.valueOf(objectTracking.getLatitude())
                         && value.longitude != Float.valueOf(objectTracking.getLongitude())) {
