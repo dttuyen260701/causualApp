@@ -24,6 +24,7 @@ import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.activities.BaseActivity;
 import com.example.pbl6app.databinding.FragmentNewfeedBinding;
+import com.google.gson.Gson;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -86,7 +87,9 @@ public class NewfeedFragment extends FragmentBase {
                     }
                 });
 
-        binding.tvNameFragUserHome.setText(Constant.USER.getName());
+        binding.tvNameFragUserHome.setText("Welcome");
+        binding.tvDescripFragUserHome.setText(Constant.USER.getName());
+
     }
 
     void initCustomer(){
@@ -114,7 +117,10 @@ public class NewfeedFragment extends FragmentBase {
         adapter = new NewsPostAdapter(listData, new OnItemCLickListener<PostOfDemand>() {
             @Override
             public void onItemClick(PostOfDemand item) {
-
+                addFragment(
+                        DetailPostOnWorkerRoleFragment.newInstance(item.getId()),
+                        R.id.ctFragmentUser
+                );
             }
         });
 

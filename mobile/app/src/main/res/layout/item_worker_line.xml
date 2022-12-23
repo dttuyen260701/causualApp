@@ -60,7 +60,7 @@
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgWorkerLineItem"
         app:layout_constraintStart_toEndOf="@+id/imgWorkerLineItem"
-        app:srcCompat="@drawable/star" />
+        app:srcCompat="@drawable/ic_star" />
 
     <TextView
         android:id="@+id/tvCountOfRate"

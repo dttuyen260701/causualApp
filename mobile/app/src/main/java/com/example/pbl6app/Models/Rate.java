@@ -22,6 +22,8 @@ public class Rate {
     @SerializedName("creationTime")
     private String creationTime;
 
+    public Rate(){}
+
     public Rate(int attitudeRateAverage, int skillRateAverage, int pleasureRateAverage, float rateAverage, String comment, String customerImage, String customerName, String orderId) {
         this.attitudeRateAverage = attitudeRateAverage;
         this.skillRateAverage = skillRateAverage;
