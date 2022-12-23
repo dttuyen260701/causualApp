@@ -30,7 +30,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -165,6 +164,9 @@ public interface ApiService {
 
     @GET("/api/app/rate-of-worker/{workerId}/detail")
     Call<ResponseRetrofit<Rate>> getRateOfWorker(@Path("workerId") String workerId);
+
+    @GET("/api/app/post-of-demand/{id}/request")
+    Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostWorkerAssign(@Path("id") String workerId);
 
     @POST("api/app/post-of-demand/create-worker-response")
     Call<ResponseRetrofit<Worker>> requestPostOfDemandForWorker(@Body Map<String, String> body);

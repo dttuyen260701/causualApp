@@ -64,6 +64,13 @@ public class SettingsFragment extends FragmentBase{
         if (forHistory) {
             addFragment(new HistoryFragment(), R.id.ctFragmentUser);
         }
+
+        if(Constant.USER.getRole()==Constant.ROLE_WORKER){
+            binding.layoutPostAssign.setVisibility(View.VISIBLE);
+        }
+        else{
+            binding.layoutPostAssign.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -82,6 +89,10 @@ public class SettingsFragment extends FragmentBase{
 
         binding.btnChangePass.setOnClickListener(view -> {
             addFragment(new ChangePasswordFragment(), R.id.ctFragmentUser);
+        });
+
+        binding.layoutPostAssign.setOnClickListener(view -> {
+            addFragment(new ListPostWorkerAssignFragment(), R.id.ctFragmentUser);
         });
     }
 

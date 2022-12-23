@@ -7,13 +7,16 @@
     tools:context=".fragment.DetailPostOnWorkerRoleFragment"
     android:background="#FBF7F7"
     android:clickable="true">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <View
                 android:id="@+id/view3"
                 android:layout_width="0dp"
@@ -32,10 +35,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="name"
+                android:textColor="@color/chinese_black"
                 app:layout_constraintStart_toStartOf="@+id/textView17"
-                app:layout_constraintTop_toBottomOf="@+id/textView17"
-                android:textColor="@color/chinese_black" />
+                app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
             <TextView
                 android:id="@+id/textView17"
@@ -43,9 +46,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Lưu ý:"
-                android:textStyle="bold"
                 android:textColor="@color/chinese_black"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/tvDescription"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
@@ -55,9 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Mô tả:"
-                android:textStyle="bold"
                 android:textColor="@color/chinese_black"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/ivUserThumb"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailWithUser" />
 
@@ -82,7 +85,7 @@
                 android:layout_height="21dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
-                android:text=""
+                android:text="name"
                 android:textColor="@color/chinese_black"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,10 +99,10 @@
                 android:layout_height="21dp"
                 android:layout_marginTop="5dp"
                 android:text="Đã đăng"
+                android:textColor="@color/chinese_black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/tvAddress"
-                android:textColor="@color/chinese_black" />
+                app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
 
             <TextView
                 android:id="@+id/tvTime2"
@@ -119,17 +122,19 @@
                 android:layout_height="21dp"
                 android:layout_marginTop="5dp"
                 android:text="Hết hạn vào:"
+                android:textColor="@color/chinese_black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/tv53"
-                android:textColor="@color/chinese_black" />
+                app:layout_constraintTop_toBottomOf="@+id/tv53" />
 
             <Button
                 android:id="@+id/btnAssign"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
-                android:text=""
+                android:text="button"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/btnBack"
@@ -144,6 +149,7 @@
                 android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/grey"
                 android:text="Trở lại"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/btnAssign"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,8 +173,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="30dp"
-                android:text=""
-                android:textColor="@color/primaryColor"
+                android:text="name"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/ivUserThumb"
@@ -184,13 +190,13 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:text="Danh sách ứng tuyển"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3"
-                android:textStyle="bold"/>
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -199,7 +205,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:text="Chi tiết bài đăng"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -213,17 +219,17 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
-                app:riv_corner_radius="20dp"
+                android:src="@mipmap/ic_launcher"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view2"
-                android:src="@mipmap/ic_launcher"/>
+                app:riv_corner_radius="20dp" />
 
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="name"
                 android:textColor="@color/chinese_black"
                 app:layout_constraintStart_toStartOf="@+id/textView15"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -244,7 +250,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textview32"
@@ -257,7 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tv53"
@@ -270,7 +276,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView12"
@@ -285,10 +291,10 @@
                 android:indeterminate="true"
                 android:indeterminateTint="@color/primaryColor"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvNoWorker"
