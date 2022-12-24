@@ -18,8 +18,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class UsedServiceAdapter extends RecyclerView.Adapter<UsedServiceAdapter.UsedHolder> {
-
-    private ItemMostUsedServiceBinding binding;
     private ArrayList<TypeOfJob> listData;
     private OnItemCLickListener<TypeOfJob> listener;
 
@@ -31,7 +29,7 @@ public class UsedServiceAdapter extends RecyclerView.Adapter<UsedServiceAdapter.
     @NonNull
     @Override
     public UsedServiceAdapter.UsedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemMostUsedServiceBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemMostUsedServiceBinding binding = ItemMostUsedServiceBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new UsedHolder(binding);
     }
 

@@ -18,7 +18,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class ItemRateWorkerAdapter extends RecyclerView.Adapter<ItemRateWorkerAdapter.RateHolder>{
-    private ItemRateWorkerBinding binding;
     private ArrayList<Rate> listRate;
 
     public ItemRateWorkerAdapter(ArrayList<Rate> listRate) {
@@ -28,7 +27,7 @@ public class ItemRateWorkerAdapter extends RecyclerView.Adapter<ItemRateWorkerAd
     @NonNull
     @Override
     public RateHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemRateWorkerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemRateWorkerBinding binding = ItemRateWorkerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new RateHolder(binding, parent.getContext());
     }
 
@@ -44,10 +43,12 @@ public class ItemRateWorkerAdapter extends RecyclerView.Adapter<ItemRateWorkerAd
 
     public class RateHolder extends RecyclerView.ViewHolder {
         private Context context;
+        private ItemRateWorkerBinding binding;
 
         public RateHolder(@NonNull ItemRateWorkerBinding binding, Context context) {
             super(binding.getRoot());
             this.context = context;
+            this.binding = binding;
         }
 
         public void bindView(int position) {
