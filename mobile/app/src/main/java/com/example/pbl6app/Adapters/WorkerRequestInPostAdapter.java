@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.Worker;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemWorkerRequestInPostBinding;
@@ -18,10 +19,13 @@ import java.util.ArrayList;
 public class WorkerRequestInPostAdapter extends RecyclerView.Adapter<WorkerRequestInPostAdapter.WorkerViewHolder> {
 
     private ArrayList<Worker> list;
-//    private ItemWorkerRequestInPostBinding binding;
+    private OnItemCLickListener<Worker> listenerWorker;
+    private OnItemCLickListener<Worker> listenerAccept;
 
-    public WorkerRequestInPostAdapter(ArrayList<Worker> list) {
+    public WorkerRequestInPostAdapter(ArrayList<Worker> list, OnItemCLickListener<Worker> listenerWorker, OnItemCLickListener<Worker> listenerAccept) {
         this.list = list;
+        this.listenerWorker = listenerWorker;
+        this.listenerAccept = listenerAccept;
     }
 
     @NonNull
@@ -66,6 +70,14 @@ public class WorkerRequestInPostAdapter extends RecyclerView.Adapter<WorkerReque
             if(!imageUrl.isEmpty()){
                 Picasso.get().load(imageUrl).into(binding.ivUseThumb);
             }
+
+            binding.layoutIem.setOnClickListener(view -> {
+                listenerWorker.onItemClick(worker);
+            });
+
+            binding.btnAcceptWorker.setOnClickListener(view -> {
+                listenerAccept.onItemClick(worker);
+            });
         }
     }
 }

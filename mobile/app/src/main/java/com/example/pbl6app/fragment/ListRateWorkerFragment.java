@@ -19,6 +19,7 @@ import com.example.pbl6app.Adapters.OrderItemLinesAdapter;
 import com.example.pbl6app.Models.Order;
 import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.Models.Rate;
+import com.example.pbl6app.Models.Worker;
 import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
@@ -38,11 +39,11 @@ public class ListRateWorkerFragment extends FragmentBase {
     private FragmentListRateWorkerBinding binding;
     private ArrayList<Rate> listRate;
     private ItemRateWorkerAdapter adapter;
-    private WorkerDetail workerDetail;
+    private Worker workerDetail;
     private Rate overallRate;
 
 
-    public ListRateWorkerFragment(WorkerDetail workerDetail) {
+    public ListRateWorkerFragment(Worker workerDetail) {
         this.workerDetail = workerDetail;
     }
 

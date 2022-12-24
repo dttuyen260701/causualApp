@@ -1,6 +1,7 @@
 package com.example.pbl6app.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,6 +36,7 @@ import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
+import com.example.pbl6app.Utils.Methods;
 import com.example.pbl6app.activities.LoginActivity;
 import com.example.pbl6app.activities.SignupActivity;
 import com.example.pbl6app.databinding.FragmentCreateNewPostBinding;
@@ -55,21 +58,25 @@ public class CreateNewPostFragment extends FragmentBase {
 
     private FragmentCreateNewPostBinding binding;
     private ChoiceFragment choiceFragment;
-    private static String idTypeOfJobChosen = "-1", idNumberHourChosen="-1", idJobInfoChosen="-1";
+    private static String idTypeOfJobChosen = "-1", idNumberHourChosen = "-1", idJobInfoChosen = "-1";
     private String userAddress = "", userPoint = "";
 
     public static String getIdTypeOfJobChosen() {
         return idTypeOfJobChosen;
     }
+
     public static String getIdNumberHourChosen() {
         return idNumberHourChosen;
     }
+
     public static String getIdJobInfoChosen() {
         return idJobInfoChosen;
     }
 
+    private final OnItemCLickListener<Object> onEndListener;
 
-    public CreateNewPostFragment() {
+    public CreateNewPostFragment(OnItemCLickListener<Object> onEndListener) {
+        this.onEndListener = onEndListener;
     }
 
     @Override
@@ -81,7 +88,8 @@ public class CreateNewPostFragment extends FragmentBase {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCreateNewPostBinding.inflate(inflater, container, false);
-        return binding.getRoot();    }
+        return binding.getRoot();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -95,7 +103,6 @@ public class CreateNewPostFragment extends FragmentBase {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         binding.tvDate.setText(dateFormat.format(date));
-        binding.tvDate.setEnabled(false);
         binding.tvJobInfo.setEnabled(false);
         userAddress = Constant.USER.getAddress();
         userPoint = Constant.USER.getAddressPoint();
@@ -108,15 +115,14 @@ public class CreateNewPostFragment extends FragmentBase {
             backToPreviousFrag();
         });
 
-        binding.btnSubmit.setOnClickListener(view->{
-            if(binding.tvRequired1.getVisibility() == View.VISIBLE
+        binding.btnSubmit.setOnClickListener(view -> {
+            if (binding.tvRequired1.getVisibility() == View.VISIBLE
                     || idJobInfoChosen.equals("")
                     || idTypeOfJobChosen.equals("")
                     || idNumberHourChosen.equals("")
-            ){
+            ) {
                 Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 onSubmitData();
             }
         });
@@ -155,33 +161,37 @@ public class CreateNewPostFragment extends FragmentBase {
             onChoiceShow(
                     Constant.TYPE_OF_JOB_DATA,
                     "Loại công việc",
-                    item->{
+                    item -> {
                         binding.tvJobInfo.setEnabled(true);
                         binding.tvTypeOfJob.setText(item.getName());
                         idTypeOfJobChosen = item.getId();
                         choiceFragment.dismiss();
                     }
-            ,"");
+                    , "");
         });
 
-        binding.tvJobInfo.setOnClickListener(view->{
+        binding.tvJobInfo.setOnClickListener(view -> {
             onChoiceShow(
                     Constant.JOB_INFO_DATA,
                     "Tên công việc",
-                    item->{
+                    item -> {
                         binding.tvJobInfo.setText(item.getName());
                         idJobInfoChosen = item.getId();
                         choiceFragment.dismiss();
                     }
-                    ,idTypeOfJobChosen);
+                    , idTypeOfJobChosen);
+        });
+
+        binding.tvDate.setOnClickListener(view -> {
+            showDatePickerDialog();
         });
     }
 
-    private void onSubmitData(){
+    private void onSubmitData() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
 
-        Map<String , String> options = new HashMap<>();
+        Map<String, String> options = new HashMap<>();
         options.put("userId", Constant.USER.getId());
         options.put("jobInfoId", idJobInfoChosen);
         options.put("description", binding.edtDescription.getText().toString());
@@ -196,8 +206,8 @@ public class CreateNewPostFragment extends FragmentBase {
             public void onResponse(Call<ResponseRetrofit<PostOfDemand>> call, Response<ResponseRetrofit<PostOfDemand>> response) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
-                if(response.code() == HttpURLConnection.HTTP_OK) {
-                    if(response.body().isSuccessed()) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    if (response.body().isSuccessed()) {
                         showSuccessDialog();
                     } else {
                         Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -231,6 +241,9 @@ public class CreateNewPostFragment extends FragmentBase {
         binding.tvJobInfo.setText("");
         binding.tvTypeOfJob.setText("");
 
+        idJobInfoChosen = "-1";
+        idTypeOfJobChosen = "-1";
+
         Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_dialog_arrive);
@@ -245,6 +258,10 @@ public class CreateNewPostFragment extends FragmentBase {
         windowAttributes.gravity = Gravity.CENTER;
         dialog.setCancelable(true);
 
+        dialog.setOnDismissListener(dialog1 -> {
+            backToPreviousFrag();
+        });
+
         TextView txtTitleDialog = dialog.findViewById(R.id.txtTitleDialog);
         txtTitleDialog.setText("Tạo bài viết mới thành công");
 
@@ -257,4 +274,28 @@ public class CreateNewPostFragment extends FragmentBase {
         dialog.show();
     }
 
+    public void showDatePickerDialog() {
+        DialogFragment newFragment = new DatePickerFragment(result -> {
+            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String dateString = dateFormat.format(date);
+            if (Integer.parseInt(dateString.split("-")[0]) <= Integer.parseInt(result.split("-")[0])
+                    || (Integer.parseInt(dateString.split("-")[0]) > Integer.parseInt(result.split("-")[0])
+                    && Integer.parseInt(dateString.split("-")[1]) < Integer.parseInt(result.split("-")[1]))
+            ) {
+                binding.tvDate.setText(result);
+            } else{
+                Methods.makeToast("Vui lòng chọn ngày trong tương lai!");
+            }
+        });
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        onEndListener.onItemClick(new Object());
+        super.onDestroy();
+    }
 }

@@ -28,7 +28,8 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
     }
 
     public void setList_data(ArrayList<PostOfDemand> listNewPost) {
-        this.listNewPost = listNewPost;
+        this.listNewPost.clear();
+        this.listNewPost.addAll(listNewPost);
         notifyDataSetChanged();
     }
 
