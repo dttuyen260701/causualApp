@@ -110,4 +110,16 @@ public class Worker {
             return oldItem.getId().equals(newItem.getId());
         }
     };
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", linkIMG='" + linkIMG + '\'' +
+                ", rateDetail=" + rateDetail +
+                ", totalReviews=" + totalReviews +
+                ", listJobInfo=" + listJobInfo +
+                '}';
+    }
 }

@@ -106,6 +106,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                 }
 
                 mAdapter.setData(requestList);
+                mAdapter.notifyDataSetChanged();
 
             }
 
@@ -134,9 +135,9 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
         ApiService.apiService.getPostOfDemandById(mPodID).enqueue(new Callback<ResponseRetrofit<PostOfDemand>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<PostOfDemand>> call, Response<ResponseRetrofit<PostOfDemand>> response) {
-                if (response.code() == HttpURLConnection.HTTP_OK) {
 
-                    binding.progressbar.setVisibility(View.GONE);
+                binding.progressbar.setVisibility(View.GONE);
+                if (response.code() == HttpURLConnection.HTTP_OK) {
 
                     if (response.body().isSuccessed()) {
                         updateUI(response.body().getResultObj());

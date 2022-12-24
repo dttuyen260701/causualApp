@@ -15,7 +15,6 @@ import com.example.pbl6app.databinding.ItemOrderLineBinding;
 import java.util.ArrayList;
 
 public class JobInfoOrderDetailAdapter extends RecyclerView.Adapter<JobInfoOrderDetailAdapter.JobInfoHolder>{
-    private ItemJobInfoOrderDetailBinding binding;
     private ArrayList<JobInfo> listData;
 
     public JobInfoOrderDetailAdapter(ArrayList<JobInfo> listData) {
@@ -35,7 +34,7 @@ public class JobInfoOrderDetailAdapter extends RecyclerView.Adapter<JobInfoOrder
     @NonNull
     @Override
     public JobInfoOrderDetailAdapter.JobInfoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemJobInfoOrderDetailBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemJobInfoOrderDetailBinding binding = ItemJobInfoOrderDetailBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new JobInfoOrderDetailAdapter.JobInfoHolder(binding);
     }
 

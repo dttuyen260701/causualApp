@@ -18,7 +18,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAdapter.OrderHolder> {
-    private ItemOrderLineBinding binding;
     private ArrayList<Order> listData;
     private OnItemCLickListener<Order> listener;
 
@@ -39,7 +38,7 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
     @NonNull
     @Override
     public OrderItemLinesAdapter.OrderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemOrderLineBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemOrderLineBinding binding = ItemOrderLineBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new OrderItemLinesAdapter.OrderHolder(binding);
     }
 

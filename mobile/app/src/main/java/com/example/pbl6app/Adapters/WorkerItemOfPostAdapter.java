@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class WorkerItemOfPostAdapter extends RecyclerView.Adapter<WorkerItemOfPostAdapter.WorkerHolder>{
-    private ItemWorkerOfPostBinding binding;
     private ArrayList<Worker> listData;
     private OnItemCLickListener<Worker> listener;
 
@@ -38,7 +37,7 @@ public class WorkerItemOfPostAdapter extends RecyclerView.Adapter<WorkerItemOfPo
     @NonNull
     @Override
     public WorkerItemOfPostAdapter.WorkerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemWorkerOfPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemWorkerOfPostBinding binding = ItemWorkerOfPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new WorkerItemOfPostAdapter.WorkerHolder(binding);
     }
 

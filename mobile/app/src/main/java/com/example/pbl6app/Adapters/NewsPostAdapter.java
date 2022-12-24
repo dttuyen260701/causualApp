@@ -19,8 +19,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHolder> {
-
-    private ItemNewsPostBinding binding;
     private ArrayList<PostOfDemand> listNewPost;
     private OnItemCLickListener<PostOfDemand> listener;
 
@@ -37,7 +35,7 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
     @NonNull
     @Override
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemNewsPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemNewsPostBinding binding = ItemNewsPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new PostHolder(binding);
     }
 
@@ -53,9 +51,11 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
 
     public class PostHolder extends RecyclerView.ViewHolder {
         private boolean isShow = true;
+        private ItemNewsPostBinding binding;
 
         public PostHolder(@NonNull ItemNewsPostBinding binding) {
             super(binding.getRoot());
+            this.binding = binding;
         }
 
         @SuppressLint("SetTextI18n")
@@ -80,19 +80,6 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
             binding.tvJobInfo.setText("Tên công việc: " + listNewPost.get(position).getJobInfoName());
             binding.tvAddress.setText("Địa chỉ" + listNewPost.get(position).getAddress());
 
-
-//            binding.tvTime.setText(formatter.format(new Date().getTime()));
-
-//            binding.btnShowHide.setOnClickListener(view -> {
-//                isShow = !isShow;
-//                binding.btnShowHide.setImageResource((isShow) ? R.drawable.ic_up : R.drawable.ic_down);
-//                binding.tvContentPost.setVisibility((isShow) ? View.VISIBLE : View.GONE);
-//                binding.tvTime.setVisibility((isShow) ? View.VISIBLE : View.GONE);
-//                binding.tvTotalLlike.setVisibility((isShow) ? View.VISIBLE : View.GONE);
-//                binding.tvLinkTweet.setVisibility((isShow) ? View.VISIBLE : View.GONE);
-//                binding.btnFavorite.setVisibility((isShow) ? View.VISIBLE : View.GONE);
-//                binding.borderPost.setVisibility((isShow) ? View.VISIBLE : View.GONE);
-//            });
         }
     }
 }

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolder> {
 
-    private ItemJobinfoBinding binding;
     private ArrayList<JobInfo> listJobInfo;
     private OnItemCLickListener<JobInfo> listener;
 
@@ -30,7 +29,7 @@ public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolde
     @NonNull
     @Override
     public JobHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemJobinfoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemJobinfoBinding binding = ItemJobinfoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new JobHolder(binding, parent.getContext());
     }
 
@@ -46,10 +45,12 @@ public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolde
 
     public class JobHolder extends RecyclerView.ViewHolder {
         private Context context;
+        private ItemJobinfoBinding binding;
 
         public JobHolder(@NonNull ItemJobinfoBinding binding, Context context) {
             super(binding.getRoot());
             this.context = context;
+            this.binding = binding;
         }
 
         public void bindView(int position) {

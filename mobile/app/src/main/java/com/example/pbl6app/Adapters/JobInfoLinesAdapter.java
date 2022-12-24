@@ -19,8 +19,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class JobInfoLinesAdapter extends RecyclerView.Adapter<JobInfoLinesAdapter.JobHolder> {
-
-    private ItemJobinfoLineBinding binding;
     private ArrayList<JobInfo> listJobInfo;
     private OnItemCLickListener<JobInfo> listener;
 
@@ -37,7 +35,7 @@ public class JobInfoLinesAdapter extends RecyclerView.Adapter<JobInfoLinesAdapte
     @NonNull
     @Override
     public JobHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemJobinfoLineBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemJobinfoLineBinding binding = ItemJobinfoLineBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new JobHolder(binding);
     }
 
@@ -52,8 +50,10 @@ public class JobInfoLinesAdapter extends RecyclerView.Adapter<JobInfoLinesAdapte
     }
 
     public class JobHolder extends RecyclerView.ViewHolder {
+        private ItemJobinfoLineBinding binding;
         public JobHolder(@NonNull ItemJobinfoLineBinding binding) {
             super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void bindView(int position) {

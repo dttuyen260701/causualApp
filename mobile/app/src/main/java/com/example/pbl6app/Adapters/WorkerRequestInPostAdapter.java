@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class WorkerRequestInPostAdapter extends RecyclerView.Adapter<WorkerRequestInPostAdapter.WorkerViewHolder> {
 
     private ArrayList<Worker> list;
-    private ItemWorkerRequestInPostBinding binding;
+//    private ItemWorkerRequestInPostBinding binding;
 
     public WorkerRequestInPostAdapter(ArrayList<Worker> list) {
         this.list = list;
@@ -27,13 +27,13 @@ public class WorkerRequestInPostAdapter extends RecyclerView.Adapter<WorkerReque
     @NonNull
     @Override
     public WorkerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemWorkerRequestInPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new WorkerViewHolder(binding, parent.getContext());
+        ItemWorkerRequestInPostBinding binding = ItemWorkerRequestInPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new WorkerViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WorkerViewHolder holder, int position) {
-        holder.bindView(list.get(position));
+        holder.bindView(position);
     }
 
     @Override
@@ -42,33 +42,20 @@ public class WorkerRequestInPostAdapter extends RecyclerView.Adapter<WorkerReque
     }
 
     public void setData(ArrayList<Worker> newList){
-        String str = "";
-        String str1 = "";
         this.list.clear();
         this.list.addAll(newList);
-
-        for(Worker w : newList){
-            str += w.getName() + " - ";
-        }
-
-        for(Worker w : list){
-            str1 += w.getName() + " - ";
-        }
-
-        Log.e("tuan", str);
-        Log.e("tuan1", str1);
-
-        notifyDataSetChanged();
     }
 
     public class WorkerViewHolder extends RecyclerView.ViewHolder {
 
-
-        public WorkerViewHolder(ItemWorkerRequestInPostBinding binding, Context context) {
+        ItemWorkerRequestInPostBinding binding;
+        public WorkerViewHolder(ItemWorkerRequestInPostBinding binding) {
             super(binding.getRoot());
+            this.binding = binding;
         }
 
-        public void bindView(Worker worker){
+        public void bindView(int position){
+            Worker worker = list.get(position);
             binding.tvWorkerName.setText(worker.getName());
             binding.tvRate.setText(""+worker.getRate().getRateAverage());
             binding.tvReviewNumber.setText(worker.getTotalReviews() + " reviews");
