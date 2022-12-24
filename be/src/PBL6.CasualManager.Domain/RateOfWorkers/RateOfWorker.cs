@@ -1,4 +1,5 @@
 ﻿using PBL6.CasualManager.CustomerInfos;
+using PBL6.CasualManager.Orders;
 using PBL6.CasualManager.WorkerInfos;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,8 @@ namespace PBL6.CasualManager.RateOfWorkers
         public Guid WorkerId { get; set; }
 
         public Guid CustomerId { get; set; }
+
+        public Guid OrderId { get; set; }
 
         [Required]
         [Range(1, 5)]
