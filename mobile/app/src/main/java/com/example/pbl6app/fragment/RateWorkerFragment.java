@@ -68,7 +68,12 @@ public class RateWorkerFragment extends FragmentBase {
             binding.ratingBarAttitude.setRating(rate.getAttitudeRateAverage());
             binding.ratingBarPleasure.setRating(rate.getPleasureRateAverage());
             binding.ratingBarSkill.setRating(rate.getSkillRateAverage());
-            binding.edtComment.setText(rate.getComment() + " ");
+            if(rate.getComment()!=null){
+                binding.edtComment.setText(rate.getComment() + " ");
+            }
+            else{
+                binding.edtComment.setText("Không có bình luận");
+            }
             binding.edtComment.setEnabled(false);
             binding.ratingBarAttitude.setIsIndicator(true);
             binding.ratingBarPleasure.setIsIndicator(true);

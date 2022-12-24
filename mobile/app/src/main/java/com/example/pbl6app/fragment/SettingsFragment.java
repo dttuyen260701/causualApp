@@ -131,6 +131,7 @@ public class SettingsFragment extends FragmentBase{
             getActivity().finish();
         });
 
+
         btnChangeDialog.setText("Đăng xuất");
 
         dialog.show();

@@ -183,8 +183,8 @@ public class OrderDetailFragment extends FragmentBase {
         binding.btnCancel.setOnClickListener(view -> {
             Methods.showDialog(
                     R.drawable.sad_dialog,
-                    "Cảnh báo!!!",
-                    "Bạn sẽ hủy đơn này, bạn có chắc muốn hủy?.",
+                    "Cảnh báo",
+                    "Bạn sẽ hủy đơn này, bạn có chắc muốn hủy?",
                     "Không",
                     "Hủy đơn",
                     new ListenerDialog() {
@@ -215,7 +215,7 @@ public class OrderDetailFragment extends FragmentBase {
                                         child(item.getId()).
                                         setValue(item);
                                 backToPreviousFrag();
-                                Methods.makeToast("Bạn đã hủy đơn này.");
+                                Methods.makeToast("Bạn đã hủy đơn này");
                             });
                         }
                     }
@@ -235,8 +235,8 @@ public class OrderDetailFragment extends FragmentBase {
                         if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
                             Methods.showDialog(
                                     R.drawable.smile_dialog,
-                                    "Bắt đầu di chuyển!!!",
-                                    "Bạn sẽ được chuyển hướng sang google map và chia sẻ vị trí cho người dùng.",
+                                    "Bắt đầu di chuyển",
+                                    "Bạn sẽ được chuyển hướng sang Google Map và chia sẻ vị trí cho người dùng.",
                                     "Tôi chưa bắt đầu",
                                     "Bắt đầu",
                                     new ListenerDialog() {
@@ -248,7 +248,7 @@ public class OrderDetailFragment extends FragmentBase {
 
                                         @Override
                                         public void onNoClick(Dialog dialog) {
-                                            Methods.makeToast("Bạn vui lòng thực hiện đơn đã nhận sớm nhất có thể!");
+                                            Methods.makeToast("Bạn vui lòng thực hiện đơn đã nhận sớm nhất có thể");
                                             dialog.dismiss();
                                         }
 
@@ -277,10 +277,10 @@ public class OrderDetailFragment extends FragmentBase {
                         } else {
                             Methods.showDialog(
                                     R.drawable.sad_dialog,
-                                    "Bạn đã chờ quá lâu!!!",
-                                    "Nếu bạn cảm thấy quá lâu vui lòng liên hệ thợ hoặc liên hệ chúng tôi hoặc hủy đơn.",
+                                    "Bạn đã chờ quá lâu",
+                                    "Nếu bạn cảm thấy quá lâu vui lòng liên hệ thợ hoặc liên hệ chúng tôi hoặc hủy đơn",
                                     "Tôi sẽ chờ",
-                                    "Liên hệ chúng tôi",
+                                    "Liên hệ",
                                     new ListenerDialog() {
 
                                         @Override
@@ -290,7 +290,7 @@ public class OrderDetailFragment extends FragmentBase {
 
                                         @Override
                                         public void onNoClick(Dialog dialog) {
-                                            Methods.makeToast("Hãy chờ thêm một chút nhé!");
+                                            Methods.makeToast("Hãy chờ thêm một chút nhé");
                                             dialog.dismiss();
                                         }
 
@@ -307,8 +307,8 @@ public class OrderDetailFragment extends FragmentBase {
                         if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
                             Methods.showDialog(
                                     R.drawable.smile_dialog,
-                                    "Đã bắt đầu công việc!!!",
-                                    "Bạn đã đến nơi thực hiện công việc, xác nhận để bắt đầu làm việc.",
+                                    "Đã bắt đầu công việc",
+                                    "Bạn đã đến nơi thực hiện công việc,hãy xác nhận để bắt đầu làm việc",
                                     "Chưa đến",
                                     "Xác nhận",
                                     new ListenerDialog() {
@@ -340,7 +340,7 @@ public class OrderDetailFragment extends FragmentBase {
                                                         setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
-                                                                Methods.makeToast("Đã thông báo đến khách hàng bạn đang thực hiện công việc.");
+                                                                Methods.makeToast("Đã thông báo đến khách hàng bạn đang thực hiện công việc");
                                                             }
                                                         });
                                             });
@@ -355,7 +355,7 @@ public class OrderDetailFragment extends FragmentBase {
                         if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
                             Methods.showDialog(
                                     R.drawable.smile_dialog,
-                                    "Hoàn thành công việc!!!",
+                                    "Hoàn thành công việc",
                                     "Bạn đã hoàn thành công việc, vui lòng xác nhận với hệ thống và thông báo cho khách hàng.",
                                     "Chưa hoàn thành",
                                     "Đã hoàn thành",
@@ -384,7 +384,7 @@ public class OrderDetailFragment extends FragmentBase {
                                                         child(item.getCustomerId()).
                                                         child(item.getId()).
                                                         setValue(item).addOnCompleteListener(task ->
-                                                                Methods.makeToast("Đã thông báo đến khách hàng bạn đã hoàn thành công việc.")
+                                                                Methods.makeToast("Đã thông báo đến khách hàng bạn đã hoàn thành công việc")
                                                         );
                                             });
                                         }
@@ -525,7 +525,7 @@ public class OrderDetailFragment extends FragmentBase {
                 Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 startActivity(unrestrictedIntent);
             } catch (ActivityNotFoundException innerEx) {
-                Methods.makeToast("Vui lòng cài đặt Google Map !");
+                Methods.makeToast("Vui lòng cài đặt Google Map");
             }
         }
     }

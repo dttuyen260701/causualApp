@@ -19,10 +19,11 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ivUseThumb"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="12dp"
             android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +36,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:text="Name"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/ivUseThumb"

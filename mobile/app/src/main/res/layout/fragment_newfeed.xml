@@ -85,7 +85,6 @@
                             android:text="TextView"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/tvDescripFragUserHome"
                             app:layout_constraintStart_toEndOf="@+id/imageView2"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -97,6 +96,7 @@
                             android:layout_marginBottom="5dp"
                             android:textColor="@color/black"
                             android:textSize="13sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/tvNameFragUserHome"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -183,10 +183,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:visibility="gone"
+                    android:layout_marginBottom="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/rclViewData"
                     app:layout_constraintVertical_weight="1">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -225,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"

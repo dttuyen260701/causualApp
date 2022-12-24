@@ -222,52 +222,19 @@ public class ProfileFragment extends FragmentBase {
             showDatePickerDialog();
         });
 
-//        binding.imvEdit.setOnClickListener(view -> {
-//            binding.imvEdit.setVisibility(View.GONE);
-//            binding.imvSave.setVisibility(View.VISIBLE);
-//            binding.edtAddress.setEnabled(true);
-//            binding.edtAge.setEnabled(true);
-//            binding.edtName.setEnabled(true);
-//            binding.edtPhone.setEnabled(true);
-//            binding.imvAddAva.setEnabled(true);
-//            binding.edtGender.setEnabled(true);
-//            binding.tvProvince.setEnabled(true);
-//            binding.tvDistrict.setEnabled(true);
-//            binding.edtAddress.setEnabled(true);
-//            binding.tvWard.setEnabled(true);
-//        });
-
-        binding.imvSave.setOnClickListener(view -> {
-
-            if (binding.tvWarningAdress.getVisibility() == View.VISIBLE
-                    || binding.tvWarningName.getVisibility() == View.VISIBLE
-                    || binding.tvWarningPhone.getVisibility() == View.VISIBLE
-                    || idDistrictChosen.equals("")
-                    || idWardChosen.equals("")) {
-
-                Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-
-            } else {
-
+        if (binding.tvWarningAdress.getVisibility() == View.VISIBLE
+                || binding.tvWarningName.getVisibility() == View.VISIBLE
+                || binding.tvWarningPhone.getVisibility() == View.VISIBLE
+                || idDistrictChosen.equals("")
+                || idWardChosen.equals("")) {
+            binding.imvSave.setSelected(false);
+        } else {
+            binding.imvSave.setSelected(true);
+            binding.imvSave.setOnClickListener(view -> {
                 onSubmitData();
-
-//                binding.imvEdit.setVisibility(View.VISIBLE);
-//                binding.imvSave.setVisibility(View.GONE);
-//                binding.edtAddress.setEnabled(false);
-//                binding.edtAge.setEnabled(false);
-//                binding.edtName.setEnabled(false);
-//                binding.edtPhone.setEnabled(false);
-//                binding.imvAddAva.setEnabled(false);
-//                binding.edtGender.setEnabled(false);
-//                binding.tvProvince.setEnabled(false);
-//                binding.tvDistrict.setEnabled(false);
-//                binding.tvWard.setEnabled(false);
-//                binding.edtAddress.setEnabled(false);
-//                binding.tvWard.setEnabled(false);
-
-            }
-        });
-
+            });
+        }
+        
         binding.imvAddAva.setOnClickListener(view -> {
             showDialog();
         });

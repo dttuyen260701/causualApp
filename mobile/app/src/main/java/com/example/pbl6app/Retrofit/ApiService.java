@@ -138,8 +138,8 @@ public interface ApiService {
     @POST("/api/app/post-of-demand/{userId}/create")
     Call<ResponseRetrofit<PostOfDemand>> createNewPost(@Body Map<String, String> options,@Path("userId") String idUser);
 
-    @GET("/api/app/{id}/post-of-demand")
-    Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemandCustomer(@Path("id") String idUser);
+    @GET("/api/app/{id}/post-of-demand?PageIndex=0&PageSize=10&Keyword=")
+    Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> getListPostOfDemandCustomer(@Path("id") String idUser);
 
     @GET("/api/app/worker-info/{id}/detail")
     Call<ResponseRetrofit<WorkerDetail>> getWorkerDetail(@Path("id") String id);
@@ -173,10 +173,6 @@ public interface ApiService {
 
     @GET("api/app/post-of-demand/{workerId}/delete-response/{postOfDemandId}")
     Call<ResponseRetrofit<Object>> deleteWorkerResponsePostOfDemand(@Path("workerId") String workerId, @Path("postOfDemandId") String postId);
-
-
-//    @POST("matrix/insertMatrix.php")
-//    Call<ResponseRetrofit<>> insert_Matrix(@Body );
 
     @GET("/api/app/rate-of-worker/rate-worker-of-order/{orderId}")
     Call<ResponseRetrofit<Rate>> getRateByOrderId(@Path("orderId") String orderId);

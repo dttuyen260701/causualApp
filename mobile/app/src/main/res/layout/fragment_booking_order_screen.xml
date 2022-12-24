@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toTopOf="@+id/task"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -104,12 +104,12 @@
                         android:layout_marginVertical="10dp"
                         android:background="@drawable/bg_worker_item"
                         android:paddingHorizontal="12dp"
-                        android:paddingVertical="8dp">
+                        android:paddingVertical="7dp">
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/imgWorkerLineItem"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
                             android:scaleType="centerCrop"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/layout"
