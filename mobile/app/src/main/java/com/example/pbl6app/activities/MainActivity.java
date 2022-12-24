@@ -77,13 +77,13 @@ public class MainActivity extends BaseActivity {
                     if (isRunning) {
                         Methods.showDialog(
                                 R.drawable.smile_dialog,
-                                "Bạn có " + listData.size() + " yêu cầu công việc mới!!!",
-                                ((listData.size() > 1) ? "Bao gồm yêu cầu " : "Yêu cầu") +
+                                "Bạn có " + listData.size() + " yêu cầu công việc mới",
+                                ((listData.size() > 1) ? "Bao gồm yêu cầu " : "Yêu cầu ") +
                                         listData.get(0).getJobInfoName() +
-                                        " được yêu cầu từ " + listData.get(0).getCustomerName() +
+                                        " từ " + listData.get(0).getCustomerName() +
                                         ((listData.size() > 1) ? " và những yêu cầu khác" : ""),
                                 "Xem sau",
-                                "Xem chi tiết",
+                                "Xem ngay",
                                 new ListenerDialog() {
 
                                     @Override

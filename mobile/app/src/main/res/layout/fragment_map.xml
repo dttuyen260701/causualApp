@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_Map"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toTopOf="@+id/searchView_Map_Frag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
                 android:id="@+id/txt_Tittle_Map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pick You Address"
+                android:text="Chọn địa chỉ của bạn"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"

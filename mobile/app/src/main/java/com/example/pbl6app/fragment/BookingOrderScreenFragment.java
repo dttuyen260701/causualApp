@@ -132,7 +132,7 @@ public class BookingOrderScreenFragment extends FragmentBase {
 
         binding.btnConfirmJob.setOnClickListener(view -> {
             if (idJobInfo.getId().equals("")) {
-                Methods.makeToast("Vui lòng chọn công việc!");
+                Methods.makeToast("Vui lòng chọn công việc");
             } else {
                 if(Constant.USER.getLastModificationTime() == null) {
                     Methods.showDialog(
@@ -191,10 +191,10 @@ public class BookingOrderScreenFragment extends FragmentBase {
 
                         Methods.showDialog(
                                 R.drawable.smile_dialog,
-                                "Tuyệt vời !!!",
-                                "Yêu cầu của bạn đã được gửi đến thợ !!!",
+                                "Tuyệt vời",
+                                "Yêu cầu của bạn đã được gửi đến thợ",
                                 "Trở về",
-                                "Đơn đã yêu cầu",
+                                "Xem đơn",
                                 new ListenerDialog() {
                                     @Override
                                     public void onDismiss() {

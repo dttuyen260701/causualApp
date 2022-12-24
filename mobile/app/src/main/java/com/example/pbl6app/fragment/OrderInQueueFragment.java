@@ -147,7 +147,7 @@ public class OrderInQueueFragment extends FragmentBase {
             Methods.showDialog(
                     R.drawable.sad_dialog,
                     "Từ chối",
-                    "Bạn có chắc muốn từ chối đơn hàng này",
+                    "Bạn có chắc chắn muốn từ chối đơn hàng này?",
                     "Hủy",
                     "Từ chối",
                     new ListenerDialog() {
@@ -174,7 +174,7 @@ public class OrderInQueueFragment extends FragmentBase {
             Methods.showDialog(
                     R.drawable.smile_dialog,
                     "Chấp nhận",
-                    "Bạn có chắc muốn chấp nhận và thực hiện đơn hàng này",
+                    "Bạn có chắc chắn muốn chấp nhận và thực hiện đơn hàng này?",
                     "Hủy",
                     "Thực hiện",
                     new ListenerDialog() {

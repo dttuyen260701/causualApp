@@ -85,7 +85,7 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
                     break;
             }
             if(!order.isRead()) {
-                binding.layoutOrderItemLine.setBackgroundColor(Color.parseColor("#98bb55"));
+                binding.layoutOrderItemLine.setCardBackgroundColor(Color.parseColor("#f5f9fc"));
             }
             Picasso.get().load(Constant.BASE_URL + ((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerImage() : order.getWorkerImage())).into(binding.imgItem);
             binding.tvItem.setText(listData.get(position).getJobInfoName());

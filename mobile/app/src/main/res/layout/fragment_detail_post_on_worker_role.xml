@@ -80,17 +80,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
             <TextView
-                android:id="@+id/tvAddress"
-                android:layout_width="0dp"
-                android:layout_height="21dp"
+                android:id="@+id/titleAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="30dp"
-                android:text="name"
+                android:layout_marginStart="30dp"
+                android:text="Địa chỉ: "
                 android:textColor="@color/chinese_black"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:layout_constraintEnd_toStartOf="@+id/tvAddress"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="name"
+                android:maxLines="2"
+                android:textColor="@color/chinese_black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintWidth_percent="0.75"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/titleAddress"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <TextView

@@ -46,9 +46,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancelDialog"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
             android:layout_weight="1"
             android:background="@drawable/bg_cancel_btn_exit_dialog"
@@ -59,9 +59,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnChangeDialog"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
             android:layout_weight="1"
             android:background="@drawable/bg_ext_btn_exit_dialog"

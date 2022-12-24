@@ -90,12 +90,12 @@ public class MainActivityUser extends BaseActivity {
                     if (isRunning) {
                         Methods.showDialog(
                                 (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog,
-                                "Kết quả",
+                                "Thông báo",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
                                         + ((countReject > 0) ? (" và " + countReject + " đơn đã bị từ chối") : ""),
-                                "Đơn từ chối",
-                                "Đơn được nhận",
+                                (countReject > 0) ? "Đơn từ chối" : "",
+                                (countAccept > 0) ? "Đơn đã nhận" : "",
                                 new ListenerDialog() {
                                     @Override
                                     public void onDismiss() {
