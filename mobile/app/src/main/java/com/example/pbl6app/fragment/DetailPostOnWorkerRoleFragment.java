@@ -1,5 +1,6 @@
 package com.example.pbl6app.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pbl6app.Adapters.WorkerRequestInPostAdapter;
+import com.example.pbl6app.Listeners.ListenerDialog;
+import com.example.pbl6app.Listeners.OnItemCLickListener;
+import com.example.pbl6app.Models.Order;
 import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.Models.Rate;
 import com.example.pbl6app.Models.Worker;
@@ -25,6 +29,7 @@ import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.Utils.Methods;
+import com.example.pbl6app.activities.MainActivityUser;
 import com.example.pbl6app.databinding.FragmentDetailPostOnWorkerRoleBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -97,10 +102,10 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                     requestList.add(item.getValue(Worker.class));
                 }
 
-                if(requestList.isEmpty()){
+                if (requestList.isEmpty()) {
                     binding.tvNoWorker.setVisibility(View.VISIBLE);
                     binding.rv.setVisibility(View.GONE);
-                }else {
+                } else {
                     binding.tvNoWorker.setVisibility(View.GONE);
                     binding.rv.setVisibility(View.VISIBLE);
                 }
@@ -122,7 +127,13 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     }
 
     private void initRecyclerview() {
-        mAdapter = new WorkerRequestInPostAdapter(listWorkerRequesting);
+        mAdapter = new WorkerRequestInPostAdapter(
+                listWorkerRequesting,
+                item -> addFragment(new ListRateWorkerFragment(item), R.id.ctFragmentUser),
+                item -> {
+
+                }
+        );
         binding.rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rv.setHasFixedSize(true);
         binding.rv.setAdapter(mAdapter);
@@ -257,7 +268,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
         FirebaseRepository.PickPostChild.child(mPodID).addValueEventListener(valueEventListener);
     }
 
-    private void handleDeleteWorkerFromRequestListFirebase(){
+    private void handleDeleteWorkerFromRequestListFirebase() {
         FirebaseRepository.PickPostChild.child(mPodID).get().addOnCompleteListener(task -> {
 
             ArrayList<Worker> requestList = new ArrayList<>();
@@ -265,7 +276,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
             for (DataSnapshot item : task.getResult().getChildren()) {
                 Worker w = item.getValue(Worker.class);
 
-                if(!w.getId().equals(Constant.USER.getId())){
+                if (!w.getId().equals(Constant.USER.getId())) {
                     requestList.add(w);
                 }
             }
@@ -331,6 +342,74 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                 }
             });
         }
+    }
+
+    public void createOrder(Worker worker) {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
+        Map<String, String> options = new HashMap<>();
+        options.put("workerId", worker.getId());
+        options.put("jobInfoId", mPOD.getJobInfoId());
+        options.put("note", mPOD.getNote());
+        options.put("addressPoint", mPOD.getAddressPoint());
+        options.put("address", mPOD.getAddress());
+        options.put("status", String.valueOf(Constant.ACCEPT_STATUS));
+
+        ApiService.apiService.createOrder(Constant.USER.getId(), options).enqueue(new Callback<ResponseRetrofit<Order>>() {
+            @Override
+            public void onResponse(Call<ResponseRetrofit<Order>> call, Response<ResponseRetrofit<Order>> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    if (response.body().isSuccessed()) {
+                        FirebaseRepository.
+                                PickWorkerChild.
+                                child(worker.getId()).
+                                child(response.body().getResultObj().getId()).
+                                setValue(response.body().getResultObj());
+
+                        Methods.showDialog(
+                                R.drawable.smile_dialog,
+                                "Tuyệt vời !!!",
+                                "Yêu cầu công việc của bạn đã được gửi đến thợ",
+                                "Trở về",
+                                "Đơn đang thực hiện",
+                                new ListenerDialog() {
+                                    @Override
+                                    public void onDismiss() {
+
+                                    }
+
+                                    @Override
+                                    public void onNoClick(Dialog dialog) {
+                                        dialog.dismiss();
+                                        backToPreviousFrag();
+                                    }
+
+                                    @Override
+                                    public void onYesClick(Dialog dialog) {
+                                        StatusFragment.setOrderId(response.body().getResultObj().getId());
+                                        StatusFragment.setForWaiting(true);
+                                        MainActivityUser.setIdNavigate(R.id.menu_status);
+                                        dialog.dismiss();
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRetrofit<Order>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                Log.e("CHANGE_PASS", "onFailure: ", t);
+                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

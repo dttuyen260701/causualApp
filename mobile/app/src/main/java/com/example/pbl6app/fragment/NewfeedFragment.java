@@ -7,16 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.pbl6app.Adapters.NewsPostAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
@@ -57,13 +52,6 @@ public class NewfeedFragment extends FragmentBase {
         initView();
         initListener();
 
-        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initView();
-            }
-        });
-
 
     }
 
@@ -73,7 +61,7 @@ public class NewfeedFragment extends FragmentBase {
         initView();
     }
 
-    void initWorker(){
+    void initWorker() {
         binding.layoutHeaderFragUserHome.setVisibility(View.VISIBLE);
         binding.appbar.setVisibility(View.GONE);
         Picasso.get().load(Constant.BASE_URL + Constant.USER.getAvatar()).networkPolicy(NetworkPolicy.NO_CACHE)
@@ -99,7 +87,10 @@ public class NewfeedFragment extends FragmentBase {
         binding.appbar.setVisibility(View.VISIBLE);
         binding.btnOpenCreatePostScreen.setVisibility(View.VISIBLE);
         binding.btnOpenCreatePostScreen.setOnClickListener(v -> {
-            addFragment(new CreateNewPostFragment(), R.id.ctFragmentUser);
+            addFragment(new CreateNewPostFragment(item -> {
+                loadDataCustomer();
+                binding.btnOpenCreatePostScreen.setVisibility(View.VISIBLE);
+            }), R.id.ctFragmentUser);
             binding.btnOpenCreatePostScreen.setVisibility(View.GONE);
         });
     }
@@ -156,9 +147,7 @@ public class NewfeedFragment extends FragmentBase {
                 binding.refreshLayout.setRefreshing(false);
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
-                        listData.clear();
-                        listData.addAll(response.body().getResultObj());
-                        adapter.notifyDataSetChanged();
+                        adapter.setList_data(response.body().getResultObj());
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -199,9 +188,7 @@ public class NewfeedFragment extends FragmentBase {
                 binding.refreshLayout.setRefreshing(false);
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
-                        listData.clear();
-                        listData.addAll(response.body().getResultObj().getItems());
-                        adapter.notifyDataSetChanged();
+                        adapter.setList_data(response.body().getResultObj().getItems());
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();

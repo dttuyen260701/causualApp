@@ -175,6 +175,7 @@ public class BookingOrderScreenFragment extends FragmentBase {
         options.put("note", binding.edtNote.getText().toString());
         options.put("addressPoint", userPoint);
         options.put("address", userAddress);
+        options.put("status", String.valueOf(Constant.WAITING_STATUS));
 
         ApiService.apiService.createOrder(Constant.USER.getId(), options).enqueue(new Callback<ResponseRetrofit<Order>>() {
             @Override

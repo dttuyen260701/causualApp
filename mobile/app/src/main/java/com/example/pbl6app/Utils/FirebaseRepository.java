@@ -16,4 +16,6 @@ public class FirebaseRepository {
     public final static DatabaseReference UpdateOrderChild = myRef.child("Order");
 
     public final static DatabaseReference PickPostChild = myRef.child("Post");
+
+    public final static DatabaseReference ResponsePost = myRef.child("ResponsePost");
 }

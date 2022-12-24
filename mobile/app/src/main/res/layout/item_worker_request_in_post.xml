@@ -2,11 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutIem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/white"
     android:layout_marginHorizontal="30dp"
     android:layout_marginVertical="5dp"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,12 +34,15 @@
             android:id="@+id/tvWorkerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
             android:text="Name"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/imageView8"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/ivUseThumb"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
@@ -71,9 +75,11 @@
             android:id="@+id/imageView8"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="20dp"
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="@+id/tvWorkerName"
+            app:layout_constraintEnd_toStartOf="@+id/tvRate"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tvWorkerName"
             app:layout_constraintTop_toTopOf="@+id/tvWorkerName" />
 
@@ -81,21 +87,23 @@
             android:id="@+id/tvRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
             android:text="5.0"
             android:textColor="@color/chinese_black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+            app:layout_constraintEnd_toStartOf="@+id/btnAcceptWorker"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView8"
             app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
         <RelativeLayout
+            android:id="@+id/btnAcceptWorker"
             android:layout_width="60dp"
             android:layout_height="0dp"
+            android:background="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/primaryColor">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageView6"
@@ -103,7 +111,7 @@
                 android:layout_height="17dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_check"
-                app:tint="@color/white"/>
+                app:tint="@color/white" />
         </RelativeLayout>
 
 
