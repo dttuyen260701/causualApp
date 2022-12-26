@@ -43,10 +43,12 @@ public class OrderInQueueFragment extends FragmentBase {
     private Order order;
     private String orderId;
     private OnItemCLickListener<Order> listener;
+    private OnItemCLickListener<Object> onEndListener;
 
-    public OrderInQueueFragment(String orderId, OnItemCLickListener<Order> listener) {
+    public OrderInQueueFragment(String orderId, OnItemCLickListener<Order> listener, OnItemCLickListener<Object> onEndListener) {
         this.orderId = orderId;
         this.listener = listener;
+        this.onEndListener = onEndListener;
     }
 
     @Nullable
@@ -317,6 +319,7 @@ public class OrderInQueueFragment extends FragmentBase {
 
     @Override
     public void onDestroy() {
+        onEndListener.onItemClick(new Object());
         super.onDestroy();
     }
 }

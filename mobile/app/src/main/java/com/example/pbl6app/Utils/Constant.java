@@ -3,6 +3,7 @@ package com.example.pbl6app.Utils;
 import com.example.pbl6app.Models.User;
 
 public class Constant {
+    public static final int BUSY_STATUS = 1;
     public static final int ROLE_WORKER = 1;
     public static final int ROLE_CUSTOMER = 0;
     public static String BASE_URL = "https://f427-14-250-209-246.ap.ngrok.io";
@@ -37,4 +38,6 @@ public class Constant {
     public static String pass = "";
 
     public static User USER = new User();
+
+    public static int DEFAULT_PAGE_SIZE = 10;
 }

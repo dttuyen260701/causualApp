@@ -76,7 +76,9 @@ public class StatusFragment extends FragmentBase {
                     forWaiting = false;
                     orderId = "";
                     if (item.getStatus() == Constant.ACCEPT_STATUS) {
-                        addFragment(new OrderDetailFragment(item.getId()), R.id.ctFragmentUser);
+                        addFragment(new OrderDetailFragment(item.getId(), object -> {
+
+                        }), R.id.ctFragmentUser);
                         binding.tabLayout.selectTab(binding.tabLayout.getTabAt(1));
                         binding.viewPager.setCurrentItem(1);
                     } else if (item.getStatus() == Constant.REJECT_STATUS) {
@@ -96,9 +98,11 @@ public class StatusFragment extends FragmentBase {
                 public void onItemClick(Order item) {
 
                 }
-            }), R.id.ctFragmentUser);
+            }, object -> {}), R.id.ctFragmentUser);
         } else if (!orderId.equals("")) {
-            addFragment(new OrderDetailFragment(orderId), R.id.ctFragmentUser);
+            addFragment(new OrderDetailFragment(orderId, object -> {
+
+            }), R.id.ctFragmentUser);
         }
     }
 

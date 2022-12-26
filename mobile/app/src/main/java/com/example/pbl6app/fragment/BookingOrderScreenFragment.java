@@ -144,7 +144,7 @@ public class BookingOrderScreenFragment extends FragmentBase {
                             new ListenerDialog() {
                                 @Override
                                 public void onDismiss() {
-                                    FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeValue();
+
                                 }
 
                                 @Override

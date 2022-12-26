@@ -136,7 +136,7 @@ public class Methods {
         Toast.makeText(Methods.context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void sendNotification(String title, String content, int drawable, int responseCode, boolean forNewChannel) {
+    public static void sendNotification(String title, String content, int drawable, int responseCode, int forNewChannel) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constant.CHANNEL_ID);
         Intent intent = new Intent(context,
                 (Constant.USER.getId().isEmpty())
@@ -160,9 +160,9 @@ public class Methods {
         builder.setAutoCancel(true);
         builder.setContentText(content);
 
-        NotificationManagerCompat.from(context).notify((forNewChannel) ?
+        NotificationManagerCompat.from(context).notify((forNewChannel == -1) ?
                 Integer.parseInt(String.valueOf(Calendar.getInstance().getTimeInMillis()).substring(4)) :
-                123, builder.build());
+                forNewChannel, builder.build());
     }
 
     public static String getPastTimeString(String dateString) {

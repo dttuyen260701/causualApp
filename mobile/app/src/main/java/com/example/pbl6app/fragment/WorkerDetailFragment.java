@@ -74,6 +74,8 @@ public class WorkerDetailFragment extends FragmentBase {
         binding.ratingBarReviewFirstRow.setRating(worker.getRate().getRateAverage());
         binding.totalReviews.setText("(" + worker.getTotalReviews() + " đánh giá)");
 
+        binding.statusPoint.setSelected(worker.isWorkerStatus() == Constant.BUSY_STATUS);
+
         adapter = new JobInfoAdapter(worker.getListJobList(), new OnItemCLickListener<JobInfo>() {
             @Override
             public void onItemClick(JobInfo item) {
