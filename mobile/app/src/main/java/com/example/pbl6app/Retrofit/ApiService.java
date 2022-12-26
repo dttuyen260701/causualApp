@@ -24,6 +24,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
@@ -45,6 +46,7 @@ public interface ApiService {
             addConverterFactory(GsonConverterFactory.create(gson)).
             build().
             create(ApiService.class);
+
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json; charset=utf-8"
@@ -108,7 +110,7 @@ public interface ApiService {
     Call<ArrayList<AddressTemp>> getDistrict(@Path("id") String id);
 
     @GET("/api/app/address/{id}/wards")
-    Call<ArrayList<AddressTemp>> getWard (@Path("id") String id);
+    Call<ArrayList<AddressTemp>> getWard(@Path("id") String id);
 
     @GET("api/app/type-of-job/all-type")
     Call<ResponseRetrofit<ArrayList<TypeOfJob>>> getTypeOfJob();
@@ -120,14 +122,21 @@ public interface ApiService {
     Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListWorkerByIDUser(@Path("id") String id);
 
     @GET("/api/app/worker-info/worker-by-type-of-job/")
-    Call<ResponseRetrofit<ArrayList<WorkerDetail>>> getListWorkerByIDTypeOfJob(@Query("idUser") String idUser,
-                                                                               @Query("idJobInfo") String idJobInfo);
+    Call<ResponseRetrofit<ItemPaging<ArrayList<WorkerDetail>>>> getListWorkerByIDTypeOfJob(
+            @Query("idUser") String idUser,
+            @Query("idJobInfo") String idJobInfo,
+            @Query("PageIndex") int pageIndex,
+            @Query("PageSize") int pageSize
+    );
 
     @GET("/api/app/job-info/{id}/job-info-vm-belong-to-type-of-job")
     Call<ResponseRetrofit<ArrayList<JobInfo>>> getListJobInfo(@Path("id") String idTypeOfJob);
 
-    @GET("/api/app/post-of-demand/{id}/get-post-for-worker/")
-    Call<ResponseRetrofit<ArrayList<PostOfDemand>>> getListPostOfDemand(@Path("id") String idUser);
+    @GET("/api/app/post-of-demand/{id}/get-post-for-worker")
+    Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> getListPostOfDemand(
+            @Path("id") String idUser,
+            @Query("PageIndex") int pageIndex,
+            @Query("PageSize") int pageSize);
 
     @GET("api/app/post-of-demand/{id}/detail")
     Call<ResponseRetrofit<PostOfDemand>> getPostOfDemandById(@Path("id") String podID);
@@ -138,8 +147,11 @@ public interface ApiService {
     @POST("/api/app/post-of-demand/{userId}/create")
     Call<ResponseRetrofit<PostOfDemand>> createNewPost(@Body Map<String, String> options,@Path("userId") String idUser);
 
-    @GET("/api/app/{id}/post-of-demand?PageIndex=0&PageSize=10&Keyword=")
-    Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> getListPostOfDemandCustomer(@Path("id") String idUser);
+    @GET("/api/app/{id}/post-of-demand/")
+    Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> getListPostOfDemandCustomer(
+            @Path("id") String idUser,
+            @Query("PageIndex") int pageIndex,
+            @Query("PageSize") int pageSize);
 
     @GET("/api/app/worker-info/{id}/detail")
     Call<ResponseRetrofit<WorkerDetail>> getWorkerDetail(@Path("id") String id);
@@ -154,7 +166,12 @@ public interface ApiService {
     Call<ResponseRetrofit<Order>> updateStatusOrder(@Path("idOrder") String idOrder, @Query("status") int OrderStatus);
 
     @GET("/api/app/order/{userId}/list-order-by-status")
-    Call<ResponseRetrofit<ArrayList<Order>>> getOrderByStatus(@Path("userId") String userId, @Query("status") int OrderStatus);
+    Call<ResponseRetrofit<ItemPaging<ArrayList<Order>>>> getOrderByStatus(
+            @Path("userId") String userId,
+            @Query("status") int OrderStatus,
+            @Query("PageIndex") int pageIndex,
+            @Query("PageSize") int pageSize
+    );
 
     @POST("/api/app/rate-of-worker/{customerId}/create-rate")
     Call<ResponseRetrofit<Rate>> createNewRate(@Body Map<String, String> options,@Path("customerId") String customerId);
@@ -171,10 +188,12 @@ public interface ApiService {
     @POST("api/app/post-of-demand/create-worker-response")
     Call<ResponseRetrofit<Worker>> requestPostOfDemandForWorker(@Body Map<String, String> body);
 
-    @GET("api/app/post-of-demand/{workerId}/delete-response/{postOfDemandId}")
+    @DELETE("api/app/post-of-demand/{workerId}/delete-response/{postOfDemandId}")
     Call<ResponseRetrofit<Object>> deleteWorkerResponsePostOfDemand(@Path("workerId") String workerId, @Path("postOfDemandId") String postId);
 
     @GET("/api/app/rate-of-worker/rate-worker-of-order/{orderId}")
     Call<ResponseRetrofit<Rate>> getRateByOrderId(@Path("orderId") String orderId);
 
+    @PUT("/api/app/post-of-demand/{id}/unactive")
+    Call<ResponseRetrofit<Object>> unActivePOD(@Path("id") String mPodId);
 }

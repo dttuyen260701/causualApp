@@ -10,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.pbl6app.Adapters.NewsPostAdapter;
 import com.example.pbl6app.Listeners.ListenerDialog;
 import com.example.pbl6app.Models.ObjectTracking;
 import com.example.pbl6app.Models.Order;
+import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.Models.User;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
@@ -35,12 +37,13 @@ import java.util.ArrayList;
 public class MainActivityUser extends BaseActivity {
 
     private static ActivityMainUserBinding binding;
-    private static ValueEventListener valueEventListenerOrderResponse;
+    private static ValueEventListener valueEventListenerOrderResponse, valueEventListenerPODResponse;
     private static ChildEventListener childEventListenerOrderStatus, childEventListenerTracking;
     private static int countAccept = 0, countReject = 0;
     private static Boolean isRunning = true;
     private static Order orderUpdate = new Order();
     private static final ArrayList<Order> listData = new ArrayList<>();
+    private static final ArrayList<PostOfDemand> listPOD = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,61 @@ public class MainActivityUser extends BaseActivity {
         binding.bottomNavigationUser.setSelectedItemId(R.id.menu_Home);
         UserHomeFragment fragment = new UserHomeFragment();
         addFragment(fragment, R.id.ctFragmentUser, false);
+
+        valueEventListenerPODResponse = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listPOD.clear();
+                for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
+                    try {
+                        listPOD.add(orderSnapshot.getValue(PostOfDemand.class));
+                    } catch (Exception e) {
+                        Log.e("PARSE_ORDER_WORKER", "onChildAdded: ", e);
+                    }
+
+                }
+                if(listPOD.size() > 0) {
+                    NewfeedFragment.setListNew(listPOD);
+                    if (isRunning) {
+                        Methods.showDialog(
+                                (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog,
+                                "Thông báo",
+                                "Bạn có " + listPOD.size() + " bài đăng có cập nhật mới",
+                                "Xem sau",
+                                "Chi tiết",
+                                new ListenerDialog() {
+                                    @Override
+                                    public void onDismiss() {
+                                        FirebaseRepository.ResponsePost.child(Constant.USER.getId()).removeValue();
+                                    }
+
+                                    @Override
+                                    public void onNoClick(Dialog dialog) {
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onYesClick(Dialog dialog) {
+                                        binding.bottomNavigationUser.setSelectedItemId(R.id.menu_newFeed);
+                                        dialog.dismiss();
+                                    }
+                                }
+                        );
+                    }
+
+                    Methods.sendNotification(
+                            "Kết quả đặt đơn",
+                            "Bạn có " + listPOD.size() + " bài đăng có cập nhật mới",
+                            R.drawable.smile_dialog , isRunning ? 0 : 6, 3);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
 
         valueEventListenerOrderResponse = new ValueEventListener() {
             @Override
@@ -93,7 +151,8 @@ public class MainActivityUser extends BaseActivity {
                                 "Thông báo",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
-                                        + ((countReject > 0) ? (" và " + countReject + " đơn đã bị từ chối") : ""),
+                                        + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                        + ((countReject > 0) ? (countReject + " đơn đã bị từ chối") : ""),
                                 (countReject > 0) ? "Đơn từ chối" : "",
                                 (countAccept > 0) ? "Đơn đã nhận" : "",
                                 new ListenerDialog() {
@@ -104,6 +163,8 @@ public class MainActivityUser extends BaseActivity {
 
                                     @Override
                                     public void onNoClick(Dialog dialog) {
+                                        SettingsFragment.setForHistory(true);
+                                        binding.bottomNavigationUser.setSelectedItemId(R.id.menu_Setting);
                                         dialog.dismiss();
                                     }
 
@@ -121,8 +182,9 @@ public class MainActivityUser extends BaseActivity {
                             "Kết quả đặt đơn",
                             "Bạn có "
                                     + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
-                                    + ((countReject > 0) ? (" và " + countReject + " đơn đã bị từ chối") : ""),
-                            (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog, isRunning ? 0 : 1, false);
+                                    + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                    + ((countReject > 0) ? (countReject + " đơn đã bị từ chối") : ""),
+                            (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog, isRunning ? 0 : 1, 0);
                 }
             }
 
@@ -162,7 +224,7 @@ public class MainActivityUser extends BaseActivity {
                                                 "Có vẻ thợ của bạn đã gần đến nơi, bạn hãy ra đón thợ nhé !!!",
                                                 R.drawable.gif_coming,
                                                 0,
-                                                true
+                                                1
                                         );
                                         FirebaseRepository.TrackingChild.child(orderUpdate.getWorkerId()).removeEventListener(childEventListenerTracking);
                                     }
@@ -229,7 +291,7 @@ public class MainActivityUser extends BaseActivity {
                                     "Thông báo",
                                     "Thợ " + orderUpdate.getWorkerName()
                                             + " đang trên đường đến để thực hiện công việc " + orderUpdate.getJobInfoName() + ".",
-                                    R.drawable.smile_dialog, isRunning ? 0 : 2, true);
+                                    R.drawable.smile_dialog, isRunning ? 0 : 2, 1);
                             break;
                         case Constant.CANCEL_STATUS:
                             if (isRunning) {
@@ -270,7 +332,7 @@ public class MainActivityUser extends BaseActivity {
                                     "Thông báo",
                                     "Thợ " + order.getWorkerName()
                                             + " đã hủy công việc " + order.getJobInfoName() + ".",
-                                    R.drawable.sad_dialog, isRunning ? 0 : 3, true);
+                                    R.drawable.sad_dialog, isRunning ? 0 : 3, 1);
                             break;
                         case Constant.PROCESS_STATUS:
                             if (isRunning) {
@@ -310,7 +372,7 @@ public class MainActivityUser extends BaseActivity {
                                     "Thông báo",
                                     "Thợ " + orderUpdate.getWorkerName()
                                             + " đã đến và đang thực hiện công việc " + orderUpdate.getJobInfoName() + ".",
-                                    R.drawable.sad_dialog, isRunning ? 0 : 4, true);
+                                    R.drawable.sad_dialog, isRunning ? 0 : 4, 1);
                             break;
                         case Constant.COMPLETED_STATUS:
                             if (isRunning) {
@@ -351,7 +413,7 @@ public class MainActivityUser extends BaseActivity {
                                     "Thông báo",
                                     "Thợ " + orderUpdate.getWorkerName()
                                             + " đã hoàn thành công việc " + orderUpdate.getJobInfoName() + ".",
-                                    R.drawable.sad_dialog, isRunning ? 0 : 5, true);
+                                    R.drawable.sad_dialog, isRunning ? 0 : 5, 1);
                             break;
                         default:
                             break;
@@ -379,6 +441,8 @@ public class MainActivityUser extends BaseActivity {
 
             }
         };
+
+        FirebaseRepository.ResponsePost.child(Constant.USER.getId()).addValueEventListener(valueEventListenerPODResponse);
 
         FirebaseRepository.UpdateOrderChild.child(Constant.USER.getId()).addChildEventListener(childEventListenerOrderStatus);
 
@@ -428,9 +492,10 @@ public class MainActivityUser extends BaseActivity {
                                 "Kết quả",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
-                                        + ((countReject > 0) ? (" và " + countReject + " đơn đã bị từ chối") : ""),
-                                "Đơn từ chối",
-                                "Đơn được nhận",
+                                        + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                        + ((countReject > 0) ? (countReject + " đơn đã bị từ chối") : ""),
+                                (countReject > 0) ? "Đơn từ chối" : "",
+                                (countAccept > 0) ? "Đơn đã nhận" : "",
                                 new ListenerDialog() {
                                     @Override
                                     public void onDismiss() {
@@ -533,7 +598,7 @@ public class MainActivityUser extends BaseActivity {
                             new ListenerDialog() {
                                 @Override
                                 public void onDismiss() {
-                                    if(OrderDetailFragment.isIsRunning()) {
+                                    if (OrderDetailFragment.isIsRunning()) {
                                         StatusFragment.setForWaiting(false);
                                         StatusFragment.setOrderId(orderUpdate.getId());
                                         binding.bottomNavigationUser.setSelectedItemId(R.id.menu_status);
@@ -565,7 +630,7 @@ public class MainActivityUser extends BaseActivity {
                             new ListenerDialog() {
                                 @Override
                                 public void onDismiss() {
-                                    if(OrderDetailFragment.isIsRunning()) {
+                                    if (OrderDetailFragment.isIsRunning()) {
                                         SettingsFragment.setForHistory(true);
                                         HistoryFragment.setForCompletedOrder(true);
                                         HistoryFragment.setOrderId(orderUpdate.getId());
@@ -581,6 +646,33 @@ public class MainActivityUser extends BaseActivity {
                                 @Override
                                 public void onYesClick(Dialog dialog) {
                                     OrderDetailFragment.setIsRunning(true);
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+                    break;
+                case 6:
+                    FirebaseRepository.ResponsePost.child(Constant.USER.getId()).removeValue();
+                    Methods.showDialog(
+                            (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog,
+                            "Thông báo",
+                            "Bạn có " + listPOD.size() + " bài đăng có cập nhật mới",
+                            "Xem sau",
+                            "Chi tiết",
+                            new ListenerDialog() {
+                                @Override
+                                public void onDismiss() {
+
+                                }
+
+                                @Override
+                                public void onNoClick(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onYesClick(Dialog dialog) {
+                                    binding.bottomNavigationUser.setSelectedItemId(R.id.menu_newFeed);
                                     dialog.dismiss();
                                 }
                             }
@@ -607,6 +699,8 @@ public class MainActivityUser extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        FirebaseRepository.ResponsePost.child(Constant.USER.getId()).removeEventListener(valueEventListenerPODResponse);
+
         FirebaseRepository.UpdateOrderChild.child(Constant.USER.getId()).removeEventListener(childEventListenerOrderStatus);
 
         FirebaseRepository.PickWorkerChild.child(Constant.USER.getId()).removeEventListener(valueEventListenerOrderResponse);

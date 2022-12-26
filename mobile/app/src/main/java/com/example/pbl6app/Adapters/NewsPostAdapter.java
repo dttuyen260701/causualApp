@@ -4,7 +4,10 @@ package com.example.pbl6app.Adapters;
  */
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.PostOfDemand;
+import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemNewsPostBinding;
 import com.squareup.picasso.Picasso;
@@ -21,10 +25,12 @@ import java.util.ArrayList;
 public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHolder> {
     private ArrayList<PostOfDemand> listNewPost;
     private OnItemCLickListener<PostOfDemand> listener;
+    private ArrayList<PostOfDemand> listNew;
 
-    public NewsPostAdapter(ArrayList<PostOfDemand> listNewPost, OnItemCLickListener<PostOfDemand> listener) {
+    public NewsPostAdapter(ArrayList<PostOfDemand> listNewPost, OnItemCLickListener<PostOfDemand> listener, ArrayList<PostOfDemand> listNew) {
         this.listNewPost = listNewPost;
         this.listener = listener;
+        this.listNew = listNew;
     }
 
     public void setList_data(ArrayList<PostOfDemand> listNewPost) {
@@ -69,9 +75,18 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
                 binding.tvNameUser.setText(Constant.USER.getName());
             }
 
+            if (checkNew(listNewPost.get(position).getId())) {
+                binding.layout.setBackgroundColor(Color.parseColor("#fffee0"));
+                binding.imvIsRead.setImageResource(R.color.primaryColor);
+            } else {
+                binding.layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                binding.imvIsRead.setVisibility(View.GONE);
+            }
 
             binding.layout.setOnClickListener(view -> {
                 listener.onItemClick(listNewPost.get(position));
+                listNew.removeIf(k -> k.getId().equals(listNewPost.get(position).getId()));
+                notifyItemChanged(position);
             });
 
             binding.tvContentPost.setText(listNewPost.get(position).getDescription());
@@ -81,6 +96,16 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
             binding.tvJobInfo.setText("Tên công việc: " + listNewPost.get(position).getJobInfoName());
             binding.tvAddress.setText("Địa chỉ" + listNewPost.get(position).getAddress());
 
+        }
+
+        private boolean checkNew(String idNew) {
+            for (PostOfDemand i : listNew) {
+                Log.e("TTT", "TEST: " + i.getId() + "-" + idNew + i.getId().equals(idNew));
+                if (i.getId().equals(idNew)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

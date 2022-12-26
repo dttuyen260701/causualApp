@@ -2,27 +2,22 @@ package com.example.pbl6app.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.pbl6app.Adapters.WorkerRequestInPostAdapter;
 import com.example.pbl6app.Listeners.ListenerDialog;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.Order;
 import com.example.pbl6app.Models.PostOfDemand;
-import com.example.pbl6app.Models.Rate;
 import com.example.pbl6app.Models.Worker;
-import com.example.pbl6app.Models.WorkerDetail;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
@@ -32,20 +27,17 @@ import com.example.pbl6app.Utils.Methods;
 import com.example.pbl6app.activities.MainActivityUser;
 import com.example.pbl6app.databinding.FragmentDetailPostOnWorkerRoleBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,9 +55,14 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     private PostOfDemand mPOD;
     private boolean isFirstLoad = true;
     private ValueEventListener valueEventListener;
+    private final OnItemCLickListener<Object> listenerEnd;
 
-    public static DetailPostOnWorkerRoleFragment newInstance(String postID) {
-        DetailPostOnWorkerRoleFragment fragment = new DetailPostOnWorkerRoleFragment();
+    public DetailPostOnWorkerRoleFragment(OnItemCLickListener<Object> listenerEnd) {
+        this.listenerEnd = listenerEnd;
+    }
+
+    public static DetailPostOnWorkerRoleFragment newInstance(String postID, OnItemCLickListener<Object> listenerEnd) {
+        DetailPostOnWorkerRoleFragment fragment = new DetailPostOnWorkerRoleFragment(listenerEnd);
         Bundle args = new Bundle();
         args.putString(POST_ID, postID);
         fragment.setArguments(args);
@@ -74,7 +71,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentDetailPostOnWorkerRoleBinding.inflate(inflater);
+        binding = FragmentDetailPostOnWorkerRoleBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -121,7 +118,6 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
             }
         };
 
-
         fetchPostOfUser();
 
     }
@@ -131,7 +127,31 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                 listWorkerRequesting,
                 item -> addFragment(new ListRateWorkerFragment(item), R.id.ctFragmentUser),
                 item -> {
+                    if (Constant.USER.getRole() == Constant.ROLE_CUSTOMER) {
+                        Methods.showDialog(
+                                R.drawable.smile_dialog,
+                                "Xác nhận",
+                                "Chọn thợ " + item.getName() + " để thực hiện công việc " + mPOD.getJobInfoName(),
+                                "Chưa",
+                                "Xác nhận",
+                                new ListenerDialog() {
+                                    @Override
+                                    public void onDismiss() {
 
+                                    }
+
+                                    @Override
+                                    public void onNoClick(Dialog dialog) {
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onYesClick(Dialog dialog) {
+                                        createOrder(item);
+                                    }
+                                }
+                        );
+                    }
                 }
         );
         binding.rv.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -213,12 +233,19 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     }
 
     private void setAssignButton() {
-        if (isContainInWorkerList) {
-            binding.btnAssign.setText("Hủy yêu cầu");
-            binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.grey));
-        } else {
-            binding.btnAssign.setText("Ứng tuyển");
-            binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.primaryColor));
+        if (getContext() != null) {
+            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                if (isContainInWorkerList) {
+                    binding.btnAssign.setText("Hủy yêu cầu");
+                    binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.grey));
+                } else {
+                    binding.btnAssign.setText("Ứng tuyển");
+                    binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.primaryColor));
+                }
+            } else {
+                binding.btnAssign.setText("Ngừng tìm thợ");
+                binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.primaryColor));
+            }
         }
     }
 
@@ -230,10 +257,64 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
         });
 
         binding.btnAssign.setOnClickListener(v -> {
-            if (isContainInWorkerList && mPOD != null) {
-                handleUnAssignClick();
+            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                if (Constant.USER.getLastModificationTime() == null) {
+                    Methods.showDialog(
+                            R.drawable.smile_dialog,
+                            "Thông báo",
+                            "Bạn vui lòng cập nhật thông tin để sử dụng dịch vụ của chúng tôi.",
+                            "Để sau",
+                            "Cập nhật",
+                            new ListenerDialog() {
+                                @Override
+                                public void onDismiss() {
+
+                                }
+
+                                @Override
+                                public void onNoClick(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onYesClick(Dialog dialog) {
+                                    addFragment(new ProfileFragment(), R.id.ctFragmentUser);
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+                } else {
+                    if (isContainInWorkerList && mPOD != null) {
+                        handleUnAssignClick();
+                    } else {
+                        handleAssignClick();
+                    }
+                }
             } else {
-                handleAssignClick();
+                Methods.showDialog(
+                        R.drawable.sad_dialog,
+                        "Ngừng tìm thợ",
+                        "Bạn có chắc muốn ngừng tìm thợ cho công việc này",
+                        "Không",
+                        "Xác nhận",
+                        new ListenerDialog() {
+                            @Override
+                            public void onDismiss() {
+
+                            }
+
+                            @Override
+                            public void onNoClick(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onYesClick(Dialog dialog) {
+                                updatePODToFalse();
+                                dialog.dismiss();
+                            }
+                        }
+                );
             }
         });
 
@@ -245,6 +326,11 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
             @Override
             public void onResponse(Call<ResponseRetrofit<Object>> call, Response<ResponseRetrofit<Object>> response) {
                 if (response.body() != null && response.body().isSuccessed()) {
+                    FirebaseRepository
+                            .ResponsePost
+                            .child(mPOD.getCustomerId())
+                            .child(mPOD.getId())
+                            .setValue(mPOD);
                     Methods.makeToast("Đã hủy ứng tuyển!");
                     handleDeleteWorkerFromRequestListFirebase();
                     isContainInWorkerList = false;
@@ -321,6 +407,11 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                 public void onResponse(Call<ResponseRetrofit<Worker>> call, Response<ResponseRetrofit<Worker>> response) {
                     if (response.code() == HttpURLConnection.HTTP_OK) {
                         if (response.body() != null && response.body().isSuccessed()) {
+                            FirebaseRepository
+                                    .ResponsePost
+                                    .child(mPOD.getCustomerId())
+                                    .child(mPOD.getId())
+                                    .setValue(mPOD);
                             Methods.makeToast("Đã ứng tuyển vào công việc!");
                             isContainInWorkerList = true;
                             setAssignButton();
@@ -363,10 +454,14 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
                         FirebaseRepository.
-                                PickWorkerChild.
+                                ResponsePostWorker.
                                 child(worker.getId()).
                                 child(response.body().getResultObj().getId()).
                                 setValue(response.body().getResultObj());
+
+                        mPOD.getListWorkerRequestInPostOfDemandResponse().remove(worker);
+
+                        updatePODToFalse();
 
                         Methods.showDialog(
                                 R.drawable.smile_dialog,
@@ -389,7 +484,6 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                                     @Override
                                     public void onYesClick(Dialog dialog) {
                                         StatusFragment.setOrderId(response.body().getResultObj().getId());
-                                        StatusFragment.setForWaiting(true);
                                         MainActivityUser.setIdNavigate(R.id.menu_status);
                                         dialog.dismiss();
                                     }
@@ -404,6 +498,47 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
             @Override
             public void onFailure(Call<ResponseRetrofit<Order>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                Log.e("CHANGE_PASS", "onFailure: ", t);
+                Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updatePODToFalse() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
+
+        ApiService.apiService.unActivePOD(mPOD.getId()).enqueue(new Callback<ResponseRetrofit<Object>>() {
+            @Override
+            public void onResponse(Call<ResponseRetrofit<Object>> call, Response<ResponseRetrofit<Object>> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    if (response.body().isSuccessed()) {
+                        for (Worker i : mPOD.getListWorkerRequestInPostOfDemandResponse()) {
+                            Order order = new Order(Constant.REJECT_STATUS);
+                            FirebaseRepository.
+                                    ResponsePostWorker.
+                                    child(i.getId()).
+                                    child(order.getId()).
+                                    setValue(order);
+                        }
+                        listenerEnd.onItemClick(new Object());
+                        backToPreviousFrag();
+                        Methods.makeToast("Đã hủy tìm kiếm thợ.");
+
+                    } else {
+                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRetrofit<Object>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
                 Log.e("CHANGE_PASS", "onFailure: ", t);

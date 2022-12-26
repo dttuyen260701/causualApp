@@ -70,12 +70,27 @@ public class Order {
         this.isRead = isRead;
     }
 
-    public Order(String jobInfoName, String creationTime, String workerName, String status){
-        this.id = "";
-        this.jobInfoName = jobInfoName;
-        this.creationTime = creationTime;
-        this.workerName = workerName;
-        this.status = Integer.parseInt(status);
+    public Order(int status){
+        this.id = "01234";
+        this.jobId = "";
+        this.customerId = "";
+        this.workerId = "";
+        this.note = "";
+        this.jobPrices = "";
+        this.creationTime = "";
+        this.userAddress = "";
+        this.userPoint = "";
+        this.isPaid = false;
+        this.jobInfoName = "";
+        this.jobInfoImage = "";
+        this.customerName = "";
+        this.customerImage = "";
+        this.customerPhone = "";
+        this.workerName = "";
+        this.workerImage = "";
+        this.workerPhone = "";
+        this.isRead = false;
+        this.status = status;
     }
 
     public String getId() {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Listeners.OnItemCLickListener;
@@ -85,8 +86,14 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
                     break;
             }
             if(!order.isRead()) {
-                binding.layoutOrderItemLine.setCardBackgroundColor(Color.parseColor("#f5f9fc"));
+                binding.layoutOrderItemLine.setCardBackgroundColor(Color.parseColor("#E7F0F7"));
+                binding.imvIsRead.setImageResource(R.color.blueStatus);
             }
+
+            else{
+                binding.imvIsRead.setVisibility(View.GONE);
+            }
+
             Picasso.get().load(Constant.BASE_URL + ((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerImage() : order.getWorkerImage())).into(binding.imgItem);
             binding.tvItem.setText(listData.get(position).getJobInfoName());
             binding.tvWorker.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerName() : order.getWorkerName());

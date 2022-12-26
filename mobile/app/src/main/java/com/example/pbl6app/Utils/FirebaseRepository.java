@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseRepository {
     private final static FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     private final static DatabaseReference myRef = database.getReference("data");
 
     public final static DatabaseReference TrackingChild = myRef.child("Tracking");
@@ -18,4 +19,6 @@ public class FirebaseRepository {
     public final static DatabaseReference PickPostChild = myRef.child("Post");
 
     public final static DatabaseReference ResponsePost = myRef.child("ResponsePost");
+
+    public final static DatabaseReference ResponsePostWorker = myRef.child("ResponsePostWorker");
 }

@@ -1,4 +1,6 @@
-package com.example.pbl6app.fragment;/*
+package com.example.pbl6app.fragment;
+
+/*
  * Created by tuyen.dang on 10/20/2022
  */
 
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Adapters.NewsPostAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
@@ -21,6 +24,7 @@ import com.example.pbl6app.Retrofit.ApiService;
 import com.example.pbl6app.Retrofit.ItemPaging;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
+import com.example.pbl6app.Utils.Methods;
 import com.example.pbl6app.databinding.FragmentNewfeedBinding;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -38,6 +42,15 @@ public class NewfeedFragment extends FragmentBase {
     private FragmentNewfeedBinding binding;
     private ArrayList<PostOfDemand> listData;
     private NewsPostAdapter adapter;
+    private static int pageIndex = 1;
+    private int pageSize = Constant.DEFAULT_PAGE_SIZE;
+    private boolean isLoading = false;
+    private static ArrayList<PostOfDemand> listNew = new ArrayList<>();
+
+    public static void setListNew(ArrayList<PostOfDemand> listNew) {
+        NewfeedFragment.listNew.clear();
+        NewfeedFragment.listNew.addAll(listNew);
+    }
 
     @Nullable
     @Override
@@ -51,8 +64,7 @@ public class NewfeedFragment extends FragmentBase {
         super.onViewCreated(view, savedInstanceState);
         initView();
         initListener();
-
-
+//        NewsPostAdapter.setListNew(new ArrayList<>());
     }
 
     @Override
@@ -97,6 +109,8 @@ public class NewfeedFragment extends FragmentBase {
 
     @Override
     protected void initView() {
+        listData = new ArrayList<>();
+        pageIndex = 1;
         if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
             loadDataWorker();
             initWorker();
@@ -104,82 +118,79 @@ public class NewfeedFragment extends FragmentBase {
             loadDataCustomer();
             initCustomer();
         }
-
         adapter = new NewsPostAdapter(listData, new OnItemCLickListener<PostOfDemand>() {
             @Override
             public void onItemClick(PostOfDemand item) {
                 addFragment(
-                        DetailPostOnWorkerRoleFragment.newInstance(item.getId()),
+                        DetailPostOnWorkerRoleFragment.newInstance(item.getId(), object -> {
+                            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                                loadDataWorker();
+                            } else {
+                                loadDataCustomer();
+                            }
+                        }),
                         R.id.ctFragmentUser
                 );
             }
-        });
+        }, listNew);
 
         binding.rclViewData.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rclViewData.setAdapter(adapter);
-
     }
 
     @Override
     protected void initListener() {
-        if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
-            binding.refreshLayout.setOnRefreshListener(this::loadDataWorker);
-        } else {
-            binding.refreshLayout.setOnRefreshListener(this::loadDataCustomer);
-        }
+        binding.refreshLayout.setOnRefreshListener(() -> {
+            pageIndex = 1;
+            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                loadDataWorker();
+            } else {
+                loadDataCustomer();
+            }
+        });
 
-
-    }
-
-    private void loadDataWorker() {
-        listData = new ArrayList<>();
-
-        binding.refreshLayout.setEnabled(false);
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.viewBg.setVisibility(View.VISIBLE);
-
-        ApiService.apiService.getListPostOfDemand(Constant.USER.getId()).enqueue(new Callback<ResponseRetrofit<ArrayList<PostOfDemand>>>() {
+        binding.rclViewData.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onResponse(Call<ResponseRetrofit<ArrayList<PostOfDemand>>> call, Response<ResponseRetrofit<ArrayList<PostOfDemand>>> response) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.viewBg.setVisibility(View.GONE);
-                binding.refreshLayout.setEnabled(true);
-                binding.refreshLayout.setRefreshing(false);
-                if (response.code() == HttpURLConnection.HTTP_OK) {
-                    if (response.body().isSuccessed()) {
-                        adapter.setList_data(response.body().getResultObj());
-                    } else {
-                        if (getContext() != null) {
-                            Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (!binding.scrollView.canScrollVertically(1)) {
+                        if (!isLoading) {
+                            handlePagingAction(false);
+                            ++pageIndex;
+                            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                                loadDataWorker();
+                            } else {
+                                loadDataCustomer();
+                            }
                         }
                     }
-                } else {
-                    if (getContext() != null) {
-                        Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseRetrofit<ArrayList<PostOfDemand>>> call, Throwable t) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.viewBg.setVisibility(View.GONE);
-                Log.e("TTT", "onFailure: ", t);
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void loadDataCustomer() {
-        listData = new ArrayList<>();
+    private void handlePagingAction(boolean isDoneLoading) {
+        if (isDoneLoading) {
+            isLoading = false;
+            binding.progressRV.setVisibility(View.GONE);
+        } else {
+            isLoading = true;
+            binding.progressRV.setVisibility(View.VISIBLE);
+        }
 
+    }
+
+
+    private void loadDataWorker() {
+        if(pageIndex==1){
+            binding.viewBg.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+            isLoading = true;
+            binding.progressRV.setVisibility(View.GONE);
+        }
         binding.refreshLayout.setEnabled(false);
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.viewBg.setVisibility(View.VISIBLE);
-
-        ApiService.apiService.getListPostOfDemandCustomer(Constant.USER.getId()).enqueue(new Callback<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>>() {
+        ApiService.apiService.getListPostOfDemand(Constant.USER.getId(), pageIndex, pageSize).enqueue(new Callback<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> call, Response<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> response) {
                 binding.progressBar.setVisibility(View.GONE);
@@ -188,7 +199,14 @@ public class NewfeedFragment extends FragmentBase {
                 binding.refreshLayout.setRefreshing(false);
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
-                        adapter.setList_data(response.body().getResultObj().getItems());
+                        ItemPaging<ArrayList<PostOfDemand>> resultObj = response.body().getResultObj();
+                        if(pageIndex==1){
+                            listData.clear();
+                        }
+                        if(listData.size()<resultObj.getTotalRecords()) {
+                            listData.addAll(resultObj.getItems());
+                            adapter.notifyDataSetChanged();
+                        }
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -198,6 +216,12 @@ public class NewfeedFragment extends FragmentBase {
                     if (getContext() != null) {
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                     }
+                }
+                if(pageIndex==1){
+                    isLoading = false;
+                }
+                else{
+                    handlePagingAction(true);
                 }
             }
 
@@ -208,6 +232,74 @@ public class NewfeedFragment extends FragmentBase {
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+                if(pageIndex==1){
+                    isLoading = false;
+                }
+                else{
+                    handlePagingAction(true);
+                }
+            }
+        });
+
+
+    }
+    private void loadDataCustomer() {
+        if(pageIndex==1){
+            binding.viewBg.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+            isLoading = true;
+            binding.progressRV.setVisibility(View.GONE);
+        }
+        binding.refreshLayout.setEnabled(false);
+        ApiService.apiService.getListPostOfDemandCustomer(Constant.USER.getId(), pageIndex, pageSize).enqueue(new Callback<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>>() {
+            @Override
+            public void onResponse(Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> call, Response<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                binding.refreshLayout.setEnabled(true);
+                binding.refreshLayout.setRefreshing(false);
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    if (response.body().isSuccessed()) {
+                        ItemPaging<ArrayList<PostOfDemand>> resultObj = response.body().getResultObj();
+                        if(pageIndex==1){
+                            listData.clear();
+                        }
+                        if(listData.size()<resultObj.getTotalRecords()) {
+                            listData.addAll(resultObj.getItems());
+                            adapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(pageIndex==1){
+                    isLoading = false;
+                }
+                else{
+                    handlePagingAction(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+                Log.e("TTT", "onFailure: ", t);
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+                if(pageIndex==1){
+                    isLoading = false;
+                }
+                else{
+                    handlePagingAction(true);
                 }
             }
         });

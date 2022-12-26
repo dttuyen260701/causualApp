@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pbl6app.Adapters.JobInfoAdapter;
+import com.example.pbl6app.Listeners.ListenerDialog;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.AddressTemp;
 import com.example.pbl6app.Models.PostOfDemand;
@@ -123,7 +124,34 @@ public class CreateNewPostFragment extends FragmentBase {
             ) {
                 Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
             } else {
-                onSubmitData();
+                if (Constant.USER.getLastModificationTime() == null) {
+                    Methods.showDialog(
+                            R.drawable.smile_dialog,
+                            "Thông báo",
+                            "Bạn vui lòng cập nhật thông tin để sử dụng dịch vụ của chúng tôi.",
+                            "Để sau",
+                            "Cập nhật",
+                            new ListenerDialog() {
+                                @Override
+                                public void onDismiss() {
+
+                                }
+
+                                @Override
+                                public void onNoClick(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onYesClick(Dialog dialog) {
+                                    addFragment(new ProfileFragment(), R.id.ctFragmentUser);
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+                } else {
+                    onSubmitData();
+                }
             }
         });
 
@@ -284,7 +312,7 @@ public class CreateNewPostFragment extends FragmentBase {
                     && Integer.parseInt(dateString.split("-")[1]) < Integer.parseInt(result.split("-")[1]))
             ) {
                 binding.tvDate.setText(result);
-            } else{
+            } else {
                 Methods.makeToast("Vui lòng chọn ngày trong tương lai!");
             }
         });

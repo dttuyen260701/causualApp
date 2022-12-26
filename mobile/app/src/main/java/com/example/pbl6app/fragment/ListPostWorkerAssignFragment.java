@@ -72,10 +72,12 @@ public class ListPostWorkerAssignFragment extends FragmentBase {
 
         adapter = new NewsPostAdapter(listPost, item -> {
             addFragment(
-                    DetailPostOnWorkerRoleFragment.newInstance(item.getId()),
+                    DetailPostOnWorkerRoleFragment.newInstance(item.getId(), object -> {
+                        loadData();
+                    }),
                     R.id.ctFragmentUser
             );
-        });
+        }, new ArrayList<>());
 
         binding.recyclerPost.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerPost.setAdapter(adapter);
@@ -84,7 +86,6 @@ public class ListPostWorkerAssignFragment extends FragmentBase {
     @Override
     protected void initListener() {
         binding.swipeRefresh.setOnRefreshListener(this::loadData);
-
         loadData();
     }
 

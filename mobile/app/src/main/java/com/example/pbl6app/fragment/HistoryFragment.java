@@ -10,12 +10,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6app.Adapters.OrderItemLinesAdapter;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.Order;
+import com.example.pbl6app.Models.PostOfDemand;
 import com.example.pbl6app.R;
 import com.example.pbl6app.Retrofit.ApiService;
+import com.example.pbl6app.Retrofit.ItemPaging;
 import com.example.pbl6app.Retrofit.ResponseRetrofit;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.FragmentHistoryBinding;
@@ -32,7 +35,9 @@ public class HistoryFragment extends FragmentBase {
     private FragmentHistoryBinding binding;
     private ArrayList<Order> listHistoryOrders;
     private OrderItemLinesAdapter adapter;
-
+    private static int pageIndex = 1;
+    private int pageSize = Constant.DEFAULT_PAGE_SIZE;
+    private boolean isLoading = false;
     private static boolean forCompletedOrder = false;
     private static String orderId = "";
 
@@ -65,8 +70,10 @@ public class HistoryFragment extends FragmentBase {
         loadData();
     }
 
+
     @Override
     protected void initView() {
+        pageIndex = 1;
         binding.btnBack.setOnClickListener(view -> {
             backToPreviousFrag();
         });
@@ -75,14 +82,14 @@ public class HistoryFragment extends FragmentBase {
 
         adapter = new OrderItemLinesAdapter(listHistoryOrders, item -> {
             if (item.getStatus() == Constant.REJECT_STATUS || item.getStatus() == Constant.CANCEL_STATUS) {
-                addFragment(new OrderInQueueFragment(item.getId(), new OnItemCLickListener<Order>() {
-                    @Override
-                    public void onItemClick(Order item) {
+                addFragment(new OrderInQueueFragment(item.getId(), item12 -> {
 
-                    }
-                }), R.id.ctFragmentUser);
+                }, object -> {}), R.id.ctFragmentUser);
             } else {
-                addFragment(new OrderDetailFragment(item.getId()), R.id.ctFragmentUser);
+                addFragment(new OrderDetailFragment(
+                        item.getId(), item1 -> {
+
+                }), R.id.ctFragmentUser);
             }
 
         });
@@ -95,33 +102,72 @@ public class HistoryFragment extends FragmentBase {
     protected void initListener() {
         if (!orderId.equals("")) {
             addFragment(forCompletedOrder ?
-                    new OrderDetailFragment(orderId) :
+                    new OrderDetailFragment(orderId, item -> {}) :
                     new OrderInQueueFragment(orderId, item -> {
 
-                    }), R.id.ctFragmentUser);
+                    }, object -> {}), R.id.ctFragmentUser);
         }
 
-        binding.swipeRefreshHistoryFrag.setOnRefreshListener(this::loadData);
+        binding.swipeRefreshHistoryFrag.setOnRefreshListener(() -> {
+            pageIndex = 1;
+            loadData();
+        });
+
+        binding.recyclerOrder.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (!binding.scrollView.canScrollVertically(1)) {
+                        if (!isLoading) {
+                            ++pageIndex;
+                            handlePagingAction(false);
+                            loadData();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void handlePagingAction(boolean isDoneLoading) {
+
+        if (isDoneLoading) {
+            isLoading = false;
+            binding.progressRV.setVisibility(View.GONE);
+        } else {
+            isLoading = true;
+            binding.progressRV.setVisibility(View.VISIBLE);
+        }
+
     }
 
     void loadData() {
 
+        if (pageIndex == 1) {
+            binding.viewBg.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+            isLoading = true;
+            binding.progressRV.setVisibility(View.GONE);
+        }
         binding.swipeRefreshHistoryFrag.setEnabled(false);
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.viewBg.setVisibility(View.VISIBLE);
-
-        ApiService.apiService.getOrderByStatus(Constant.USER.getId(), 2).enqueue(new Callback<ResponseRetrofit<ArrayList<Order>>>() {
+        ApiService.apiService.getOrderByStatus(Constant.USER.getId(), 2, pageIndex, pageSize).enqueue(new Callback<ResponseRetrofit<ItemPaging<ArrayList<Order>>>>() {
             @Override
-            public void onResponse(Call<ResponseRetrofit<ArrayList<Order>>> call, Response<ResponseRetrofit<ArrayList<Order>>> response) {
+            public void onResponse(Call<ResponseRetrofit<ItemPaging<ArrayList<Order>>>> call, Response<ResponseRetrofit<ItemPaging<ArrayList<Order>>>> response) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
                 binding.swipeRefreshHistoryFrag.setEnabled(true);
                 binding.swipeRefreshHistoryFrag.setRefreshing(false);
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
-                        listHistoryOrders.clear();
-                        listHistoryOrders.addAll(response.body().getResultObj());
-                        adapter.notifyDataSetChanged();
+                        ItemPaging<ArrayList<Order>> resultObj = response.body().getResultObj();
+                        if (pageIndex == 1) {
+                            listHistoryOrders.clear();
+                        }
+                        if (listHistoryOrders.size() < resultObj.getTotalRecords()) {
+                            listHistoryOrders.addAll(resultObj.getItems());
+                            adapter.notifyDataSetChanged();
+                        }
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -132,15 +178,25 @@ public class HistoryFragment extends FragmentBase {
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                     }
                 }
+                if (pageIndex == 1) {
+                    isLoading = false;
+                } else {
+                    handlePagingAction(true);
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseRetrofit<ArrayList<Order>>> call, Throwable t) {
+            public void onFailure(Call<ResponseRetrofit<ItemPaging<ArrayList<Order>>>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
+                }
+                if (pageIndex == 1) {
+                    isLoading = false;
+                } else {
+                    handlePagingAction(true);
                 }
             }
         });

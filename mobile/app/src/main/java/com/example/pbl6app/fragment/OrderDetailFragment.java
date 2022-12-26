@@ -50,6 +50,7 @@ public class OrderDetailFragment extends FragmentBase {
     private String orderId = "";
     private static boolean isComing = false;
     private static boolean isRunning = false;
+    private OnItemCLickListener<Object> onEndListener;
 
     public static boolean isIsRunning() {
         return isRunning;
@@ -63,8 +64,9 @@ public class OrderDetailFragment extends FragmentBase {
         OrderDetailFragment.isComing = isComing;
     }
 
-    public OrderDetailFragment(String orderId) {
+    public OrderDetailFragment(String orderId, OnItemCLickListener<Object> onEndListener) {
         this.orderId = orderId;
+        this.onEndListener = onEndListener;
     }
 
     @Override
@@ -539,6 +541,7 @@ public class OrderDetailFragment extends FragmentBase {
 
     @Override
     public void onDestroy() {
+        onEndListener.onItemClick(new Object());
         isRunning = false;
         super.onDestroy();
     }
