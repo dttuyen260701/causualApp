@@ -54,4 +54,17 @@ public static class CasualManagerPermissions
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
     }
+
+    public class PostOfDemand
+    {
+        public const string Default = GroupName + ".PostOfDemand";
+        public const string Update = Default + ".Update";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+    }
+
+    public class Statisic
+    {
+        public const string Default = GroupName + ".Statisic";
+    }
 }

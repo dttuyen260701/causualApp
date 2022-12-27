@@ -556,18 +556,7 @@
                                             <td>@order.WorkerName</td>
                                             <td>@order.JobName</td>
                                             <td>@order.OrderDate</td>
-                                            @if(order.Status == OrderStatus.IsCancel)
-                                            {
-                                            <td><p class="order-status-is-cancel">@L[@order.StatusStr]</p></td>
-                                            }
-                                            else if (order.Status == OrderStatus.IsInProcess)
-                                            {
-                                            <td><p class="order-status-is-in-process">@L[@order.StatusStr]</p></td>
-                                            }
-                                            else
-                                            {
-                                            <td><p class="order-status-is-complete">@L[@order.StatusStr]</p></td>
-                                            }
+                                            <td><p class="order-status @($"status-{(int)order.Status}")">@L[@order.StatusStr]</p></td>
                                         </tr>
                                         }
                                     </tbody>
@@ -607,7 +596,7 @@
                         </table>
                     </abp-card-body>
                     <abp-card-footer class="new-user-footer">
-                        <a href="#">@L["Statisic:NewUser:ViewAll"]</a>
+                        <a href="#">@L["Statisic:ViewAll"]</a>
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </abp-card-footer>
                 </abp-card>
@@ -641,7 +630,7 @@
                         </table>
                     </abp-card-body>
                     <abp-card-footer class="new-user-footer">
-                        <a href="#">Xem tất cả</a>
+                        <a href="#">@L["Statisic:ViewAll"]</a>
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </abp-card-footer>
                 </abp-card>

@@ -47,9 +47,13 @@ namespace PBL6.CasualManager.Enum
         IsCancel,
         [Display(Name = "Common:OrderStatus:IsComplete")]
         IsComplete,
+        [Display(Name = "Common:OrderStatus:IsWaiting")]
         IsWaiting,
+        [Display(Name = "Common:OrderStatus:IsRejected")]
         IsRejected,
+        [Display(Name = "Common:OrderStatus:IsAccepted")]
         IsAccepted,
+        [Display(Name = "Common:OrderStatus:IsTracking")]
         IsTracking
     }
 
