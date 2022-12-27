@@ -114,6 +114,8 @@ public class OrderInQueueFragment extends FragmentBase {
 
             binding.tvWorkerName.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerName() : order.getWorkerName());
 
+            binding.btnCancel.setVisibility((Constant.USER.getRole() == Constant.ROLE_CUSTOMER) ? View.VISIBLE : View.GONE );
+
             binding.tvWorkerPhone.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerPhone() : order.getWorkerPhone());
 
             binding.tvAddressCus.setText(order.getUserAddress());
@@ -143,6 +145,10 @@ public class OrderInQueueFragment extends FragmentBase {
 
         binding.btnBack.setOnClickListener(view -> {
             backToPreviousFrag();
+        });
+
+        binding.btnCancel.setOnClickListener(v -> {
+            submitData(order.getId(), Constant.ACCEPT_STATUS);
         });
 
         binding.btnReject.setOnClickListener(view -> {

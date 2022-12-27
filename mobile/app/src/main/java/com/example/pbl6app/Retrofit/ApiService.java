@@ -196,4 +196,10 @@ public interface ApiService {
 
     @PUT("/api/app/post-of-demand/{id}/unactive")
     Call<ResponseRetrofit<Object>> unActivePOD(@Path("id") String mPodId);
+
+    @POST("/api/app/account/verify")
+    Call<ResponseRetrofit<Object>> verifyUserInformation(@Body HashMap<String, String> body);
+
+    @POST("/api/app/account/change-password-without-old-password")
+    Call<ResponseRetrofit<Object>> changePasswordWithoutOldPassword(@Body HashMap<String, String> body);
 }
