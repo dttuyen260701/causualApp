@@ -16,5 +16,7 @@ namespace PBL6.CasualManager.JobInfos
         public string TypeOfJobName { get; set; }
 
         public string TypeOfJobIcon { get; set; }
+
+        public string DistanceAdded { get; set; }
     }
 }

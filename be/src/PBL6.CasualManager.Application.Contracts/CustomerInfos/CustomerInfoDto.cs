@@ -39,6 +39,10 @@ namespace PBL6.CasualManager.CustomerInfos
         public string WardName { get; set; }
 
         public string AddressDetail { get; set; }
+
+        public int CountOfOrder { get; set; }
+
+        public string Avatar { get; set; }
     }
 
 }

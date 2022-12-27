@@ -56,6 +56,7 @@ namespace PBL6.CasualManager.WorkerInfos
 
         public bool IsActive { get; set; }
 
+        public int CountOfRating { get; set; }
     }
 
 }

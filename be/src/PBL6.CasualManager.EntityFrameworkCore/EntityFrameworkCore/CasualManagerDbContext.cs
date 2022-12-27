@@ -4,6 +4,7 @@ using PBL6.CasualManager.Districts;
 using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.Orders;
+using PBL6.CasualManager.Plannings;
 using PBL6.CasualManager.PostOfDemands;
 using PBL6.CasualManager.PrieceDetails;
 using PBL6.CasualManager.Provinces;
@@ -93,6 +94,8 @@ public class CasualManagerDbContext :
     public DbSet<District> Districts { get; set; }
 
     public DbSet<Ward> Wards { get; set; }
+
+    public DbSet<Planning> Plannings { get; set; }
 
     #endregion
 
@@ -216,6 +219,12 @@ public class CasualManagerDbContext :
         {
             b.ToTable(CasualManagerConsts.DbTablePrefix + "Ward", CasualManagerConsts.DbSchema);
             b.HasOne(s => s.District).WithMany(p => p.Wards).HasForeignKey(s => s.DistrictId).IsRequired();
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<Planning>(b =>
+        {
+            b.ToTable(CasualManagerConsts.DbTablePrefix + "Planning", CasualManagerConsts.DbSchema);
             b.ConfigureByConvention();
         });
     }

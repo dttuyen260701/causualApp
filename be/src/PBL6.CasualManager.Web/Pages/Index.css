@@ -1,3 +1,177 @@
-body {
-    
+:root {
+    --main-color: #FEB74F;
+    --second-color: #6783C2
+}
+
+hr {
+    height: 2px;
+    border-width: 0;
+    color: black;
+    background-color: black;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2rem;
+}
+
+.card-single {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+}
+
+.card-single div:last-child span {
+    font-size: 3rem;
+    color: var(--main-color);
+}
+
+.top-provinces {
+    border-left: 1px solid black;
+}
+
+.province {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem .5rem;
+}
+
+.content {
+    display: block;
+    align-items: center;
+}
+
+.content h4 {
+    margin-bottom: 5px;
+}
+
+.top {
+    text-align: center;
+}
+
+.top p {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.top h5 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.workers {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+}
+
+.worker-box {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.worker-box h5,h4,p,.star {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.worker-box p{
+    margin-bottom: 0;
+}
+
+.worker-box img {
+    border-radius: 70px;
+    width: 80px;
+    height: 80px;
+}
+
+.table-info {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.table-info-thead tr {
+    border-bottom: 1px solid #000000;
+}
+
+.table-info-thead td {
+    padding: .5rem;
+    font-weight: 700;
+}
+
+.table-info td {
+    padding: .5rem .5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status {
+    text-align: center;
+}
+
+.date-join {
+    text-align: center;
+}
+
+.role i {
+    margin-right: 0.5rem;
+    color: var(--second-color);
+}
+
+.new-user-footer {
+    text-align: center;
+    padding: 1rem 0.5rem;
+}
+
+.new-user-footer a, .new-user-footer i {
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    color: var(--second-color);
+}
+
+.revenue-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: .5rem 0;
+}
+
+.revenue-content h5 {
+    margin: .5rem .2rem
+}
+
+.revenue-content i {
+    margin-right: .5rem;
+}
+
+.revenue-content .up {
+    color: #2A7D3B;
+}
+
+.revenue-content .down {
+    color: #DC3543;
+}
+
+a:link {
+    color: red;
+}
+
+a:hover {
+    color: #879BCE;
+}
+
+a:active {
+    color: var(--second-color);
 }
