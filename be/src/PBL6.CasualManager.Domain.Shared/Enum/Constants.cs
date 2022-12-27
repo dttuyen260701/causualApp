@@ -48,12 +48,21 @@ namespace PBL6.CasualManager.Enum
         [Display(Name = "Common:OrderStatus:IsComplete")]
         IsComplete,
         IsWaiting,
-        IsRejected
+        IsRejected,
+        IsAccepted,
+        IsTracking
     }
 
     public class Role
     {
         public static string WORKER = "Thợ";
         public static string CUSTOMER = "Khách hàng";
+    }
+
+    public class DefaultPaging
+    {
+        public static int PageSize = 10;
+        public static int PageIndex = 1;
+        public static string Keyword = "";
     }
 }
