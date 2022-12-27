@@ -227,6 +227,18 @@
                         fontSize: 25,
                         padding: 30
                     },
+                    animation: {
+                        onComplete: () => {
+                            delayed = true;
+                        },
+                        delay: (context) => {
+                            let delay = 0;
+                            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                            }
+                            return delay;
+                        },
+                    },
                     legend: {
                         display: false
                     },

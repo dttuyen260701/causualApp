@@ -16,5 +16,7 @@ namespace PBL6.CasualManager.JobInfos
             Guid? filterTypeOfJob);
 
         Task<List<JobInfo>> GetListByTypeOfJobAsync(Guid typeOfJobId);
+
+        Task<List<JobInfo>> GetNewJobAdded(int take);
     }
 }

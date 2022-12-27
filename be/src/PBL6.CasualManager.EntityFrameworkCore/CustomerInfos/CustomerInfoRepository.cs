@@ -1,4 +1,5 @@
-﻿using PBL6.CasualManager.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using PBL6.CasualManager.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,18 @@ namespace PBL6.CasualManager.CustomerInfos
         public async Task<CustomerInfo> GetEntityCustomerInfoHaveUserId(Guid userId)
         {
             return await FindAsync(x => x.UserId == userId);
+        }
+
+        public async Task<List<CustomerInfo>> GetListTopCustomer(int take)
+        {
+            var dbSet = await GetDbSetAsync();
+            var result = await dbSet
+                .Include(x => x.Orders)
+                .OrderByDescending(x => x.Orders.Count)
+                .Take(take)
+                .AsNoTracking()
+                .ToListAsync();
+            return result;
         }
     }
 }

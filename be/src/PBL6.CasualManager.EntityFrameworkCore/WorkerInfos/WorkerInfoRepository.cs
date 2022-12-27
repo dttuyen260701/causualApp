@@ -1,4 +1,5 @@
-﻿using PBL6.CasualManager.CustomerInfos;
+﻿using Microsoft.EntityFrameworkCore;
+using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,19 @@ namespace PBL6.CasualManager.WorkerInfos
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<WorkerInfo>> GetListTopWorker(int take)
+        {
+            var dbSet = await GetDbSetAsync();
+            var result = await dbSet
+                .Include(x => x.RateOfWorkers)
+                .OrderByDescending(x => x.AverageRate)
+                .ThenByDescending(x => x.RateOfWorkers.Count)
+                .Take(take)
+                .AsNoTracking()
+                .ToListAsync();
+            return result;
         }
     }
 }

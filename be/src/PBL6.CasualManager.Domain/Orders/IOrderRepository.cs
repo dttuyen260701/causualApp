@@ -17,6 +17,12 @@ namespace PBL6.CasualManager.Orders
 
         Task<Dictionary<string, string>> GetListRevenueOfMonthsOfWorker(Guid workerId, int month = 1);
 
+        Task<Dictionary<string, string>> GetListRevenueOfMonthsOfBussiness(int month = 1);
+
         Task<Dictionary<string, Dictionary<string, string>>> GetListOrderOfMonthsOfWorker(Guid workerId, int month = 1);
+
+        Task<List<Order>> GetListNearest(int take);
+
+        Task<int> GetIncomeInDay(DateTime? date = null);
     }
 }

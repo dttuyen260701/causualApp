@@ -54,6 +54,17 @@ namespace PBL6.CasualManager.JobInfos
             return list;
         }
 
+        public async Task<List<JobInfo>> GetNewJobAdded(int take)
+        {
+            var dbSet = await GetDbSetAsync();
+            return await dbSet
+                .OrderByDescending(x => x.CreationTime)
+                .IncludeDetails(true)
+                .Take(take)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public override async Task<IQueryable<JobInfo>> WithDetailsAsync()
         {
             return (await GetQueryableAsync()).IncludeDetails();

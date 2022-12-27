@@ -68,6 +68,27 @@ namespace PBL6.CasualManager.Orders
                 .ToDictionary(x => x.Month.ToString(), x => x.Revenue.ToString());
         }
 
+        public async Task<Dictionary<string, string>> GetListRevenueOfMonthsOfBussiness(int month = 1)
+        {
+            var dbSet = await GetDbSetAsync();
+            var monthNow = DateTime.Now.Month;
+            var query = dbSet
+                .Include(x => x.PrieceDetail)
+                .Where(x => x.CreationTime >= new DateTime(2022, monthNow - month + 1, 1)).ToList();
+
+            return query
+                .GroupBy(x => x.CreationTime.Month)
+                .Select(x =>
+                {
+                    return new
+                    {
+                        Month = x.Key,
+                        Revenue = x.Sum(c => c.PrieceDetail.FeeForBussiness)
+                    };
+                })
+                .ToDictionary(x => x.Month.ToString(), x => x.Revenue.ToString());
+        }
+
         public async Task<Dictionary<string, Dictionary<string, string>>> GetListOrderOfMonthsOfWorker(Guid workerId, int month = 1)
         {
             var dbSet = await GetDbSetAsync();
@@ -87,6 +108,31 @@ namespace PBL6.CasualManager.Orders
                     };
                 })
                 .ToDictionary(x => x.Month.ToString(), x => x.Order);
+        }
+
+        public async Task<List<Order>> GetListNearest(int take)
+        {
+            var dbSet = await GetDbSetAsync();
+            var result = await dbSet
+                .IncludeDetails(true)
+                .Take(take)
+                .OrderByDescending(x => x.CreationTime)
+                .AsNoTracking()
+                .ToListAsync();
+            return result;
+        }
+
+        public async Task<int> GetIncomeInDay(DateTime? date = null)
+        {
+            if(date == null)
+            {
+                date = DateTime.Now;
+            }
+            var dbSet = await GetDbSetAsync();
+            return (int)dbSet
+                .IncludeDetails(true)
+                .Where(x => x.CreationTime.Equals(date))
+                .Sum(x => x.PrieceDetail.FeeForBussiness);
         }
 
         public override async Task<IQueryable<Order>> WithDetailsAsync()

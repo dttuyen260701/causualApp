@@ -13,6 +13,7 @@ using PBL6.CasualManager.Provinces;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.Wards;
 using PBL6.CasualManager.WorkerInfos;
+using System;
 using Volo.Abp.Application.Dtos;
 
 namespace PBL6.CasualManager;
@@ -41,14 +42,22 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
             .ForMember(des => des.GenderName,
                 act => act.MapFrom(src => EnumExtensions.GetDisplayName(src.Gender)))
             .ForMember(des => des.AddressDetail,
-                act => act.MapFrom(src => $"{src.Address}, {src.WardName}, {src.DistrictName}, {src.ProvinceName}"));
+                act => act.MapFrom(src => $"{src.Address}, {src.WardName}, {src.DistrictName}, {src.ProvinceName}"))
+            .ForMember(des => des.CountOfOrder,
+                act => act.MapFrom(src => src.Orders == null ? 0 : src.Orders.Count))
+            .ForMember(des => des.Avatar,
+                act => act.MapFrom(src => src.Avatar.IsNullOrWhiteSpace() ? "/upload_images/customer/profile.png" : src.Avatar));
         CreateMap<CustomerInfoCreateUpdateDto, CustomerInfo>();
 
         CreateMap<WorkerInfo, WorkerInfoDto>()
             .ForMember(des => des.GenderName,
                 act => act.MapFrom(src => EnumExtensions.GetDisplayName(src.Gender)))
             .ForMember(des => des.AddressDetail,
-                act => act.MapFrom(src => $"{src.Address}, {src.WardName}, {src.DistrictName}, {src.ProvinceName}"));
+                act => act.MapFrom(src => $"{src.Address}, {src.WardName}, {src.DistrictName}, {src.ProvinceName}"))
+            .ForMember(des => des.CountOfRating,
+                act => act.MapFrom(src => src.RateOfWorkers == null ? 0 : src.RateOfWorkers.Count))
+            .ForMember(des => des.Avatar,
+                act => act.MapFrom(src => src.Avatar.IsNullOrWhiteSpace() ? "/upload_images/customer/profile.png" : src.Avatar));
         CreateMap<WorkerInfoCreateUpdateDto, WorkerInfo>();
 
         CreateMap<JobInfoOfWorker, JobInfoOfWorkerDto>()
