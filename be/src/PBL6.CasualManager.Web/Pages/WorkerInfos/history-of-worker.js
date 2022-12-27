@@ -60,17 +60,11 @@
                 title: l('JobInfoOfWorker:Note'),
                 data: "note",
             },
-            {
+            {   
                 title: l('Order:Status'),
                 data: {},
                 render: function (data) {
-                    if (data.status == 0) {
-                        return `<p class="order-status-is-in-process">${l(data.statusStr)}</p>`
-                    }
-                    if (data.status == 1) {
-                        return `<p class="order-status-is-cancel">${l(data.statusStr)}</p>`
-                    }
-                    return `<p class="order-status-is-complete">${l(data.statusStr)}</p>`
+                    return `<p class="order-status status-${data.status}">${l(data.statusStr)}</p>`
                 },
                 width: "10%"
             },

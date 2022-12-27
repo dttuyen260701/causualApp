@@ -1,8 +1,59 @@
 /* Your Global Styles */
+:root {
+    --lpx-brand: #FFCC33;
+    --bs-pagination-active-bg: #FFCC33;
+    --font-color-primary: #161616;
+}
+
+.pagination .page-item.active .page-link {
+    color: var(--font-color-primary) !important;
+    font-weight: 500;
+    border-radius: 0.6rem;
+    background-color: var(--lpx-brand) !important;
+}
+
+.btn-primary {
+    --bs-btn-color: var(--font-color-primary);
+    --bs-btn-bg: var(--lpx-brand);
+    --bs-btn-border-color: var(--lpx-brand);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #F2C23C;
+    --bs-btn-hover-border-color: #F2C23C;
+    --bs-btn-focus-shadow-rgb: 255, 204, 51;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #F2C23C;
+    --bs-btn-active-border-color: #F2C23C;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #355dff;
+    --bs-btn-disabled-border-color: #355dff;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--lpx-brand);
+    --bs-btn-border-color: var(--lpx-brand);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--lpx-brand);
+    --bs-btn-hover-border-color: var(--lpx-brand);
+    --bs-btn-focus-shadow-rgb: 53, 93, 255;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--lpx-brand);
+    --bs-btn-active-border-color: var(--lpx-brand);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: var(--lpx-brand);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: var(--lpx-brand);
+    --bs-gradient: none;
+}
+
+.form-check-input:checked {
+    border-color: var(--lpx-brand) !important;
+    background-color: var(--lpx-brand);
+}
 
 :root .lpx-brand-logo {
-    --lpx-logo: url('/images/logo/leptonx/logo-light.png');
-    --lpx-logo-icon: url('/images/logo/leptonx/logo-light-thumbnail.png');
+    --lpx-logo: url('/upload_images/logo/logo-thumb.png');
+    --lpx-logo-icon: url('/upload_images/logo/logo.png');
 }
 
 .dataTables_scrollHeadInner, .table {
@@ -32,7 +83,7 @@
 }
 
 .check-star {
-    color: orange;
+    color: var(--lpx-brand);
 }
 
 .is-checked {
@@ -51,37 +102,48 @@
     color: red;
 }
 
-.order-status-is-in-process {
+.order-status {
     padding: 5px 10px;
     margin-bottom: 0;
-    color: orange;
     border-style: solid;
     border-width: thin;
-    border-color: orange;
     border-radius: 10px;
     text-align: center;
 }
 
-.order-status-is-cancel {
-    padding: 5px 10px;
-    margin-bottom: 0;
+.order-status.status-0 {
+    color: var(--lpx-brand);
+    border-color: var(--lpx-brand);
+}
+
+.order-status.status-1 {
     color: red;
-    border-style: solid;
-    border-width: thin;
     border-color: red;
-    border-radius: 10px;
-    text-align: center;
 }
 
-.order-status-is-complete {
-    padding: 5px 10px;
-    margin-bottom: 0;
+.order-status.status-2 {
     color: green;
-    border-style: solid;
-    border-width: thin;
     border-color: green;
-    border-radius: 10px;
-    text-align: center;
+}
+
+.order-status.status-3 {
+    color: var(--lpx-brand);
+    border-color: var(--lpx-brand);
+}
+
+.order-status.status-4 {
+    color: red;
+    border-color: red;
+}
+
+.order-status.status-5 {
+    color: green;
+    border-color: green;
+}
+
+.order-status.status-6 {
+    color: var(--lpx-brand);
+    border-color: var(--lpx-brand);
 }
 
 .icon-type-of-job {

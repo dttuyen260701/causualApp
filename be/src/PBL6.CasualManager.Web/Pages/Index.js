@@ -1,6 +1,6 @@
 ﻿$(function () {
-    const MAIN_COLOR = '#FEB74F'
-    const SECOND_COLOR = '#6783C2'
+    const MAIN_COLOR = '#FFCC33'
+    const SECOND_COLOR = '#5B52A3'
 
     const CURRENT_DATE = new Date();
 
