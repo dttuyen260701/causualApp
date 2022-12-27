@@ -9,6 +9,7 @@ using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.LookupValues;
 using PBL6.CasualManager.Oders;
 using PBL6.CasualManager.Orders;
+using PBL6.CasualManager.PostOfDemands;
 using PBL6.CasualManager.Provinces;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.Wards;
@@ -48,6 +49,7 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
             .ForMember(des => des.Avatar,
                 act => act.MapFrom(src => src.Avatar.IsNullOrWhiteSpace() ? "/upload_images/customer/profile.png" : src.Avatar));
         CreateMap<CustomerInfoCreateUpdateDto, CustomerInfo>();
+        CreateMap<CustomerInfo, LookupValueDto>();
 
         CreateMap<WorkerInfo, WorkerInfoDto>()
             .ForMember(des => des.GenderName,
@@ -82,6 +84,12 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
                 act => act.MapFrom(src => src.JobInfo.TypeOfJob.Avatar))
             .ForMember(des => des.StatusStr,
                 act => act.MapFrom(src => EnumExtensions.GetDisplayName(src.Status)));
+
+        CreateMap<PostOfDemand, PostOfDemandDto>()
+            .ForMember(des => des.JobName,
+                act => act.MapFrom(src => src.JobInfo.Name))
+            .ForMember(des => des.CustomerAddressDetail,
+                act => act.MapFrom(src => $"{src.CustomerInfo.DistrictName}, {src.CustomerInfo.ProvinceName}"));
 
         CreateMap<Province, ProvinceDto>();
         CreateMap<District, DistrictDto>();

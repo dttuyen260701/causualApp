@@ -1,5 +1,7 @@
 ﻿using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.FileStorages;
+using PBL6.CasualManager.LookupValues;
+using PBL6.CasualManager.TypeOfJobs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -151,6 +153,20 @@ namespace PBL6.CasualManager.CustomerInfos
             {
                 _fileStorageAppService.DeleteImageAsync(customerInfo.Avatar);
             }
+        }
+
+        public async Task<List<LookupValueDto>> GetLookupValuesAsync()
+        {
+            var listCustomerInfo = await _customerInfoRepository.GetListAsync();
+            var listLookupValueDtos = new List<LookupValueDto>();
+            foreach (var customer in listCustomerInfo)
+            {
+                var customerIdentity = await _identityUserRepository.GetAsync(customer.UserId);
+                var lookupValueDto = ObjectMapper.Map<CustomerInfo, LookupValueDto>(customer);
+                lookupValueDto.Name = customerIdentity.Name;
+                listLookupValueDtos.Add(lookupValueDto);
+            }
+            return listLookupValueDtos;
         }
 
     }
