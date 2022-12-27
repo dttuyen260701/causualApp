@@ -183,12 +183,12 @@ namespace PBL6.CasualManager.Statisics
                     jobInfoDto.CreationTime.Day == now.Day ?
                     jobInfoDto.CreationTime.Hour == now.Hour ?
                     jobInfoDto.CreationTime.Minute == now.Minute ?
-                        L["Statisic:NewestJobAdded:SecondAgo", now.Second - jobInfoDto.CreationTime.Second]
-                        : L["Statisic:NewestJobAdded:MinuteAgo", now.Minute - jobInfoDto.CreationTime.Minute]
-                        : L["Statisic:NewestJobAdded:HourAgo", now.Hour - jobInfoDto.CreationTime.Hour]
-                        : L["Statisic:NewestJobAdded:DayAgo", now.Day - jobInfoDto.CreationTime.Day]
-                        : L["Statisic:NewestJobAdded:MonthAgo", now.Month - jobInfoDto.CreationTime.Month]
-                        : L["Statisic:NewestJobAdded:YearAgo", now.Year - jobInfoDto.CreationTime.Year];
+                        L["Common:SecondAgo", now.Second - jobInfoDto.CreationTime.Second]
+                        : L["Common:MinuteAgo", now.Minute - jobInfoDto.CreationTime.Minute]
+                        : L["Common:HourAgo", now.Hour - jobInfoDto.CreationTime.Hour]
+                        : L["Common:DayAgo", now.Day - jobInfoDto.CreationTime.Day]
+                        : L["Common:MonthAgo", now.Month - jobInfoDto.CreationTime.Month]
+                        : L["Common:YearAgo", now.Year - jobInfoDto.CreationTime.Year];
                 jobInfoDtos.Add(jobInfoDto);
             }
             return jobInfoDtos;

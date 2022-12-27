@@ -69,6 +69,13 @@
     "Common:Revenue": "Doanh thu",
     "Common:Target": "Chỉ tiêu",
     "Common:History": "Lịch sử đơn hàng",
+    "Common:PostOfDemand": "Bài đăng",
+    "Common:SecondAgo": "{0} giây trước",
+    "Common:MinuteAgo": "{0} phút trước",
+    "Common:HourAgo": "{0} giờ trước",
+    "Common:DayAgo": "{0} ngày trước",
+    "Common:MonthAgo": "{0} tháng trước",
+    "Common:YearAgo": "{0} năm trước",
 
     "TypeOfJob": "Danh sách loại công việc",
     "TypeOfJob:Create": "Thêm loại việc làm",
@@ -174,12 +181,17 @@
     "Statisic:NewestJobAdded:Job": "Tên công việc",
     "Statisic:NewestJobAdded:TypeOfJob": "Loại công việc",
     "Statisic:NewestJobAdded:TimeAgo": "Thời gian",
-    "Statisic:NewestJobAdded:SecondAgo": "{0} giây trước",
-    "Statisic:NewestJobAdded:MinuteAgo": "{0} phút trước",
-    "Statisic:NewestJobAdded:HourAgo": "{0} giờ trước",
-    "Statisic:NewestJobAdded:DayAgo": "{0} ngày trước",
-    "Statisic:NewestJobAdded:MonthAgo": "{0} tháng trước",
-    "Statisic:NewestJobAdded:YearAgo": "{0} năm trước"
+
+    "PostOfDemand": "Danh sách bài đăng",
+    "PostOfDemand:CustomerName": "Tên khách hàng",
+    "PostOfDemand:JobName": "Công việc",
+    "PostOfDemand:EndDate": "Ngày kết thúc",
+    "PostOfDemand:Description": "Mô tả",
+    "PostOfDemand:Note": "Ghi chú",
+    "PostOfDemand:CustomerAddressDetail": "Vị trí khách hàng",
+    "PostOfDemand:DistanceUpLoad": "Đã đăng",
+    "PostOfDemand:IsActive": "Hoạt động",
+    "PostOfDemand:Search:Customer": "Tìm kiếm theo khách hàng"
 
   }
 }

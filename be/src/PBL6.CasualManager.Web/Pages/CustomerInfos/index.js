@@ -79,6 +79,15 @@
                                 displayNameHtml: true,
                             },
                             {
+                                text: l('Common:PostOfDemand'),
+                                visible: abp.auth.isGranted('CasualManager.PostOfDemand'),
+                                action: function (data) {
+                                    window.location.href = `/PostOfDemands/${data.record.id}`;
+                                    abp.ui.unblock();
+                                },
+                                displayNameHtml: true,
+                            },
+                            {
                                 text: l('Delete'),
                                 visible: abp.auth.isGranted('CasualManager.CustomerInfo.Delete'),
                                 confirmMessage: function (data) {

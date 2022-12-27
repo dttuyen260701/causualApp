@@ -51,6 +51,16 @@
     background-color: var(--lpx-brand);
 }
 
+select.form-select option:checked, select.form-select option:focus, select.form-select option:active {
+    background: var(--lpx-brand) !important;
+    color: var(--font-color-primary) !important;
+    border-radius: 0.25rem !important;
+}
+
+select.form-select option[selected] {
+    color: var(--font-color-primary) !important;
+}
+
 :root .lpx-brand-logo {
     --lpx-logo: url('/upload_images/logo/logo-thumb.png');
     --lpx-logo-icon: url('/upload_images/logo/logo.png');
@@ -153,4 +163,3 @@
 .price {
     font-weight: bold;
 }
-
