@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tạo bài đăng mới"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,6 +96,7 @@
                 android:background="@drawable/bg_edt_profile"
                 android:gravity="top"
                 android:hint="Hãy nhập nội dung..."
+                android:textSize="16dp"
                 android:maxLength="255"
                 android:maxLines="10"
                 android:minHeight="150dp"
@@ -289,14 +290,38 @@
                 android:textColor="@color/colorVenetianRed"
                 android:visibility="gone" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Ghi chú"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edt_profile"
+                android:gravity="top"
+                android:textSize="16dp"
+                android:hint="Hãy nhập ghi chú..."
+                android:maxLength="100"
+                android:maxLines="5"
+                android:minHeight="100dp"
+                android:padding="10dp" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/btn_login_bg"
                 android:text="Xác nhận"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />

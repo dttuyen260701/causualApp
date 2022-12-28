@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pbl6app.Listeners.OnItemCLickListener;
 import com.example.pbl6app.Models.JobInfo;
 import com.example.pbl6app.Models.Rate;
+import com.example.pbl6app.R;
 import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.databinding.ItemJobinfoBinding;
 import com.example.pbl6app.databinding.ItemRateWorkerBinding;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -61,7 +63,17 @@ public class ItemRateWorkerAdapter extends RecyclerView.Adapter<ItemRateWorkerAd
             }
             binding.tvCustomerName.setText(listRate.get(position).getCustomerName());
             binding.tvCreationTime.setText(listRate.get(position).getCreationTime());
-            Picasso.get().load(Constant.BASE_URL + listRate.get(position).getCustomerImage()).into(binding.customerAva);
+            Picasso.get().load(Constant.BASE_URL + listRate.get(position).getCustomerImage()).into(binding.customerAva, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    binding.customerAva.setImageResource(R.drawable.default_avatar);
+                }
+            });
         }
     }
 

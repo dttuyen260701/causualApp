@@ -151,7 +151,7 @@ public class MainActivityUser extends BaseActivity {
                                 "Thông báo",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
-                                        + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                        + ((countAccept > 0 && countReject > 0) ? " và " : "")
                                         + ((countReject > 0) ? (countReject + " đơn đã bị từ chối") : ""),
                                 (countReject > 0) ? "Đơn từ chối" : "",
                                 (countAccept > 0) ? "Đơn đã nhận" : "",
@@ -182,7 +182,7 @@ public class MainActivityUser extends BaseActivity {
                             "Kết quả đặt đơn",
                             "Bạn có "
                                     + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
-                                    + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                    + ((countAccept > 0 && countReject > 0) ? " và " : "")
                                     + ((countReject > 0) ? (countReject + " đơn đã bị từ chối") : ""),
                             (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog, isRunning ? 0 : 1, 0);
                 }
@@ -381,7 +381,7 @@ public class MainActivityUser extends BaseActivity {
                                         "Thông báo",
                                         "Thợ " + orderUpdate.getWorkerName()
                                                 + " đã hoàn thành công việc " + orderUpdate.getJobInfoName() + ".",
-                                        "Đã hiểu",
+                                        "",
                                         "Chi tiết",
                                         new ListenerDialog() {
                                             @Override
@@ -492,7 +492,7 @@ public class MainActivityUser extends BaseActivity {
                                 "Kết quả",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được nhận") : "")
-                                        + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                        + ((countAccept > 0 && countReject > 0) ? " và " : "")
                                         + ((countReject > 0) ? (countReject + " đơn đã bị từ chối") : ""),
                                 (countReject > 0) ? "Đơn từ chối" : "",
                                 (countAccept > 0) ? "Đơn đã nhận" : "",

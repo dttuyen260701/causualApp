@@ -105,6 +105,13 @@ public class InProgressOrderFragment extends FragmentBase {
 
     }
 
+    @Override
+    public void onResume() {
+        pageIndex=1;
+        loadData();
+        super.onResume();
+    }
+
     void loadData() {
         if (pageIndex == 1) {
             binding.viewBg.setVisibility(View.VISIBLE);
@@ -128,7 +135,13 @@ public class InProgressOrderFragment extends FragmentBase {
                         }
                         if (listOrder.size() < resultObj.getTotalRecords()) {
                             listOrder.addAll(resultObj.getItems());
-                            adapter.notifyDataSetChanged();
+                        }
+                        adapter.notifyDataSetChanged();
+                        if(listOrder.size()==0){
+                            binding.layoutEmpty.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            binding.layoutEmpty.setVisibility(View.GONE);
                         }
                     } else {
                         if (getContext() != null) {
@@ -137,6 +150,7 @@ public class InProgressOrderFragment extends FragmentBase {
                     }
                 } else {
                     if (getContext() != null) {
+                        binding.layoutEmpty.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -151,6 +165,7 @@ public class InProgressOrderFragment extends FragmentBase {
             public void onFailure(Call<ResponseRetrofit<ItemPaging<ArrayList<Order>>>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
+                binding.layoutEmpty.setVisibility(View.VISIBLE);
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();

@@ -76,10 +76,10 @@ public class NewsPostAdapter extends RecyclerView.Adapter<NewsPostAdapter.PostHo
             }
 
             if (checkNew(listNewPost.get(position).getId())) {
-                binding.layout.setBackgroundColor(Color.parseColor("#fffee0"));
+                binding.layout.setSelected(true);
                 binding.imvIsRead.setImageResource(R.color.primaryColor);
             } else {
-                binding.layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                binding.layout.setSelected(false);
                 binding.imvIsRead.setVisibility(View.GONE);
             }
 

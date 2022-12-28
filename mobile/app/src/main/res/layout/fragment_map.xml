@@ -92,7 +92,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_account_frag"
-            android:text="Pick Address"
+            android:text="chọn"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="17dp"

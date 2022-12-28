@@ -336,6 +336,7 @@
                         android:hint="Hãy nhập ghi chú..."
                         android:maxLength="100"
                         android:maxLines="5"
+                        android:textSize="16dp"
                         android:minHeight="150dp"
                         android:padding="10dp" />
 
@@ -382,6 +383,7 @@
                         android:layout_marginTop="30dp"
                         android:background="@drawable/btn_login_bg"
                         android:text="Xác nhận"
+                        android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold" />

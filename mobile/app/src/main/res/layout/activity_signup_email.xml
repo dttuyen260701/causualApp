@@ -50,7 +50,7 @@
         android:autoSizeTextType="uniform"
         android:padding="2dp"
         android:gravity="center_horizontal"
-        android:text="Chúng tôi sẽ gửi một mã xác thực đến email của bạn để tạo tài khoản mới"
+        android:text="Vui lòng không chia sẻ email của bạn với ai để giữ bảo mật"
         android:textColor="@color/black"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"

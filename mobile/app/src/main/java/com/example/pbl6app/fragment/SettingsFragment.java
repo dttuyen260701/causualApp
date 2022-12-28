@@ -132,7 +132,7 @@ public class SettingsFragment extends FragmentBase{
         });
 
 
-        btnChangeDialog.setText("Đăng xuất");
+        btnChangeDialog.setText("Có");
 
         dialog.show();
     }

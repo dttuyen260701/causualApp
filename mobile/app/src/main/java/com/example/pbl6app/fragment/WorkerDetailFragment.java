@@ -66,7 +66,17 @@ public class WorkerDetailFragment extends FragmentBase {
 
     @Override
     protected void initView() {
-        Picasso.get().load(Constant.BASE_URL + worker.getLinkIMG()).into(binding.imvAva);
+        Picasso.get().load(Constant.BASE_URL + worker.getLinkIMG()).into(binding.imvAva, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                binding.imvAva.setImageResource(R.drawable.default_avatar);
+            }
+        });
         binding.tvUsername.setText(worker.getName());
         binding.tvAdress.setText(worker.getAddress());
         binding.tvPhone.setText(worker.getPhone());
@@ -79,11 +89,10 @@ public class WorkerDetailFragment extends FragmentBase {
         adapter = new JobInfoAdapter(worker.getListJobList(), new OnItemCLickListener<JobInfo>() {
             @Override
             public void onItemClick(JobInfo item) {
-
             }
         });
 
-        binding.rclJobInfo.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
+        binding.rclJobInfo.setLayoutManager(new LinearLayoutManager(getActivity(),  LinearLayoutManager.VERTICAL, false));
         binding.rclJobInfo.setAdapter(adapter);
     }
 

@@ -125,106 +125,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/layout_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           android:layout_marginBottom="16dp"
-            android:layout_marginHorizontal="10dp"
-            app:cardCornerRadius="8dp"
-            android:elevation="10dp"
-            >
-
-                <TextView
-                    android:id="@+id/btnLogOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center|start"
-                    android:paddingStart="7dp"
-                    android:text="Đăng xuất"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    tools:ignore="TouchTargetSizeCheck"
-                    android:layout_marginLeft="10dp"
-                    />
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center|end"
-                android:src="@drawable/ic_arrow_right"
-                android:layout_marginRight="10dp"
-                />
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/layout_aboutUs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="TouchTargetSizeCheck"
-            android:layout_marginBottom="16dp"
-             app:cardCornerRadius="8dp"
-            android:layout_marginHorizontal="10dp"
-            android:elevation="10dp">
-
-                <TextView
-                    android:id="@+id/btnAbout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center|start"
-                    android:paddingStart="7dp"
-                    android:text="Về chúng tôi"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="10dp"
-                    />
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center|end"
-                android:src="@drawable/ic_arrow_right"
-                android:layout_marginRight="10dp"
-                />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/layout_terms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:elevation="10dp"
-            app:cardCornerRadius="8dp"
-            android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:id="@+id/btnTemp"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center|start"
-                    android:paddingStart="7dp"
-                    android:text="Điều khoản và điều kiện"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    tools:ignore="TouchTargetSizeCheck"
-                    android:layout_marginLeft="10dp"
-                    />
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center|end"
-                android:src="@drawable/ic_arrow_right"
-                android:layout_marginRight="10dp"
-                />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
             android:id="@+id/layout_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -247,6 +147,40 @@
                     android:layout_marginLeft="10dp"
 
                     />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center|end"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_marginRight="10dp"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layout_post_assign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="10dp"
+            app:cardCornerRadius="8dp"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/btn_post_assign"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center|start"
+                android:paddingStart="7dp"
+                android:text="Bài đăng đã đăng ký"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck"
+                android:layout_marginLeft="10dp"
+
+                />
 
             <ImageView
                 android:layout_width="25dp"
@@ -293,27 +227,27 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/layout_post_assign"
+            android:id="@+id/layout_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginHorizontal="10dp"
             app:cardCornerRadius="8dp"
-            android:elevation="10dp">
+            android:elevation="10dp"
+            >
 
             <TextView
-                android:id="@+id/btn_post_assign"
+                android:id="@+id/btnLogOut"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center|start"
                 android:paddingStart="7dp"
-                android:text="Bài đăng đã đăng ký"
+                android:text="Đăng xuất"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 tools:ignore="TouchTargetSizeCheck"
                 android:layout_marginLeft="10dp"
-
                 />
 
             <ImageView
@@ -323,6 +257,7 @@
                 android:src="@drawable/ic_arrow_right"
                 android:layout_marginRight="10dp"
                 />
+
 
         </androidx.cardview.widget.CardView>
 

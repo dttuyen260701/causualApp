@@ -168,6 +168,12 @@ public class HistoryFragment extends FragmentBase {
                             listHistoryOrders.addAll(resultObj.getItems());
                             adapter.notifyDataSetChanged();
                         }
+                        if(listHistoryOrders.size()==0){
+                            binding.layoutEmpty.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            binding.layoutEmpty.setVisibility(View.GONE);
+                        }
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -175,6 +181,7 @@ public class HistoryFragment extends FragmentBase {
                     }
                 } else {
                     if (getContext() != null) {
+                        binding.layoutEmpty.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -85,13 +85,13 @@ public class OrderItemLinesAdapter extends RecyclerView.Adapter<OrderItemLinesAd
                     status = "Đang thực hiện";
                     break;
             }
-            if(!order.isRead()) {
+            if(!order.isRead() && (order.getStatus()==Constant.WAITING_STATUS || order.getStatus()==Constant.ACCEPT_STATUS)) {
                 binding.layoutOrderItemLine.setCardBackgroundColor(Color.parseColor("#E7F0F7"));
                 binding.imvIsRead.setImageResource(R.color.blueStatus);
             }
-
             else{
                 binding.imvIsRead.setVisibility(View.GONE);
+                binding.layoutOrderItemLine.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             }
 
             Picasso.get().load(Constant.BASE_URL + ((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerImage() : order.getWorkerImage())).into(binding.imgItem);

@@ -54,18 +54,10 @@ public class JobInfoAdapter extends RecyclerView.Adapter<JobInfoAdapter.JobHolde
         }
 
         public void bindView(int position) {
-            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-                    context.getResources().getDisplayMetrics().widthPixels * 45 / 100,
-                    context.getResources().getDisplayMetrics().widthPixels * 45 / 100 / 6 * 4
-            );
-
-            layoutParams.setMargins(1, 1, 1, 1);
-
-            binding.layout.setLayoutParams(layoutParams);
             binding.layout.setOnClickListener(view -> {
                 listener.onItemClick(listJobInfo.get(position));
             });
-            Picasso.get().load(Constant.BASE_URL + listJobInfo.get(position).getLinkIMG()).into(binding.imgItem);
+            //Picasso.get().load(Constant.BASE_URL + listJobInfo.get(position).getLinkIMG()).into(binding.imgItem);
             binding.tvItem.setText(listJobInfo.get(position).getName());
         }
     }
