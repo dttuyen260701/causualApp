@@ -13,7 +13,7 @@ export const ItemNavbar: React.FC<IItemNavbar> = ({ name, navigate, handleClickI
 	return (
 		<NavLink to={navigate}>
 			<Box
-				color={"#9c7d6e"}
+				color={"#000000"}
 				padding="10px"
 				backgroundColor={selectedItem === name ? "#f6d79f" : ""}
 				borderRadius={selectedItem === name ? "30px" : ""}

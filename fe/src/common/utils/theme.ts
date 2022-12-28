@@ -34,7 +34,18 @@ export const theme = extendTheme({
 					}
 				}
 			}
-		}
+		},
+		Table: {
+			variants: {
+			  mytable: {
+				tr: {
+				  _odd: {
+					background: "#f2e9c5"
+				  }
+				}
+			  }
+			}
+		  }
 	},
 	fonts: {
 		body: "'Libre Franklin', sans-serif;",

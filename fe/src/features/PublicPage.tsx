@@ -34,7 +34,7 @@ const PublicPage = () => {
 						width: "6px"
 					},
 					"&::-webkit-scrollbar-thumb": {
-						background: "#6a5af9",
+						background: "#f9d475",
 						borderRadius: "24px"
 					}
 				}}

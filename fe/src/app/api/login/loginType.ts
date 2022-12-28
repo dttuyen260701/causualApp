@@ -6,18 +6,36 @@ export interface IUserLoginInput {
 }
 
 export interface IUserInfo {
-	userId: string;
-	email: string;
-	Name: string;
-	profilePictureUrl: string;
-	roleName: string;
+	id: string
+    email: string
+    userName: string
+    phone: number
+    name: string
+    identityCard: string
+    identityCardDate: string
+    identityCardBy: string
+    gender: number
+    dateOfBirth: string
+    startWorkingTime: string
+    endWorkingTime: string
+    provinceId: string
+    provinceName: string
+    districtId: string
+    districtName: string
+    wardId: string
+    wardName: string
+    address: string
+    addressPoint: string
+    role: string
+    avatar: string
+    lastModificationTime: string
 }
 
 export interface ILoginResponse {
 	//token: string;
-	//userInfo: IUserInfo;
-	result: number;
-	description: string;
+	isSuccessed: boolean
+	message: string
+	resultObj: IUserInfo
 }
 
 export interface IErrorResponse {

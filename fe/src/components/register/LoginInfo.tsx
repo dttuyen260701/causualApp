@@ -1,5 +1,5 @@
 import { Box, Flex, VStack, Text, HStack, Link, Button } from "@chakra-ui/react";
-import { Form, Formik, FormikErrors, FormikHelpers } from "formik";
+import { Form, Formik, FormikErrors } from "formik";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
@@ -29,8 +29,7 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 		}
 	}, [props.userLoginInfo]);
 
-	const handleSubmit = async (values: IUserLoginRegister, actions: FormikHelpers<IUserLoginRegister>) => {
-		//alert(`Username: ${values.UserName}\nEmail: ${values.Email}\nPassword: ${values.Password}`);
+	const handleSubmit = async (values: IUserLoginRegister) => {
 		props.handleGetLoginInfo(values);
 		props.handleNextPage(2);
 	};
@@ -41,29 +40,29 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 			validate={values => {
 				const error: FormikErrors<IUserLoginRegister> = {};
 				if (!values.UserName) {
-					error.UserName = "UserName is required";
+					error.UserName = "Vui lòng nhập tên đăng nhập";
 				}
 				if (!values.Password) {
-					error.Password = "Password is required";
+					error.Password = "Vui lòng nhập mật khẩu";
 				}
 				if (
 					values.Password &&
 					!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(values.Password.trim())
 				) {
 					error.Password =
-						"Password must contain 8 Characters, one uppercase, one lowercase, one number and one special case character";
+						"Mật khẩu nên chứa ít nhất 8 kí tự, ít nhất một kí tự viết hoa, một kí tự thường, một sô và một ký tự đặc biệt";
 				}
 				if (!values.confirmPassword) {
-					error.confirmPassword = "Password has to be confirmed";
+					error.confirmPassword = "Vui lòng xác nhận mật khẩu";
 				}
 				if (values.confirmPassword !== values.Password) {
-					error.confirmPassword = "Password is confirmed incorrectly";
+					error.confirmPassword = "Xác nhận mật khẩu chưa chính xác";
 				}
 				if (!values.Email) {
-					error.Email = "Email is required";
+					error.Email = "Vui lòng nhập email";
 				}
 				if (values.Email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.Email.trim())) {
-					error.Email = "Email address is invalid";
+					error.Email = "Định dạng email chưa chính xác";
 				}
 				if (values.UserName && values.Email && values.Password && values.confirmPassword) {
 					setIsDisableNext(false);
@@ -78,31 +77,23 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 			{() => (
 				<Form>
 					<Flex width={"100%"} height={"100%"} bgColor={"white"} justifyContent={"center"} marginTop={"5px"}>
-						<VStack
-							//position={"relative"}
-							width={"100%"}
-							height={"100%"}
-							justifyContent={"center"}
-							spacing={3}
-						>
+						<VStack width={"100%"} height={"100%"} justifyContent={"center"} spacing={3}>
 							<HStack width={"100%"} justifyContent={"space-between"} spacing={20}>
 								<Text
 									fontSize="16px"
 									fontWeight="bold"
 									bgClip="text"
 									bgGradient="linear-gradient(to right, #d05d9c 0%,#f8bb1c 100%);"
-									//position="absolute"
-									//bottom="16px"
 								>
-									Casual Manager
+									Casual Helper
 								</Text>
 								<Text>
 									Bạn đã có tài khoản?{" "}
 									<Link
-										color="#E48D41"
+										color="#f9d475"
 										textDecoration={"underline"}
 										onClick={() => {
-											navigate("/");
+											navigate("/login");
 										}}
 									>
 										Đăng nhập
@@ -116,7 +107,7 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 									fontWeight="500"
 									fontSize={{ sm: "5.5vw", md: "40px", lg: "50px" }}
 									bgClip="text"
-									color={"#E48D41"}
+									color={"#f9d475"}
 								>
 									Trở thành đối tác
 								</Text>
@@ -182,22 +173,21 @@ const LoginInfo: React.FC<ILoginInfo> = (props: ILoginInfo) => {
 							</HStack>
 							<HStack justifyContent={"flex-end"} width="100%">
 								<Button
-									bgColor={"rgba(222, 116, 24)"}
+									bgColor={"#f9d475"}
 									width="50px"
 									height="50px"
 									borderRadius={"30px"}
 									alignItems="center"
 									justifyContent={"center"}
 									cursor="pointer"
-									boxShadow="4px 4px 6px #FDB493"
+									boxShadow="8px 8px 10px rgb(249, 212, 117, 0.6)"
 									_hover={{
-										bgColor: "#E48D41"
+										bgColor: "#f9d475"
 									}}
 									type="submit"
 									isDisabled={isDisableNext}
-									//onClick={handleTurnPage}
 								>
-									<GrCaretNext color="white" width="50px" height="50px" />
+									<GrCaretNext color="#000000" width="50px" height="50px" />
 								</Button>
 							</HStack>
 						</VStack>

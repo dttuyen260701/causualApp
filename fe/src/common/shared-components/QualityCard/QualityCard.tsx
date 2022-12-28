@@ -15,7 +15,7 @@ export const QualityCard: React.FC<IQualityCard> = ({ title, content }: IQuality
 				paddingBottom={"20px"}
 			>
 				<Box
-					bgGradient={"linear-gradient(to right, #d49457 10%,#c75422 90%)"}
+					bgColor={"#f9d475"}
 					width="40px"
 					height={"40px"}
 					position="relative"
@@ -26,7 +26,7 @@ export const QualityCard: React.FC<IQualityCard> = ({ title, content }: IQuality
 					<AiFillStar size={"40"} color="#faf2e5" />
 				</Box>
 				<HStack width="100%" height={"100%"} alignContent="flex-start" justifyContent={"flex-start"} paddingLeft="10px">
-					<Heading fontSize={"30px"} fontWeight="400" color="#3f312a">
+					<Heading fontSize={"30px"} fontWeight="400" color="#000000">
 						{title}
 					</Heading>
 				</HStack>

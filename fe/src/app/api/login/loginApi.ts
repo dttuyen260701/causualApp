@@ -17,13 +17,9 @@ export const loginApi = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ["Login"]
 		})
-		//queryCurrentUser: builder.query<IUserInfo, void>({
-		//	query: () => `/users/current-user`
-		//})
 	})
 });
 
 export const {
 	useLoginMutation
-	// useLazyQueryCurrentUserQuery
 } = loginApi;

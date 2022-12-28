@@ -137,13 +137,13 @@ const useInputSelectStyle = ({ style }: IInputSelectProps) => {
 		}),
 		dropdownIndicator: base => ({
 			...base,
-			color: colorMode === "dark" ? "rgba(255, 255, 255, 0.92)" : "black",
+			color: colorMode === "dark" ? "#f9d475" : "black",
 			paddingRight: "16px",
 			svg: {
 				height: "1em",
 				width: "1em",
 				"&:hover": {
-					color: colorMode === "dark" ? "rgba(255, 255, 255, 0.92)" : "black"
+					color: colorMode === "dark" ? "#f9d475" : "black"
 				}
 			}
 		}),
@@ -151,7 +151,7 @@ const useInputSelectStyle = ({ style }: IInputSelectProps) => {
 			...base,
 			"&:hover": {
 				svg: {
-					color: colorMode === "dark" ? "rgba(255, 255, 255, 0.92)" : "black"
+					color: colorMode === "dark" ? "#f9d475" : "black"
 				}
 			}
 		})

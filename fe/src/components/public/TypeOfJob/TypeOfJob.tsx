@@ -14,7 +14,6 @@ SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
 
 export const TypeOfJob: React.FC = () => {
 	const { data: dataTypeOfJob } = useGetAllTypeOfJobQuery();
-	console.log("dataTypeOfJob: ", dataTypeOfJob);
 
 	return (
 		<Swiper
