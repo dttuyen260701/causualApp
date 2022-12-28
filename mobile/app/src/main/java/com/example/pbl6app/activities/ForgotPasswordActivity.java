@@ -66,11 +66,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 verifyInformation(email, username, phone, dob);
             }
         });
+
+        binding.tvBack.setOnClickListener(view->{
+            onBackPressed();
+        });
     }
 
     private void verifyInformation(String email, String username, String phone, String dob) {
 
         binding.progressBar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
 
         HashMap<String, String> body = new HashMap<>();
         body.put("userName", username);
@@ -95,6 +100,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
 
                 binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+
 
             }
 
@@ -102,6 +109,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseRetrofit<Object>> call, Throwable t) {
                 Toast.makeText(ForgotPasswordActivity.this, "Đã có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                 binding.progressBar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
 
             }
         });

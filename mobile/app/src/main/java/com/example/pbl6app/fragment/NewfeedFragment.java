@@ -206,8 +206,8 @@ public class NewfeedFragment extends FragmentBase {
                         }
                         if(listData.size()<resultObj.getTotalRecords()) {
                             listData.addAll(resultObj.getItems());
-                            adapter.notifyDataSetChanged();
                         }
+                        adapter.notifyDataSetChanged();
                         if(listData.size()==0){
                             binding.layoutEmpty.setVisibility(View.VISIBLE);
                         }
@@ -275,8 +275,8 @@ public class NewfeedFragment extends FragmentBase {
                         }
                         if(listData.size()<resultObj.getTotalRecords()) {
                             listData.addAll(resultObj.getItems());
-                            adapter.notifyDataSetChanged();
                         }
+                        adapter.notifyDataSetChanged();
                         if(listData.size()==0){
                             binding.layoutEmpty.setVisibility(View.VISIBLE);
                         }

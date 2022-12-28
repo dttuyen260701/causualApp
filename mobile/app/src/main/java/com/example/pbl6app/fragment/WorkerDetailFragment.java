@@ -122,17 +122,23 @@ public class WorkerDetailFragment extends FragmentBase {
             }
         });
 
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            loadData();
+        });
     }
 
     private void loadData() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
+        binding.swipeRefresh.setEnabled(false);
 
         ApiService.apiService.getWorkerDetail(worker.getId()).enqueue(new Callback<ResponseRetrofit<WorkerDetail>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<WorkerDetail>> call, Response<ResponseRetrofit<WorkerDetail>> response) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
+                binding.swipeRefresh.setEnabled(true);
+                binding.swipeRefresh.setRefreshing(false);
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
                         if(response.body().getResultObj() != null) {

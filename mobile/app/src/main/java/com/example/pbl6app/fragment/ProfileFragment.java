@@ -108,6 +108,7 @@ public class ProfileFragment extends FragmentBase {
     @SuppressLint("SimpleDateFormat")
     @Override
     protected void initView() {
+        onCheck();
 
         idDistrictChosen = (Constant.USER.getDistrictId() == null) ? "" : Constant.USER.getDistrictId();
         idProvinceChosen = (Constant.USER.getProvinceId() == null) ? "" : Constant.USER.getProvinceId();
@@ -119,12 +120,18 @@ public class ProfileFragment extends FragmentBase {
         binding.edtName.setText(Constant.USER.getName());
         binding.edtAge.setText(Constant.USER.getDateOfBirth());
         binding.edtPhone.setText(Constant.USER.getPhoneNumber());
+        binding.tvProvince.setText("Vui lòng chọn tỉnh/thành phố");
+        binding.tvDistrict.setText("Vui lòng chọn quận/huyện");
+        binding.tvWard.setText("Vui lòng chọn phường/xã");
 
         String gender = (Constant.USER.getGender() == 0) ? "Nam" : ((Constant.USER.getGender() == 1) ? "Nữ" : "Không xác định");
         binding.edtGender.setText(gender);
-        binding.tvProvince.setText(Constant.USER.getProvinceName());
-        binding.tvDistrict.setText(Constant.USER.getDistrictName());
-        binding.tvWard.setText(Constant.USER.getWardName());
+        if(!idProvinceChosen.equals(""))
+            binding.tvProvince.setText(Constant.USER.getProvinceName());
+        if(!idDistrictChosen.equals(""))
+            binding.tvDistrict.setText(Constant.USER.getDistrictName());
+        if(!idWardChosen.equals(""))
+            binding.tvWard.setText(Constant.USER.getWardName());
         binding.edtAddress.setText(Constant.USER.getAddress());
 
         binding.progressBar2.setVisibility(View.VISIBLE);
@@ -176,6 +183,7 @@ public class ProfileFragment extends FragmentBase {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.tvWarningPhone.setVisibility((s.length() == 10) ? View.GONE : View.VISIBLE);
+                onCheck();
             }
 
             @Override
@@ -193,6 +201,7 @@ public class ProfileFragment extends FragmentBase {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.tvWarningName.setVisibility((s.length() > 0) ? View.GONE : View.VISIBLE);
+                onCheck();
             }
 
             @Override
@@ -210,6 +219,7 @@ public class ProfileFragment extends FragmentBase {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.tvWarningAdress.setVisibility((s.length() > 0) ? View.GONE : View.VISIBLE);
+                onCheck();
             }
 
             @Override
@@ -221,19 +231,6 @@ public class ProfileFragment extends FragmentBase {
         binding.edtAge.setOnClickListener(view -> {
             showDatePickerDialog();
         });
-
-        if (binding.tvWarningAdress.getVisibility() == View.VISIBLE
-                || binding.tvWarningName.getVisibility() == View.VISIBLE
-                || binding.tvWarningPhone.getVisibility() == View.VISIBLE
-                || idDistrictChosen.equals("")
-                || idWardChosen.equals("")) {
-            binding.imvSave.setSelected(false);
-        } else {
-            binding.imvSave.setSelected(true);
-            binding.imvSave.setOnClickListener(view -> {
-                onSubmitData();
-            });
-        }
         
         binding.imvAddAva.setOnClickListener(view -> {
             showDialog();
@@ -253,6 +250,7 @@ public class ProfileFragment extends FragmentBase {
             onChoiceShow(Constant.PROVINCE_DATA,
                     "Tỉnh/ Thành Phố",
                     item -> {
+                        onCheck();
                         binding.tvDistrict.setEnabled(true);
                         binding.tvProvince.setText(item.getName());
                         idProvinceChosen = item.getId();
@@ -268,6 +266,7 @@ public class ProfileFragment extends FragmentBase {
             onChoiceShow(Constant.DISTRICT_DATA,
                     "Quận/ Huyện",
                     item -> {
+                        onCheck();
                         binding.tvWard.setEnabled(true);
                         binding.tvDistrict.setText(item.getName());
                         idDistrictChosen = item.getId();
@@ -281,12 +280,28 @@ public class ProfileFragment extends FragmentBase {
             onChoiceShow(Constant.WARD_DATA,
                     "Phường/ Xã",
                     item -> {
+                        onCheck();
                         binding.tvWard.setText(item.getName());
                         idWardChosen = item.getId();
                         choiceFragment.dismiss();
                     }, idDistrictChosen);
         });
 
+    }
+
+    public void onCheck() {
+        if (binding.tvWarningAdress.getVisibility() == View.VISIBLE
+                || binding.tvWarningName.getVisibility() == View.VISIBLE
+                || binding.tvWarningPhone.getVisibility() == View.VISIBLE
+                || idDistrictChosen.equals("")
+                || idWardChosen.equals("")) {
+            binding.imvSave.setSelected(false);
+        } else {
+            binding.imvSave.setSelected(true);
+            binding.imvSave.setOnClickListener(view -> {
+                onSubmitData();
+            });
+        }
     }
 
     public void showDatePickerDialog() {

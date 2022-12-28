@@ -56,6 +56,15 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     private boolean isFirstLoad = true;
     private ValueEventListener valueEventListener;
     private final OnItemCLickListener<Object> listenerEnd;
+    private static boolean isRunning = false;
+
+    public static boolean isIsRunning() {
+        return isRunning;
+    }
+
+    public static void setIsRunning(boolean isRunning) {
+        DetailPostOnWorkerRoleFragment.isRunning = isRunning;
+    }
 
     public DetailPostOnWorkerRoleFragment(OnItemCLickListener<Object> listenerEnd) {
         this.listenerEnd = listenerEnd;
@@ -72,6 +81,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDetailPostOnWorkerRoleBinding.inflate(inflater, container, false);
+        isRunning = true;
         return binding.getRoot();
     }
 
@@ -148,6 +158,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                                     @Override
                                     public void onYesClick(Dialog dialog) {
                                         createOrder(item);
+                                        dialog.dismiss();
                                     }
                                 }
                         );
@@ -327,9 +338,13 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     }
 
     private void handleUnAssignClick() {
+        binding.viewBg.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         ApiService.apiService.deleteWorkerResponsePostOfDemand(Constant.USER.getId(), mPodID).enqueue(new Callback<ResponseRetrofit<Object>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<Object>> call, Response<ResponseRetrofit<Object>> response) {
+                binding.viewBg.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 if (response.body() != null && response.body().isSuccessed()) {
                     FirebaseRepository
                             .ResponsePost
@@ -347,6 +362,8 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
             @Override
             public void onFailure(Call<ResponseRetrofit<Object>> call, Throwable t) {
+                binding.viewBg.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -379,8 +396,12 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
     private void handleAddWorkerToRequestListFirebase(Worker worker) {
 
+        binding.viewBg.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         FirebaseRepository.PickPostChild.child(mPodID).get().addOnCompleteListener(task -> {
 
+            binding.viewBg.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.GONE);
             ArrayList<Worker> requestList = new ArrayList<>();
             boolean isContain = false;
 
@@ -402,14 +423,19 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     }
 
     private void handleAssignClick() {
+
         if (mPOD != null) {
             Map<String, String> body = new HashMap<>();
             body.put("workerId", Constant.USER.getId());
             body.put("postOfDemandId", mPodID);
+            binding.viewBg.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
 
             ApiService.apiService.requestPostOfDemandForWorker(body).enqueue(new Callback<ResponseRetrofit<Worker>>() {
                 @Override
                 public void onResponse(Call<ResponseRetrofit<Worker>> call, Response<ResponseRetrofit<Worker>> response) {
+                    binding.viewBg.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.GONE);
                     if (response.code() == HttpURLConnection.HTTP_OK) {
                         if (response.body() != null && response.body().isSuccessed()) {
                             FirebaseRepository
@@ -431,6 +457,8 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
                 @Override
                 public void onFailure(Call<ResponseRetrofit<Worker>> call, Throwable t) {
+                    binding.viewBg.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.GONE);
                     Log.e("TTT", "onFailure: ", t);
                     if (getContext() != null) {
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -554,6 +582,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
     @Override
     public void onDestroy() {
+        isRunning = false;
         super.onDestroy();
         FirebaseRepository.PickPostChild.child(mPodID).removeEventListener(valueEventListener);
     }
