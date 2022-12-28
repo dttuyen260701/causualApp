@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.Oders;
 using PBL6.CasualManager.PagingModels;
+using PBL6.CasualManager.Permissions;
 using PBL6.CasualManager.PrieceDetails;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.WorkerInfos;
@@ -51,6 +53,7 @@ namespace PBL6.CasualManager.Orders
             _typeOfJobRepository = typeOfJobRepository;
         }
 
+        [Authorize(CasualManagerPermissions.Order.Default)]
         public async Task<PagedResultDto<OrderDto>> GetListByWorkerAsync(OrderConditionSearchDto condition)
         {
             var result = await _orderRepository.GetListByUserAsync(
@@ -70,6 +73,7 @@ namespace PBL6.CasualManager.Orders
             return new PagedResultDto<OrderDto> { Items = listOrderDto, TotalCount = result.TotalCount };
         }
 
+        [Authorize(CasualManagerPermissions.Order.Default)]
         public async Task<PagedResultDto<OrderDto>> GetListByCustomerAsync(OrderConditionSearchDto condition)
         {
             var result = await _orderRepository.GetListByUserAsync(
@@ -89,12 +93,14 @@ namespace PBL6.CasualManager.Orders
             return new PagedResultDto<OrderDto> { Items = listOrderDto, TotalCount = result.TotalCount };
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<Dictionary<string, string>> GetListRevenueOfMonthsOfWorkerAsync(Guid workerId, int month = 1)
         {
             var result = await _orderRepository.GetListRevenueOfMonthsOfWorker(workerId, month);
             return result;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<Dictionary<string, Dictionary<string, string>>> GetListOrderOfMonthsOfWorkerAsync(Guid workerId, int month = 1)
         {
             var result = await _orderRepository.GetListOrderOfMonthsOfWorker(workerId, month);

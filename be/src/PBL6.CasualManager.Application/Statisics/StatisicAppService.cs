@@ -11,6 +11,9 @@ using PBL6.CasualManager.Enum;
 using System.Linq;
 using PBL6.CasualManager.JobInfos;
 using Volo.Abp.Domain.Repositories;
+using PBL6.CasualManager.Addresses;
+using Microsoft.AspNetCore.Authorization;
+using PBL6.CasualManager.Permissions;
 
 namespace PBL6.CasualManager.Statisics
 {
@@ -23,6 +26,7 @@ namespace PBL6.CasualManager.Statisics
         private readonly IWorkerInfoRepository _workerInfoRepository;
         private readonly ICustomerInfoRepository _customerInfoRepository;
         private readonly IJobInfoRepository _jobInfoRepository;
+        private readonly IAddressAppService _addressAppService;
 
         public StatisicAppService(
             IIdentityUserRepository identityUserRepository,
@@ -31,7 +35,8 @@ namespace PBL6.CasualManager.Statisics
             IPlanningRepository planningRepository,
             IWorkerInfoRepository workerInfoRepository,
             ICustomerInfoRepository customerInfoRepository,
-            IJobInfoRepository jobInfoRepository)
+            IJobInfoRepository jobInfoRepository,
+            IAddressAppService addressAppService)
         {
             _identityUserRepository = identityUserRepository;
             _identityUserManager = identityUserManager;
@@ -40,8 +45,10 @@ namespace PBL6.CasualManager.Statisics
             _workerInfoRepository = workerInfoRepository;
             _customerInfoRepository = customerInfoRepository;
             _jobInfoRepository = jobInfoRepository;
+            _addressAppService = addressAppService;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<Dictionary<string, Dictionary<string, string>>> GetListRevenueOfMonthsOfBussinessAsync(int month = 1)
         {
             var targets = await _planningRepository.GetListRevenueTargetOfMonths(month);
@@ -65,6 +72,7 @@ namespace PBL6.CasualManager.Statisics
             return result;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<List<DifferentialRevenueDto>> CalculatingDifferentialRevenue(int month)
         {
             var targets = await _planningRepository.GetListRevenueTargetOfMonths(month);
@@ -95,11 +103,60 @@ namespace PBL6.CasualManager.Statisics
             return result;
         }
 
-        public async Task<List<TopProvinceDto>> GetTopProvinceMostUser()
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
+        public async Task<List<TopProvinceDto>> GetTopProvinceMostUser(int take)
         {
-            return new List<TopProvinceDto>();
+            var customers = await _customerInfoRepository.GetListAsync();
+            var workers = await _workerInfoRepository.GetListAsync();
+            var customersOderByProvince = customers
+                .GroupBy(x => x.ProvinceId)
+                .Select(x =>
+                {
+                    return new
+                    {
+                        ProvinceId = x.Key,
+                        Count = x.Count()
+                    };
+                })
+                .ToDictionary(x => x.ProvinceId, x => x.Count);
+            var workersOderByProvince = workers
+                .GroupBy(x => x.ProvinceId)
+                .Select(x =>
+                {
+                    return new
+                    {
+                        ProvinceId = x.Key,
+                        Count = x.Count()
+                    };
+                })
+                .ToDictionary(x => x.ProvinceId, x => x.Count);
+
+            var listTopProvince = new List<TopProvinceDto>();
+            var provinces = await _addressAppService.GetProvinces();
+            foreach(var province in provinces)
+            {
+                int countCustomer;
+                int countWorker;
+                if (!customersOderByProvince.TryGetValue(province.Id.ToString(), out countCustomer))
+                {
+                    countCustomer = 0;
+                }
+                if (!workersOderByProvince.TryGetValue(province.Id.ToString(), out countWorker))
+                {
+                    countWorker = 0;
+                }
+                listTopProvince.Add(new TopProvinceDto() 
+                { 
+                    CustomerCount = countCustomer,
+                    WorkerCount = countWorker,
+                    TotalUser = countCustomer + countWorker,
+                    ProvinceName = province.Name 
+                });
+            }
+            return listTopProvince.OrderByDescending(x => x.TotalUser).Take(take).ToList();
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<List<WorkerInfoDto>> GetTopWorker(int take)
         {
             var result = await _workerInfoRepository.GetListTopWorker(take);
@@ -117,6 +174,7 @@ namespace PBL6.CasualManager.Statisics
             return listWorkerInfoAllDto;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<List<CustomerInfoDto>> GetTopCustomer(int take)
         {
             var result = await _customerInfoRepository.GetListTopCustomer(take);
@@ -134,6 +192,7 @@ namespace PBL6.CasualManager.Statisics
             return listCustomerInfoAllDto;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<List<OrderDto>> GetNearestOrder(int take)
         {
             var result = await _orderRepository.GetListNearest(take);
@@ -150,6 +209,7 @@ namespace PBL6.CasualManager.Statisics
             return listOrderDto;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<List<UserInfoDto>> GetNearestUser(int take)
         {
             var userIdentity = (await _identityUserRepository.GetListAsync()).OrderByDescending(x => x.CreationTime).Take(take);
@@ -170,6 +230,7 @@ namespace PBL6.CasualManager.Statisics
             return listUserDto;
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<List<JobInfoDto>> GetNewestJobAdded(int take)
         {
             var result = await _jobInfoRepository.GetNewJobAdded(take);
@@ -193,22 +254,26 @@ namespace PBL6.CasualManager.Statisics
             }
             return jobInfoDtos;
         }
-    
+
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<int> GetCountOfCustomer()
         {
             return await _customerInfoRepository.CountAsync(x => !x.IsDeleted);
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<int> GetCountOfWorker()
         {
             return await _workerInfoRepository.CountAsync(x => !x.IsDeleted);
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<int> GetCountOfOrderIsInProcess()
         {
             return await _orderRepository.CountAsync(x => x.Status == OrderStatus.IsInProcess);
         }
 
+        [Authorize(CasualManagerPermissions.Statisic.Default)]
         public async Task<int> GetIncomeInDay()
         {
             return await _orderRepository.GetIncomeInDay();

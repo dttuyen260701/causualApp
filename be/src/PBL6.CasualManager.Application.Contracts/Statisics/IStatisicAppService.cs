@@ -13,7 +13,7 @@ namespace PBL6.CasualManager.Statisics
 
         Task<List<DifferentialRevenueDto>> CalculatingDifferentialRevenue(int month);
 
-        Task<List<TopProvinceDto>> GetTopProvinceMostUser();
+        Task<List<TopProvinceDto>> GetTopProvinceMostUser(int take);
 
         Task<List<WorkerInfoDto>> GetTopWorker(int take);
 

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.PagingModels;
+using PBL6.CasualManager.Permissions;
 using PBL6.CasualManager.RateOfWorkers;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.WorkerInfos;
@@ -49,6 +51,7 @@ namespace PBL6.CasualManager.PostOfDemands
             _typeOfJobRepository = typeOfJobRepository;
         }
 
+        [Authorize(CasualManagerPermissions.PostOfDemand.Default)]
         public async Task<PagedResultDto<PostOfDemandDto>> GetListSearchAsync(PostOfDemandConditionSearchDto condition)
         {
             var result = await _postOfDemandRepository.GetListSearchAsync(
@@ -79,6 +82,7 @@ namespace PBL6.CasualManager.PostOfDemands
             return new PagedResultDto<PostOfDemandDto> { Items = postOfDemandDtos, TotalCount = result.TotalCount};
         }
 
+        [Authorize(CasualManagerPermissions.PostOfDemand.Delete)]
         public async Task DeleteAsync(Guid id)
         {
             await _postOfDemandRepository.DeleteAsync(id);
@@ -420,6 +424,7 @@ namespace PBL6.CasualManager.PostOfDemands
                               join customerInfo in listCustomerInfo on postOfDemand.CustomerId equals customerInfo.Id
                               join identityUser in listIdentityUser on customerInfo.UserId equals identityUser.Id
                               join jobInfo in listJobInfo on postOfDemand.JobInfoId equals jobInfo.Id
+                              where postOfDemand.IsActive == true
                               orderby workerResponse.CreationTime descending
                               select new PostOfDemandResponse()
                               {

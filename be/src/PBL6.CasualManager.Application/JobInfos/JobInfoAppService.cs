@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.LookupValues;
+using PBL6.CasualManager.Permissions;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.WorkerInfos;
 using System;
@@ -35,6 +37,7 @@ namespace PBL6.CasualManager.JobInfos
             _typeOfJobRepository = typeOfJobRepository;
         }
 
+        [Authorize(CasualManagerPermissions.JobInfo.Default)]
         public async Task<PagedResultDto<JobInfoDto>> GetListSearchAsync(JobInfoConditionSearchDto condition)
         {
             if (condition.Sorting.IsNullOrWhiteSpace())
@@ -50,6 +53,7 @@ namespace PBL6.CasualManager.JobInfos
             );
             return ObjectMapper.Map<PagedResultDto<JobInfo>, PagedResultDto<JobInfoDto>>(results);
         }
+        
         [HttpGet]
         [Route("api/app/job-info/{workerId}/get-all-job-info")]
         public async Task<ApiResult<List<JobInfoResponse>>> GetAllJobInfoResponseAsync(Guid workerId, string? keyword = "")
@@ -115,6 +119,7 @@ namespace PBL6.CasualManager.JobInfos
             }
         }
 
+        [Authorize(CasualManagerPermissions.JobInfo.Default)]
         public async Task<List<JobInfoDto>> GetListByTypeOfJobAsync(Guid typeOfJobId)
         {
             var result = await _jobInfoRepository.GetListByTypeOfJobAsync(typeOfJobId);

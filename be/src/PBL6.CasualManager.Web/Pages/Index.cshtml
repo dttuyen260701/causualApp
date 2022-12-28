@@ -1,11 +1,18 @@
 ﻿@page
+@using PBL6.CasualManager.Web.Menus
 @using Microsoft.AspNetCore.Mvc.Localization
 @using PBL6.CasualManager.Localization
 @using Volo.Abp.Users
 @using PBL6.CasualManager.Enum;
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @model PBL6.CasualManager.Web.Pages.IndexModel
+@inject IPageLayout PageLayout
 @inject IHtmlLocalizer<CasualManagerResource> L
 @inject ICurrentUser CurrentUser
+@{
+PageLayout.Content.Title = L["Menu:Home"].Value;
+PageLayout.Content.MenuItemName = CasualManagerMenus.Home;
+}
 @section styles {
 <abp-style src="/Pages/Index.css" />
 }
@@ -375,61 +382,20 @@
                             </abp-column>
                             <abp-column size-md="_6" style="margin: auto 0;">
                                 <div class="top-provinces">
+                                    @foreach(var province in Model.ListTopProvince)
+                                    {
                                     <div class="province">
                                         <div class="content">
-                                            <h4>Đà Nẵng</h4>
-                                            <small>100 THỢ</small> <br />
-                                            <small>1000 KHÁCH HÀNG</small>
+                                            <h4>@province.ProvinceName</h4>
+                                            <small>@L["Statisic:Province:CountOfWorker", province.WorkerCount]</small> <br />
+                                            <small>@L["Statisic:Province:CountOfCustomer", province.CustomerCount]</small>
                                         </div>
                                         <div class="top">
                                             <p>Top</p>
-                                            <h5>1</h5>
+                                            <h5>@(Model.ListTopProvince.IndexOf(province) + 1)</h5>
                                         </div>
                                     </div>
-                                    <div class="province">
-                                        <div class="content">
-                                            <h4>Hồ Chí Minh</h4>
-                                            <small>80 Thợ</small> <br />
-                                            <small>700 Khách hàng</small>
-                                        </div>
-                                        <div class="top">
-                                            <p>Top</p>
-                                            <h5>2</h5>
-                                        </div>
-                                    </div>
-                                    <div class="province">
-                                        <div class="content">
-                                            <h4>Hà Nội</h4>
-                                            <small>60 Thợ</small> <br />
-                                            <small>620 Khách hàng</small>
-                                        </div>
-                                        <div class="top">
-                                            <p>Top</p>
-                                            <h5>3</h5>
-                                        </div>
-                                    </div>
-                                    <div class="province">
-                                        <div class="content">
-                                            <h4>Thanh Hoá</h4>
-                                            <small>50 Thợ</small> <br />
-                                            <small>570 Khách hàng</small>
-                                        </div>
-                                        <div class="top">
-                                            <p>Top</p>
-                                            <h5>4</h5>
-                                        </div>
-                                    </div>
-                                    <div class="province">
-                                        <div class="content">
-                                            <h4>Quảng Trị</h4>
-                                            <small>48 Thợ</small> <br />
-                                            <small>550 Khách hàng</small>
-                                        </div>
-                                        <div class="top">
-                                            <p>Top</p>
-                                            <h5>5</h5>
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
                             </abp-column>
                         </abp-row>

@@ -185,6 +185,8 @@
     "Statisic:NewestJobAdded:Job": "Tên công việc",
     "Statisic:NewestJobAdded:TypeOfJob": "Loại công việc",
     "Statisic:NewestJobAdded:TimeAgo": "Thời gian",
+    "Statisic:Province:CountOfWorker": "{0} THỢ",
+    "Statisic:Province:CountOfCustomer": "{0} KHÁCH KHÁCH",
 
     "PostOfDemand": "Danh sách bài đăng",
     "PostOfDemand:CustomerName": "Tên khách hàng",

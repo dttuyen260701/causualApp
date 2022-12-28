@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.LookupValues;
+using PBL6.CasualManager.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,7 @@ namespace PBL6.CasualManager.TypeOfJobs
             _typeOfJobRepository = typeOfJobRepository;
         }
 
+        [Authorize(CasualManagerPermissions.TypesOfJob.Default)]
         public async Task<PagedResultDto<TypeOfJobDto>> GetListByNameAsync(TypeOfJobConditionSearchDto condition)
         {
             if (condition.Sorting.IsNullOrWhiteSpace())
