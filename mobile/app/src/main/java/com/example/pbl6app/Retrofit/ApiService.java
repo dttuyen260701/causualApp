@@ -63,7 +63,7 @@ public interface ApiService {
 
     @Multipart
 //    @PUT("/api/app/customer-info/{id}")
-    @HTTP(method = HTTPMethod.PUT, path = "/api/app/customer-info/{Uid}", hasBody = true)
+    @HTTP(method = HTTPMethod.PUT, path = "/api/app/account/edit-customer-info/{Uid}", hasBody = true)
     Call<ResponseRetrofit<User>> updateCustomer(
             @Path("Uid") String id,
             @Part("name") RequestBody name,
