@@ -32,7 +32,8 @@ public class CasualManagerMenuContributor : IMenuContributor
                 l["Menu:Home"],
                 "~/",
                 icon: "fas fa-home",
-                order: 0
+                order: 0,
+                requiredPermissionName: CasualManagerPermissions.Statisic.Default
             )
         );
 
@@ -48,7 +49,7 @@ public class CasualManagerMenuContributor : IMenuContributor
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
-        context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.TypeOfJob, l["Menu:TypeOfJob"], "/TypeOfJobs", icon: "fa fa-bookmark", order: 4).RequirePermissions(CasualManagerPermissions.TypesOfJob.Default));
+        context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.TypeOfJob, l["Menu:TypeOfJob"], "/TypeOfJobs", icon: "fa fa-tags", order: 4).RequirePermissions(CasualManagerPermissions.TypesOfJob.Default));
         context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.JobInfo, l["Menu:JobInfo"], "/JobInfos", icon: "fa fa-bookmark", order: 5).RequirePermissions(CasualManagerPermissions.JobInfo.Default));
         context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.CustomerInfo, l["Menu:CustomerInfo"], "/CustomerInfos", icon: "fa fa-users", order: 6).RequirePermissions(CasualManagerPermissions.CustomerInfo.Default));
         context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.WorkerInfo, l["Menu:WorkerInfo"], "/WorkerInfos", icon: "fa fa-gavel", order: 7).RequirePermissions(CasualManagerPermissions.WorkerInfo.Default));

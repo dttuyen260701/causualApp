@@ -1,6 +1,8 @@
-﻿using PBL6.CasualManager.Enum;
+﻿using Microsoft.AspNetCore.Authorization;
+using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.FileStorages;
 using PBL6.CasualManager.LookupValues;
+using PBL6.CasualManager.Permissions;
 using PBL6.CasualManager.TypeOfJobs;
 using System;
 using System.Collections.Generic;
@@ -36,7 +38,8 @@ namespace PBL6.CasualManager.CustomerInfos
             _identityUserManager = identityUserManager;
             _identityUserRepository = identityUserRepository;
         }
-        
+
+        [Authorize(CasualManagerPermissions.CustomerInfo.Default)]
         public async Task<PagedResultDto<CustomerInfoDto>> GetListCustomerAllInfoAsync(CustomerInfoConditionSearchDto condition)
         {
             var listCustomerInfoDto = await _customerInfoRepository.GetListAsync();
@@ -57,6 +60,7 @@ namespace PBL6.CasualManager.CustomerInfos
             return new PagedResultDto<CustomerInfoDto> { Items = listCustomerInfoAllDto, TotalCount = listCustomerInfoAllDto.Count };
         }
 
+        [Authorize(CasualManagerPermissions.CustomerInfo.Default)]
         public async Task<CustomerInfoDto> GetCustomerInfoAsync(Guid id)
         {
             var customerInfo = await _customerInfoRepository.GetAsync(id);
@@ -69,6 +73,7 @@ namespace PBL6.CasualManager.CustomerInfos
             return result;
         }
 
+        [Authorize(CasualManagerPermissions.CustomerInfo.Create)]
         public async Task CreateCustomerInfoAsync(CustomerInfoCreateUpdateDto customerInfoCreateUpdateDto)
         {
             if (await _identityUserManager.FindByEmailAsync(customerInfoCreateUpdateDto.Email) != null)
@@ -114,6 +119,7 @@ namespace PBL6.CasualManager.CustomerInfos
             await _customerInfoRepository.InsertAsync(customerInfoCreate);
         }
 
+        [Authorize(CasualManagerPermissions.CustomerInfo.Update)]
         public async Task UpdateCustomerInfoAsync(Guid id, CustomerInfoCreateUpdateDto customerInfoCreateUpdateDto)
         {
             var customerInfo = await _customerInfoRepository.GetAsync(id);
@@ -140,6 +146,7 @@ namespace PBL6.CasualManager.CustomerInfos
             await _identityUserManager.UpdateAsync(customerIdentity);
         }
 
+        [Authorize(CasualManagerPermissions.CustomerInfo.Delete)]
         public async Task DeleteCustomerInfoAsync(Guid id)
         {
             var customerInfo = await _customerInfoRepository.GetAsync(id);

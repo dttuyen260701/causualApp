@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
+using PBL6.CasualManager.Permissions;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.WorkerInfos;
 using System;
@@ -35,6 +37,7 @@ namespace PBL6.CasualManager.JobInfoOfWorkers
             _workerInfoRepository = workerInfoRepository;
         }
 
+        [Authorize(CasualManagerPermissions.JobInfoOfWorker.Default)]
         public async Task<PagedResultDto<JobInfoOfWorkerDto>> GetListSearchAsync(JobInfoOfWorkerConditionSearchDto condition)
         {
             if (condition.Sorting.IsNullOrWhiteSpace())
@@ -57,6 +60,7 @@ namespace PBL6.CasualManager.JobInfoOfWorkers
             return new PagedResultDto<JobInfoOfWorkerDto> { Items = response, TotalCount = results.TotalCount};
         }
 
+        [Authorize(CasualManagerPermissions.JobInfoOfWorker.Create)]
         public async Task CreateJobInfoOfWorker(JobInfoOfWorkerCreateUpdateDto jobInfoOfWorkerCreateUpdateDto)
         {
             var jobInfoOfWorker = await _jobInfoOfWorkerRepository.GetByJobInfoAndWorker(
@@ -69,6 +73,7 @@ namespace PBL6.CasualManager.JobInfoOfWorkers
             await base.CreateAsync(jobInfoOfWorkerCreateUpdateDto);
         }
 
+        [Authorize(CasualManagerPermissions.JobInfoOfWorker.Update)]
         public async Task UpdateJobInfoOfWorker(Guid id, JobInfoOfWorkerCreateUpdateDto jobInfoOfWorkerCreateUpdateDto)
         {
             var jobInfoOfWorker = await _jobInfoOfWorkerRepository.GetByJobInfoAndWorker(

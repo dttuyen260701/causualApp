@@ -19,6 +19,7 @@ public class IndexModel : CasualManagerPageModel
     private readonly IStatisicAppService _statisicAppService;
 
     public List<WorkerInfoDto> ListTopWorker { get; set; }
+    public List<TopProvinceDto> ListTopProvince { get; set; }
     public List<CustomerInfoDto> ListTopCustomer { get; set; }
     public List<OrderDto> ListNearestOrder { get; set; }
     public List<UserInfoDto> ListNearestUser { get; set; }
@@ -37,6 +38,7 @@ public class IndexModel : CasualManagerPageModel
     public virtual async Task OnGetAsync()
     {
         ListTopWorker = await _statisicAppService.GetTopWorker(TAKE);
+        ListTopProvince = await _statisicAppService.GetTopProvinceMostUser(TAKE - 1);
         ListTopCustomer = await _statisicAppService.GetTopCustomer(TAKE);
         ListNearestOrder = await _statisicAppService.GetNearestOrder(TAKE);
         ListNearestUser = await _statisicAppService.GetNearestUser(TAKE);

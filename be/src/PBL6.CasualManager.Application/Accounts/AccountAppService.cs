@@ -397,7 +397,7 @@ namespace PBL6.CasualManager.Accounts
                     {
                         Email = identityUserAfterUpdate.Email,
                         Id = identityUserAfterUpdate.Id,
-                        Username = identityUserAfterUpdate.UserName,
+                        UserName = identityUserAfterUpdate.UserName,
                         Name = identityUserAfterUpdate.Name,
                         Phone = identityUserAfterUpdate.PhoneNumber,
                         Gender = infoWorkerAfterUpdate.Gender,
@@ -556,7 +556,7 @@ namespace PBL6.CasualManager.Accounts
                     {
                         Email = identityUserAfterUpdate.Email,
                         Id = identityUserAfterUpdate.Id,
-                        Username = identityUserAfterUpdate.UserName,
+                        UserName = identityUserAfterUpdate.UserName,
                         Name = identityUserAfterUpdate.Name,
                         Phone = identityUserAfterUpdate.PhoneNumber,
                         Gender = infoWorkerAfterUpdate.Gender,

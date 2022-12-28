@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
@@ -9,6 +10,7 @@ using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.Orders;
 using PBL6.CasualManager.PagingModels;
+using PBL6.CasualManager.Permissions;
 using PBL6.CasualManager.PrieceDetails;
 using PBL6.CasualManager.RateOfWorkers;
 using PBL6.CasualManager.TypeOfJobs;
@@ -74,6 +76,7 @@ namespace PBL6.CasualManager.WorkerInfos
             _prieceDetailRepository = prieceDetailRepository;
         }
 
+        [Authorize(CasualManagerPermissions.WorkerInfo.Default)]
         public async Task<PagedResultDto<WorkerInfoDto>> GetListWorkerAllInfoAsync(WorkerInfoConditionSearchDto condition)
         {
             var listWorkerInfoDto = await _workerInfoRepository.GetListAsync();
@@ -94,6 +97,7 @@ namespace PBL6.CasualManager.WorkerInfos
             return new PagedResultDto<WorkerInfoDto> { Items = listWorkerInfoAllDto, TotalCount = listWorkerInfoAllDto.Count };
         }
 
+        [Authorize(CasualManagerPermissions.WorkerInfo.Default)]
         public async Task<WorkerInfoDto> GetWorkerInfoAsync(Guid id)
         {
             var workerInfo = await _workerInfoRepository.GetAsync(id);
@@ -106,6 +110,7 @@ namespace PBL6.CasualManager.WorkerInfos
             return result;
         }
 
+        [Authorize(CasualManagerPermissions.WorkerInfo.Create)]
         public async Task CreateWorkerInfoAsync(WorkerInfoCreateUpdateDto workerInfoCreateUpdateDto)
         {
             if (await _identityUserManager.FindByEmailAsync(workerInfoCreateUpdateDto.Email) != null)
@@ -155,6 +160,7 @@ namespace PBL6.CasualManager.WorkerInfos
             await _workerInfoRepository.InsertAsync(workerInfoCreate);
         }
 
+        [Authorize(CasualManagerPermissions.WorkerInfo.Update)]
         public async Task UpdateWorkerInfoAsync(Guid id, WorkerInfoCreateUpdateDto workerInfoCreateUpdateDto)
         {
             var workerInfo = await _workerInfoRepository.GetAsync(id);
@@ -188,6 +194,7 @@ namespace PBL6.CasualManager.WorkerInfos
             await _identityUserManager.UpdateAsync(workerIdentity);
         }
 
+        [Authorize(CasualManagerPermissions.WorkerInfo.Delete)]
         public async Task DeleteWorkerInfoAsync(Guid id)
         {
             var workerInfo = await _workerInfoRepository.GetAsync(id);

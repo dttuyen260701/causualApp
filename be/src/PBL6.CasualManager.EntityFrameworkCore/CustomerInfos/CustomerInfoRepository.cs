@@ -32,5 +32,23 @@ namespace PBL6.CasualManager.CustomerInfos
                 .ToListAsync();
             return result;
         }
+
+        public async Task GetListCountOfCustomerInEachProvince()
+        {
+            var dbSet = await GetDbSetAsync();
+            var result = dbSet
+                .ToList()
+                .GroupBy(x => x.ProvinceId)
+                .Select(x =>
+                {
+                    return new
+                    {
+                        ProvinceId = x.Key,
+                        ProvinceName = x.First().ProvinceName,
+                        Count = x.Count()
+                    };
+                })
+                .ToDictionary(x => x.ProvinceId, x => new Dictionary<string, int>() { { x.ProvinceName, x.Count} });
+        }
     }
 }
