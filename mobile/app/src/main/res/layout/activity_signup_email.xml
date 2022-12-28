@@ -84,6 +84,7 @@
         android:autoSizeMinTextSize="17sp"
         android:autoSizeStepGranularity="1sp"
         android:hint="Email"
+        android:inputType="text|textEmailAddress"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,8 +92,7 @@
         app:layout_constraintStart_toEndOf="@+id/ic_signup_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65"
-        app:layout_constraintWidth_percent="0.75"
-        />
+        app:layout_constraintWidth_percent="0.75" />
 
     <TextView
         android:id="@+id/tvWarningEmail"

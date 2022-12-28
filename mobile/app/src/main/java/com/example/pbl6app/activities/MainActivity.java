@@ -19,6 +19,7 @@ import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.Utils.Methods;
 import com.example.pbl6app.databinding.ActivityMainBinding;
+import com.example.pbl6app.fragment.DetailPostOnWorkerRoleFragment;
 import com.example.pbl6app.fragment.HistoryFragment;
 import com.example.pbl6app.fragment.NewfeedFragment;
 import com.example.pbl6app.fragment.OrderDetailFragment;
@@ -97,9 +98,9 @@ public class MainActivity extends BaseActivity {
                                     @Override
                                     public void onDismiss() {
                                         FirebaseRepository.ResponsePostWorker.child(Constant.USER.getId()).removeValue();
-                                        if(OrderInQueueFragment.isIsRunning()) {
-                                            StatusFragment.setForWaiting(false);
-                                            binding.bottomNavigation.setSelectedItemId(R.id.menu_status);
+                                        if(DetailPostOnWorkerRoleFragment.isIsRunning()) {
+                                            DetailPostOnWorkerRoleFragment.setIsRunning(false);
+                                            binding.bottomNavigation.setSelectedItemId(R.id.menu_newFeed);
                                         }
                                     }
 

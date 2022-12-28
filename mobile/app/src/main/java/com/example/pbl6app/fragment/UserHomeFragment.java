@@ -157,6 +157,7 @@ public class UserHomeFragment extends FragmentBase {
 
                     @Override
                     public void onError(Exception e) {
+                        binding.imageView2.setImageResource(R.drawable.default_avatar);
                     }
                 });
 
@@ -166,7 +167,7 @@ public class UserHomeFragment extends FragmentBase {
         binding.slideShowUserHome.setClipToPadding(false);
         binding.slideShowUserHome.setClipChildren(false);
 
-        binding.tvNameFragUserHome.setText("Welcome");
+        binding.tvNameFragUserHome.setText("Xin chào");
         binding.tvDescripFragUserHome.setText(Constant.USER.getName());
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
@@ -180,10 +181,10 @@ public class UserHomeFragment extends FragmentBase {
         });
 
         listSlideItem = new ArrayList<>();
-        listSlideItem.add(new SlideItem("https://lockhi.vn/wp-content/uploads/2015/02/shop-page-header1.jpg"));
-        listSlideItem.add(new SlideItem("https://ichef.bbci.co.uk/news/976/cpsprodpb/BA32/production/_127566674_qatarworkers2.png"));
-        listSlideItem.add(new SlideItem("https://www.skilledlabourservices.co.uk/wp-content/uploads/2018/07/building-in-the-sun.jpg"));
-        listSlideItem.add(new SlideItem("https://i.insider.com/5c1e182ee04d62635d3dd5f3?width=700"));
+        listSlideItem.add(new SlideItem("https://freelancervietnam.vn/wp-content/uploads/2020/05/post-thumb-dich-vu-boc-xep-hang-hoa.jpg"));
+        listSlideItem.add(new SlideItem("https://empire-s3-production.bobvila.com/articles/wp-content/uploads/2021/02/What-Is-the-Going-Rate-for-House-Cleaning-1.jpg"));
+        listSlideItem.add(new SlideItem("https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"));
+        listSlideItem.add(new SlideItem("https://www.gardeningknowhow.com/wp-content/uploads/2019/08/landscaper.jpg"));
 
         binding.slideShowUserHome.setPageTransformer(compositePageTransformer);
         slideShowAdapter = new SlideShowAdapter(listSlideItem);

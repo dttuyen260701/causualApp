@@ -129,7 +129,7 @@ public class OrderInQueueFragment extends FragmentBase {
                             && order.getStatus() != Constant.REJECT_STATUS
                             && order.getStatus() != Constant.CANCEL_STATUS)
                             ? View.VISIBLE
-                            : View.GONE );
+                            : View.GONE);
 
             binding.tvWorkerPhone.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerPhone() : order.getWorkerPhone());
 
@@ -191,59 +191,111 @@ public class OrderInQueueFragment extends FragmentBase {
         });
 
         binding.btnReject.setOnClickListener(view -> {
-            Methods.showDialog(
-                    R.drawable.sad_dialog,
-                    "Từ chối",
-                    "Bạn có chắc chắn muốn từ chối đơn hàng này?",
-                    "Hủy",
-                    "Từ chối",
-                    new ListenerDialog() {
-                        @Override
-                        public void onDismiss() {
+            if (Constant.USER.getLastModificationTime() == null || Constant.USER.getAddressPoint().equals("")) {
+                Methods.showDialog(
+                        R.drawable.smile_dialog,
+                        "Thông báo",
+                        "Bạn vui lòng cập nhật hoặc xác nhận thông tin để sử dụng dịch vụ của chúng tôi",
+                        "Để sau",
+                        "Cập nhật",
+                        new ListenerDialog() {
+                            @Override
+                            public void onDismiss() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onNoClick(Dialog dialog) {
-                            dialog.dismiss();
-                        }
+                            @Override
+                            public void onNoClick(Dialog dialog) {
+                                dialog.dismiss();
+                            }
 
-                        @Override
-                        public void onYesClick(Dialog dialog) {
-                            submitData(order.getId(), Constant.REJECT_STATUS);
-                            dialog.dismiss();
+                            @Override
+                            public void onYesClick(Dialog dialog) {
+                                addFragment(new ProfileFragment(), R.id.ctFragmentUser);
+                                dialog.dismiss();
+                            }
                         }
-                    }
-            );
+                );
+            } else {
+                Methods.showDialog(
+                        R.drawable.smile_dialog,
+                        "Thông báo",
+                        "Bạn vui lòng cập hoặc xác nhận nhật thông tin để thực hiện chức năng này",
+                        "Để sau",
+                        "Từ chối",
+                        new ListenerDialog() {
+                            @Override
+                            public void onDismiss() {
+
+                            }
+
+                            @Override
+                            public void onNoClick(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onYesClick(Dialog dialog) {
+                                submitData(order.getId(), Constant.REJECT_STATUS);
+                                dialog.dismiss();
+                            }
+                        }
+                );
+            }
         });
 
         binding.btnAccept.setOnClickListener(view -> {
-            Methods.showDialog(
-                    R.drawable.smile_dialog,
-                    "Chấp nhận",
-                    "Bạn có chắc chắn muốn chấp nhận và thực hiện đơn hàng này?",
-                    "Hủy",
-                    "Thực hiện",
-                    new ListenerDialog() {
-                        @Override
-                        public void onDismiss() {
+            if (Constant.USER.getAddressPoint() == null || Constant.USER.getAddressPoint().equals("")) {
+                Methods.showDialog(
+                        R.drawable.smile_dialog,
+                        "Thông báo",
+                        "Bạn vui lòng cập nhật thông tin để sử dụng dịch vụ của chúng tôi",
+                        "Để sau",
+                        "Cập nhật",
+                        new ListenerDialog() {
+                            @Override
+                            public void onDismiss() {
 
+                            }
+
+                            @Override
+                            public void onNoClick(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onYesClick(Dialog dialog) {
+                                addFragment(new ProfileFragment(), R.id.ctFragmentUser);
+                                dialog.dismiss();
+                            }
                         }
+                );
+            } else {
+                Methods.showDialog(
+                        R.drawable.smile_dialog,
+                        "Chấp nhận",
+                        "Bạn có chắc chắn muốn chấp nhận và thực hiện đơn hàng này?",
+                        "Hủy",
+                        "Thực hiện",
+                        new ListenerDialog() {
+                            @Override
+                            public void onDismiss() {
 
-                        @Override
-                        public void onNoClick(Dialog dialog) {
-                            dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onNoClick(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onYesClick(Dialog dialog) {
+                                submitData(order.getId(), Constant.ACCEPT_STATUS);
+                                dialog.dismiss();
+                            }
                         }
-
-                        @Override
-                        public void onYesClick(Dialog dialog) {
-                            submitData(order.getId(), Constant.ACCEPT_STATUS);
-                            dialog.dismiss();
-                        }
-                    }
-            );
-
-
+                );
+            }
         });
 
     }
@@ -300,7 +352,7 @@ public class OrderInQueueFragment extends FragmentBase {
                     if (response.body().isSuccessed()) {
                         if (response.body().getResultObj() != null) {
                             OrderInQueueFragment.this.order = response.body().getResultObj();
-                            if(Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                            if (Constant.USER.getRole() == Constant.ROLE_WORKER) {
                                 FirebaseRepository.
                                         PickWorkerChild.
                                         child(order.getCustomerId()).

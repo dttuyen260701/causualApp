@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:maxLines="1"
-        android:text="Dọn dẹp nhà cửa"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="15dp"
         android:textStyle="bold"
