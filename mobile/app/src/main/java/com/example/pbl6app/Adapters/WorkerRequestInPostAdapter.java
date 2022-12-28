@@ -63,7 +63,7 @@ public class WorkerRequestInPostAdapter extends RecyclerView.Adapter<WorkerReque
             binding.tvWorkerName.setText(worker.getName());
             binding.tvRate.setText(""+worker.getRate().getRateAverage());
             binding.tvReviewNumber.setText(worker.getTotalReviews() + " reviews");
-            binding.tvJobList.setText("#"+worker.getListJobInfoString());
+//            binding.tvJobList.setText("#"+worker.getListJobInfoString());
 
             String imageUrl = Constant.BASE_URL + worker.getLinkIMG();
 
