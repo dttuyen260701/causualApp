@@ -25,6 +25,7 @@ namespace PBL6.CasualManager.TypeOfJobs
         /// <param name="condition">Include FilterName</param>
         /// <returns>List TypeOfJobDtos</returns>
         Task<PagedResultDto<TypeOfJobDto>> GetListByNameAsync(TypeOfJobConditionSearchDto condition);
-        Task<ApiResult<List<TypeOfJobResponse>>> GetAllTypeJobAsync();
+        Task<ApiResult<List<TypeOfJobResponse>>> GetAllTypeAsync();
+
     }
 }

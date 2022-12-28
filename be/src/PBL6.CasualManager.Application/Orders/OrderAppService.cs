@@ -4,6 +4,7 @@ using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.Oders;
+using PBL6.CasualManager.PagingModels;
 using PBL6.CasualManager.PrieceDetails;
 using PBL6.CasualManager.TypeOfJobs;
 using PBL6.CasualManager.WorkerInfos;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 
 namespace PBL6.CasualManager.Orders
@@ -134,40 +136,27 @@ namespace PBL6.CasualManager.Orders
             }
         }
 
-        public async Task<ApiResult<List<OrderOfWokerForChartResponse>>> GetListHistoryOrderOfWorkerSixMonth(Guid idWorker)
+        [HttpGet]
+        [Route("api/app/order/{workerId}/history-order-six-month")]
+        public async Task<ApiResult<List<OrderOfWokerForChartResponse>>> GetListHistoryOrderOfWorkerSixMonth(Guid workerId)
         {
-            try
-            {
-                var listOrderOfWokerForChartResponse = new List<OrderOfWokerForChartResponse>();
-                var listOrder = await _orderRepository.GetListAsync(x => x.WorkerInfo.UserId == idWorker, includeDetails: true);
-                DateTime today = DateTime.Now;
-                var listPrieceDetail = await _prieceDetailRepository.GetListAsync();
-                int countLoop = 5;// loop 6 times equivalent 6 months
-                while (countLoop >= 0)
-                {
-                    var ordersInMonth = listOrder.Where(x => x.CreationTime.Month == today.Month);
-                    var order_prieces = (from order in ordersInMonth
-                                         join prieceDetail in listPrieceDetail on order.PrieceDetailId equals prieceDetail.Id
-                                         into orderPriceList
-                                         from orderPrice in orderPriceList.DefaultIfEmpty()
-                                         select new { orderPrice }).ToList();
-                    var orderOfWokerForChartResponse = new OrderOfWokerForChartResponse()
-                    {
-                        Month = today.Month.ToString(),
-                        Revenue = order_prieces.Sum(x => x.orderPrice.FeeForWorker).ToString(),
-                        TotalOrder = order_prieces.Count().ToString()
-                    };
-                    listOrderOfWokerForChartResponse.Add(orderOfWokerForChartResponse);
-                    today = today.AddMonths(-1);
-                    countLoop--;
-                }
-                listOrderOfWokerForChartResponse = listOrderOfWokerForChartResponse.OrderBy(x => int.Parse(x.Month)).ToList();
-                return new ApiSuccessResult<List<OrderOfWokerForChartResponse>>(resultObj: listOrderOfWokerForChartResponse);
-            }
-            catch (Exception)
-            {
-                return new ApiErrorResult<List<OrderOfWokerForChartResponse>>(message: "Có lỗi trong quá trình lấy dữ liệu!");
-            }
+            var listOrderOfWokerForChartResponse = new List<OrderOfWokerForChartResponse>();
+            var listOrder = await _orderRepository.GetListAsync(x => x.WorkerInfo.UserId == workerId, includeDetails: true);
+            DateTime today = DateTime.Now;
+            DateTime previousSixMonth = today.AddMonths(-5);
+            var listPrieceDetail = await _prieceDetailRepository.GetListAsync();
+            var result = (from order in listOrder
+                          join prieceDetail in listPrieceDetail on order.PrieceDetailId equals prieceDetail.Id
+                          where order.CreationTime.Month >= previousSixMonth.Month && order.CreationTime.Month <= today.Month && order.Status == OrderStatus.IsComplete
+                          select new { prieceDetail, order } into x
+                          group x by x.order.CreationTime.Month into g
+                          select new OrderOfWokerForChartResponse()
+                          {
+                              Month = g.Key.ToString(),
+                              Revenue = g.Select(x => x.prieceDetail.FeeForWorker).Sum().ToString(),
+                              TotalOrder = g.Select(x => x.order).Count().ToString()
+                          }).OrderBy(x => int.Parse(x.Month)).ToList();
+            return new ApiSuccessResult<List<OrderOfWokerForChartResponse>>(resultObj: result);
         }
 
         [HttpPost]
@@ -185,10 +174,20 @@ namespace PBL6.CasualManager.Orders
                 {
                     return new ApiErrorResult<OrderResponse>(message: "Thợ đang bận! Không thể đặt đơn!");
                 }
+                var customerIdentityInfo = await _identityUserRepository.GetAsync(idCustomer);
+                var customerInfo = await _customerInfoRepository.GetEntityCustomerInfoHaveUserId(customerIdentityInfo.Id);
+                //check if customer ordered worker and status is not cancel or done or reject, customer cannot order 
+                var existOrder = await _orderRepository.FirstOrDefaultAsync(x => x.WorkerId == workerInfo.Id && x.CustomerId == customerInfo.Id
+                                                                                        && (x.Status == OrderStatus.IsAccepted || x.Status == OrderStatus.IsInProcess || x.Status == OrderStatus.IsWaiting || x.Status == OrderStatus.IsTracking));
+                if (existOrder != null)
+                {
+                    return new ApiErrorResult<OrderResponse>(message: "Bạn đang đặt đơn thợ này. Vui lòng tiếp tục thực hiện!");
+                }
+                var jobInfo = await _jobInfoRepository.GetAsync(request.JobInfoId);
                 var priceDetail = new PrieceDetail()
                 {
-                    FeeForWorker = 0,
-                    FeeForBussiness = 0
+                    FeeForWorker = jobInfo.Prices - 5000,
+                    FeeForBussiness = 5000
                 };
                 var objectPriceDetail = await _prieceDetailRepository.InsertAsync(priceDetail, true);
                 if (objectPriceDetail == null)
@@ -196,9 +195,6 @@ namespace PBL6.CasualManager.Orders
                     return new ApiErrorResult<OrderResponse>(message: "Có lỗi trong quá trình đặt đơn!");
                 }
                 var wokerIdentityInfo = await _identityUserRepository.GetAsync(request.WorkerId);
-                var customerIdentityInfo = await _identityUserRepository.GetAsync(idCustomer);
-                var jobInfo = await _jobInfoRepository.GetAsync(request.JobInfoId);
-                var customerInfo = await _customerInfoRepository.GetEntityCustomerInfoHaveUserId(customerIdentityInfo.Id);
                 var order = new Order()
                 {
                     WorkerId = workerInfo.Id,
@@ -206,11 +202,12 @@ namespace PBL6.CasualManager.Orders
                     JobInfoId = request.JobInfoId,
                     JobPrices = jobInfo.Prices,
                     PrieceDetailId = objectPriceDetail.Id,
-                    Status = Enum.OrderStatus.IsWaiting,
+                    Status = request.Status,
                     CustomerAddress = request.Address,
                     CustomerAddressPoint = request.AddressPoint,
                     CustomerId = customerInfo.Id,
                     Note = request.Note,
+                    IsRead = false
                 };
                 var objectOrder = await _orderRepository.InsertAsync(order, true);
                 if (objectOrder == null)
@@ -240,6 +237,7 @@ namespace PBL6.CasualManager.Orders
                     UserAddress = objectOrder.CustomerAddress,
                     UserPoint = objectOrder.CustomerAddressPoint,
                     JobPrices = jobInfo.Prices.ToString(),
+                    IsRead = objectOrder.IsRead,
                 };
                 return new ApiSuccessResult<OrderResponse>(resultObj: orderResponse);
             }
@@ -249,8 +247,8 @@ namespace PBL6.CasualManager.Orders
             }
         }
         [HttpGet]
-        [Route("api/app/order/detail/{idOrder}")]
-        public async Task<ApiResult<OrderResponse>> GetOrderDetailById(Guid idOrder)
+        [Route("api/app/order/detail/{idOrder}/by/{userId}")]
+        public async Task<ApiResult<OrderResponse>> GetOrderDetailById(Guid idOrder, Guid userId)
         {
             try
             {
@@ -264,7 +262,7 @@ namespace PBL6.CasualManager.Orders
                 var orderResponse = new OrderResponse()
                 {
                     Id = order.Id,
-                    CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH-mm"),
+                    CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH:mm"),
                     CustomerId = customerIdentityInfo.Id,
                     CustomerImage = String.IsNullOrEmpty(customerInfo.Avatar) ? Constants.ImageDefaultCustomer : customerInfo.Avatar,
                     CustomerName = customerIdentityInfo.Name,
@@ -282,7 +280,17 @@ namespace PBL6.CasualManager.Orders
                     Status = order.Status,
                     UserAddress = order.CustomerAddress,
                     UserPoint = order.CustomerAddressPoint,
+                    IsRead = order.IsRead
                 };
+                if (await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(userId) != null)//check user is worker
+                {
+                    //update status isRead in order is true
+                    if (!order.IsRead)
+                    {
+                        order.IsRead = true;
+                        await _orderRepository.UpdateAsync(order);
+                    }
+                }
                 return new ApiSuccessResult<OrderResponse>(resultObj: orderResponse);
             }
             catch (Exception)
@@ -303,13 +311,40 @@ namespace PBL6.CasualManager.Orders
                     return new ApiErrorResult<OrderResponse>(message: "Không tìm thấy đơn hàng!");
                 }
                 order.Status = status;
-                var result = await _orderRepository.UpdateAsync(order);
+                if (status == OrderStatus.IsComplete)
+                {
+                    order.IsPaid = true;
+                }
+                if (status == OrderStatus.IsCancel)
+                {
+                    order.IsRead = true;
+                }
+                var result = await _orderRepository.UpdateAsync(order, true);
                 if (result == null)
                 {
-                    return new ApiErrorResult<OrderResponse>(message: "Cập nhật không thành công");
+                    return new ApiErrorResult<OrderResponse>(message: "Chuyển đổi trạng thái không thành công");
                 }
-                var customerInfo = await _customerInfoRepository.GetAsync(result.CustomerId);
+                //update worker status after update order
                 var workerInfo = await _workerInfoRepository.GetAsync(result.WorkerId);
+                if (order.Status == OrderStatus.IsAccepted || order.Status == OrderStatus.IsInProcess || order.Status == OrderStatus.IsTracking)
+                {
+                    if (workerInfo.Status != WorkerStatus.Busy)
+                    {
+                        workerInfo.Status = WorkerStatus.Busy;
+                        await _workerInfoRepository.UpdateAsync(workerInfo, true);
+                    }
+                }
+                else if (order.Status == OrderStatus.IsComplete || order.Status == OrderStatus.IsCancel)
+                {
+                    if (workerInfo.Status != WorkerStatus.Free)
+                    {
+                        workerInfo.Status = WorkerStatus.Free;
+                        await _workerInfoRepository.UpdateAsync(workerInfo, true);
+                    }
+                }
+
+
+                var customerInfo = await _customerInfoRepository.GetAsync(result.CustomerId);
                 var workerIdentityInfo = await _identityUserRepository.GetAsync(workerInfo.UserId);
                 var customerIdentityInfo = await _identityUserRepository.GetAsync(customerInfo.UserId);
                 var jobInfo = await _jobInfoRepository.GetAsync(result.JobInfoId);
@@ -317,7 +352,7 @@ namespace PBL6.CasualManager.Orders
                 var orderResponse = new OrderResponse()
                 {
                     Id = order.Id,
-                    CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH-mm"),
+                    CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH:mm"),
                     CustomerId = customerIdentityInfo.Id,
                     CustomerImage = String.IsNullOrEmpty(customerInfo.Avatar) ? Constants.ImageDefaultCustomer : customerInfo.Avatar,
                     CustomerName = customerIdentityInfo.Name,
@@ -335,6 +370,7 @@ namespace PBL6.CasualManager.Orders
                     Status = order.Status,
                     UserAddress = order.CustomerAddress,
                     UserPoint = order.CustomerAddressPoint,
+                    IsRead = result.IsRead,
                 };
                 return new ApiSuccessResult<OrderResponse>(resultObj: orderResponse);
             }
@@ -343,6 +379,210 @@ namespace PBL6.CasualManager.Orders
                 return new ApiErrorResult<OrderResponse>(message: "Có lỗi trong quá trình xử lý!");
             }
         }
+
+        [HttpGet]
+        [Route("api/app/order/{userId}/list-order-by-status")]
+        public async Task<ApiResult<PagedResult<OrderResponse>>> GetOrdersByStatus(Guid userId, int status, PagingRequest paging)
+        {
+            try
+            {
+                var userIdentity = await _identityUserRepository.GetAsync(userId);
+                bool isCustomer = true;
+                var customerInfo = await _customerInfoRepository.GetEntityCustomerInfoHaveUserId(userIdentity.Id);
+                WorkerInfo workerInfo = null;
+                if (customerInfo == null)
+                {
+                    isCustomer = false;
+                    workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(userIdentity.Id);
+                }
+                List<Order> orders = null;
+                var listTypeOfJob = await _typeOfJobRepository.GetListAsync();
+                var listJobInfo = await _jobInfoRepository.GetListAsync();
+                if (isCustomer)
+                {
+                    switch (status)
+                    {
+                        case 0:
+                            orders = await _orderRepository.GetListAsync(x => x.CustomerId == customerInfo.Id && x.Status == OrderStatus.IsWaiting);
+                            break;
+                        case 1:
+                            orders = await _orderRepository.GetListAsync(x => x.CustomerId == customerInfo.Id && (x.Status == OrderStatus.IsAccepted || x.Status == OrderStatus.IsInProcess || x.Status == OrderStatus.IsTracking));
+                            break;
+                        case 2:
+                            orders = await _orderRepository.GetListAsync(x => x.CustomerId == customerInfo.Id && (x.Status == OrderStatus.IsComplete
+                            || x.Status == OrderStatus.IsCancel || x.Status == OrderStatus.IsRejected));
+                            break;
+                        default:
+                            orders = await _orderRepository.GetListAsync(x => x.CustomerId == customerInfo.Id && x.Status == OrderStatus.IsWaiting);
+                            break;
+                    }
+                    var workerInfos = await _workerInfoRepository.GetListAsync();
+                    var listUserIdentity = await _identityUserRepository.GetListAsync();
+                    var all = (from order in orders
+                               join workerInf in workerInfos on order.WorkerId equals workerInf.Id
+                               join userIden in listUserIdentity on workerInf.UserId equals userIden.Id
+                               join jobInfo in listJobInfo on order.JobInfoId equals jobInfo.Id
+                               join typeOfJob in listTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                               orderby order.CreationTime descending
+                               select new OrderResponse()
+                               {
+                                   Id = order.Id,
+                                   CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH:mm"),
+                                   CustomerId = customerInfo.Id,
+                                   CustomerName = userIdentity.Name,
+                                   CustomerImage = String.IsNullOrEmpty(customerInfo.Avatar) ? Constants.ImageDefaultCustomer : customerInfo.Avatar,
+                                   CustomerPhone = userIdentity.PhoneNumber,
+                                   WorkerId = workerInf.UserId,
+                                   WorkerImage = String.IsNullOrEmpty(workerInf.Avatar) ? Constants.ImageDefaultWorker : workerInf.Avatar,
+                                   WorkerName = userIden.Name,
+                                   WorkerPhone = userIden.PhoneNumber,
+                                   IsPaid = order.IsPaid,
+                                   JobId = jobInfo.Id,
+                                   JobInfoName = jobInfo.Name,
+                                   JobInfoImage = typeOfJob.Avatar,
+                                   Note = order.Note,
+                                   JobPrices = order.JobPrices.ToString(),
+                                   Status = order.Status,
+                                   UserAddress = order.CustomerAddress,
+                                   UserPoint = order.CustomerAddressPoint,
+                                   IsRead = order.IsRead
+                               }).ToList();
+                    var listFilter = all.Skip((paging.PageIndex - 1) * paging.PageSize).Take(paging.PageSize).ToList();
+                    return new ApiSuccessResult<PagedResult<OrderResponse>>(resultObj: new PagedResult<OrderResponse>()
+                    {
+                        Items = listFilter,
+                        PageIndex = paging.PageIndex,
+                        PageSize = paging.PageSize,
+                        TotalRecords = all.Count()
+                    });
+                }
+                else//if user is worker
+                {
+                    switch (status)
+                    {
+                        case 0:
+                            orders = await _orderRepository.GetListAsync(x => x.WorkerId == workerInfo.Id && x.Status == OrderStatus.IsWaiting);
+                            break;
+                        case 1:
+                            orders = await _orderRepository.GetListAsync(x => x.WorkerId == workerInfo.Id && (x.Status == OrderStatus.IsAccepted || x.Status == OrderStatus.IsInProcess || x.Status == OrderStatus.IsTracking));
+                            break;
+                        case 2:
+                            orders = await _orderRepository.GetListAsync(x => x.WorkerId == workerInfo.Id && (x.Status == OrderStatus.IsComplete
+                            || x.Status == OrderStatus.IsCancel || x.Status == OrderStatus.IsRejected));
+                            break;
+                        default:
+                            orders = await _orderRepository.GetListAsync(x => x.WorkerId == workerInfo.Id && x.Status == OrderStatus.IsWaiting);
+                            break;
+                    }
+                    var customerInfos = await _customerInfoRepository.GetListAsync();
+                    var listUserIdentity = await _identityUserRepository.GetListAsync();
+                    var all = (from order in orders
+                               join customerInf in customerInfos on order.CustomerId equals customerInf.Id
+                               join userIden in listUserIdentity on customerInf.UserId equals userIden.Id
+                               join jobInfo in listJobInfo on order.JobInfoId equals jobInfo.Id
+                               join typeOfJob in listTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                               orderby order.CreationTime descending
+                               select new OrderResponse()
+                               {
+                                   Id = order.Id,
+                                   CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH:mm"),
+                                   CustomerId = customerInf.Id,
+                                   CustomerName = userIden.Name,
+                                   CustomerImage = String.IsNullOrEmpty(customerInf.Avatar) ? Constants.ImageDefaultCustomer : customerInf.Avatar,
+                                   CustomerPhone = userIden.PhoneNumber,
+                                   WorkerId = workerInfo.UserId,
+                                   WorkerImage = String.IsNullOrEmpty(workerInfo.Avatar) ? Constants.ImageDefaultWorker : workerInfo.Avatar,
+                                   WorkerName = userIdentity.Name,
+                                   WorkerPhone = userIdentity.PhoneNumber,
+                                   IsPaid = order.IsPaid,
+                                   JobId = jobInfo.Id,
+                                   JobInfoName = jobInfo.Name,
+                                   JobInfoImage = typeOfJob.Avatar,
+                                   Note = order.Note,
+                                   JobPrices = order.JobPrices.ToString(),
+                                   Status = order.Status,
+                                   UserAddress = order.CustomerAddress,
+                                   UserPoint = order.CustomerAddressPoint,
+                                   IsRead = order.IsRead
+                               }).ToList();
+                    var listFilter = all.Skip((paging.PageIndex - 1) * paging.PageSize).Take(paging.PageSize).ToList();
+                    return new ApiSuccessResult<PagedResult<OrderResponse>>(resultObj: new PagedResult<OrderResponse>()
+                    {
+                        Items = listFilter,
+                        PageIndex = paging.PageIndex,
+                        PageSize = paging.PageSize,
+                        TotalRecords = all.Count()
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<PagedResult<OrderResponse>>(message: "Đã xảy ra lỗi trong quá trình lấy dữ liệu!");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/app/order/{workerId}/list-order")]
+        public async Task<ApiResult<PagedResult<OrderResponse>>> GetOrdersOfWorker(Guid workerId, PagingRequest paging)
+        {
+            try
+            {
+                var userIdentity = await _identityUserRepository.GetAsync(workerId);
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
+                if (workerInfo == null)
+                {
+                    return new ApiErrorResult<PagedResult<OrderResponse>>(message: "Không tìm thấy thông tin người dùng!");
+                }
+                var orders = await _orderRepository.GetListAsync(x => x.WorkerId == workerInfo.Id);
+                var customerInfos = await _customerInfoRepository.GetListAsync();
+                var listUserIdentity = await _identityUserRepository.GetListAsync();
+                var listTypeOfJob = await _typeOfJobRepository.GetListAsync();
+                var listJobInfo = await _jobInfoRepository.GetListAsync();
+                var all = (from order in orders
+                           join customerInf in customerInfos on order.CustomerId equals customerInf.Id
+                           join userIden in listUserIdentity on customerInf.UserId equals userIden.Id
+                           join jobInfo in listJobInfo on order.JobInfoId equals jobInfo.Id
+                           join typeOfJob in listTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                           where jobInfo.Name.ToLower().Contains(paging.Keyword ?? "")
+                           orderby order.CreationTime descending
+                           select new OrderResponse()
+                           {
+                               Id = order.Id,
+                               CreationTime = order.CreationTime.ToString("dd-MM-yyyy HH:mm"),
+                               CustomerId = customerInf.Id,
+                               CustomerName = userIden.Name,
+                               CustomerImage = String.IsNullOrEmpty(customerInf.Avatar) ? Constants.ImageDefaultCustomer : customerInf.Avatar,
+                               CustomerPhone = userIden.PhoneNumber,
+                               WorkerId = workerInfo.UserId,
+                               WorkerImage = String.IsNullOrEmpty(workerInfo.Avatar) ? Constants.ImageDefaultWorker : workerInfo.Avatar,
+                               WorkerName = userIdentity.Name,
+                               WorkerPhone = userIdentity.PhoneNumber,
+                               IsPaid = order.IsPaid,
+                               JobId = jobInfo.Id,
+                               JobInfoName = jobInfo.Name,
+                               JobInfoImage = typeOfJob.Avatar,
+                               Note = order.Note,
+                               JobPrices = order.JobPrices.ToString(),
+                               Status = order.Status,
+                               UserAddress = order.CustomerAddress,
+                               UserPoint = order.CustomerAddressPoint,
+                               IsRead = order.IsRead
+                           }).ToList();
+                var result = all.Skip((paging.PageIndex - 1) * paging.PageSize).Take(paging.PageSize).ToList();
+                return new ApiSuccessResult<PagedResult<OrderResponse>>(resultObj: new PagedResult<OrderResponse>()
+                {
+                    Items = result,
+                    PageIndex = paging.PageIndex,
+                    PageSize = paging.PageSize,
+                    TotalRecords = all.Count()
+                });
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<PagedResult<OrderResponse>>(message: "Lỗi trong quá trình lấy dữ liệu!");
+            }
+        }
+
         private static IEnumerable<DateTime> EachMonth(DateTime from, DateTime thru)
         {
             for (var month = from.Date; month.Date <= thru.Date || month.Month == thru.Month; month = month.AddMonths(1))

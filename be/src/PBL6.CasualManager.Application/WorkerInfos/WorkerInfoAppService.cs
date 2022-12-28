@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.CustomerInfos;
 using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.FileStorages;
 using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.JobInfos;
+using PBL6.CasualManager.Orders;
+using PBL6.CasualManager.PagingModels;
+using PBL6.CasualManager.PrieceDetails;
 using PBL6.CasualManager.RateOfWorkers;
 using PBL6.CasualManager.TypeOfJobs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -36,6 +42,9 @@ namespace PBL6.CasualManager.WorkerInfos
         private readonly IJobInfoOfWorkerRepository _jobInfoOfWorkerRepository;
         private readonly ITypeOfJobRepository _typeOfJobRepository;
         private readonly IRateOfWorkerRepository _rateOfWorkerRepository;
+        private readonly IPrieceDetailRepository _prieceDetailRepository;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IOrderRepository _orderRepository;
 
         public WorkerInfoAppService(
             IFileStorageAppService fileStorageAppService,
@@ -46,7 +55,10 @@ namespace PBL6.CasualManager.WorkerInfos
             IJobInfoRepository jobInfoRepository,
             IJobInfoOfWorkerRepository jobInfoOfWorkerRepository,
             ITypeOfJobRepository typeOfJobRepository,
-            IRateOfWorkerRepository rateOfWorkerRepository) : base(workerInfoRepository)
+            IRateOfWorkerRepository rateOfWorkerRepository,
+            IPrieceDetailRepository prieceDetailRepository,
+            IHostingEnvironment hostingEnvironment,
+            IOrderRepository orderRepository) : base(workerInfoRepository)
         {
             _fileStorageAppService = fileStorageAppService;
             _workerInfoRepository = workerInfoRepository;
@@ -57,6 +69,9 @@ namespace PBL6.CasualManager.WorkerInfos
             _rateOfWorkerRepository = rateOfWorkerRepository;
             _typeOfJobRepository = typeOfJobRepository;
             _customerInfoRepository = customerInfoRepository;
+            _orderRepository = orderRepository;
+            _hostingEnvironment = hostingEnvironment;
+            _prieceDetailRepository = prieceDetailRepository;
         }
 
         public async Task<PagedResultDto<WorkerInfoDto>> GetListWorkerAllInfoAsync(WorkerInfoConditionSearchDto condition)
@@ -188,15 +203,13 @@ namespace PBL6.CasualManager.WorkerInfos
             }
         }
 
-        //get list worker top 10 rate and in specific province
-        [HttpGet]
-        [Route("api/app/worker-info/get-list-worker-info-for-mobile/{customerId}")]
-        public async Task<ApiResult<List<WorkerInfoResponse>>> GetListWokerToShowInHomePage(Guid customerId)
+        //get list worker top rate and in specific province
+        public async Task<ApiResult<List<WorkerInfoResponse>>> GetListWorkerVm(Guid id)//id = idUser
         {
             try
             {
                 var listCustomerInfo = await _customerInfoRepository.GetListAsync();
-                var userInfo = listCustomerInfo.FirstOrDefault(x => x.UserId == customerId) ?? new CustomerInfo() { WardId = "", DistrictId = "", ProvinceId = "" };
+                var userInfo = listCustomerInfo.FirstOrDefault(x => x.UserId == id) ?? new CustomerInfo() { WardId = "", DistrictId = "", ProvinceId = "" };
                 var listWorkerInfo = await _workerInfoRepository.GetListAsync();
                 var listIdentityUser = await _identityUserRepository.GetListAsync();
                 var listJobInfo = await _jobInfoRepository.GetListAsync();
@@ -236,7 +249,7 @@ namespace PBL6.CasualManager.WorkerInfos
                                                   }).ToList()),
                                   RateDetail = CreateRateOfWorkerDetailFrom((from rateOfWorker
                                                                              in listRateOfWorker
-                                  where rateOfWorker.WorkerId == workerInfo.Id
+                                                                             where rateOfWorker.WorkerId == workerInfo.Id
                                                                              select rateOfWorker).ToList()) ?? new RateOfWorkerResponse()
                                                                              {
                                                                                  RateAverage = 0,
@@ -246,16 +259,198 @@ namespace PBL6.CasualManager.WorkerInfos
                                                                              },
                               }).OrderByDescending(x => (x.WardId.Contains(userInfo.WardId) || x.DistrictId.Contains(userInfo.DistrictId)) ? 0 : 1)
                               .ThenByDescending(x => x.TotalReviews)
-                              .Take(10).ToList();
+                              .Take(20).ToList();
 
                 return new ApiSuccessResult<List<WorkerInfoResponse>>(resultObj: result);
             }
             catch (Exception)
             {
-                return new ApiErrorResult<List<WorkerInfoResponse>>(message: "Đã xảy ra lỗi khi lấy dữ liệu!");
+                return new ApiErrorResult<List<WorkerInfoResponse>>(message: "lỗi");
             }
         }
 
+        [HttpGet]
+        [Route("api/app/worker-info/worker-by-type-of-job")]
+        public async Task<ApiResult<PagedResult<WorkerInfoResponse>>> GetListWorkerByJobInfo(Guid idUser, Guid idJobInfo, PagingRequest paging)
+        {
+            try
+            {
+                var listCustomerInfo = await _customerInfoRepository.GetListAsync();
+                var userInfo = listCustomerInfo.FirstOrDefault(x => x.UserId == idUser) ?? new CustomerInfo() { WardId = "", DistrictId = "", ProvinceId = "" };
+                var listWorkerInfo = await _workerInfoRepository.GetListAsync();
+                var listIdentityUser = await _identityUserRepository.GetListAsync();
+                var listJobInfo = await _jobInfoRepository.GetListAsync();
+                var listJobInfoOfWorker = await _jobInfoOfWorkerRepository.GetListAsync();
+                var listRateOfWorker = await _rateOfWorkerRepository.GetListAsync();
+                var listTypeOfJob = await _typeOfJobRepository.GetListAsync();
+                var all = (from workerInfo in listWorkerInfo
+                           join user in listIdentityUser on workerInfo.UserId equals user.Id
+                           join jobInfoOfWorker in listJobInfoOfWorker on workerInfo.Id equals jobInfoOfWorker.WorkerId
+                           join jobInfo in listJobInfo on jobInfoOfWorker.JobInfoId equals jobInfo.Id
+                           where jobInfo.Id == idJobInfo
+                           select new WorkerInfoResponse()
+                           {
+                               Id = workerInfo.UserId,
+                               DistrictId = workerInfo.DistrictId,
+                               ProvinceId = workerInfo.ProvinceId,
+                               WardId = workerInfo.WardId,
+                               Address = workerInfo.Address,
+                               LinkIMG = String.IsNullOrEmpty(workerInfo.Avatar) ? Constants.ImageDefaultWorker : workerInfo.Avatar,
+                               WorkerStatus = workerInfo.Status,
+                               WorkingTime = workerInfo.StartWorkingTime + " - " + workerInfo.EndWorkingTime,
+                               Phone = user.PhoneNumber,
+                               Name = user.Name,
+                               TotalReviews = (from rateOfWorker in listRateOfWorker
+                                               where rateOfWorker.WorkerId == workerInfo.Id
+                                               select rateOfWorker).Count(),
+                               ListJobInfo = ((from jobInfoOfWoker in listJobInfoOfWorker
+                                               join jobInfo in listJobInfo on jobInfoOfWoker.JobInfoId equals jobInfo.Id
+                                               join typeOfJob in listTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                                               where jobInfoOfWoker.WorkerId == workerInfo.Id
+                                               select new JobInfoResponse()
+                                               {
+                                                   Id = jobInfo.Id,
+                                                   Name = jobInfo.Name,
+                                                   Price = jobInfo.Prices,
+                                                   Description = jobInfo.Description,
+                                                   TypeOfJobId = typeOfJob.Id,
+                                                   TypeOfJobName = typeOfJob.Name,
+                                                   Image = typeOfJob.Avatar
+                                               }).ToList()),
+                               RateDetail = CreateRateOfWorkerDetailFrom((from rateOfWorker
+                                                                          in listRateOfWorker
+                                                                          where rateOfWorker.WorkerId == workerInfo.Id
+                                                                          select rateOfWorker).ToList()) ?? new RateOfWorkerResponse()
+                                                                          {
+                                                                              RateAverage = 0,
+                                                                              AttitudeRateAverage = 0,
+                                                                              PleasureRateAverage = 0,
+                                                                              SkillRateAverage = 0
+                                                                          },
+                           }).DistinctBy(x => x.Id).OrderByDescending(x => (x.WardId.Contains(userInfo.WardId) || x.DistrictId.Contains(userInfo.DistrictId)) ? 0 : 1)
+                              .ThenByDescending(x => x.TotalReviews).ToList();
+                var listFilter = all.Skip((paging.PageIndex - 1) * paging.PageSize).Take(paging.PageSize).ToList();
+                return new ApiSuccessResult<PagedResult<WorkerInfoResponse>>(resultObj: new PagedResult<WorkerInfoResponse>()
+                {
+                    Items = listFilter,
+                    PageIndex = paging.PageIndex,
+                    PageSize = paging.PageSize,
+                    TotalRecords = all.Count()
+                });
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<PagedResult<WorkerInfoResponse>>(message: "lỗi");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/app/worker-info/{id}/detail")]
+        public async Task<ApiResult<WorkerInfoResponse>> GetWorkerInfoDetail(Guid id)
+        {
+            try
+            {
+                var workerInfoIdentity = await _identityUserRepository.GetAsync(id);
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(id);
+                var listRateOfWorker = await _rateOfWorkerRepository.GetListAsync(x => x.WorkerId == workerInfo.Id);
+                var listJobInfo = await _jobInfoRepository.GetListAsync();
+                var listJobInfoOfWorker = await _jobInfoOfWorkerRepository.GetListAsync(x => x.WorkerId == workerInfo.Id);
+                var listTypeOfJob = await _typeOfJobRepository.GetListAsync();
+                return new ApiSuccessResult<WorkerInfoResponse>(resultObj: new WorkerInfoResponse()
+                {
+                    Id = workerInfo.UserId,
+                    Address = workerInfo.Address,
+                    DistrictId = workerInfo.DistrictId,
+                    WardId = workerInfo.WardId,
+                    ProvinceId = workerInfo.ProvinceId,
+                    LinkIMG = String.IsNullOrEmpty(workerInfo.Avatar) ? Constants.ImageDefaultWorker : workerInfo.Avatar,
+                    Name = workerInfoIdentity.Name,
+                    WorkerStatus = workerInfo.Status,
+                    Phone = workerInfoIdentity.PhoneNumber,
+                    WorkingTime = workerInfo.StartWorkingTime + " - " + workerInfo.EndWorkingTime,
+                    TotalReviews = listRateOfWorker.Count(),
+                    RateDetail = CreateRateOfWorkerDetailFrom(listRateOfWorker),
+                    ListJobInfo = (from jobInfoOfWorker in listJobInfoOfWorker
+                                   join jobInfo in listJobInfo on jobInfoOfWorker.JobInfoId equals jobInfo.Id
+                                   join typeOfJob in listTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                                   select new JobInfoResponse()
+                                   {
+                                       Id = jobInfo.Id,
+                                       Description = jobInfo.Description,
+                                       Image = typeOfJob.Avatar,
+                                       Price = jobInfo.Prices,
+                                       Name = jobInfo.Name,
+                                       TypeOfJobId = jobInfo.TypeOfJobId,
+                                       TypeOfJobName = typeOfJob.Name
+                                   }).ToList()
+                });
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<WorkerInfoResponse>(message: "Có lỗi trong quá trình lấy dữ liệu");
+            }
+        }
+
+        [HttpGet("api/app/worker-info/{workerId}/totalRevenue-totalJob-totalOrder")]
+        public async Task<ApiResult<WorkerInfoRateRevenueTotalJobResponse>> Get_TotalJob_TotalRevenue_TotalOrder(Guid workerId)
+        {
+            try
+            {
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
+                var listJobInfoOfWorker = await _jobInfoOfWorkerRepository.GetListAsync(x => x.WorkerId == workerInfo.Id);
+                var listOrderCompleteOfWorker = await _orderRepository.GetListAsync(x => x.WorkerId == workerInfo.Id && x.Status == OrderStatus.IsComplete);
+                var listPriceDetail = await _prieceDetailRepository.GetListAsync();
+                int totalOrder = listOrderCompleteOfWorker.Count();
+                float totalRevenue = (from order in listOrderCompleteOfWorker
+                                      join priceDetail in listPriceDetail on order.PrieceDetailId equals priceDetail.Id
+                                      select priceDetail).Sum(x => x.FeeForWorker);
+                int totalJobOfWorker = listJobInfoOfWorker.Count();
+                var result = new WorkerInfoRateRevenueTotalJobResponse()
+                {
+                    TotalJob = totalJobOfWorker,
+                    TotalOrder = totalOrder,
+                    TotalRevenue = totalRevenue
+                };
+                return new ApiSuccessResult<WorkerInfoRateRevenueTotalJobResponse>(resultObj: result);
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<WorkerInfoRateRevenueTotalJobResponse>(message: "Lỗi");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/app/worker-info/{id}/list-job-info")]
+        public async Task<ApiResult<List<JobInfoResponse>>> GetListJobInfoBelongToWoker(Guid id)
+        {
+            try
+            {
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(id);
+                var listJobInfo = await _jobInfoRepository.GetListAsync();
+                var lisTypeOfJob = await _typeOfJobRepository.GetListAsync();
+                var listInfoOfWorker = await _jobInfoOfWorkerRepository.GetListAsync(x => x.WorkerId == workerInfo.Id);
+                var result = (from jobInfoOfWorker in listInfoOfWorker
+                              join jobInfo in listJobInfo on jobInfoOfWorker.JobInfoId equals jobInfo.Id
+                              join typeOfJob in lisTypeOfJob on jobInfo.TypeOfJobId equals typeOfJob.Id
+                              select new JobInfoResponse()
+                              {
+                                  Id = jobInfo.Id,
+                                  Description = jobInfo.Description,
+                                  Image = typeOfJob.Avatar,
+                                  Name = jobInfo.Name,
+                                  Price = jobInfo.Prices,
+                                  TypeOfJobId = jobInfo.TypeOfJobId,
+                                  TypeOfJobName = typeOfJob.Name,
+                                  Note = jobInfoOfWorker.Note,
+                                  CreationTime = jobInfoOfWorker.CreationTime.ToString("dd-MM-yyyy")
+                              }).ToList();
+                return new ApiSuccessResult<List<JobInfoResponse>>(resultObj: result);
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<List<JobInfoResponse>>(message: "Lỗi");
+            }
+        }
         private RateOfWorkerResponse CreateRateOfWorkerDetailFrom(List<RateOfWorker> rateOfWorkers)
         {
             int len = rateOfWorkers.Count();
@@ -279,6 +474,28 @@ namespace PBL6.CasualManager.WorkerInfos
                 SkillRateAverage = (float)rateSkill / len,
                 RateAverage = (rateAttitude + ratePleasure + rateSkill) / (3 * len)
             };
+        }
+        private async Task<string> SaveImageAsync(IFormFile image, Guid idUser)
+        {
+            if (image == null)
+            {
+                return null;
+            }
+            try
+            {
+                string nameFile = Constants.PrefixAvatarWorker + idUser.ToString();
+                string newPathFile = Constants.LinkToFolderImageWorker + nameFile + ".png";
+                using (FileStream fileStream = System.IO.File.Create(_hostingEnvironment.WebRootPath + "/" + newPathFile))
+                {
+                    await image.CopyToAsync(fileStream);
+                    await fileStream.FlushAsync();
+                }
+                return newPathFile;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

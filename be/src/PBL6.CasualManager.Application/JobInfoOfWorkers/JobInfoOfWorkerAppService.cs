@@ -1,9 +1,13 @@
-﻿using PBL6.CasualManager.TypeOfJobs;
+﻿using Microsoft.AspNetCore.Mvc;
+using PBL6.CasualManager.ApiResults;
+using PBL6.CasualManager.TypeOfJobs;
+using PBL6.CasualManager.WorkerInfos;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using static PBL6.CasualManager.JobInfoOfWorkers.JobInfoOfWorkerBusinessException;
 
@@ -19,14 +23,16 @@ namespace PBL6.CasualManager.JobInfoOfWorkers
         IJobInfoOfWorkerAppService
     {
         private readonly IJobInfoOfWorkerRepository _jobInfoOfWorkerRepository;
+        private readonly IWorkerInfoRepository _workerInfoRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
 
         public JobInfoOfWorkerAppService(
             IJobInfoOfWorkerRepository jobInfoOfWorkerRepository,
-            IIdentityUserRepository identityUserRepository) : base(jobInfoOfWorkerRepository)
+            IIdentityUserRepository identityUserRepository, IWorkerInfoRepository workerInfoRepository) : base(jobInfoOfWorkerRepository)
         {
             _jobInfoOfWorkerRepository = jobInfoOfWorkerRepository;
             _identityUserRepository = identityUserRepository;
+            _workerInfoRepository = workerInfoRepository;
         }
 
         public async Task<PagedResultDto<JobInfoOfWorkerDto>> GetListSearchAsync(JobInfoOfWorkerConditionSearchDto condition)
@@ -73,6 +79,70 @@ namespace PBL6.CasualManager.JobInfoOfWorkers
                 throw new IsExistWorkerWithJobInfoException(identityUser.Name, jobInfoOfWorker.JobInfo.Name);
             }
             await base.UpdateAsync(id, jobInfoOfWorkerCreateUpdateDto);
+        }
+
+        [HttpGet]
+        [Route("api/app/job-info-of-worker/{workerId}/del/{jobInfoId}")]
+        public async Task<ApiResult<string>> RemoveJobInfoOfWorker(Guid jobInfoId, Guid workerId)
+        {
+            try
+            {
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
+                if (workerInfo == null)
+                {
+                    return new ApiErrorResult<string>(message: "Không tìm thấy thông tin người dùng!");
+                }
+                var jobInfoOfWorker = await _jobInfoOfWorkerRepository.FirstOrDefaultAsync(x => x.JobInfoId == jobInfoId && x.WorkerId == workerInfo.Id);
+                if (jobInfoOfWorker == null)
+                {
+                    return new ApiErrorResult<string>(message: "Bạn không đăng ký việc làm này");
+                }
+                await _jobInfoOfWorkerRepository.DeleteAsync(jobInfoOfWorker);
+                return new ApiSuccessResult<string>();
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<string>(message: "Đã xảy ra lỗi trong quá trình xóa!");
+            }
+        }
+
+        [HttpPost]
+        [Route("api/app/job-info-of-worker/{workerId}/register")]
+        public async Task<ApiResult<string>> RegisterJobForWorker(Guid workerId, RegisterJobRequest request)
+        {
+            if (request == null)
+            {
+                return new ApiErrorResult<string>(message: "Thông tin đăng ký không hợp lệ!");
+            }
+            try
+            {
+                var findJobInfoOfWorker = await _jobInfoOfWorkerRepository.FirstOrDefaultAsync(x => x.WorkerInfo.UserId == workerId && x.JobInfoId == request.JobInfoId);
+                if (findJobInfoOfWorker != null)
+                {
+                    return new ApiErrorResult<string>(message: "Bạn đã đăng ký loại việc làm này!");
+                }
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
+                if (workerInfo == null)
+                {
+                    return new ApiErrorResult<string>(message: "Tài khoản không tồn tại!");
+                }
+                var jobInfoOfWorker = new JobInfoOfWorker()
+                {
+                    JobInfoId = request.JobInfoId,
+                    WorkerId = workerInfo.Id,
+                    Note = request.Note
+                };
+                var result = await _jobInfoOfWorkerRepository.InsertAsync(jobInfoOfWorker);
+                if (result == null)
+                {
+                    return new ApiErrorResult<string>(message: "Đăng ký không thành công!");
+                }
+                return new ApiSuccessResult<string>();
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<string>(message: "Có lỗi trong quá trình đăng ký!");
+            }
         }
 
     }

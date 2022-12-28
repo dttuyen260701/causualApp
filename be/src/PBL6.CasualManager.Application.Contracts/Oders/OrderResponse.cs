@@ -26,6 +26,7 @@ namespace PBL6.CasualManager.Orders
         public string WorkerName { get; set; }
         public string WorkerImage { get; set; }
         public string WorkerPhone { get; set; }
-        
+        public bool IsRead { get; set; }
+
     }
 }

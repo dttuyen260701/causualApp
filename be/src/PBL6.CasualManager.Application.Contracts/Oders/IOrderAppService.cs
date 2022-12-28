@@ -1,6 +1,7 @@
 ﻿using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.Enum;
 using PBL6.CasualManager.Orders;
+using PBL6.CasualManager.PagingModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,9 +29,13 @@ namespace PBL6.CasualManager.Oders
 
         Task<ApiResult<OrderResponse>> CreateOrder(Guid idCustomer, CreateOrderRequest request);
 
-        Task<ApiResult<OrderResponse>> GetOrderDetailById(Guid idOrder);
+        Task<ApiResult<OrderResponse>> GetOrderDetailById(Guid idOrder, Guid userId);
 
         Task<ApiResult<OrderResponse>> UpdateStatusOrder(Guid orderId, OrderStatus status);
+
+        Task<ApiResult<PagedResult<OrderResponse>>> GetOrdersByStatus(Guid userId, int status, PagingRequest paging);
+
+        Task<ApiResult<PagedResult<OrderResponse>>> GetOrdersOfWorker(Guid workerId, PagingRequest paging);
     }
     
 }
