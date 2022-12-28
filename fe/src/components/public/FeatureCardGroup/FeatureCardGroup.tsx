@@ -9,9 +9,9 @@ import { FeatureCard } from "../../../common/shared-components/FeatureCard/Featu
 export const FeatureCardGroup: React.FC = () => {
 	return (
 		<HStack width={"100%"} justifyContent="center" alignItems={"center"} spacing={5} paddingTop={"40px"}>
-			<FeatureCard content="Đặt lịch nhanh chóng" icon={<MdSystemSecurityUpdateGood color="#d49457" size={"30"} />} />
-			<FeatureCard content="Xếp hạng chất lượng thợ" icon={<GiVibratingShield color="#d49457" size={"30"} />} />
-			<FeatureCard content="Thống kê doanh thu" icon={<GoGraph color="#d49457" size={"30"} />} />
+			<FeatureCard content="Đặt lịch nhanh chóng" icon={<MdSystemSecurityUpdateGood color="#f9d475" size={"30"} />} />
+			<FeatureCard content="Xếp hạng chất lượng thợ" icon={<GiVibratingShield color="#f9d475" size={"30"} />} />
+			<FeatureCard content="Thống kê doanh thu" icon={<GoGraph color="#f9d475" size={"30"} />} />
 		</HStack>
 	);
 };

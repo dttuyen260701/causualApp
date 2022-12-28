@@ -7,7 +7,7 @@ import {INameItemNav} from "./types";
 
 
 export const initialState: INameItemNav = {
-	name: ""
+	name: "Trang chủ"
 };
 export const nameItemNavSlice = createSlice({
 	name: "nameItemNav",

@@ -19,18 +19,24 @@ import {
 import { Field, Form, Formik, FormikErrors, FormikHelpers, FieldProps } from "formik";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { useLoginMutation } from "../app/api/login/loginApi";
 import { IUserLoginInput } from "../app/api/login/loginType";
+import { setCurrentWorker } from "../app/reducer/loginAuth/loginAuthSlice";
+import { LoadingOverlay } from "../common/shared-components/Loading/LoadingOverLay";
+import { Popup } from "../common/shared-components/Popup/Popup";
 
 const LoginPage: React.FC = () => {
 	const [showRightPanel] = useMediaQuery("(min-width: 1100px)");
 	const [showPassword, setShowPassword] = useState(false);
 	const [loginWorker, { isLoading }] = useLoginMutation();
 	const [errorState, setErrorState] = useState(false);
-	//const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [isShowErrorPopup, setIsShowErrorPopup] = useState<boolean>(false);
+	const [messagePopup, setMessagePopup] = useState({ message: "", detail: "" });
 
 	const handleShowClick = () => {
 		setShowPassword(!showPassword);
@@ -45,24 +51,30 @@ const LoginPage: React.FC = () => {
 		})
 			.unwrap()
 			.then(res => {
-				console.log(JSON.stringify(res));
-				//sessionStorage.setItem("token", res.description);
-				// dispatch(setCurrentUser(res.userInfo));
-			})
-			.then(() => {
-				navigate("/public");
-				//if (currentHref) {
-				//	navigate(currentHref);
-				//} else {
-				//	navigate("/report");
-				//}
+				localStorage.setItem("user", JSON.stringify(res.resultObj));
+				if (res.isSuccessed) {
+					dispatch(setCurrentWorker(res.resultObj));
+					navigate("/job-manage");
+				} else {
+					setMessagePopup({
+						...messagePopup,
+						message: "Xảy ra lỗi",
+						detail: res.message
+					});
+					setIsShowErrorPopup(true);
+					actions.resetForm({ values: { userName: values.userName, password: "", rememberMe: true, withRole: 1 } });
+				}
 			})
 			.catch(error => {
-				console.log("error: ", error);
+				setMessagePopup({
+					...messagePopup,
+					message: "Xảy ra lỗi",
+					detail: error.error
+				});
+				setIsShowErrorPopup(true);
 				actions.resetForm({ values: { userName: values.userName, password: "", rememberMe: true, withRole: 1 } });
 				setErrorState(true);
 			});
-		// alert(`Email: ${values.email}\nPassword: ${values.password}`);
 	};
 
 	const initialValues: IUserLoginInput = {
@@ -99,9 +111,6 @@ const LoginPage: React.FC = () => {
 						width="100wh"
 						height="100vh"
 						backgroundColor="#faf2e5"
-						//backgroundImage="url('./images/bgLogin3.png')"
-						//backgroundSize="cover"
-						//bgRepeat="no-repeat"
 						justifyContent="center"
 						alignItems="center"
 						position="relative"
@@ -111,9 +120,9 @@ const LoginPage: React.FC = () => {
 							h={{ sm: "100%", smd: "90%", md: "80%" }}
 							width={"60vw"}
 							height={"70vh"}
-							bgColor="#E48D41"
+							bgColor="#f9d475"
 							spacing={0}
-							boxShadow="7px 7px 10px #FDB493"
+							boxShadow="8px 8px 10px rgb(249, 212, 117, 0.6)"
 						>
 							{/* Login-Input */}
 							<VStack
@@ -124,23 +133,13 @@ const LoginPage: React.FC = () => {
 								bgColor={"white"}
 								justifyContent={"center"}
 							>
-								{/*<VStack spacing="0px">
-									{!showRightPanel && (
-										<Box w="150px" h="100px">
-											<Img w="150%" h="150%" src="/images/logo.svg" />
-										</Box>
-										)}
-								</VStack>*/}
 								<Box paddingBottom="20px">
 									<Text
 										fontFamily={"'Bungee', monospace"}
 										fontWeight="600"
-										//fontFamily='Black Han Sans'
-										//fontWeight="700"
 										fontSize={{ sm: "5.0vw", md: "50px", lg: "55px" }}
 										bgClip="text"
-										//bgGradient="linear-gradient(to right, #d05d9c 0%,#f8bb1c 100%);"
-										color={"#E48D41"}
+										color={"#f9d475"}
 										pb={showRightPanel ? "20px" : "0px"}
 									>
 										ĐĂNG NHẬP
@@ -157,21 +156,19 @@ const LoginPage: React.FC = () => {
 											<Input
 												maxLength={50}
 												placeholder=" "
-												//_placeholder={{ color: "secondary" }}
 												{...field}
 												autoFocus
-												//bgColor={"rgba(240, 238, 254)"}
 												color={"rgba(0, 0, 0)"}
 												fontSize={{ sm: "14px", smd: "16px" }}
 												_hover={{
 													shadow: "md",
-													borderColor: "#E48D41",
+													borderColor: "#f9d475",
 													borderWidth: "2px",
 													boxShadow: "0px 0px 13px -3px #FDB493"
 												}}
 											/>
 											<FormLabel color={"rgba(88, 88, 94, 0.6)"} fontSize={{ sm: "14px", smd: "16px" }}>
-												Email
+												Tên đăng nhập
 											</FormLabel>
 											{form.errors[field.name] && (
 												<FormErrorMessage>{form.errors[field.name] as string}</FormErrorMessage>
@@ -194,12 +191,11 @@ const LoginPage: React.FC = () => {
 													_placeholder={{ color: "secondary" }}
 													{...field}
 													type={showPassword ? "text" : "password"}
-													//bgColor={"rgba(240, 238, 254)"}
 													color={"rgba(0, 0, 0)"}
 													fontSize={{ sm: "14px", smd: "16px" }}
 													_hover={{
 														shadow: "md",
-														borderColor: "#E48D41",
+														borderColor: "#f9d475",
 														borderWidth: "2px",
 														boxShadow: "0px 0px 13px -3px #FDB493"
 													}}
@@ -232,16 +228,15 @@ const LoginPage: React.FC = () => {
 								<Button
 									borderRadius={5}
 									type="submit"
-									bgColor="#E48D41"
-									color="white"
+									bgColor="#f9d475"
+									color={"rgba(88, 88, 94, 0.8)"}
 									width={{ sm: "72%", md: "205px", lg: "270px" }}
 									_hover={{
 										transform: "translateY(-10%)",
 										transition: "0.2s all linear",
-										shadow: "0px 8px 13px -3px #FDB493"
+										shadow: "0px 8px 13px -3px #f9d475"
 									}}
 									fontSize={{ sm: "14px", smd: "16px" }}
-									//isLoading={isLoading}
 								>
 									Đăng nhập
 								</Button>
@@ -251,7 +246,7 @@ const LoginPage: React.FC = () => {
 										Bạn chưa có tài khoản?
 									</Text>
 									<Link
-										color={"#E48D41"}
+										color={"#f9d475"}
 										textDecoration="underline"
 										onClick={() => {
 											navigate("/register");
@@ -278,28 +273,42 @@ const LoginPage: React.FC = () => {
 								<VStack
 									width="100%"
 									height="100%"
-									bgColor="#E48D41"
+									bgColor="#f9d475"
 									justify="center"
 									align="center"
 									position="relative"
 								>
 									<HStack justifyContent={"center"} align={"center"}>
-										<Img w={{ md: "230px", lg: "300px" }} h={{ md: "230px", lg: "300px" }} src="/images/Login.png" />
+										<Img
+											w={{ md: "230px", lg: "300px" }}
+											h={{ md: "230px", lg: "300px" }}
+											src="/images/Login-removeBg.png"
+										/>
 									</HStack>
 									<Text
 										fontSize="18px"
-										fontWeight="bold"
+										fontWeight="500"
 										bgClip="text"
-										bgGradient="linear-gradient(to right, #f2ed5e 10%,#edc764 90%);"
+										color={"#000000"}
 										position="absolute"
 										bottom="16px"
 									>
-										Casual Manager
+										Casual Helper
 									</Text>
 								</VStack>
 							)}
 						</HStack>
 					</Flex>
+					{isShowErrorPopup && (
+						<Popup
+							typeAlert="error"
+							openAlert={isShowErrorPopup}
+							message={messagePopup.message}
+							details={messagePopup.detail}
+							handleCloseAlert={(isShowPopup: boolean) => setIsShowErrorPopup(isShowPopup)}
+						/>
+					)}
+					{isLoading && <LoadingOverlay openLoading={isLoading} />}
 				</Form>
 			)}
 		</Formik>

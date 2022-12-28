@@ -26,10 +26,9 @@ export interface IUserInputRegister {
 }
 
 export interface IRegisterResponse {
-	//token: string;
-	//userInfo: IUserInfo;
-	result: number;
-	description: string;
+	isSuccessed: boolean,
+	message: string,
+	resultObj: string
 }
 
 export interface IUserLoginRegister {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { Box } from "@chakra-ui/react";
 
-import useInputSelectStyle from "../../utils/useInputSelectStyle";
+import useInputSelectStyle from "../../hooks/useInputSelectStyle";
 
 import { IOption, ISelect } from "./SelectTypes";
 

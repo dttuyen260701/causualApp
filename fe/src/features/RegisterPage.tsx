@@ -39,24 +39,17 @@ const RegisterPage: React.FC = () => {
 			<HStack
 				width={"80vw"}
 				height={page === 2 || page === 3 ? "95vh" : "75vh"}
-				bgColor="#E48D41"
+				bgColor="#f9d475"
 				spacing={0}
-				boxShadow="7px 7px 10px #FDB493"
+				boxShadow="8px 8px 10px rgb(249, 212, 117, 0.6)"
 			>
 				{/* Logo */}
-				<VStack width="50%" height="100%" bgColor="#E48D41" justify="center" align="center" position="relative">
+				<VStack width="50%" height="100%" bgColor="#f9d475" justify="center" align="center" position="relative">
 					<HStack justifyContent={"center"} align={"center"}>
-						<Img w={{ md: "230px", lg: "300px" }} h={{ md: "230px", lg: "300px" }} src="/images/Login.png" />
+						<Img w={{ md: "230px", lg: "300px" }} h={{ md: "230px", lg: "300px" }} src="/images/Login-removeBg.png" />
 					</HStack>
-					<Text
-						fontSize="18px"
-						fontWeight="bold"
-						bgClip="text"
-						bgGradient="linear-gradient(to right, #f2ed5e 10%,#edc764 90%);"
-						position="absolute"
-						bottom="16px"
-					>
-						Casual Manager
+					<Text fontSize="18px" fontWeight="500" bgClip="text" color={"#000000"} position="absolute" bottom="16px">
+						Casual Helper
 					</Text>
 				</VStack>
 				{/* Register */}

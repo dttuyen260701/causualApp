@@ -1,13 +1,17 @@
-import { HStack, useRadioGroup, Text, FormControl, FormErrorMessage } from "@chakra-ui/react";
+import { HStack, useRadioGroup, Text, FormControl } from "@chakra-ui/react";
 import { Field, FieldProps, useFormikContext } from "formik";
 import React from "react";
+import { useSelector } from "react-redux";
 
+import { getCurrentWorker } from "../../app/reducer/loginAuth/loginAuthSlice";
+import { GenderType } from "../../common/constants/constants";
 import { CheckBoxCardFied } from "../../common/shared-components/CheckBoxCard/CheckBoxCardField";
 
 import { ICheckBoxGroup } from "./CheckBoxGroupType";
 
 export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
-	const options = ["Nam", "Nữ", "Khác"];
+	const options = GenderType.map(item => item.type);
+	const resultObj = useSelector(getCurrentWorker);
 
 	const { setFieldValue } = useFormikContext();
 
@@ -17,7 +21,7 @@ export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
 
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name: props.name,
-		defaultValue: props.valueProps,
+		defaultValue: GenderType.find(item => item.id === resultObj.gender)?.type,
 		onChange: handleChangeCheckBox
 	});
 
@@ -29,9 +33,10 @@ export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
 				return (
 					<FormControl isInvalid={!!form.errors[field.name] && !!form.touched[field.name]}>
 						<Text paddingBottom={"5px"}>{props.label}</Text>
-						<HStack {...group} justifyContent="center" width={"100%"}>
+						<HStack {...group} justifyContent="center" width={"100%"} spacing={10}>
 							{options.map(value => {
 								const radio = getRadioProps({ value });
+
 								return (
 									<CheckBoxCardFied key={value} radioProps={radio}>
 										{value}
@@ -44,9 +49,6 @@ export const CheckBoxGroup: React.FC<ICheckBoxGroup> = props => {
 								{form.errors[field.name] as string}
 							</Text>
 						)}
-						{/*{field.value === "" && (
-							<FormErrorMessage fontSize={"13px"}>{form.errors[field.name] as string}</FormErrorMessage>
-						)}*/}
 					</FormControl>
 				);
 			}}

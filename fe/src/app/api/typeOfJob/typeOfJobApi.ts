@@ -5,7 +5,7 @@ import {IGetAllJobResponse} from "./types";
 export const typeOfJobApi = baseApi.injectEndpoints({
 	endpoints: builder => ({
 		getAllTypeOfJob: builder.query<IGetAllJobResponse, void>({
-			query: () => `type-of-job/type`,
+			query: () => `type-of-job/all-type`,
 			providesTags: ['TypeOfJob']
 		}),
 	})

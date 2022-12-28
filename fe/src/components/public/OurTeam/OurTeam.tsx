@@ -1,5 +1,5 @@
 import { Heading, HStack, VStack, Text, Button } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination, EffectCoverflow, Autoplay } from "swiper";
 // Import Swiper styles
@@ -28,23 +28,10 @@ export const OurTeam: React.FC = () => {
 	const [activeTeamMember, setActiveTeamMember] = useState<IMemberCard>({ nameMember: "", position: "", image: "" });
 
 	return (
-		<HStack
-			width={"100%"}
-			height={"100%"}
-			spacing={20}
-			justifyContent="space-between"
-			padding={"0px 20px"}
-			backgroundColor="#fffcf8"
-		>
+		<VStack width={"100%"} height={"100%"} spacing={7} padding={"20px 0px"} backgroundColor="#fff3e2">
 			<VStack justifyContent={"flex-start"}>
-				<Heading fontSize={"90"} fontWeight="500" color={"#532d29"}>
-					MEET
-				</Heading>
-				<Heading fontSize={"90"} fontWeight="500" color="#d49457">
-					OUR
-				</Heading>
-				<Heading fontSize={"90"} fontWeight="500" color={"#532d29"}>
-					TEAM
+				<Heading fontSize={"50"} fontWeight="500" color={"#332c47"}>
+					Gặp gỡ đội ngũ của chúng ta
 				</Heading>
 			</VStack>
 			<VStack spacing={0} width="100%">
@@ -71,7 +58,7 @@ export const OurTeam: React.FC = () => {
 						const item = index.activeIndex < 7 ? index.activeIndex - 2 : index.activeIndex === 7 ? 0 : 1;
 						setActiveTeamMember(teamMembers[item]);
 					}}
-					style={{ height: "350px", width: "70vw" }}
+					style={{ height: "300px", width: "75vw" }}
 				>
 					{teamMembers.map((member, index) => {
 						return (
@@ -83,7 +70,7 @@ export const OurTeam: React.FC = () => {
 				</Swiper>
 				<VStack>
 					<VStack width={"100%"} height="100%" padding={"25px 10px"}>
-						<Heading fontSize={"30px"} fontWeight="400" color={"#532d29"}>
+						<Heading fontSize={"30px"} fontWeight="400" color={"#000000"}>
 							{activeTeamMember.nameMember}
 						</Heading>
 						<Text
@@ -119,6 +106,6 @@ export const OurTeam: React.FC = () => {
 					</Button>
 				</HStack>
 			</VStack>
-		</HStack>
+		</VStack>
 	);
 };

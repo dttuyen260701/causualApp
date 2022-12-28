@@ -9,13 +9,13 @@ export const Contact: React.FC = () => {
 		<VStack
 			width={"100%"}
 			height="100%"
-			backgroundColor={"#fffcf8"}
+			backgroundColor={"#fff3e2"}
 			justifyContent="space-between"
 			alignContent={"center"}
 		>
 			<VStack padding="40px 0px">
-				<Heading color={"#532d29"}>Liên lạc với chúng tôi để có nhiều thông tin bổ ích</Heading>
-				<Text color={"#d49457"}>
+				<Heading color={"#000000"}>Liên lạc với chúng tôi để có nhiều thông tin bổ ích</Heading>
+				<Text color={"#f9d475"}>
 					Nếu bạn cần sự giúp đỡ hay bất kì câu hỏi nào, chúng tôi luôn sẵn sàng giải đáp thắc mắc
 				</Text>
 				<HStack spacing={20} paddingTop="50px">
@@ -31,7 +31,7 @@ export const Contact: React.FC = () => {
 					</VStack>
 					<VStack bgColor={"#fdf8ea"} width="40%" padding="20px" borderRadius={"20px"}>
 						<MdEmail />
-						<Text color={"#9c7d6e"}>info@casualweb.vn</Text>
+						<Text color={"#9c7d6e"}>info@casualhelper.vn</Text>
 					</VStack>
 				</HStack>
 			</VStack>

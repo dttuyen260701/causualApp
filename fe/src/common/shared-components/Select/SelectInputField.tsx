@@ -3,7 +3,7 @@ import React from "react";
 import { Box, FormControl, FormErrorMessage, FormLabel, VStack } from "@chakra-ui/react";
 import Select from "react-select";
 
-import useInputSelectStyle from "../../utils/useInputSelectStyle";
+import useInputSelectStyle from "../../hooks/useInputSelectStyle";
 
 import { ISelect } from "./SelectTypes";
 
@@ -19,7 +19,6 @@ const SelectInputField: React.FC<ISelect> = props => {
 			{({ field, form }: FieldProps) => {
 				const currentOption =
 					field.value && field.value.value ? field.value : props.options.find(option => option.value === field.value);
-				//console.log("currentOption: ", currentOption);
 
 				return (
 					<FormControl
@@ -37,7 +36,6 @@ const SelectInputField: React.FC<ISelect> = props => {
 							flexDir={{ base: "column", md: "column" }}
 							alignItems={{ base: "center", md: "flex-start" }}
 							spacing={0}
-							//marginBottom={"8px"}
 						>
 							{props.label && (
 								<FormLabel
@@ -61,7 +59,7 @@ const SelectInputField: React.FC<ISelect> = props => {
 								_hover={{
 									shadow: "md",
 									borderWidth: "2px",
-									borderColor: "#E48D41",
+									borderColor: "#f9d475",
 									boxShadow: "0px 0px 13px -3px #FDB493"
 								}}
 								p={0}
