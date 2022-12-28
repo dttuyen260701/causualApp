@@ -414,7 +414,7 @@ public class ProfileFragment extends FragmentBase {
                             Constant.USER = response.body().getResultObj();
                             Constant.USER.setId(id);
                             initView();
-                            Toast.makeText(getContext(), "Cập nhật thành công!!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         } else {
                             if (getContext() != null) {
                                 Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();

@@ -112,17 +112,28 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/default_avatar"
                 />
+
+            <ImageView
+                android:id="@+id/ic_user"
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_useer_bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tvWorkerName"
+                app:layout_constraintStart_toEndOf="@+id/ava_worker"
+                app:layout_constraintTop_toTopOf="@+id/tvWorkerName"
+                app:tint="@color/black" />
             <TextView
                 android:id="@+id/tvWorkerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/ava_worker"
+                app:layout_constraintStart_toEndOf="@+id/ic_user"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="Nguyễn Văn A"
                 android:textSize="16dp"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:layout_marginStart="15dp"
                 />
 
             <ImageView
@@ -346,13 +357,13 @@
             android:background="@drawable/bg_ext_btn_exit_dialog"
             android:text="Xác nhận"
             android:textColor="@color/black"
-            android:textSize="17dp"
+            android:textSize="19dp"
             android:visibility="visible"
             android:layout_gravity="center"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-
+            android:textStyle="bold"
             />
 
         </LinearLayout>

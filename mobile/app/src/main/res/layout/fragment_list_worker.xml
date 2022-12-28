@@ -142,6 +142,7 @@
         android:id="@+id/progressRV"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_marginVertical="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

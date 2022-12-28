@@ -48,15 +48,15 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
+                        android:paddingBottom="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/imageView2"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:layout_marginStart="5dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_marginEnd="5dp"
                             android:scaleType="centerCrop"
                             android:src="@color/white"
@@ -67,17 +67,16 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:riv_corner_radius="100dp"
-                            android:layout_marginRight="10dp"/>
+                            />
 
                         <TextView
                             android:id="@+id/tvNameFragUserHome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="5dp"
                             android:text="TextView"
                             android:textColor="@color/black"
                             android:textSize="15sp"
+                            android:layout_marginStart="10dp"
                             app:layout_constraintBottom_toTopOf="@+id/tvDescripFragUserHome"
                             app:layout_constraintStart_toEndOf="@+id/imageView2"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -120,52 +119,6 @@
                             app:srcCompat="@drawable/ic_more_vert"
                             app:tint="@color/black" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <EditText
-                        android:id="@+id/editTextTextPersonName"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/bg_search_edt"
-                        android:ems="10"
-                        android:hint="Tìm kiếm"
-                        android:inputType="textPersonName"
-                        android:padding="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView3"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/layoutInfoFragUserHome"
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:background="@drawable/bg_edt_profile"
-                        android:padding="7dp"
-                        android:src="@drawable/ic_option"
-                        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
-                        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName" />
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:padding="10dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-                        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName"
-                        app:srcCompat="@drawable/ic_search" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

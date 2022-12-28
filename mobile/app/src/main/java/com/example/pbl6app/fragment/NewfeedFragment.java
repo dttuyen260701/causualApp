@@ -86,6 +86,7 @@ public class NewfeedFragment extends FragmentBase {
 
                     @Override
                     public void onError(Exception e) {
+                        binding.imageView2.setImageResource(R.drawable.default_avatar);
                     }
                 });
 
@@ -207,6 +208,12 @@ public class NewfeedFragment extends FragmentBase {
                             listData.addAll(resultObj.getItems());
                             adapter.notifyDataSetChanged();
                         }
+                        if(listData.size()==0){
+                            binding.layoutEmpty.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            binding.layoutEmpty.setVisibility(View.GONE);
+                        }
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -229,6 +236,7 @@ public class NewfeedFragment extends FragmentBase {
             public void onFailure(Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
+                binding.layoutEmpty.setVisibility(View.VISIBLE);
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
@@ -269,6 +277,12 @@ public class NewfeedFragment extends FragmentBase {
                             listData.addAll(resultObj.getItems());
                             adapter.notifyDataSetChanged();
                         }
+                        if(listData.size()==0){
+                            binding.layoutEmpty.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            binding.layoutEmpty.setVisibility(View.GONE);
+                        }
                     } else {
                         if (getContext() != null) {
                             Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -276,6 +290,7 @@ public class NewfeedFragment extends FragmentBase {
                     }
                 } else {
                     if (getContext() != null) {
+                        binding.layoutEmpty.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -291,6 +306,8 @@ public class NewfeedFragment extends FragmentBase {
             public void onFailure(Call<ResponseRetrofit<ItemPaging<ArrayList<PostOfDemand>>>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.viewBg.setVisibility(View.GONE);
+                binding.layoutEmpty.setVisibility(View.VISIBLE);
+
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi khi thực hiện thao tác", Toast.LENGTH_SHORT).show();

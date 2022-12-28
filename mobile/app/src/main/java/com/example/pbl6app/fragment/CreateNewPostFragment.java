@@ -150,7 +150,13 @@ public class CreateNewPostFragment extends FragmentBase {
                             }
                     );
                 } else {
-                    onSubmitData();
+                    if(binding.edtDescription.getText().toString().isEmpty() || idTypeOfJobChosen=="-1" || idJobInfoChosen=="-1"){
+                        return;
+                    }
+                    else{
+                        onSubmitData();
+
+                    }
                 }
             }
         });
@@ -218,12 +224,17 @@ public class CreateNewPostFragment extends FragmentBase {
     private void onSubmitData() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.viewBg.setVisibility(View.VISIBLE);
+        String note = "";
+
+        if(binding.edtNote.getText().toString().isEmpty()){
+            note = binding.edtNote.getText().toString();
+        }
 
         Map<String, String> options = new HashMap<>();
         options.put("userId", Constant.USER.getId());
         options.put("jobInfoId", idJobInfoChosen);
         options.put("description", binding.edtDescription.getText().toString());
-        options.put("note", "null");
+        options.put("note", note);
         options.put("endTime", binding.tvDate.getText().toString());
         options.put("address", userAddress);
         options.put("addressPoint", userPoint);
@@ -236,6 +247,7 @@ public class CreateNewPostFragment extends FragmentBase {
                 binding.viewBg.setVisibility(View.GONE);
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     if (response.body().isSuccessed()) {
+                        binding.tvRequired1.setVisibility(View.GONE);
                         showSuccessDialog();
                     } else {
                         Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -296,6 +308,7 @@ public class CreateNewPostFragment extends FragmentBase {
         Button btnOK = dialog.findViewById(R.id.btnOk);
         btnOK.setOnClickListener(view -> {
             dialog.dismiss();
+            binding.tvRequired1.setVisibility(View.GONE);
             backToPreviousFrag();
         });
 

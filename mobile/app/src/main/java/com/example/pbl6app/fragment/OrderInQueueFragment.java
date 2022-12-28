@@ -27,6 +27,7 @@ import com.example.pbl6app.Utils.Constant;
 import com.example.pbl6app.Utils.FirebaseRepository;
 import com.example.pbl6app.Utils.Methods;
 import com.example.pbl6app.databinding.FragmentOrderInQueueBinding;
+import com.example.pbl6app.services.TrackingService;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -44,6 +45,11 @@ public class OrderInQueueFragment extends FragmentBase {
     private String orderId;
     private OnItemCLickListener<Order> listener;
     private OnItemCLickListener<Object> onEndListener;
+    private static boolean isRunning = false;
+
+    public static boolean isIsRunning() {
+        return isRunning;
+    }
 
     public OrderInQueueFragment(String orderId, OnItemCLickListener<Order> listener, OnItemCLickListener<Object> onEndListener) {
         this.orderId = orderId;
@@ -55,6 +61,7 @@ public class OrderInQueueFragment extends FragmentBase {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentOrderInQueueBinding.inflate(inflater, container, false);
+        isRunning = true;
         return binding.getRoot();
     }
 
@@ -77,6 +84,7 @@ public class OrderInQueueFragment extends FragmentBase {
                 case Constant.REJECT_STATUS:
                     status = "Đã từ chối";
                     binding.tvTitle.setText("Đơn đã bị từ chối");
+                    binding.btnCancel.setVisibility(View.GONE);
                     break;
                 case Constant.WAITING_STATUS:
                     status = "Đang chờ phản hồi";
@@ -85,10 +93,12 @@ public class OrderInQueueFragment extends FragmentBase {
                 case Constant.CANCEL_STATUS:
                     status = "Đã hủy";
                     binding.tvTitle.setText("Đơn đã bị hủy");
+                    binding.btnCancel.setVisibility(View.GONE);
                     break;
                 case Constant.COMPLETED_STATUS:
                     status = "Đã hoàn thành";
                     binding.tvTitle.setText("Đơn đã hoàn thành");
+                    binding.btnCancel.setVisibility(View.GONE);
                     break;
                 case Constant.ACCEPT_STATUS:
                     status = "Đã nhận";
@@ -114,7 +124,12 @@ public class OrderInQueueFragment extends FragmentBase {
 
             binding.tvWorkerName.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerName() : order.getWorkerName());
 
-            binding.btnCancel.setVisibility((Constant.USER.getRole() == Constant.ROLE_CUSTOMER) ? View.VISIBLE : View.GONE );
+            binding.btnCancel.setVisibility(
+                    ((Constant.USER.getRole() == Constant.ROLE_CUSTOMER)
+                            && order.getStatus() != Constant.REJECT_STATUS
+                            && order.getStatus() != Constant.CANCEL_STATUS)
+                            ? View.VISIBLE
+                            : View.GONE );
 
             binding.tvWorkerPhone.setText((Constant.USER.getRole() == Constant.ROLE_WORKER) ? order.getCustomerPhone() : order.getWorkerPhone());
 
@@ -147,8 +162,32 @@ public class OrderInQueueFragment extends FragmentBase {
             backToPreviousFrag();
         });
 
-        binding.btnCancel.setOnClickListener(v -> {
-            submitData(order.getId(), Constant.ACCEPT_STATUS);
+        binding.btnCancel.setOnClickListener(view -> {
+            Methods.showDialog(
+                    R.drawable.sad_dialog,
+                    "Cảnh báo",
+                    "Bạn sẽ hủy đơn này, bạn có chắc muốn hủy?",
+                    "Không",
+                    "Hủy đơn",
+                    new ListenerDialog() {
+
+                        @Override
+                        public void onDismiss() {
+
+                        }
+
+                        @Override
+                        public void onNoClick(Dialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onYesClick(Dialog dialog) {
+                            dialog.dismiss();
+                            submitData(order.getId(), Constant.REJECT_STATUS);
+                        }
+                    }
+            );
         });
 
         binding.btnReject.setOnClickListener(view -> {
@@ -261,11 +300,19 @@ public class OrderInQueueFragment extends FragmentBase {
                     if (response.body().isSuccessed()) {
                         if (response.body().getResultObj() != null) {
                             OrderInQueueFragment.this.order = response.body().getResultObj();
-                            FirebaseRepository.
-                                    PickWorkerChild.
-                                    child(order.getCustomerId()).
-                                    child(orderId).
-                                    setValue(order);
+                            if(Constant.USER.getRole() == Constant.ROLE_WORKER) {
+                                FirebaseRepository.
+                                        PickWorkerChild.
+                                        child(order.getCustomerId()).
+                                        child(order.getId()).
+                                        setValue(order);
+                            } else {
+                                FirebaseRepository.
+                                        ResponsePostWorker.
+                                        child(order.getWorkerId()).
+                                        child(order.getId()).
+                                        setValue(order);
+                            }
                             backToPreviousFrag();
                             listener.onItemClick(order);
                         }
@@ -325,6 +372,7 @@ public class OrderInQueueFragment extends FragmentBase {
 
     @Override
     public void onDestroy() {
+        isRunning = false;
         onEndListener.onItemClick(new Object());
         super.onDestroy();
     }

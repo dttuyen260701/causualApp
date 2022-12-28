@@ -57,7 +57,7 @@ public class LoginActivity extends BaseActivity {
     private void initListener() {
         binding.btnLogin.setOnClickListener(view -> {
             if (!onCheckValid()) {
-                Toast.makeText(LoginActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Dữ liệu không hợp lệ", Toast.LENGTH_SHORT).show();
             } else {
                 onSubmitData();
             }

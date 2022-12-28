@@ -103,12 +103,14 @@ public class OrderDetailFragment extends FragmentBase {
             switch (order.getStatus()) {
                 case Constant.REJECT_STATUS:
                     status = "Đã bị từ chối";
+                    binding.btnCancel.setVisibility(View.GONE);
                     break;
                 case Constant.WAITING_STATUS:
                     status = "Đang chờ phản hồi";
                     break;
                 case Constant.CANCEL_STATUS:
                     status = "Đã bị hủy";
+                    binding.btnCancel.setVisibility(View.GONE);
                     break;
                 case Constant.ACCEPT_STATUS:
                     status = "Đã đặt";
@@ -216,6 +218,7 @@ public class OrderDetailFragment extends FragmentBase {
                                         child((Constant.USER.getRole() == Constant.ROLE_WORKER) ? item.getCustomerId() : item.getWorkerId()).
                                         child(item.getId()).
                                         setValue(item);
+                                onEndListener.onItemClick(new Object());
                                 backToPreviousFrag();
                                 Methods.makeToast("Bạn đã hủy đơn này");
                             });
@@ -239,7 +242,7 @@ public class OrderDetailFragment extends FragmentBase {
                                     R.drawable.smile_dialog,
                                     "Bắt đầu di chuyển",
                                     "Bạn sẽ được chuyển hướng sang Google Map và chia sẻ vị trí cho người dùng.",
-                                    "Tôi chưa bắt đầu",
+                                    "Huỷ",
                                     "Bắt đầu",
                                     new ListenerDialog() {
 
@@ -359,8 +362,8 @@ public class OrderDetailFragment extends FragmentBase {
                                     R.drawable.smile_dialog,
                                     "Hoàn thành công việc",
                                     "Bạn đã hoàn thành công việc, vui lòng xác nhận với hệ thống và thông báo cho khách hàng.",
-                                    "Chưa hoàn thành",
-                                    "Đã hoàn thành",
+                                    "Huỷ",
+                                    "OK",
                                     new ListenerDialog() {
 
                                         @Override

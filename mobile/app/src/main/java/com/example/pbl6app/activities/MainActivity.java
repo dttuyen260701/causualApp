@@ -22,6 +22,7 @@ import com.example.pbl6app.databinding.ActivityMainBinding;
 import com.example.pbl6app.fragment.HistoryFragment;
 import com.example.pbl6app.fragment.NewfeedFragment;
 import com.example.pbl6app.fragment.OrderDetailFragment;
+import com.example.pbl6app.fragment.OrderInQueueFragment;
 import com.example.pbl6app.fragment.SettingsFragment;
 import com.example.pbl6app.fragment.StatusFragment;
 import com.google.firebase.database.ChildEventListener;
@@ -88,7 +89,7 @@ public class MainActivity extends BaseActivity {
                                 "Thông báo",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được khách hàng chọn") : "")
-                                        + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                        + ((countAccept > 0 && countReject > 0) ? " và " : "")
                                         + ((countReject > 0) ? (+countReject + " đơn đã bị từ chối hoặc hủy tìm kiếm thợ") : ""),
                                 (countReject > 0) ? "Đã hiểu" : "",
                                 (countAccept > 0) ? "Đơn đã nhận" : "",
@@ -96,6 +97,10 @@ public class MainActivity extends BaseActivity {
                                     @Override
                                     public void onDismiss() {
                                         FirebaseRepository.ResponsePostWorker.child(Constant.USER.getId()).removeValue();
+                                        if(OrderInQueueFragment.isIsRunning()) {
+                                            StatusFragment.setForWaiting(false);
+                                            binding.bottomNavigation.setSelectedItemId(R.id.menu_status);
+                                        }
                                     }
 
                                     @Override
@@ -117,7 +122,7 @@ public class MainActivity extends BaseActivity {
                             "Kết quả đặt đơn",
                             "Bạn có "
                                     + ((countAccept > 0) ? (countAccept + " đơn đã được khách hàng chọn") : "")
-                                    + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                    + ((countAccept > 0 && countReject > 0) ? " và " : "")
                                     + ((countReject > 0) ? (countReject + " đơn đã bị từ chối hoặc hủy tìm kiếm thợ") : ""),
                             (countAccept >= countReject) ? R.drawable.smile_dialog : R.drawable.sad_dialog, isRunning ? 0 : 4, 0);
                 }
@@ -456,7 +461,7 @@ public class MainActivity extends BaseActivity {
                                 "Thông báo",
                                 "Bạn có "
                                         + ((countAccept > 0) ? (countAccept + " đơn đã được khách hàng chọn") : "")
-                                        + ((countAccept > 0 && countAccept > 0) ? " và " : "")
+                                        + ((countAccept > 0 && countReject > 0) ? " và " : "")
                                         + ((countReject > 0) ? (countReject + " đơn đã bị từ chối hoặc hủy tìm kiếm thợ") : ""),
                                 (countReject > 0) ? "Đã hiểu" : "",
                                 (countAccept > 0) ? "Đơn đã nhận" : "",

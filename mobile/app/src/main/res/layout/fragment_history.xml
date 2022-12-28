@@ -103,6 +103,36 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/empty_box"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không có đơn nào"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/viewBg"
         android:layout_width="match_parent"
@@ -134,6 +164,7 @@
         android:id="@+id/progressRV"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_marginVertical="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

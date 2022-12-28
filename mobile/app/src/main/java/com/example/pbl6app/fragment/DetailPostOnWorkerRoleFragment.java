@@ -132,7 +132,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                                 R.drawable.smile_dialog,
                                 "Xác nhận",
                                 "Chọn thợ " + item.getName() + " để thực hiện công việc " + mPOD.getJobInfoName(),
-                                "Chưa",
+                                "Không",
                                 "Xác nhận",
                                 new ListenerDialog() {
                                     @Override
@@ -162,12 +162,15 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
     private void fetchPostOfUser() {
 
         binding.progressbar.setVisibility(View.VISIBLE);
+        binding.viewBg.setVisibility(View.VISIBLE);
 
         ApiService.apiService.getPostOfDemandById(mPodID).enqueue(new Callback<ResponseRetrofit<PostOfDemand>>() {
             @Override
             public void onResponse(Call<ResponseRetrofit<PostOfDemand>> call, Response<ResponseRetrofit<PostOfDemand>> response) {
 
                 binding.progressbar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+
                 if (response.code() == HttpURLConnection.HTTP_OK) {
 
                     if (response.body().isSuccessed()) {
@@ -184,6 +187,8 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
             public void onFailure(Call<ResponseRetrofit<PostOfDemand>> call, Throwable t) {
 
                 binding.progressbar.setVisibility(View.GONE);
+                binding.viewBg.setVisibility(View.GONE);
+
 
                 Log.e("TTT", "onFailure: ", t);
                 if (getContext() != null) {
@@ -243,7 +248,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                     binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.primaryColor));
                 }
             } else {
-                binding.btnAssign.setText("Ngừng tìm thợ");
+                binding.btnAssign.setText("Ngừng tìm");
                 binding.btnAssign.setBackgroundColor(getResources().getColor(R.color.primaryColor));
             }
         }
@@ -262,7 +267,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                     Methods.showDialog(
                             R.drawable.smile_dialog,
                             "Thông báo",
-                            "Bạn vui lòng cập nhật thông tin để sử dụng dịch vụ của chúng tôi.",
+                            "Bạn vui lòng cập nhật thông tin để sử dụng dịch vụ của chúng tôi",
                             "Để sau",
                             "Cập nhật",
                             new ListenerDialog() {
@@ -296,7 +301,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                         "Ngừng tìm thợ",
                         "Bạn có chắc muốn ngừng tìm thợ cho công việc này",
                         "Không",
-                        "Xác nhận",
+                        "Có",
                         new ListenerDialog() {
                             @Override
                             public void onDismiss() {
@@ -412,7 +417,7 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
                                     .child(mPOD.getCustomerId())
                                     .child(mPOD.getId())
                                     .setValue(mPOD);
-                            Methods.makeToast("Đã ứng tuyển vào công việc!");
+                            Methods.makeToast("Đã ứng tuyển vào công việc");
                             isContainInWorkerList = true;
                             setAssignButton();
                             handleAddWorkerToRequestListFirebase(response.body().getResultObj());
@@ -465,10 +470,10 @@ public class DetailPostOnWorkerRoleFragment extends FragmentBase {
 
                         Methods.showDialog(
                                 R.drawable.smile_dialog,
-                                "Tuyệt vời !!!",
+                                "Tuyệt vời",
                                 "Yêu cầu công việc của bạn đã được gửi đến thợ",
                                 "Trở về",
-                                "Đơn đang thực hiện",
+                                "Xem đơn",
                                 new ListenerDialog() {
                                     @Override
                                     public void onDismiss() {

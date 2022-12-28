@@ -53,7 +53,7 @@ public class SignupActivity extends AppCompatActivity {
         binding.btnSignup.setOnClickListener(view -> {
             checkEnable();
              if (!onCheckValid()) {
-                 Toast.makeText(SignupActivity.this, "Data invalid", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(SignupActivity.this, "Dữ liệu không hợp lệ", Toast.LENGTH_SHORT).show();
              } else {
                  onSubmitData();
              }
