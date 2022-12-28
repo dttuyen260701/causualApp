@@ -83,7 +83,7 @@ namespace PBL6.CasualManager.Accounts
                         userInfoAllDto.ProvinceName = customerInfo.ProvinceName;
                         userInfoAllDto.DateOfBirth = customerInfo.DateOfBirth.ToString("dd-MM-yyyy");
                         userInfoAllDto.Gender = customerInfo.Gender;
-                        userInfoAllDto.Avatar = customerInfo.Avatar;
+                        userInfoAllDto.Avatar = String.IsNullOrEmpty(customerInfo.Avatar) ? Constants.ImageDefaultCustomer : customerInfo.Avatar;
                         userInfoAllDto.Address = customerInfo.Address;
                         userInfoAllDto.AddressPoint = customerInfo.AddressPoint;
                         userInfoAllDto.Role = 0;// 0 is customer
@@ -107,7 +107,7 @@ namespace PBL6.CasualManager.Accounts
                         userInfoAllDto.ProvinceName = workerInfo.ProvinceName;
                         userInfoAllDto.DateOfBirth = workerInfo.DateOfBirth.ToString("dd-MM-yyyy");
                         userInfoAllDto.Gender = workerInfo.Gender;
-                        userInfoAllDto.Avatar = workerInfo.Avatar;
+                        userInfoAllDto.Avatar = String.IsNullOrEmpty(workerInfo.Avatar) ? Constants.ImageDefaultWorker : workerInfo.Avatar;
                         userInfoAllDto.Address = workerInfo.Address;
                         userInfoAllDto.AddressPoint = workerInfo.AddressPoint;
                         userInfoAllDto.IdentityCard = workerInfo.IdentityCard;
@@ -337,7 +337,7 @@ namespace PBL6.CasualManager.Accounts
                         WardName = infoCustomerAfterUpdate.WardName,
                         DistrictId = infoCustomerAfterUpdate.DistrictId,
                         DistrictName = infoCustomerAfterUpdate.DistrictName,
-                        Avatar = infoCustomerAfterUpdate.Avatar,
+                        Avatar = String.IsNullOrEmpty(infoCustomerAfterUpdate.Avatar) ? Constants.PrefixAvatarCustomer : infoCustomerAfterUpdate.Avatar,
                         Role = 0
                     };
                     return new ApiSuccessResult<CustomerInfoAllResponse>(customerInfoAllDto);
@@ -411,9 +411,11 @@ namespace PBL6.CasualManager.Accounts
                         WardName = infoWorkerAfterUpdate.WardName,
                         DistrictId = infoWorkerAfterUpdate.DistrictId,
                         DistrictName = infoWorkerAfterUpdate.DistrictName,
-                        Avatar = infoWorkerAfterUpdate.Avatar,
+                        Avatar = String.IsNullOrEmpty(infoWorkerAfterUpdate.Avatar) ? Constants.PrefixAvatarWorker : infoWorkerAfterUpdate.Avatar,
                         IdentityCardDate = infoWorkerAfterUpdate.IdentityCardDate.ToString("dd-MM-yyyy"),
                         IdentityCardBy = infoWorkerAfterUpdate.IdentityCardBy,
+                        StartWorkingTime = infoWorkerAfterUpdate.StartWorkingTime,
+                        EndWorkingTime = infoWorkerAfterUpdate.EndWorkingTime,
                         Role = 1,
                     };
                     return new ApiSuccessResult<WorkerInfoAllResponse>(resultObj: workerInfoAllDto);
@@ -454,6 +456,131 @@ namespace PBL6.CasualManager.Accounts
             {
                 return new ApiErrorResult<string>(message: "Đã xảy ra lỗi trong quá trình đổi mật khẩu!");
             }
+        }
+
+        [HttpPost]
+        [Route("api/app/account/verify")]
+        public async Task<ApiResult<string>> VerifyAccount(VerifyAccountRequest request)
+        {
+            try
+            {
+                var existAccount = await _identityUserManager.FindByNameAsync(request.UserName);
+                if (existAccount == null)
+                {
+                    return new ApiErrorResult<string>("Xác thực không thành công");
+                }
+                string dateOfBirth = "";
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(existAccount.Id);
+                if (workerInfo == null)
+                {
+                    var customerInfo = await _customerInfoRepository.GetEntityCustomerInfoHaveUserId(existAccount.Id);
+                    dateOfBirth = customerInfo.DateOfBirth.ToString("dd-MM-yyyy");
+                }
+                else
+                {
+                    dateOfBirth = workerInfo.DateOfBirth.ToString("dd-MM-yyyy");
+                }
+                if (existAccount.Email.Equals(request.Email) && existAccount.PhoneNumber.Equals(request.PhoneNumber) && dateOfBirth.Equals(request.DateOfBirth))
+                {
+                    return new ApiSuccessResult<string>();
+                }
+                return new ApiErrorResult<string>("Xác thực không thành công");
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<string>("Xác thực không thành công");
+            }
+        }
+
+        [HttpPost]
+        [Route("api/app/account/change-password-without-old-password")]
+        public async Task<ApiResult<string>> ChangePasswordWithoutOldPasswordAsync(ChangePasswordWithoutOldPasswordRequest request)
+        {
+            try
+            {
+                var userIdentity = await _identityUserManager.FindByNameAsync(request.UserName);
+                if (userIdentity == null)
+                {
+                    return new ApiErrorResult<string>(message: "Không tồn tại người dùng!");
+                }
+                string token = await _identityUserManager.GeneratePasswordResetTokenAsync(userIdentity);
+                var result = await _identityUserManager.ResetPasswordAsync(userIdentity, token, request.NewPassword);
+                if (!result.Succeeded)
+                {
+                    return new ApiErrorResult<string>(message: "Đổi mật khẩu không thành công!");
+                }
+                return new ApiSuccessResult<string>();
+            }
+            catch (Exception)
+            {
+                return new ApiErrorResult<string>(message: "Đổi mật khẩu không thành công!");
+            }
+        }
+
+        public async Task<ApiResult<WorkerInfoAllResponse>> UpdateFromMobileAsync(Guid id, [FromForm] WorkerInfoUpdateFromMobileRequest request)
+        {
+            if (id != request.Id)
+            {
+                return new ApiErrorResult<WorkerInfoAllResponse>("Có lỗi trong quá trình xử lý");
+            }
+            var identityUser = await _identityUserManager.GetByIdAsync(id).ConfigureAwait(false);
+            if (identityUser == null)
+            {
+                return new ApiErrorResult<WorkerInfoAllResponse>("Không tìm thấy đối tượng");
+            }
+            var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(request.Id).ConfigureAwait(false);
+            if (workerInfo != null)
+            {
+                try
+                {
+                    identityUser.Name = request.Name;
+                    identityUser.SetPhoneNumber(request.Phone, true);
+                    await _identityUserManager.UpdateAsync(identityUser);
+                    workerInfo.Gender = request.Gender;
+                    workerInfo.Address = request.Address;
+                    workerInfo.AddressPoint = string.IsNullOrEmpty(request.AddressPoint) ? workerInfo.AddressPoint : request.AddressPoint;
+                    workerInfo.DistrictId = request.DistrictId;
+                    workerInfo.DistrictName = request.DistrictName;
+                    workerInfo.WardId = request.WardId;
+                    workerInfo.WardName = request.WardName;
+                    workerInfo.ProvinceId = request.ProvinceId;
+                    workerInfo.ProvinceName = request.ProvinceName;
+                    workerInfo.DateOfBirth = DateTime.ParseExact(request.DateOfBirth, "dd-MM-yyyy", CultureInfo.GetCultureInfo("tr-TR"));
+                    workerInfo.Avatar = await SaveImageAsync(request.Avatar, workerInfo.UserId) ?? workerInfo.Avatar;
+                    await _workerInfoRepository.UpdateAsync(workerInfo);
+
+                    var identityUserAfterUpdate = await _identityUserManager.GetByIdAsync(id);
+                    var infoWorkerAfterUpdate = await _workerInfoRepository.GetAsync(workerInfo.Id);
+
+                    var workerInfoAllDto = new WorkerInfoAllResponse()
+                    {
+                        Email = identityUserAfterUpdate.Email,
+                        Id = identityUserAfterUpdate.Id,
+                        Username = identityUserAfterUpdate.UserName,
+                        Name = identityUserAfterUpdate.Name,
+                        Phone = identityUserAfterUpdate.PhoneNumber,
+                        Gender = infoWorkerAfterUpdate.Gender,
+                        Address = infoWorkerAfterUpdate.Address,
+                        AddressPoint = infoWorkerAfterUpdate.AddressPoint,
+                        DateOfBirth = infoWorkerAfterUpdate.DateOfBirth.ToString("dd-MM-yyyy"),
+                        ProvinceId = infoWorkerAfterUpdate.ProvinceId,
+                        ProvinceName = infoWorkerAfterUpdate.ProvinceName,
+                        WardId = infoWorkerAfterUpdate.WardId,
+                        WardName = infoWorkerAfterUpdate.WardName,
+                        DistrictId = infoWorkerAfterUpdate.DistrictId,
+                        DistrictName = infoWorkerAfterUpdate.DistrictName,
+                        Avatar = String.IsNullOrEmpty(infoWorkerAfterUpdate.Avatar) ? Constants.ImageDefaultWorker : infoWorkerAfterUpdate.Avatar,
+                        Role = 1,
+                    };
+                    return new ApiSuccessResult<WorkerInfoAllResponse>(resultObj: workerInfoAllDto);
+                }
+                catch (Exception)
+                {
+
+                    return new ApiErrorResult<WorkerInfoAllResponse>("Có lỗi trong quá trình xử lý");
+                }
+            }
+            return new ApiErrorResult<WorkerInfoAllResponse>("Không tìm thấy đối tượng");
         }
         private async Task<string> SaveImageAsync(IFormFile image, Guid idUser)
         {

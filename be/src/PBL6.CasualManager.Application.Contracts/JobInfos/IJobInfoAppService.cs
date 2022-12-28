@@ -25,9 +25,9 @@ namespace PBL6.CasualManager.JobInfos
         /// <returns>List JobInfoDto</returns>
         Task<PagedResultDto<JobInfoDto>> GetListSearchAsync(JobInfoConditionSearchDto condition);
 
-        Task<ApiResult<List<JobInfoResponse>>> GetAllJobInfoResponseAsync();
+        Task<ApiResult<List<JobInfoResponse>>> GetAllJobInfoResponseAsync(Guid workerId, string? keyword = "");
 
-        Task<ApiResult<List<JobInfoResponse>>> GetListJobInfoResponseBelongToTypeOfJobAsync(Guid id);
+        Task<ApiResult<List<JobInfoResponse>>> GetListJobInfoBelongToTypeOfJobAsync(Guid typeOfJobId);
 
         Task<List<JobInfoDto>> GetListByTypeOfJobAsync(Guid typeOfJobId);
     }

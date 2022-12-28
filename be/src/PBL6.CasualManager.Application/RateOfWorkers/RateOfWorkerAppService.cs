@@ -36,7 +36,7 @@ namespace PBL6.CasualManager.RateOfWorkers
             try
             {
                 var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
-                if(workerInfo == null)
+                if (workerInfo == null)
                 {
                     return new ApiErrorResult<RateOfWorkerResponse>(message: "Không tìm thấy người dùng.");
                 }
@@ -56,9 +56,9 @@ namespace PBL6.CasualManager.RateOfWorkers
             try
             {
                 var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
-                if(workerInfo == null)
+                if (workerInfo == null)
                 {
-                    return new ApiErrorResult<List<RateOfWorkerDetailResponse>> (message: "Không tìm thấy thông tin người dùng!");
+                    return new ApiErrorResult<List<RateOfWorkerDetailResponse>>(message: "Không tìm thấy thông tin người dùng!");
                 }
                 var listCustomerInfo = await _customerInfoRepository.GetListAsync();
                 var listIdentityInfo = await _identityUserRepository.GetListAsync();
@@ -79,7 +79,7 @@ namespace PBL6.CasualManager.RateOfWorkers
             }
             catch (Exception)
             {
-                return new ApiErrorResult<List<RateOfWorkerDetailResponse>> (message: "Có lỗi trong quá trình lấy dữ liệu!");
+                return new ApiErrorResult<List<RateOfWorkerDetailResponse>>(message: "Có lỗi trong quá trình lấy dữ liệu!");
             }
         }
 
@@ -92,12 +92,12 @@ namespace PBL6.CasualManager.RateOfWorkers
                 var customerInfo = await _customerInfoRepository.GetEntityCustomerInfoHaveUserId(customerId);
                 var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(request.WorkerId);
                 var customerIdentity = await _identityUserRepository.GetAsync(customerId);
-                if(workerInfo == null)
+                if (workerInfo == null)
                 {
                     return new ApiErrorResult<CreateRateOfWorkerResponse>(message: "Không tìm thấy thông tin thợ!");
                 }
                 var checkExistRate = await _rateOfWorkerRepository.FirstOrDefaultAsync(x => x.OrderId == request.OrderId);
-                if(checkExistRate != null)
+                if (checkExistRate != null)
                 {
                     return new ApiErrorResult<CreateRateOfWorkerResponse>(message: "Bạn đã đánh giá đơn này!");
                 }
@@ -113,7 +113,7 @@ namespace PBL6.CasualManager.RateOfWorkers
                     CustomerId = customerInfo.Id,
                 };
                 var result = await _rateOfWorkerRepository.InsertAsync(rateOfWorker, true);
-                if(result == null)
+                if (result == null)
                 {
                     return new ApiErrorResult<CreateRateOfWorkerResponse>(message: "Tạo không thành công!");
                 }
@@ -134,8 +134,8 @@ namespace PBL6.CasualManager.RateOfWorkers
                     OrderId = result.OrderId,
                     AttitudeRateAverage = rateAverage.AttitudeRateAverage,
                     PleasureRateAverage = rateAverage.PleasureRateAverage,
-                    SkillRateAverage = rateAverage.SkillRateAverage ,
-                    RateAverage = rateAverage.RateAverage 
+                    SkillRateAverage = rateAverage.SkillRateAverage,
+                    RateAverage = rateAverage.RateAverage
                 });
             }
             catch (Exception)
@@ -151,7 +151,7 @@ namespace PBL6.CasualManager.RateOfWorkers
             try
             {
                 var rateOfWorkerInOrder = await _rateOfWorkerRepository.FirstOrDefaultAsync(x => x.OrderId == orderId);
-                if(rateOfWorkerInOrder == null)
+                if (rateOfWorkerInOrder == null)
                 {
                     return new ApiErrorResult<RateOfWorkerDetailResponse>(message: "Không tồn tại bài đánh giá đơn này!");
                 }
@@ -174,7 +174,7 @@ namespace PBL6.CasualManager.RateOfWorkers
             }
             catch (Exception)
             {
-                return new ApiErrorResult<RateOfWorkerDetailResponse> (message: "Có lỗi trong quá trình lấy dữ liệu!");
+                return new ApiErrorResult<RateOfWorkerDetailResponse>(message: "Có lỗi trong quá trình lấy dữ liệu!");
             }
         }
 

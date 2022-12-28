@@ -1,4 +1,5 @@
-﻿using PBL6.CasualManager.ApiResults;
+﻿using Microsoft.AspNetCore.Mvc;
+using PBL6.CasualManager.ApiResults;
 using PBL6.CasualManager.LookupValues;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,9 @@ namespace PBL6.CasualManager.TypeOfJobs
             return ObjectMapper.Map<List<TypeOfJob>, List<LookupValueDto>>(typeOfJob);
         }
 
-        public async Task<ApiResult<List<TypeOfJobResponse>>> GetAllTypeJobAsync()
+        [HttpGet]
+        [Route("api/app/type-of-job/all-type")]
+        public async Task<ApiResult<List<TypeOfJobResponse>>> GetAllTypeAsync()
         {
             try
             {
@@ -56,13 +59,13 @@ namespace PBL6.CasualManager.TypeOfJobs
                     Id = x.Id,
                     Image = x.Avatar,
                     Name = x.Name,
-                    Description = x.Description
+                    Des = x.Description
                 }).ToList();
                 return new ApiSuccessResult<List<TypeOfJobResponse>>(result);
             }
             catch (Exception)
             {
-                return new ApiErrorResult<List<TypeOfJobResponse>>(message: "Có lỗi trong quá trình lấy dữ liệu!");
+                return new ApiErrorResult<List<TypeOfJobResponse>>(message: "Lỗi");
             }
         }
     }

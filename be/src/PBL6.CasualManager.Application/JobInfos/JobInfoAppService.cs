@@ -1,6 +1,9 @@
-﻿using PBL6.CasualManager.ApiResults;
+﻿using Microsoft.AspNetCore.Mvc;
+using PBL6.CasualManager.ApiResults;
+using PBL6.CasualManager.JobInfoOfWorkers;
 using PBL6.CasualManager.LookupValues;
 using PBL6.CasualManager.TypeOfJobs;
+using PBL6.CasualManager.WorkerInfos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +23,16 @@ namespace PBL6.CasualManager.JobInfos
         IJobInfoAppService
     {
         private readonly IJobInfoRepository _jobInfoRepository;
-
-        public JobInfoAppService(IJobInfoRepository jobInfoRepository) : base(jobInfoRepository)
+        private readonly IJobInfoOfWorkerRepository _jobInfoOfWorkerRepository;
+        private readonly IWorkerInfoRepository _workerInfoRepository;
+        private readonly ITypeOfJobRepository _typeOfJobRepository;
+        public JobInfoAppService(IJobInfoRepository jobInfoRepository, IJobInfoOfWorkerRepository jobInfoOfWorkerRepository
+            , IWorkerInfoRepository workerInfoRepository, ITypeOfJobRepository typeOfJobRepository) : base(jobInfoRepository)
         {
             _jobInfoRepository = jobInfoRepository;
+            _jobInfoOfWorkerRepository = jobInfoOfWorkerRepository;
+            _workerInfoRepository = workerInfoRepository;
+            _typeOfJobRepository = typeOfJobRepository;
         }
 
         public async Task<PagedResultDto<JobInfoDto>> GetListSearchAsync(JobInfoConditionSearchDto condition)
@@ -41,34 +50,49 @@ namespace PBL6.CasualManager.JobInfos
             );
             return ObjectMapper.Map<PagedResultDto<JobInfo>, PagedResultDto<JobInfoDto>>(results);
         }
-        public async Task<ApiResult<List<JobInfoResponse>>> GetAllJobInfoResponseAsync()
+        [HttpGet]
+        [Route("api/app/job-info/{workerId}/get-all-job-info")]
+        public async Task<ApiResult<List<JobInfoResponse>>> GetAllJobInfoResponseAsync(Guid workerId, string? keyword = "")
         {
             try
             {
-                var jobInfos = await _jobInfoRepository.GetListAsync(includeDetails: true);
-                var result = jobInfos.Select(x => new JobInfoResponse()
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Price = x.Prices,
-                    TypeOfJobId = x.TypeOfJobId,
-                    TypeOfJobName = x.TypeOfJob.Name,
-                    Image = x.TypeOfJob.Avatar
-                }).ToList();
+                var workerInfo = await _workerInfoRepository.GetEntityWorkerInfoHaveUserId(workerId);
+                var jobInfos = await _jobInfoRepository.GetListAsync();
+                var jobInfoOfWorkers = await _jobInfoOfWorkerRepository.GetListAsync(x => x.WorkerId == workerInfo.Id);
+                var typeOfJobs = await _typeOfJobRepository.GetListAsync();
+                var jobInfosWorkerRegisted = (from jobInfo in jobInfos
+                                              join jobInfoOfWorker in jobInfoOfWorkers on jobInfo.Id equals jobInfoOfWorker.JobInfoId
+                                              select jobInfo).ToList();
+                jobInfos.RemoveAll(jobInfosWorkerRegisted);
+                var result = (from jobInfo in jobInfos
+                              join typeOfJob in typeOfJobs
+                              on jobInfo.TypeOfJobId equals typeOfJob.Id
+                              where jobInfo.Name.ToLower().Contains(keyword?.ToLower() ?? "")
+                              select new JobInfoResponse()
+                              {
+                                  Id = jobInfo.Id,
+                                  Description = jobInfo.Description,
+                                  Name = jobInfo.Name,
+                                  Price = jobInfo.Prices,
+                                  TypeOfJobId = jobInfo.TypeOfJobId,
+                                  TypeOfJobName = typeOfJob.Name,
+                                  Image = typeOfJob.Avatar,
+                              }).ToList();
                 return new ApiSuccessResult<List<JobInfoResponse>>(resultObj: result);
             }
             catch (Exception)
             {
-                return new ApiErrorResult<List<JobInfoResponse>>(message: "Có lỗi trong quá trình lấy dữ liệu!");
+                return new ApiErrorResult<List<JobInfoResponse>>(message: "Đã xảy ra lỗi trong quá trình lấy dữ liệu");
             }
         }
 
-        public async Task<ApiResult<List<JobInfoResponse>>> GetListJobInfoResponseBelongToTypeOfJobAsync(Guid id)//id = idTypeOfJob
+        [HttpGet]
+        [Route("/api/app/job-info/{typeOfJobId}/job-info-vm-belong-to-type-of-job")]
+        public async Task<ApiResult<List<JobInfoResponse>>> GetListJobInfoBelongToTypeOfJobAsync(Guid typeOfJobId)
         {
             try
             {
-                var jobInfos = await _jobInfoRepository.GetListAsync(x => x.TypeOfJobId == id, includeDetails: true);
+                var jobInfos = await _jobInfoRepository.GetListAsync(x => x.TypeOfJobId == typeOfJobId, includeDetails: true);
                 if (jobInfos == null)
                 {
                     return new ApiSuccessResult<List<JobInfoResponse>>(resultObj: null);
