@@ -84,7 +84,7 @@
                         text: '<i class="fa fa-trash-o danger"></i>',
                         visible: abp.auth.isGranted('CasualManager.Order.Delete'),
                         confirmMessage: function (data) {
-                            return l('Common:DeletionConfirmationMessage');
+                            return l('Common:DeletionConfirmationMessage', data.record.jobName);
                         },
                         action: function (data) {
                             service.delete(data.record.id)

@@ -16,6 +16,8 @@ using static PBL6.CasualManager.Web.Pages.WorkerInfos.JobInfoOfWorkerCreateModal
 using static PBL6.CasualManager.Web.Pages.WorkerInfos.CreateModalModel;
 using static PBL6.CasualManager.Web.Pages.WorkerInfos.EditModalModel;
 using static PBL6.CasualManager.Web.Pages.WorkerInfos.JobInfoOfWorkerUpdateModalModel;
+using PBL6.CasualManager.Plannings;
+using PBL6.CasualManager.Web.Pages.Plannings.PlanningViewModels;
 
 namespace PBL6.CasualManager.Web;
 
@@ -56,5 +58,7 @@ public class CasualManagerWebAutoMapperProfile : Profile
         CreateMap<JobInfoOfWorkerCreateViewModel, JobInfoOfWorkerCreateUpdateDto>();
         CreateMap<JobInfoOfWorkerUpdateViewModel, JobInfoOfWorkerCreateUpdateDto>();
         CreateMap<JobInfoOfWorkerDto, JobInfoOfWorkerUpdateViewModel>();
+
+        CreateMap<PlanningCreateUpdateViewModel, PlanningCreateUpdateDto>();
     }
 }

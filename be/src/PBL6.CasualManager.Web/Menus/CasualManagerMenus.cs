@@ -11,4 +11,5 @@ public class CasualManagerMenus
     public const string WorkerInfo = Prefix + ".WorkerInfo";
     public const string CustomerInfo = Prefix + ".CustomerInfo";
     public const string PostOfDemand = Prefix + ".PostOfDemand";
+    public const string Planning = Prefix + ".Planning";
 }

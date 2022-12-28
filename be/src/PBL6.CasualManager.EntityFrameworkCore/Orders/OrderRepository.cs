@@ -52,6 +52,7 @@ namespace PBL6.CasualManager.Orders
             var monthNow = DateTime.Now.Month;
             var query = dbSet
                 .Include(x => x.PrieceDetail)
+                .Where(x => x.Status == Enum.OrderStatus.IsComplete)
                 .Where(x => x.WorkerId.Equals(workerId))
                 .Where(x => x.CreationTime >= new DateTime(2022, monthNow - month + 1, 1)).ToList();
 
@@ -74,6 +75,7 @@ namespace PBL6.CasualManager.Orders
             var monthNow = DateTime.Now.Month;
             var query = dbSet
                 .Include(x => x.PrieceDetail)
+                .Where(x => x.Status == Enum.OrderStatus.IsComplete)
                 .Where(x => x.CreationTime >= new DateTime(2022, monthNow - month + 1, 1)).ToList();
 
             return query

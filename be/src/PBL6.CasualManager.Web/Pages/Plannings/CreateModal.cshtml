@@ -1,0 +1,21 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
+@using PBL6.CasualManager.Localization
+@inject IHtmlLocalizer<CasualManagerResource> L
+@model PBL6.CasualManager.Web.Pages.Plannings.CreateModalModel
+@{
+    Layout = null;
+}
+
+<abp-script src="/Pages/Plannings/create-update.js"></abp-script>
+
+<abp-dynamic-form abp-model="ViewModel" data-ajaxForm="true" asp-page="CreateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["Planning:CreateUpdate"].Value" class="bg-light"></abp-modal-header>
+        <abp-modal-body>
+            <abp-form-content />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</abp-dynamic-form>
