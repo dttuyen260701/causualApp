@@ -49,6 +49,11 @@ public class CasualManagerPermissionDefinitionProvider : PermissionDefinitionPro
         postOfDemand.AddChild(CasualManagerPermissions.PostOfDemand.Delete, L("Permission:Delete"));
 
         var statisic = myGroup.AddPermission(CasualManagerPermissions.Statisic.Default, L("Permission:Statisic"));
+
+        var planning = myGroup.AddPermission(CasualManagerPermissions.Planning.Default, L("Permission:Planning"));
+        planning.AddChild(CasualManagerPermissions.Planning.Create, L("Permission:Create"));
+        planning.AddChild(CasualManagerPermissions.Planning.Update, L("Permission:Update"));
+        planning.AddChild(CasualManagerPermissions.Planning.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

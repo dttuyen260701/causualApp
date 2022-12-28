@@ -67,4 +67,12 @@ public static class CasualManagerPermissions
     {
         public const string Default = GroupName + ".Statisic";
     }
+
+    public class Planning
+    {
+        public const string Default = GroupName + ".Planning";
+        public const string Update = Default + ".Update";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+    }
 }

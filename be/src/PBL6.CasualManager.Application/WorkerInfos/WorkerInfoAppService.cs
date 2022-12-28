@@ -456,7 +456,13 @@ namespace PBL6.CasualManager.WorkerInfos
             int len = rateOfWorkers.Count();
             if (rateOfWorkers is null || len == 0)
             {
-                return null;
+                return new RateOfWorkerResponse()
+                {
+                    AttitudeRateAverage = 0,
+                    PleasureRateAverage = 0,
+                    SkillRateAverage = 0,
+                    RateAverage = 0
+                };
             }
             int rateAttitude = 0;
             int rateSkill = 0;

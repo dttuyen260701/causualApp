@@ -10,5 +10,11 @@ namespace PBL6.CasualManager.Plannings
         public int Month { get; set; }
 
         public int Year { get; set; }
+
+        public Planning UpdateTarget(int revenueTarget)
+        {
+            this.RevenueTarget = revenueTarget;
+            return this;
+        }
     }
 }

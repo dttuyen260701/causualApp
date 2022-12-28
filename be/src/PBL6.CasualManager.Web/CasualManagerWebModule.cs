@@ -206,6 +206,8 @@ public class CasualManagerWebModule : AbpModule
             options.Conventions.AuthorizePage("/WorkerInfos/Index", CasualManagerPermissions.WorkerInfo.Default);
             options.Conventions.AuthorizePage("/WorkerInfos/HitoryOfWorker", CasualManagerPermissions.WorkerInfo.History);
             options.Conventions.AuthorizePage("/WorkerInfos/WorkerInfoDetail", CasualManagerPermissions.WorkerInfo.Detail);
+            options.Conventions.AuthorizePage("/WorkerInfos/Plannings", CasualManagerPermissions.Planning.Default);
+            options.Conventions.AuthorizePage("/WorkerInfos/PostOfDemands", CasualManagerPermissions.PostOfDemand.Default);
         });
     }
 

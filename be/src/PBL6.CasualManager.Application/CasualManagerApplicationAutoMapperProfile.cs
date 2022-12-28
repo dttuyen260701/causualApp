@@ -9,6 +9,7 @@ using PBL6.CasualManager.JobInfos;
 using PBL6.CasualManager.LookupValues;
 using PBL6.CasualManager.Oders;
 using PBL6.CasualManager.Orders;
+using PBL6.CasualManager.Plannings;
 using PBL6.CasualManager.PostOfDemands;
 using PBL6.CasualManager.Provinces;
 using PBL6.CasualManager.TypeOfJobs;
@@ -90,6 +91,9 @@ public class CasualManagerApplicationAutoMapperProfile : Profile
                 act => act.MapFrom(src => src.JobInfo.Name))
             .ForMember(des => des.CustomerAddressDetail,
                 act => act.MapFrom(src => $"{src.CustomerInfo.DistrictName}, {src.CustomerInfo.ProvinceName}"));
+
+        CreateMap<Planning, PlanningDto>();
+        CreateMap<PagedResultDto<Planning>, PagedResultDto<PlanningDto>>();
 
         CreateMap<Province, ProvinceDto>();
         CreateMap<District, DistrictDto>();

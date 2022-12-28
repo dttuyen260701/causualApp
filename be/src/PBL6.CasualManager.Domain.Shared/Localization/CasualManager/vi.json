@@ -27,12 +27,14 @@
     "Permission:Order": "Quản lý đơn hàng",
     "Permission:PostOfDemand": "Quản lý bài đăng",
     "Permission:Statisic": "Thống kê",
+    "Permission:Planning": "Quản lý chỉ tiêu",
 
     "Menu:TypeOfJob": "Quản lý loại công việc",
     "Menu:JobInfo": "Quản lý công việc",
     "Menu:CustomerInfo": "Quản lý khách hàng",
     "Menu:WorkerInfo": "Quản lý thợ",
     "Menu:PostOfDemand": "Quản lý bài đăng",
+    "Menu:Planning": "Quản lý chỉ tiêu doanh thu",
 
     "Detail": "Chi tiết",
     "Common:Cancel": "Huỷ",
@@ -70,6 +72,8 @@
     "Common:Target": "Chỉ tiêu",
     "Common:History": "Lịch sử đơn hàng",
     "Common:PostOfDemand": "Bài đăng",
+    "Common:Year": "Năm",
+    "Common:Month": "Tháng {0}",
     "Common:SecondAgo": "{0} giây trước",
     "Common:MinuteAgo": "{0} phút trước",
     "Common:HourAgo": "{0} giờ trước",
@@ -191,7 +195,24 @@
     "PostOfDemand:CustomerAddressDetail": "Vị trí khách hàng",
     "PostOfDemand:DistanceUpLoad": "Đã đăng",
     "PostOfDemand:IsActive": "Hoạt động",
-    "PostOfDemand:Search:Customer": "Tìm kiếm theo khách hàng"
+    "PostOfDemand:Search:Customer": "Tìm kiếm theo khách hàng",
 
+    "Planning": "Danh sách chỉ tiêu theo từng năm",
+    "Planning:Month": "Tháng",
+    "Planning:Target": "Chỉ tiêu doanh thu",
+    "Planning:CreateUpdate": "Thêm - chỉnh sửa chỉ tiêu",
+    "Planning:Search:Year": "Tìm kiếm theo năm",
+    "Planning:TargetInJan": "Chỉ tiêu tháng 1",
+    "Planning:TargetInFeb": "Chỉ tiêu tháng 2",
+    "Planning:TargetInMarch": "Chỉ tiêu tháng 3",
+    "Planning:TargetInApril": "Chỉ tiêu tháng 4",
+    "Planning:TargetInMay": "Chỉ tiêu tháng 5",
+    "Planning:TargetInJune": "Chỉ tiêu tháng 6",
+    "Planning:TargetInJully": "Chỉ tiêu tháng 7",
+    "Planning:TargetInAugust": "Chỉ tiêu tháng 8",
+    "Planning:TargetInSep": "Chỉ tiêu tháng 9",
+    "Planning:TargetInOct": "Chỉ tiêu tháng 10",
+    "Planning:TargetInNov": "Chỉ tiêu tháng 11",
+    "Planning:TargetInDec": "Chỉ tiêu tháng 12"
   }
 }

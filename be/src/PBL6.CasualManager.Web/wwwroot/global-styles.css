@@ -162,4 +162,9 @@ select.form-select option[selected] {
 
 .price {
     font-weight: bold;
+    margin: .5rem .2rem;
+}
+
+.worker-name {
+    text-align: center;
 }

@@ -53,5 +53,6 @@ public class CasualManagerMenuContributor : IMenuContributor
         context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.CustomerInfo, l["Menu:CustomerInfo"], "/CustomerInfos", icon: "fa fa-users", order: 6).RequirePermissions(CasualManagerPermissions.CustomerInfo.Default));
         context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.WorkerInfo, l["Menu:WorkerInfo"], "/WorkerInfos", icon: "fa fa-gavel", order: 7).RequirePermissions(CasualManagerPermissions.WorkerInfo.Default));
         context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.PostOfDemand, l["Menu:PostOfDemand"], "/PostOfDemands", icon: "fa fa-pencil-square-o", order: 8).RequirePermissions(CasualManagerPermissions.PostOfDemand.Default));
+        context.Menu.AddItem(new ApplicationMenuItem(CasualManagerMenus.Planning, l["Menu:Planning"], "/Plannings", icon: "fa fa-paper-plane", order: 9).RequirePermissions(CasualManagerPermissions.Planning.Default));
     }
 }
